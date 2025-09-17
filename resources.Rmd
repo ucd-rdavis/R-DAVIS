@@ -1,0 +1,102 @@
+---
+title: "Resources"
+output:
+  html_document:
+    toc: false
+---
+
+## {.tabset .tabset-fade}
+
+There are many resources online and in print. This is by no means a comprehensive list, but hopefully a launching pad for some very useful website and books. All of these examples provide code in same shape or form.
+
+<!--### Bonus Lessons -->
+<!-- - [Importing and exporting data, extended](bonus_2020F_lesson_data_import.html) -->
+<!-- - [Longer Spreadsheets Lesson](bonus_2019_lesson_spreadsheets.html) -->
+<!-- - [Joining Data](bonus_2019_lesson_joins.html) -->
+<!-- - [Pipelines: data import %>% dplyr %>% ggplot2](bonus_2019_lesson_import_dplyr_ggplot2.html) -->
+<!-- - [Pipelines: Download CO2 & Ice Core Data & Visualize](bonus_2019_lesson_ice_core_CO2_web_data.html) -->
+<!-- - [For Loops](bonus_2019_lesson_for_loops.html) -->
+<!-- - [Using purrr](bonus_2019_lesson_purrr_tutorial.html) -->
+<!-- - [Mapping in R](https://ryanpeek.github.io/mapping-in-R-workshop/) -->
+<!-- - [Text Mining](bonus_2019_lesson_text_mining_mlk.html) -->
+<!-- - [Github Collaboration with Branches](bonus_2019_lesson_github_collaboration.html) -->
+<!-- - [Data Carpentry: R and SQL](http://www.datacarpentry.org/R-ecology-lesson/05-r-and-databases.html) -->
+<!-- - [Longer Iteration Lesson](bonus_2019_lesson_iteration.html) -->
+
+
+<!--### Resources -->
+
+<!--#### *R Lessons & Tutorials* -->
+
+<!-- * [Software Carpentry: **R for Reproducible Scientific Analysis**](http://data-lessons.github.io/gapminder-R/) -->
+<!-- * [Data Carpentry: **R for Data Analysis and Visualization of Ecological Data**](http://www.datacarpentry.org/R-ecology-lesson/) -->
+<!-- * [Data Carpentry: **Data Organization in Spreadsheets**](http://www.datacarpentry.org/spreadsheet-ecology-lesson/) -->
+<!-- * [Data Carpentry: **Genomics Lesson**](https://jasonjwilliamsny.github.io/tidiness-genomics/) -->
+<!-- * [ANGUS: **Analyzing High Throughput Sequencing Data; Exploratory RNAseq data analysis using RMarkdown**](http://angus.readthedocs.io/en/2017/index.html) -->
+<!-- * [**RStudio Webinars**, many topics](https://www.rstudio.com/resources/webinars/) -->
+<!-- * [**Coding Club**, great resource with many tutorials](https://ourcodingclub.github.io/) -->
+
+<!--#### *R eBooks/Courses* -->
+
+<!-- * [Jenny Bryan's **Stat545.com**](http://stat545.com/) -->
+<!-- * [Garrett Grolemund and Hadley Wickham's **R For Data Science**](http://r4ds.had.co.nz/) -->
+<!-- * [Kieran Healy's **Data Visualization for Social Science**](http://socviz.co/) -->
+<!-- * [Ethan White and Zack Brym's **Data Carpentry for Biologists**](http://www.datacarpentry.org/semester-biology/) -->
+<!-- * [Chester Ismay and Albert Y. Kim's **Modern DiveR**](https://ismayc.github.io/moderndiver-book/) -->
+<!-- * [Colin Gillespie and Robin Lovelace **Efficient R Programming**](https://csgillespie.github.io/efficientR/) -->
+<!-- * [Julia Silge and David Robinson **Text Mining with R**](http://tidytextmining.com/) -->
+<!-- * [Hadley Wickham's **Advanced R**](http://adv-r.had.co.nz/) -->
+
+<!--#### *Git/Github* -->
+
+<!-- * [Jenny Bryan's **Happy Git and Github for the useR**](http://happygitwithr.com/) -->
+<!-- * [Coding Club **Intro to Github**](https://ourcodingclub.github.io/2017/02/27/git.html) -->
+
+### Datasets
+
+This is a list of most of the data sources used in this course.
+
+* From [The Portal Project Teaching Database](https://doi.org/10.6084/m9.figshare.1314459.v6)
+    + [Portal_rodents_19772002_scinameUUIDs.csv](data/Portal_rodents_19772002_scinameUUIDs.csv) [raw trapping data]
+    + [species.csv](data/species.csv) [species id metadata]
+    + [surveys.csv](data/surveys.csv) [trapping data by record id]
+    + [surveys_complete.csv](data_output/surveys_complete.csv) [cleaned trapping data by record id]
+    + [combined.csv](data/combined.csv) [trapping data merged with record id metadata]
+    + [plots.csv](data/plots.csv) [plot type metadata]
+* From [Data Carpentry: Genomics Lesson](https://jasonjwilliamsny.github.io/tidiness-genomics/)
+    + [sequencing_results_metadata.txt](data/sequencing_results_metadata.txt) [metadata from DNA sequencing]
+* From [Data Carpentry: R for Data Analysis and Visualization of Ecological Data](http://www.datacarpentry.org/R-ecology-lesson/)
+    + [survey_data_spreadsheet_messy.xls](data/survey_data_spreadsheet_messy.xls) [example of untidy data]
+* From [Software Carpentry: R for Reproducible Scientific Analysis](http://data-lessons.github.io/gapminder-R/)
+    + [continents.RDA](data/continents.RDA) [gapminder continent-level data]
+    + [wide_eg.csv](data/wide_eg.csv) [blood albumin levels]
+    + [stocks.tsv](data/stocks.tsv) [restaurant stock data]
+    + [gapminder.csv](data/gapminder.csv) [country characteristics by year]
+* From [ANGUS: Analyzing High Throughput Sequencing Data](http://angus.readthedocs.io/en/2017/rmarkdown_rnaseq.html)
+    + [rnaseq.zip](data/rnaseq.zip) [zipped folder of RNA sequence data]
+* From [Data wRangling for Ecologists](https://gge-ucd.github.io/wRangling-Ecology/)
+    + [2001_mauna_loa_met_data.zip](data/2001_mauna_loa_met_data.zip) [raw meteorological station data from Mauna Loa]
+    + [2001 Mauna Loa meteorological station data](data/mauna_loa_met_2001_minute.rda) [tidy format of minute-scale meteorological data from Mauna Loa Observatory]
+    + [solinst temp/stage logger data (full)](data/2015_NFA_solinst_08_05.csv) [pressure transducer data logger data from NF American River]
+    + [solinst A](data/2015_NFA_solinst_08_05_A.csv) [partial pressure transducer data logger data from NF American River]
+    + [solinst B](data/2015_NFA_solinst_08_05_B.csv) [partial pressure transducer data logger data from NF American River]
+    + [solinst 2015](data/2015_NFY_solinst.csv)
+
+
+### Presentations
+
+* [Ryan Peek on using the `sf` package](https://youtu.be/taY6GrZ6vzE)
+* [Rich Pauloo on using RMarkdown](https://youtu.be/CHBOVuo6RCo)
+* [Kate Tiedeman tutorial on using `raster`](https://youtu.be/mHz4wxo-Q4U)
+* [Clark Fitzgerald on integrating the shell with R](https://youtu.be/jgghG1K3740)
+* [Myfanwy Johnston on unit testing (or code testing) in R](https://youtu.be/8G6bBum3O9A)
+* [Michael Levy tutorial on using the `tidyverse`](https://youtu.be/9q7gssUP8UA)
+* [Brandon Hurr "Intro to using `purrr`](http://d-rug.github.io/images/20171026/20171023_DRUG_map_walk.html#1)
+* [Brandon Hurr "dplyr II: Joins and Set Operations"](http://d-rug.github.io/blog/2016/hurr-dplyr2)
+
+### Bonus Tutorials
+* [Intro to using Github](https://tarapozzi.github.io/github_project_management)
+* [RStudio help file anatomy](d-rug.github.io/help_file_anatomy/)
+* [Debugging in R](d-rug.github.io/debugging_in_R/)
+* [RStudio on CAES Farm](d-rug.github.io/R-Studio-on-Farm/)
+* [Real world function writing](d-rug.github.io/realworld_functions2/)

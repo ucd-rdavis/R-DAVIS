@@ -1,0 +1,80 @@
+---
+title: "Contact"
+---
+
+<br>
+
+## Instructors
+**Tyler Scott**
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tascott@ucdavis.edu)  
+
+**Tara Pozzi**
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tbpozzi@ucdavis.edu)
+
+Drop-in working session (in person): Tuesdays
+
+Davis R User's Group: Thursdays 10 - 12 am (Shields 360) 
+
+**Elise Zufall**
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:ezufall@ucdavis.edu)  
+
+
+## Course Creators/Former Instructors  
+
+**Christian John**  
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:cjohn@ucdavis.edu) 
+[<i class="fa fa-globe" aria-hidden="true"></i> website](https://jepsonnomad.github.io/)  
+[<i class="fa fa-twitter-square" aria-hidden="true"></i> \@JepsonNomad](https://twitter.com/JepsonNomad)
+[<i class="fa fa-github-square" aria-hidden="true"></i> JepsonNomad](https://github.com/JepsonNomad)  
+
+**Michael Culshaw-Maurer** 
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:mjculshawmaurer@ucdavis.edu)  
+[<i class="fa fa-globe" aria-hidden="true"></i> website](https://mcmaurer.github.io/)  
+[<i class="fa fa-twitter-square" aria-hidden="true"></i> \@MCulshawMaurer](https://twitter.com/MCulshawMaurer)  
+[<i class="fa fa-github-square" aria-hidden="true"></i> MCMaurer](https://github.com/mcmaurer)  
+
+**Martha Zillig** 
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:mwohlfeil@ucdavis.edu)  
+[<i class="fa fa-globe" aria-hidden="true"></i> website](https://marthawohlfeil.github.io/)  
+[<i class="fa fa-github-square" aria-hidden="true"></i> MarthaWohlfeil](https://github.com/MarthaWohlfeil)  
+[<i class="fa fa-twitter-square" aria-hidden="true"></i> \@mw_avianecology](https://twitter.com/mw_avianecology)
+
+**Ryan Peek** 
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:rapeek@ucdavis.edu)  
+[<i class="fa fa-globe" aria-hidden="true"></i> website](https://ryanpeek.github.io/)  
+[<i class="fa fa-twitter-square" aria-hidden="true"></i> \@riverpeek](https://twitter.com/riverpeek)  
+[<i class="fa fa-github-square" aria-hidden="true"></i> ryanpeek](https://github.com/ryanpeek)  
+[<i class="ai ai-orcid-square"></i> orcid.org/0000-0002-9577-6885](https://orcid.org/0000-0002-9577-6885)   
+
+**Michael Koontz** 
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:mikoontz@gmail.com)  
+[<i class="fa fa-globe" aria-hidden="true"></i> website](https://michaeljkoontz.weebly.com/)  
+[<i class="fa fa-twitter-square" aria-hidden="true"></i> \@_mikoontz](https://twitter.com/_mikoontz)  
+[<i class="fa fa-github-square" aria-hidden="true"></i> mikoontz](https://github.com/mikoontz)  
+[<i class="ai ai-orcid-square"></i> orcid.org/0000-0002-8276-210X](https://orcid.org/0000-0002-8276-210X)  
+
+**Liza Wood** 
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:L.Wood3@exeter.ac.uk)  
+[<i class="fa fa-globe" aria-hidden="true"></i> website](https://liza-wood.github.io/)  
+
+## Former Teaching Assistants/Classroom Helpers
+
+**Christine Parisek**  
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:caparisek@ucdavis.edu) 
+[<i class="fa fa-twitter-square" aria-hidden="true"></i> \@caparisek](https://twitter.com/caparisek)
+[#sierrafishes](https://twitter.com/search?q=%23sierrafishes&src=typed_query&f=live)
+
+**Conor Higgins**
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:rchiggins@ucdavis.edu) 
+
+**Nick Framsted**
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:ntframsted@ucdavis.edu)
+
+**Nina Venuti**
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:nevenuti@ucdavis.edu)
+
+## Data Carpentry  
+
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [info@datacarpentry.org](mailto:info@datacarpentry.org)  
+[<i class="fa fa-globe" aria-hidden="true"></i> http://www.datacarpentry.org/](http://www.datacarpentry.org/)  
+[<i class="fa fa-twitter-square" aria-hidden="true"></i> \@datacarpentry](https://twitter.com/datacarpentry)  

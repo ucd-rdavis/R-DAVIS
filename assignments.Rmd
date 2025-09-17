@@ -1,0 +1,652 @@
+---
+title: "Coding Practice"
+output:
+  html_document:
+    toc: false
+---
+
+```{r setup, include=FALSE, echo=FALSE, results='hide'}
+# List of all required packages across assignments
+required_packages <- c(
+  "tidyverse",     # Used throughout for data manipulation and plotting
+  "lubridate",     # Assignment 8 - date/time handling
+  "viridis",       # Assignment 7 - color scales
+  "purrr",         # Assignment 9 - iteration and mapping
+  "ggplot2",       # Used throughout for plotting (part of tidyverse but sometimes loaded separately)
+  "dplyr",         # Used throughout for data manipulation (part of tidyverse but sometimes loaded separately)
+  "readr"          # Used throughout for data import (part of tidyverse but sometimes loaded separately)
+)
+
+# Check which packages need to be installed
+new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
+
+# Install missing packages
+if(length(new_packages)) {
+  install.packages(new_packages)
+}
+
+# Load all required packages
+invisible(lapply(required_packages, library, character.only = TRUE))
+```
+
+Assignments are designed to reinforce the code/lessons covered that week and provide you a chance to practice working with GitHub. Assignments are to be completed in your local project (on your computer) and pushed up to your GitHub repository for instructors to review by the following Wednesday. That said, these due dates are largely suggestive as a way to help you prioritize and stay caught up as a group -- if you need, or want, more time, take it. At the end of the quarter, we will simply look over the tasks you have completed in concert with the reflection you submit.
+
+
+<br>
+
+## Assignments {.tabset .tabset-fade .tabset-pills}
+
+### <small>Assignment 1</small>
+<br>
+Because this class caters to a range of experiences, we would like you to identify how it is you plan on earning credit for this course. Before next week, please complete [this form](https://docs.google.com/forms/d/1aGHZra8ucJb_vKVgj75PwCDnzt9Viw5gnoVK-Qm8bZk) to select and describe your plans.
+
+### <small>Assignment 2</small>
+
+In this homework we are going to practice subsetting and manipulating vectors.  
+
+First, open your r-davis-in-class-project-YourName and `pull`. Remember, we always want to start working on a github project by pulling, even if we are sure nothing has changed (believe me, this small step will save you lots of headaches).
+
+Second, open a new script in your r-davis-in-class-project-YourName and save it to your `scripts` folder. Call this new script `week_2_homework`. 
+
+Copy and paste the chunk of code below into your new `week_2_homework` script and run it. This chunk of code will create the vector you will use in your homework today. Check in your environment to see what it looks like. What do you think each line of code is doing? 
+
+```{r}
+set.seed(15)
+hw2 <- runif(50, 4, 50)
+hw2 <- replace(hw2, c(4,12,22,27), NA)
+hw2
+```
+
+
+1. Take your `hw2` vector and removed all the NAs then select all the numbers between 14 and 38 inclusive, call this vector `prob1`. 
+
+2. Multiply each number in the `prob1` vector by 3 to create a new vector called `times3`. Then add 10 to each number in your `times3` vector to create a new vector called `plus10`. 
+
+3. Select every other number in your `plus10` vector by selecting the first number, not the second, the third, not the fourth, etc. If you've worked through these three problems in order, you should now have a vector that is 12 numbers long that looks **exactly** like this one:
+
+```{r, echo = F}
+prob1 <- hw2[!is.na(hw2)] #removing the NAs
+
+prob1 <- prob1[prob1 >14 & prob1 < 38] #only selecting numbers between 14 and 38
+
+times3 <- prob1 * 3 #multiplying by 3
+
+plus10 <- times3 + 10 #adding 10 to the whole vector 
+
+final <- plus10[c(TRUE, FALSE)] #selecting every other number
+```
+
+```{r}
+final
+```
+
+Finally, save your script and push all your changes to your github account. 
+
+<details>
+<summary>**DO NOT OPEN** until you are ready to see the answers</summary>
+```{r, eval=T}
+
+prob1 <- hw2[!is.na(hw2)] #removing the NAs
+
+prob1 <- prob1[prob1 >14 & prob1 < 38] #only selecting numbers between 14 and 38
+
+times3 <- prob1 * 3 #multiplying by 3
+
+plus10 <- times3 + 10 #adding 10 to the whole vector 
+
+final <- plus10[c(TRUE, FALSE)] #selecting every other number using logical subsetting
+
+```
+</details>
+
+
+### <small>Assignment 3</small>
+
+Homework this week will be playing with the `surveys` data we worked on in class. First things first, open your r-davis-in-class-project and pull. Then create a new script in your `scripts` folder called `week_3_homework.R`. 
+
+Load your `survey` data frame with the read.csv() function. Create a new data frame called `surveys_base` with only the species_id, the weight, and the plot_type columns. Have this data frame only be the first 5,000 rows. Convert both species_id and plot_type to factors. Remove all rows where there is an NA in the weight column. Explore these variables and try to explain why a factor is different from a character. Why might we want to use factors? Can you think of any examples? 
+
+CHALLENGE:
+Create a second data frame called `challenge_base` that only consists of individuals from your `surveys_base` data frame with weights greater than 150g.  
+
+<details>
+<summary>**DO NOT OPEN** until you are ready to see the answers for the the homework</summary>
+```{r, eval=T}
+#PROBLEM 1
+
+surveys <- read.csv("data/portal_data_joined.csv") #reading the data in
+
+colnames(surveys) #a list of the column names 
+
+surveys_base <- surveys[1:5000, c(6, 9, 13)] #selecting rows 1:5000 and just columns 6, 9 and 13
+
+surveys_base <- surveys_base[complete.cases(surveys_base), ] #selecting only the ROWS that have complete cases (no NAs) **Notice the comma was needed for this to work**
+
+surveys_base$species_id <- factor(surveys_base$species_id) #converting factor data to character
+
+surveys_base$plot_type <- factor(surveys_base$plot_type) #converting factor data to character
+
+#Experimentation of factors
+levels(surveys_base$species_id)
+typeof(surveys_base$species_id)
+class(surveys_base$species_id)
+
+#CHALLENGE
+challenge_base <- surveys_base[surveys_base[, 2]>150,] #selecting just the weights (column 2) that are greater than 150
+
+```
+</details>
+
+<br> 
+
+### <small>Assignment 4</small>
+
+By now you should be in the rhythm of pulling from your git repository and then creating new homework script. This week the homework will review data manipulation in the tidyverse.
+
+1. Create a tibble named `surveys` from the portal_data_joined.csv file.
+
+2. Subset `surveys` using Tidyverse methods to keep rows with weight between 30 and 60, and print out the first 6 rows.
+
+3. Create a new tibble showing the maximum weight for each species + sex combination and name it `biggest_critters`. Sort the tibble to take a look at the biggest and smallest species + sex combinations. HINT: it's easier to calculate max if there are no NAs in the dataframe...
+
+4. Try to figure out where the NA weights are concentrated in the data- is there a particular species, taxa, plot, or whatever, where there are lots of NA values? There isn’t necessarily a right or wrong answer here, but manipulate surveys a few different ways to explore this. Maybe use `tally` and `arrange` here.
+
+5. Take `surveys`, remove the rows where weight is NA and add a column that contains the average weight of each species+sex combination to the **full** `surveys` dataframe. Then get rid of all the columns except for species, sex, weight, and your new average weight column. Save this tibble as `surveys_avg_weight`.
+
+6. Take `surveys_avg_weight` and add a new column called `above_average` that contains logical values stating whether or not a row’s weight is above average for its species+sex combination (recall the new column we made for this tibble).
+
+<details>
+<summary>**DO NOT OPEN** until you are ready to see the answers for the homework</summary>
+```{r, eval = T}
+library(tidyverse)
+#1
+surveys <- read_csv("data/portal_data_joined.csv")
+
+#2
+surveys %>% 
+  filter(weight > 30 & weight < 60)
+
+#3
+biggest_critters <- surveys %>% 
+  filter(!is.na(weight)) %>% 
+  group_by(species_id, sex) %>% 
+  summarise(max_weight = max(weight))
+
+biggest_critters %>% arrange(max_weight)
+
+biggest_critters %>% arrange(desc(max_weight))
+
+#4
+surveys %>% 
+  filter(is.na(weight)) %>% 
+  group_by(species) %>% 
+  tally() %>% 
+  arrange(desc(n))
+
+surveys %>% 
+  filter(is.na(weight)) %>% 
+  group_by(plot_id) %>% 
+  tally() %>% 
+  arrange(desc(n))
+
+surveys %>% 
+  filter(is.na(weight)) %>% 
+  group_by(year) %>% 
+  tally() %>% 
+  arrange(desc(n))
+
+#5
+surveys_avg_weight <- surveys %>% 
+  filter(!is.na(weight)) %>% 
+  group_by(species_id, sex) %>% 
+  mutate(avg_weight = mean(weight)) %>% 
+  select(species_id, sex, weight, avg_weight)
+
+surveys_avg_weight
+
+#6
+surveys_avg_weight <- surveys_avg_weight %>% 
+  mutate(above_average = weight > avg_weight)
+
+surveys_avg_weight
+
+```
+</details>
+
+### <small>Assignment 5</small>
+
+This week's questions will have us practicing pivots and conditional statements.
+
+1. Create a tibble named `surveys` from the portal_data_joined.csv file. Then manipulate `surveys` to create a new dataframe called `surveys_wide` with a column for genus and a column named after every plot type, with each of these columns containing the mean hindfoot length of animals in that plot type and genus. So every row has a genus and then a mean hindfoot length value for every plot type. The dataframe should be sorted by values in the Control plot type column. This question will involve quite a few of the functions you've used so far, and it may be useful to sketch out the steps to get to the final result.
+
+2. Using the original `surveys` dataframe, use the two different functions we laid out for conditional statements, ifelse() and case_when(), to calculate a new weight category variable called `weight_cat`. For this variable, define the rodent weight into three categories, where "small" is less than or equal to the 1st quartile of weight distribution, "medium" is between (but not inclusive) the 1st and 3rd quartile, and "large" is any weight greater than or equal to the 3rd quartile. (Hint: the summary() function on a column summarizes the distribution). For ifelse() and case_when(), compare what happens to the weight values of NA, depending on how you specify your arguments.
+
+BONUS: How might you soft code the values (i.e. not type them in manually) of the 1st and 3rd quartile into your conditional statements in question 2?
+
+<details>
+<summary>**DO NOT OPEN** until you are ready to see the answers for the homework</summary>
+```{r, eval = T}
+# 1
+library(tidyverse)
+surveys <- read_csv("data/portal_data_joined.csv")
+
+surveys_wide <- surveys %>% 
+  filter(!is.na(hindfoot_length)) %>% 
+  group_by(genus, plot_type) %>% 
+  summarise(mean_hindfoot = mean(hindfoot_length)) %>% 
+  pivot_wider(names_from = plot_type, values_from = mean_hindfoot) %>% 
+  arrange(Control)
+
+# 2
+summary(surveys$weight)
+# The final "else" argument here, where I used the T ~ "large" applies even to NAs, which is not something we want
+surveys %>% 
+  mutate(weight_cat = case_when(
+    weight <= 20.00 ~ "small",
+    weight > 20.00 & weight < 48.00 ~ "medium",
+    T ~ "large"
+  ))
+
+# To overcome this, case_when() allows us to not even use an "else" argument, and just specify the final argument to reduce confusion. This leaves NAs as is
+surveys %>% 
+  mutate(weight_cat = case_when(
+    weight <= 20.00 ~ "small",
+    weight > 20.00 & weight < 48.00 ~ "medium",
+    weight >= 48.00 ~ "large"
+  ))
+
+# The "else" argument in ifelse() does not include NAs when specified, which is useful. The shortcoming, however, is that ifelse() does not allow you to leave out a final else argument, which means it is really important to always check the work on what that last argument assigns to.
+surveys %>% 
+  mutate(weight_cat = ifelse(weight <= 20.00, "small",
+                             ifelse(weight > 20.00 & weight < 48.00, "medium","large")))
+
+# BONUS:
+summ <- summary(surveys$weight)
+# Remember our indexing skills from the first weeks? Play around with single and double bracketing to see how it can extract values
+summ[[2]]
+summ[[5]]
+
+# Then you can next these into your code
+surveys %>% 
+  mutate(weight_cat = case_when(
+    weight >= summ[[2]] ~ "small",
+    weight > summ[[2]] & weight < summ[[5]] ~ "medium",
+    weight >= summ[[5]] ~ "large"
+  ))
+
+```
+</details>
+
+
+
+### <small>Midterm </small>
+
+This is the midterm exam for R-DAVIS Fall 2024. THE MIDTERM IS NOT GRADED. This is strictly meant to be an assessment of your learning thus far. You are welcome to use whatever materials you'd like. The exam is meant to take 1 hour. When you are finished, save a .R script as midterm_[lastname]_[firstname] in your class git repository and push your script to github.
+
+BACKGROUND: The pandemic spurred Tyler to get back into running semi-seriously. That went pretty well until he hurt his Achilles tendon. The sports med doctors at UC Davis filmed and analyzed his running. The doctors said Tyler was getting old... and that he was over-striding and putting too much pressure on his Achilles when landing. So in 2024, Tyler has been practicing running differently. The doctors and trainers are having Tyler increase his cadence (strides per minute) while running, with the idea being that fast, short strides place less stress on the lower body. For this exam, you are going to read in data that Tyler has exported from his Garmin running watch and perform a descriptive analysis to assess how successful this effort has been.
+
+TASK DESCRIPTION: 
+
+1. Read in the file tyler_activity_laps_10-24.csv from the class github page. This file is at url `https://raw.githubusercontent.com/ucd-cepb/R-DAVIS/refs/heads/main/data/tyler_activity_laps_10-24.csv`, so you can code that url value as a string object in R and call read_csv() on that object. The file is a .csv file where each row is a "lap" from an activity Tyler tracked with his watch. 
+
+2. Filter out any non-running activities. 
+
+3. Next, Tyler often has to take walk breaks between laps right now because trying to change how you've run for 25 years is hard. You can assume that any lap with a pace above 10 minute-per-mile pace is walking, so remove those laps. You should also remove any abnormally fast laps (< 5 minute-per-mile pace) and abnormally short records where the total elapsed time is one minute or less. 
+
+4. Create a new categorical variable, pace, that categorizes laps by pace: "fast" (< 6 minutes-per-mile), "medium" (6:00 to 8:00), and "slow" ( > 8:00). Create a second categorical variable, `form` that distinguishes between laps run in the year 2024 ("new", as Tyler started his rehab in January 2024) and all prior years ("old"). 
+
+5. Identify the average steps per minute for laps by form and pace, and generate a table showing these values with old and new as separate rows and pace categories as columns. Make sure that `slow` speed is the second column, `medium` speed is the third column, and `fast` speed is the fourth column (hint: think about what the `select()` function does). 
+
+6. Finally, Tyler thinks he's been doing better since July after the doctors filmed him running again and provided new advice. Summarize the minimum, mean, median, and maximum steps per minute results for all laps (regardless of pace category) run between January - June 2024 and July - October 2024 for comparison.
+
+<details>
+<summary>**DO NOT OPEN** until you are ready to see the answers! </summary>
+```{r, eval = T}
+library(tidyverse)
+url <- 'https://raw.githubusercontent.com/ucd-cepb/R-DAVIS/refs/heads/main/data/tyler_activity_laps_10-24.csv'
+lap_dt <- read_csv(url)
+
+running_laps <- lap_dt %>% 
+  filter(sport == 'running') %>%
+  filter(total_elapsed_time_s >= 60) %>%
+  filter(minutes_per_mile < 10 & minutes_per_mile > 5) %>%
+  mutate(pace_cat = case_when(minutes_per_mile < 6 ~ 'fast',
+                           minutes_per_mile >=6 & minutes_per_mile < 8 ~ 'medium',
+                           T ~ 'slow'),
+         form = case_when(year == 2024 ~ 'new form',
+                          T ~ 'old form'))
+
+running_laps %>% group_by(form,pace_cat) %>% 
+  summarize(avg_spm = mean(steps_per_minute)) %>%
+  pivot_wider(id_cols = form,values_from = avg_spm,names_from = pace_cat) %>%
+  select(form,slow,medium,fast)
+
+running_laps %>% filter(form == 'new form') %>%
+  mutate(months = ifelse(month %in% 1:6,'early 2024','late 2024')) %>%
+  group_by(months) %>% 
+  summarize(
+    min_spm = min(steps_per_minute),
+    median_spm = median(steps_per_minute),
+    mean_spm = mean(steps_per_minute),
+    max_spm = max(steps_per_minute))
+```
+<details>
+
+
+
+### <small>Assignment 6</small>
+
+For our week six homework, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`. This data set is looking at statistics for a few different counties including population, GDP per capita, and life expectancy. Download the data using the code below. Remember, this code is looking for a folder called `data` to put the .csv in, so make sure you have a folder named `data`, or modify the code to the correct folder name. 
+
+```{r, warnings = F}
+library(tidyverse)
+
+gapminder <- read_csv("https://ucd-r-davis.github.io/R-DAVIS/data/gapminder.csv") #ONLY change the "data" part of this path if necessary
+
+```
+
+
+1. First calculates mean life expectancy on each continent. Then create a plot that shows how life expectancy has changed over time in each continent. Try to do this all in one step using pipes! (aka, try not to create intermediate dataframes)
+
+2. Look at the following code and answer the following questions. What do you think the `scale_x_log10()` line of code is achieving? What about the `geom_smooth()` line of code? 
+
+*Challenge!* Modify the above code to size the points in proportion to the population of the country. 
+**Hint:** Are you translating data to a visual feature of the plot?
+
+**Hint:** There's no cost to tinkering! Try some code out and see what happens with or without particular elements.
+
+```{r}
+
+ggplot(gapminder, aes(x = gdpPercap, y = lifeExp)) +
+    geom_point(aes(color = continent), size = .25) + 
+    scale_x_log10() +
+    geom_smooth(method = 'lm', color = 'black', linetype = 'dashed') +
+    theme_bw()
+
+```
+
+
+3. Create a boxplot that shows the life expectency for Brazil, China, El Salvador, Niger, and the United States, with the data points in the backgroud using geom_jitter. Label the X and Y axis with "Country" and "Life Expectancy" and title the plot "Life Expectancy of Five Countries".
+
+<details>
+<summary>**DO NOT OPEN** until you are ready to see the answers! </summary>
+```{r, eval = T}
+
+library(tidyverse)
+
+#PROBLEM 1:
+
+gapminder %>%
+  group_by(continent, year) %>% 
+  summarize(mean_lifeExp = mean(lifeExp)) %>% #calculating the mean life expectancy for each continent and year
+  ggplot()+
+  geom_point(aes(x = year, y = mean_lifeExp, color = continent))+ #scatter plot
+  geom_line(aes(x = year, y = mean_lifeExp, color = continent)) #line plot
+
+#there are other ways to represent this data and answer this question. Try a facet wrap! Play around with themes and ggplotly!  
+
+
+
+#PROBLEM 2:
+
+#challenge answer
+ggplot(gapminder, aes(x = gdpPercap, y = lifeExp)) +
+    geom_point(aes(color = continent, size = pop)) + 
+    scale_x_log10() +
+    geom_smooth(method = 'lm', color = 'black', linetype = 'dashed') +
+    theme_bw()
+
+
+#PROBLEM 3: 
+
+countries <- c("Brazil", "China", "El Salvador", "Niger", "United States") #create a vector with just the countries we are interested in
+
+gapminder %>% 
+  filter(country %in% countries) %>% 
+  ggplot(aes(x = country, y = lifeExp))+
+  geom_boxplot() +
+  geom_jitter(alpha = 0.3, color = "blue")+
+  theme_minimal() +
+  ggtitle("Life Expectancy of Five Countries") + #title the figure
+  theme(plot.title = element_text(hjust = 0.5)) + #centered the plot title
+  xlab("Country") + ylab("Life Expectancy") #how to change axis names
+
+
+```
+</details>
+
+
+### <small>Assignment 7</small>
+
+For week 7, we're going to be working on 2 critical `ggplot` skills: recreating a graph from a dataset and **googling stuff**.
+
+Our goal will be to make this final graph using the `gapminder` dataset:
+
+```{r, eval=T, echo=F, warning=F, message=F}
+library(tidyverse)
+
+gapminder <- read_csv("data/gapminder.csv")
+
+pg <- gapminder %>% 
+  select(country, year, pop, continent) %>% 
+  filter(year > 2000) %>% 
+  pivot_wider(names_from = year, values_from = pop) %>% 
+  mutate(pop_change_0207 = `2007` - `2002`)
+```
+
+```{r, eval=T, echo=F, warning=F, message=F, fig.width = 8, fig.height = 5}
+pg %>% 
+  filter(continent != "Oceania") %>% 
+  ggplot(aes(x = reorder(country, pop_change_0207), y = pop_change_0207)) +
+  geom_col(aes(fill = continent)) +
+  facet_wrap(~continent, scales = "free") +
+  theme_bw() +
+  scale_fill_viridis_d() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), 
+        legend.position = "none") +
+  xlab("Country") +
+  ylab("Change in Population Between 2002 and 2007")
+
+```
+
+The x axis labels are all scrunched up because we can't make the image bigger on the webpage, but if you make it and then zoom it bigger in RStudio it looks much better.
+
+We'll touch on some intermediate steps here, since it might take quite a few steps to get from start to finish. Here are some things to note:
+
+1. To get the population difference between 2002 and 2007 for each country, it would probably be easiest to have a country in each row and a column for 2002 population and a column for 2007 population.
+
+2. Notice the order of countries within each facet. You'll have to look up how to order them in this way.
+
+3. Also look at how the axes are different for each facet. Try looking through `?facet_wrap` to see if you can figure this one out.
+
+4. The color scale is different from the default- feel free to try out other color scales, just don't use the defaults!
+
+5. The theme here is different from the default in a few ways, again, feel free to play around with other non-default themes.
+
+6. The axis labels are rotated! Here's a hint: `angle = 45, hjust = 1`. It's up to you (and Google) to figure out where this code goes!
+
+7. Is there a legend on this plot?
+
+This lesson should illustrate a key reality of making plots in R, one that applies as much to experts as beginners: 10% of your effort gets the plot 90% right, and 90% of the effort is getting the plot perfect. `ggplot` is incredibly powerful for exploratory analysis, as you can get a good plot with only a few lines of code. It's also extremely flexible, allowing you to tweak nearly everything about a plot to get a highly polished final product, but these little tweaks can take a lot of time to figure out!
+
+So if you spend most of your time on this lesson googling stuff, you're not alone!
+
+<details>
+<summary>**DO NOT OPEN** until you are ready to see the answers</summary>
+```{r, eval=FALSE}
+library(tidyverse)
+
+gapminder <- read_csv("data/gapminder.csv")
+
+pg <- gapminder %>% 
+  select(country, year, pop, continent) %>% 
+  filter(year > 2000) %>% 
+  pivot_wider(names_from = year, values_from = pop) %>% 
+  mutate(pop_change_0207 = `2007` - `2002`)
+
+pg %>% 
+  filter(continent != "Oceania") %>% 
+  ggplot(aes(x = reorder(country, pop_change_0207), y = pop_change_0207)) +
+  geom_col(aes(fill = continent)) +
+  facet_wrap(~continent, scales = "free") +
+  theme_bw() +
+  scale_fill_viridis_d() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), 
+        legend.position = "none") +
+  xlab("Country") +
+  ylab("Change in Population Between 2002 and 2007")
+```
+</details>
+
+### <small>Assignment 8</small>
+
+Let's look at some real data from Mauna Loa to try to format and plot. These meteorological data from Mauna Loa were collected every minute for the year 2001. *This dataset has 459,769 observations for 9 different metrics of wind, humidity, barometric pressure, air temperature, and precipitation.* Download this dataset [here](data/mauna_loa_met_2001_minute.rda). Save it to your `data/` folder. Alternatively, you can read the CSV directly from the R-DAVIS Github:
+`mloa <- read_csv("https://raw.githubusercontent.com/gge-ucd/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv")`
+
+Use the [README](data/mauna_loa_README.txt) file associated with the Mauna Loa dataset to determine in what time zone the data are reported, and how missing values are reported in each column. With the `mloa` data.frame, remove observations with missing values in rel_humid, temp_C_2m, and windSpeed_m_s. Generate a column called "datetime" using the year, month, day, hour24, and min columns. Next, create a column called "datetimeLocal" that converts the datetime column to Pacific/Honolulu time (*HINT*: look at the lubridate function called `with_tz()`). Then, use dplyr to calculate the mean hourly temperature each month using the temp_C_2m column and the datetimeLocal columns. (*HINT*: Look at the lubridate functions called `month()` and `hour()`). Finally, make a ggplot scatterplot of the mean monthly temperature, with points colored by local hour.
+
+Answers:
+<details>
+<summary>**DO NOT OPEN** until you are ready to see the answers</summary>
+```{r, eval=FALSE}
+library(tidyverse)
+library(lubridate)
+## Data import
+mloa <- read_csv("https://raw.githubusercontent.com/ucd-r-davis/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv")
+
+mloa2 = mloa %>%
+  # Remove NA's
+  filter(rel_humid != -99) %>%
+  filter(temp_C_2m != -999.9) %>%
+  filter(windSpeed_m_s != -999.9) %>%
+  # Create datetime column (README indicates time is in UTC)
+  mutate(datetime = ymd_hm(paste0(year,"-", 
+                                  month, "-", 
+                                  day," ", 
+                                  hour24, ":", 
+                                  min), 
+                           tz = "UTC")) %>%
+  # Convert to local time
+  mutate(datetimeLocal = with_tz(datetime, tz = "Pacific/Honolulu"))
+
+## Aggregate and plot
+mloa2 %>%
+  # Extract month and hour from local time column
+  mutate(localMon = month(datetimeLocal, label = TRUE),
+         localHour = hour(datetimeLocal)) %>%
+  # Group by local month and hour
+  group_by(localMon, localHour) %>%
+  # Calculate mean temperature
+  summarize(meantemp = mean(temp_C_2m)) %>%
+  # Plot
+  ggplot(aes(x = localMon,
+             y = meantemp)) +
+  # Color points by local hour
+  geom_point(aes(col = localHour)) +
+  # Use a nice color ramp
+  scale_color_viridis_c() +
+  # Label axes, add a theme
+  xlab("Month") +
+  ylab("Mean temperature (degrees C)") +
+  theme_classic()
+```
+</details>
+
+### <small>Assignment 9</small>
+In this assignment, you'll use the iteration skills we built in the course to apply functions to an entire dataset.
+
+Let's load the surveys dataset:
+
+```{r wk9a}
+surveys <- read.csv("data/portal_data_joined.csv")
+```
+
+1) Using a for loop, print to the console the longest species name of each taxon. Hint: the function nchar() gets you the number of characters in a string.
+
+Next let's load the Mauna Loa dataset from last week.
+
+```{r week9b}
+mloa <- read_csv("https://raw.githubusercontent.com/ucd-cepb/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv")
+```
+
+2) Use the map function from purrr to print the max of each of the following columns: "windDir","windSpeed_m_s","baro_hPa","temp_C_2m","temp_C_10m","temp_C_towertop","rel_humid",and "precip_intens_mm_hr". 
+
+3) Make a function called C_to_F that converts Celsius to Fahrenheit. Hint: first you need to multiply the Celsius temperature by 1.8, then add 32. Make three new columns called "temp_F_2m", "temp_F_10m", and "temp_F_towertop" by applying this function to columns "temp_C_2m", "temp_C_10m", and "temp_C_towertop". Bonus: can you do this by using map_df? Don't forget to name your new columns "temp_F..." and not "temp_C..."!
+
+Challenge: Use lapply to create a new column of the surveys dataframe that includes the genus and species name together as one string.
+<details>
+<summary>**DO NOT OPEN** until you are ready to see the answers</summary>
+```{r, eval = FALSE}
+#part 1
+for(i in unique(surveys$taxa)){
+  mytaxon <- surveys[surveys$taxa == i,]
+  longestnames <- mytaxon[nchar(mytaxon$species) == max(nchar(mytaxon$species)),] %>% select(species)
+  print(paste0("The longest species name(s) among ", i, "s is/are: "))
+  print(unique(longestnames$species))
+}
+
+#part 2
+mycols <- mloa %>% select("windDir","windSpeed_m_s","baro_hPa","temp_C_2m","temp_C_10m","temp_C_towertop","rel_humid", "precip_intens_mm_hr")
+mycols %>% map(max, na.rm = T)
+
+#part 3
+C_to_F <- function(x){
+  x * 1.8 + 32
+}
+
+mloa$temp_F_2m <- C_to_F(mloa$temp_C_2m)
+mloa$temp_F_10m <- C_to_F(mloa$temp_C_10m)
+mloa$temp_F_towertop <- C_to_F(mloa$temp_C_towertop)
+
+#Bonus:
+mloa %>% select(c("temp_C_2m", "temp_C_10m", "temp_C_towertop")) %>% map_df(C_to_F) %>% rename("temp_F_2m"="temp_C_2m", "temp_F_10m"="temp_C_10m", "temp_F_towertop"="temp_C_towertop") %>% cbind(mloa)
+
+#challenge
+surveys$genusspecies <- lapply(1:length(surveys$species), function(i){
+  paste0(surveys$genus[i], " ", surveys$species[i])
+})
+
+```
+</details>
+
+### <small>Reflection</small> 
+
+-   Complete the [post-course credit reflection](https://docs.google.com/forms/d/e/1FAIpQLScR_AUTFx4Q9tL2QJumIEeOGdwFvyEsrqrZMXkwAqi2AzBFRw/viewform?usp=sharing)
+
+
+
+### <small>Final </small>
+
+This is the final exam for R-DAVIS Fall 2024. THE FINAL IS NOT GRADED. This is strictly meant to be an assessment of your learning thus far. You are welcome to use whatever materials you'd like. The exam is meant to take 1 hour. When you are finished, save a .R script as final_[lastname]_[firstname] in your class git repository and push your script to github.
+
+BACKGROUND
+
+For the midterm, you compared Tyler's old running data with recent data to analyze to see if there was any difference in strides-per-minute (SPM). On July 1, 2024, Tyler went to a follow-up appointment with the UCD Sports Medicine clinic, and they told him that has cadence was still too low, and that his form was perhaps *more* damaging than it had been. The technician gave Tyler some training cues, as well as the advice that "elite professional runners are at least 180 strides-per-minute, so aim for that". 
+
+Tyler looked into it, and found out that:
+
+* He is not an elite professional runner
+
+* That 180 number was based on strides counted in the 1984 MEN'S OLYMPIC 10K FINAL (seriously, this is true)
+
+Given these two facts, the conclusion (since confirmed with technician) is that what really matters is not just high cadence but a positive relationship between cadence and speed. Perform the tasks below to analyze whether Tyler's SPM appears responsive to changes in pace, and more importantly whether things have improved since the July 1 check-up.
+
+TASK DESCRIPTION 
+
+1. Read in the file tyler_activity_laps_12-6.csv from the class github page. This file is at url `https://raw.githubusercontent.com/UCD-R-DAVIS/R-DAVIS/refs/heads/main/data/tyler_activity_laps_12-6.csv`, so you can code that url value as a string object in R and call read_csv() on that object. The file is a .csv file where each row is a "lap" from an activity Tyler tracked with his watch. 
+
+2. Filter out any non-running activities. 
+
+3. We are interested in *normal* running. You can assume that any lap with a pace above 10 `minutes_per_mile` pace is walking, so remove those laps. You should also remove any abnormally fast laps (< 5 `minute_per_mile` pace) and abnormally short records where the total elapsed time is one minute or less. 
+
+4. Group observations into three time periods corresponding to pre-2024 running, Tyler's initial rehab efforts from January to June of this year, and activities from July to the present. 
+5. Make a scatter plot that graphs SPM over speed by lap.
+
+6. Make 5 aesthetic changes to the plot to improve the visual. 
+7. Add linear (i.e., straight) trendlines to the plot to show the relationship between speed and SPM for each of the three time periods (hint: you might want to check out the options for `geom_smooth()`)
+
+8. Does this relationship maintain or break down as Tyler gets tired? Focus just on post-intervention runs (after July 1, 2024). Make a plot (of your choosing) that shows SPM vs. speed by *lap*. Use the `timestamp` indicator to assign lap numbers, assuming that all laps on a given day correspond to the same run (hint: check out the `rank()` function). Select only laps 1-3 (Tyler never runs more than three miles these days). Make a plot that shows SPM, speed, *and* lap number (pick a visualization that you think best shows these three variables).
+
+<details>
+<summary>We'll post the answer key Thursday afternoon.</summary>
+</details>

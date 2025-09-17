@@ -1,0 +1,75 @@
+navbar:
+  left:
+  - text: Home
+    href: index.html
+  - text: About
+    href: about.html
+    icon: fa-info-circle  fa-1x
+  - text: Syllabus
+    href: syllabus.html
+    icon: fa-map fa-1x
+  - text: Set Up
+    menu:
+    - text: Computer Setup
+      href: computer_setup.html
+    - text: Setting up Git Repository
+      href: setting_up_git.html
+  - text: Tutorials
+    icon: fa-book  fa-1x
+    menu:
+    - text: Intro to Programming, R, & RStudio
+      href: lesson_01_intro_r_rstudio.html
+    - text: Project Management
+      href: lesson_02_project_management.html
+    - text: How R Thinks About Data
+      href: lesson_03_how_r_thinks_about_data.html
+    - text: Spreadsheets
+      href: lesson_04_spreadsheets_condensed.html
+    - text: Starting With Spreadsheets in R
+      href: lesson_05_data_import.html
+    - text: Data Manipulation Pt1
+      href: lesson_06_data_manipulation_pt1.html
+    - text: Data Manipulation Pt2
+      href: lesson_08_data_manipulation_pt2.html
+    - text: Data Visualization Pt1
+      href: lesson_09_data_viz_pt1.html
+    - text: Data Visualization Pt2
+      href: lesson_11_data_viz_pt2.html
+    - text: Date-times with lubridate
+      href: lesson_12_lubridate.html
+    - text: Writing functions
+      href: lesson_13_functions.html
+    - text: Iteration
+      href: lesson_14_iteration.html
+    - text: Literate Programming with RMarkdown
+      href: lesson_rmarkdown.html
+  - text: Videos
+    icon: fa-slideshare fa-1x
+    href: lectures.html
+  - text: Assignments
+    icon: fa-paperclip fa-1x
+    href: assignments.html
+  - text: Resources
+    icon: fa-list
+    href: resources.html
+  right:
+  - text: Contact
+    icon: fa-hand-spock-o
+    href: contact.html
+  - icon: fa-github fa-lg
+    href: https://github.com/UCD-R-DAVIS/R-DAVIS
+output_dir: docs
+output:
+  html_document:
+    theme: flatly
+    #highlight: pygments
+    code_folding: show
+    toc: yes
+    toc_float:
+      collapsed: yes
+    include:
+      in_header: header.html
+    css: style.css
+    lib_dir: site_libs
+    self_contained: no
+name: R-DAVIS
