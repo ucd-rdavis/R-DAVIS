@@ -13,7 +13,7 @@
 
 <title>Coding Practice</title>
 
-<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -33,8 +33,8 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="site_libs_extra/academicons-1.8.0/css/academicons.css"/>
 
 <style type="text/css">
@@ -566,7 +566,7 @@ the homework
 #1
 surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 34786 Columns: 13
-## ── Column specification ───────────────────────
+## ── Column specification ─────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -596,9 +596,8 @@ biggest_critters &lt;- surveys %&gt;%
   filter(!is.na(weight)) %&gt;% 
   group_by(species_id, sex) %&gt;% 
   summarise(max_weight = max(weight))</code></pre>
-<pre><code>## `summarise()` has grouped output by
-## &#39;species_id&#39;. You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;species_id&#39;. You can override using the `.groups`
+## argument.</code></pre>
 <pre class="r"><code>biggest_critters %&gt;% arrange(max_weight)</code></pre>
 <pre><code>## # A tibble: 64 × 3
 ## # Groups:   species_id [25]
@@ -773,7 +772,7 @@ the homework
 library(tidyverse)
 surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 34786 Columns: 13
-## ── Column specification ───────────────────────
+## ── Column specification ─────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -786,8 +785,8 @@ surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
   summarise(mean_hindfoot = mean(hindfoot_length)) %&gt;% 
   pivot_wider(names_from = plot_type, values_from = mean_hindfoot) %&gt;% 
   arrange(Control)</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;genus&#39;.
-## You can override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;genus&#39;. You can override using the `.groups`
+## argument.</code></pre>
 <pre class="r"><code># 2
 summary(surveys$weight)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
@@ -950,7 +949,7 @@ October 2024 for comparison.</p></li>
 url &lt;- &#39;https://raw.githubusercontent.com/ucd-cepb/R-DAVIS/refs/heads/main/data/tyler_activity_laps_10-24.csv&#39;
 lap_dt &lt;- read_csv(url)</code></pre>
 <pre><code>## Rows: 8985 Columns: 12
-## ── Column specification ───────────────────────
+## ── Column specification ─────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr   (1): sport
 ## dbl  (10): year, month, day, total_distance_m, minutes_per_mile, total_elaps...
@@ -972,8 +971,8 @@ running_laps %&gt;% group_by(form,pace_cat) %&gt;%
   summarize(avg_spm = mean(steps_per_minute)) %&gt;%
   pivot_wider(id_cols = form,values_from = avg_spm,names_from = pace_cat) %&gt;%
   select(form,slow,medium,fast)</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;form&#39;.
-## You can override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;form&#39;. You can override using the `.groups`
+## argument.</code></pre>
 <pre><code>## # A tibble: 2 × 4
 ## # Groups:   form [2]
 ##   form      slow medium  fast
@@ -1010,7 +1009,7 @@ to the correct folder name.</p>
 
 gapminder &lt;- read_csv(&quot;https://ucd-r-davis.github.io/R-DAVIS/data/gapminder.csv&quot;) #ONLY change the &quot;data&quot; part of this path if necessary</code></pre>
 <pre><code>## Rows: 1704 Columns: 6
-## ── Column specification ───────────────────────
+## ── Column specification ─────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (2): country, continent
 ## dbl (4): year, pop, lifeExp, gdpPercap
@@ -1060,9 +1059,8 @@ gapminder %&gt;%
   ggplot()+
   geom_point(aes(x = year, y = mean_lifeExp, color = continent))+ #scatter plot
   geom_line(aes(x = year, y = mean_lifeExp, color = continent)) #line plot</code></pre>
-<pre><code>## `summarise()` has grouped output by
-## &#39;continent&#39;. You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;continent&#39;. You can override using the `.groups`
+## argument.</code></pre>
 <p><img src="assignments_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <pre class="r"><code>#there are other ways to represent this data and answer this question. Try a facet wrap! Play around with themes and ggplotly!  
 
@@ -1249,7 +1247,7 @@ in a string.</li>
 <p>Next let’s load the Mauna Loa dataset from last week.</p>
 <pre class="r"><code>mloa &lt;- read_csv(&quot;https://raw.githubusercontent.com/ucd-cepb/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv&quot;)</code></pre>
 <pre><code>## Rows: 459769 Columns: 16
-## ── Column specification ───────────────────────
+## ── Column specification ─────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr  (2): filename, siteID
 ## dbl (14): year, month, day, hour24, min, windDir, windSpeed_m_s, windSteady,...
