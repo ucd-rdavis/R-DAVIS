@@ -1,0 +1,116 @@
+---
+title: "Course Outline"
+---
+
+<br>
+
+## Schedule  
+
+#### Week 1 
+*Sept. 23*
+
+- Pre-class setup help
+
+*Sept. 25*
+
+- Course intro
+
+- Intro to git/GitHub and RStudio
+
+#### Week 2 
+*Sep. 30*
+
+- Drop-in lab
+
+*Oct. 2*
+
+- Project management
+
+- How R thinks about data
+ 
+#### Week 3 
+*Oct. 7*
+
+- Drop-in lab
+
+*Oct. 9*
+
+- Spreadsheet best practices
+
+- Starting with spreadsheets in R
+
+#### Week 4 
+*Oct. 14*
+
+- Drop-in lab
+
+*Oct. 16*
+
+- Data manipulation in the tidyverse, part 1
+
+#### Week 5 
+*Oct. 21*
+
+- Drop-in lab
+
+*Oct. 23*
+
+- Data manipulation in the tidyverse, part 2
+
+#### Week 6 
+*Oct. 28*
+
+- Midterm (during drop-in lab)
+
+*Oct. 30*
+
+- Data visualization, part 1
+
+#### Week 7 
+*Nov. 4*
+
+- Drop-in lab
+
+*Nov. 5*
+
+- Data visualization, part 2  
+
+#### Week 8 
+*Nov. 11* 
+
+- NO DROP-IN, UNIVERSITY HOLIDAY
+
+*Nov. 13 *
+
+- Date-time data with `lubridate`
+
+- Writing functions
+
+#### Week 9 
+*Nov. 18*
+
+- Drop-in lab
+
+*Nov. 20*
+
+- Iteration 
+
+#### Thanksgiving holiday (Nov. 28)   
+
+#### Week 10 
+*Dec. 2*
+
+- Drop-in lab
+
+*Dec. 4*
+
+- Collaborative Github Skills
+
+#### Finals 
+*Dec. 10*
+
+- Drop-in lab
+
+*Dec. 12*
+
+- Final exam (in-class, normal time period)

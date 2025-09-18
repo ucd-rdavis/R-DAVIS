@@ -1,27 +1,49 @@
 ---
-pagetitle: "Syllabus"
-date: '*Updated:* `r format(Sys.time(), "%Y-%b-%d")`'
+pagetitle: "R-DAVIS Syllabus"
+title: "R-DAVIS"
+date: "Updated: `r format(Sys.Date())`"
 ---
+
+## (<font color="#DAAA00">**R**</font>-<font color="#DAAA00">**D**</font>ata <font color="#DAAA00">**A**</font>nalysis & <font color="#DAAA00">**V**</font>isualization <font color="#DAAA00">**I**</font>n <font color="#DAAA00">**S**</font>cience) {-}
 
 <br>
 
-## Course Description
+## Instructors 
 
-Computer literacy is now essential in all aspects of science. Data management skills are needed for entering data without errors, storing it in a usable way, and extracting key aspects of the data for analysis. Basic programming is required for everything from accessing and managing data, data visualization, to statistical analysis, and modeling. This course will provide an introduction to data/project management, manipulation, visualization and analysis, across a broad set of ecological data. Class will typically consist of short introductions or question & answer sessions, followed by hands on computing exercises. The course will be taught using git/Github, R/RStudio, and RMarkdown, but the concepts learned will easily apply to all programming languages and database management systems. **No background in databases or R/computational experience is required.**
+**Tyler Scott** 
 
-## Prerequisite Knowledge and Skills
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tascott@ucdavis.edu)  
+
+
+**Sara Ludwick** 
+
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:scludwick@i@ucdavis.edu)
+
+
+**Elise Zufall** 
+
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:ezufall@ucdavis.edu)
+
+<br>
+
+### Course Description
+
+Computer literacy is now essential in all aspects of science. Data management skills are needed for entering data without errors, storing it in a usable way, and extracting key aspects of the data for analysis. Basic programming is required for everything from accessing and managing data, data visualization, to statistical analysis, and modeling. This course will provide an introduction to data/project management, manipulation, visualization and analysis, across a broad set of ecological data (spatial, genomic, field, etc). Class will typically consist of short introductions or question & answer sessions, followed by hands on computing exercises. The course will be taught using git/Github, R/RStudio, and RMarkdown, but the concepts learned will easily apply to all programming languages and database management systems. **No background in databases or R/computational experience is required.**
+
+### Prerequisite Knowledge and Skills
 
 - Willingness to practice coding
-- Willingness to fail
 - Willingness to try things
+- Willingness to fail
+- Willingness to put in the time
 
-## Purpose of Course
+### Purpose of Course
 
-In this course you will learn fundamental aspects of computer programming that are necessary for conducting ecological research. By the end of the course you will be able to use these tools to import data into R, wrangle various types of data, summarize and analyze data, create visualizations, write reports/manuscripts/CV’s in RMarkdown, save and export data/figures, as well as collaborate on Github with version-controlled projects.  
+In this course you will learn fundamental aspects of computer programming that are necessary for conducting ecological research. By the end of the course you will be able to use these tools to import data into R, wrangle various types of data, summarize and analyze data, create visualizations, write reports/manuscripts/CV's in RMarkdown, save and export data/figures, as well as collaborate on Github with version-controlled projects.
 
 The focus of this course is to provide graduate students with training that develops and teaches the tools applicable to the entire process of **reproducible data-driven research** and encourage the use of open-source tools. By learning how to get the computer to do your work for you, you will be able to do more science faster, and your future-self will thank you.
 
-## Course Objectives
+### Course Objectives
 
 Students completing this course should be able to:
 
@@ -33,126 +55,81 @@ Students completing this course should be able to:
  - Search for and access new learning materials to further develop their computational skills
  - Apply these tools to address scientific research questions
 
-## Course Format  
+### Course Format  
 
-To get the most out of in-class time together, R-DAVIS will combine video material with in-person discussion and activities that build on the video material for that week. Unless unforeseen circumstances arise, videos will be posted by Monday to the relevant week on the Lectures page. Please come to class having watched the material relevant to that week's lesson, and perhaps having taken a cursory attempt at trying out what is covered in the videos. We are organizing the course this way so as to spend less of our time together lecturing, and more time working and learning together. The general plan for each course period will be: (1) brief overview of topic and tasks for class; (2) in-class challenge activities; (3) debrief of challenge activities; (4) get started on weekly "at-home" lab assignment as time allows.
+To get the most out of in-class time together, R-DAVIS will combine video material that you watch outside of class with in-person discussion and hands-on activities that we do together in class. Unless unforeseen circumstances arise, videos will be posted by Monday to the relevant week on the Lectures page. Please come to class having watched the material relevant to that week's lesson, completed the video quiz, and perhaps having taken a cursory attempt at trying out what is covered in the videos. We are organizing the course this way so as to spend less of our time together lecturing, and more time working and learning together.
 
-## Self-grading and Class Expectations 
-R-DAVIS follows a self-grading protocol. In order to pass the class, each student is expected to attend class every Thursday, submit weekly assignments, and take the midterm and final assignment. Additionally, it is strongly encouraged for students to attend the weekly help sessions on Tuesdays.
+### Grading and Class Expectations 
+R-DAVIS is a graded, 3-unit course. The [university's formula](https://registrar.ucdavis.edu/faculty-staff/faculty/courses#:~:text=Academic%20Credit%2C%20Units%2C%20&%20Workload,Committee%20on%20Courses%20of%20Instruction.&text=The%20value%20of%20a%20course,a%20student%2C%20or%20the%20equivalent) for a 3-unit course is that you should expect to spend ~9 hours a week in total on the course. You might spend less time then that, or some weeks you might spend more. Regardless, if you only put in work during the scheduled class time, you are unlikely to meet learning goals for the course.
 
-At the start of the quarter, each student specifies how they would like to earn credit for the course (e.g., complete the weekly homework as assigned or in application to their own work). During finals week, we will then ask each student to report on how well they met their goals for the quarter, plus some additional information on their successes and challenges throughout the quarter. 
+R-DAVIS grades are based on a combination of several tasks and deliverables. The total number of possible points earned is 250 points. Grades are calculated at points_earned/270
 
-Each student will also have to complete a midterm and final assignment. Both assignments will be ungraded, but we will use these assignments as an opportunity to provide individual feedback to each student on concepts they would benefit from focusing on moving forward. 
+- A = 93-100% | A- = 90-92%
+- B+ = 87-89 | B = 83-86 | B- = 80-82%
+- C+ = 77-79 | C = 73-76 | C- = 70-72%
+- D = 60-69%
+- F = < 60%
 
-## Schedule  
+Points are earned as follows:
+- Submitting weekly in-class scratch work. These submissions are credit/no-credit (but we will pay attention to good faith effort) NOTE: WEEKLY IN-CLASS SCRATCH WORK FUNCTIONS AS ATTENDANCE. R-DAVIS only has 10 class sessions (and 10 labs), so missing class means that you are missing a sizable chunk of the course. 10 weeks, 10 points each, out of 90 (i.e., we will drop one (1) absence). The absence can be for any reasons, we do not have "excused" and "unexcused" absences in this course.
+- Submitting take-home labs. These submissions are credit/no-credit, but again will be reviewed for good-faith effort (primarily, evidence of working and learning). 9 take-home labs, 10 points each, 90 points total.
+- Midterm Exam: In-class exam, 45 points
+- Final Exam: In-class (during university-designated examp period), 45 points
 
-#### Week 1 
-*Sept. 24*
+We will not take attendance for Tuesday afternoon discussion sections, since not all students are typically there at the same time. But we strongly encourage you to attend. Our experience is that students who engage with R more times during the week have much better learning outcomes. 
 
-- Pre-class setup help
+### Pedagogy
 
-*Sept. 26*
+We believe that instructors have a duty to examine their pedagogy--and students have a right to know the pedagogical assumptions that shape our course. This section describes the five key principles that motivate our course. It is also an invitation to dialogue on how these can be improved.^[Acknowledgement and thanks to Dr. David Carter at the University of Utah, from whom many of these principles have been learned and adopted.]
 
-- Course intro
+#### Equity is a vital social project
 
-- Intro to git/GitHub and RStudio
+Many educational institutions and practices perpetuate the discrimination of our wider society, further marginalizing Black, Brown, and Indigenous people, people of differing abilities, and people of genders or gender identities other than those reflecting "conventional" notions of male masculinity. In perhaps no field of academia is this reality more apparent than in Science, Technology, Engineering, and Mathematics (STEM) fields. We are committed to diversity (social/demographic differences such as race, ethnicity, gender, sex, sexual orientation, ability, and language) and the pursuit of equity (the fair distribution of resources and opportunities, accounting for past and present events, conditions, and contexts) as a vital project in and outside of the classroom. We are also acutely aware that we will fall short of these ideals — as will our teaching. We invite you to hold us and this course to them, and to help us learn.
 
-#### Week 2 
-*Oct. 1*
+#### Inaccessibility is a choice
 
-- Drop-in lab
+Inaccessibility is a choice (and choosing accessibility benefits all). Accessibility is both more necessary and easier than acknowledged. As the case of 
+[curb cuts](https://uxdesign.cc/the-curb-cut-effect-universal-design-b4e3d7da73f5) famously demonstrates, anything that delivers greater accessibility tends to benefit everyone. While digital tools and contexts offer the promise of flexible inclusion in the form of customizable, one-size-fits-one experience, we realize, that many of the tools and practices we use in data science and statistical programming fall short of even modest accessibility goals. With apologies for the extra time and energy it demands, we ask you to let us know as soon as you encounter any part of this course that impedes your participation, so that we can prioritize its immediate correction.
 
-*Oct. 3*
 
-- Project management
+#### People come first
+Physical, emotional, psychological, and spiritual trauma are real and have real impacts on one's ability to engage in learning. Courses that ignore the inevitable conditions of life undermine learning. Our commitment to your academic journey means that your wellbeing comes first. Whatever difficulties you encounter--jobs, illness, family, the world simply falling apart around us--know that we implicitly trust you to be where you need to be, and do what you need to be doing, for yourself and others. 
 
-- How R thinks about data
+#### Failure is productive
+
+Data science and programming are all about learning from failure--stuff like fixing bugs, troubleshooting messy data, and figuring out why your model blew up. You will learn the most by trying something, having it break, trying to decipher the error message, and iterating until you get it to work. We want to encourage you to take risks, fail repeatedly, and learn volumes in the process. In practice, this means that we would *much* rather have you only get half of a lab done, but really understand that half, instead of borrowing your friends' code that you don't really understand and completing the lab. To put our money where our mouth is: *in-class work and labs is credit/no-credit and NOT graded based on completion*. We *will* pay attention to effort and evidence of learning. That means that w want to see your work and your scratch code and how you got where you got *MUCH* more than we want to see a perfectly rendered AI code block that you made when you couldn't figure it all out and panicked about wanting a completed assignment.
+
+#### Busywork is bad
+
+We want this course to be a "no busy work" space. On a micro-level, if you find an assignment unproductive, feel free to propose an alternate activity that achieves the same/similar aims. On a macro-level, if you find this training unproductive, feel free to propose an alternative curriculum that achieves the same/similar aims (e.g., doing labs in the Python programming language instead of R and duplicating the workflow and version control elements of the course). During the first week of the quarter, you will have an opportunity to develop a customize plan for the quarter (this can just be following the primary course plan, but it doesn't have to be).
+
+
+<br>
+
+### Territory Acknowledgement
+
+Acknowledging territory shows recognition of and respect for Native Americans. It is recognition of their presence both in the past and the present. Recognition and respect are essential elements of establishing healthy, reciprocal relations. These relationships are key to reconciliation, a process to which we are committed.
+
+We would like to respectfully acknowledge that the land on which we gather is traditional unceded Patwin territory. We recognize and respect our role as guests here.
+
+This territory acknowledgement is an adaptation of one written by the Canadian Association of University Teachers. For more information, please see their [website](https://www.caut.ca/content/guide-acknowledging-first-peoples-traditional-territory).
+
+### Academic Integrity
+As a University of California, Davis student, you have agreed to abide by the University's Code of Academic Conduct (http://sja.ucdavis.edu/files/cac.pdfLinks to an external site.).  All academic work must meet these standards. Lack of knowledge of the academic honesty policy is not a reasonable explanation for a violation. Questions related to course assignments and the academic honesty policy should be directed to the instructor.
+
  
-#### Week 3 
-*Oct. 8*
+### Special Accommodations
+If you have a learning disability, sensory or physical disability or if English is not your first language and you need special assistance in lecture, reading assignments, or written assignments, please contact the instructor at the beginning of the quarter. While students are welcome to work with us on accommodations without involving UCD's Student Disability Center (SDC), we also recommend that you contact the SDC for additional resources and support. The SDC office at the University of California, Davis is located at 54 Cowell Building, or the SDC can be reached by phone at (530) 752-3184. For more information, please see: https://sdc.ucdavis.edu/.
 
-- Drop-in lab
+### Course Support
 
-*Oct. 10*
+This course content integrates and builds on Data Carpentry Ecology lessons. Course support is proviced by the UCD College of Agricultural and Environmental Sciences. 
+Advice from Ethan White (University of Florida), Jenny Bryan (University of British Columbia), and Tracy Teal (The Carpentries) was also helpful in guiding the course implementation. The original version of this course at UCD was led by Liza Wood, Christian John, and Tara Pozzi (among others).
 
-- Spreadsheet best practices
+<div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
+![](./img/DC-logo-vision.png)
+</div>
 
-- Starting with spreadsheets in R
+Data Carpentry develops and teaches workshops on the fundamental data skills needed to conduct research. Our mission is to provide researchers high-quality, domain-specific training covering the full lifecycle of data-driven research. Data Carpentry is now a lesson program within The Carpentries, having merged with Software Carpentry in January, 2018. Data Carpentry's focus is on the introductory computational skills needed for data management and analysis in all domains of research. Our lessons are domain-specific, and build on the existing knowledge of learners to enable them to quickly apply skills learned to their own research. Our initial target audience is learners who have little to no prior computational experience. We create a friendly environment for learning to empower researchers and enable data driven discovery.
 
-#### Week 4 
-*Oct. 15*
-
-- Drop-in lab
-
-*Oct. 17*
-
-- Data manipulation in the tidyverse, part 1
-
-#### Week 5 
-*Oct. 22*
-
-- Drop-in lab
-
-*Oct. 24*
-
-- Data manipulation in the tidyverse, part 2
-
-#### Week 6 
-*Oct. 29*
-
-- Midterm (during drop-in lab)
-
-*Oct. 31*
-
-- Data visualization, part 1
-
-#### Week 7 
-*Nov. 5*
-
-- Drop-in lab
-
-*Nov. 7*
-
-- Data visualization, part 2  
-
-#### Week 8 
-*Nov. 12*
-
-- Drop-in lab
-
-*Nov. 14 *
-
-- Date-time data with `lubridate`
-
-- Writing functions
-
-#### Week 9 
-*Nov. 19*
-
-- Drop-in lab
-
-*Nov. 21*
-
-- Iteration 
-
-#### Thanksgiving holiday (Nov. 28)   
-
-#### Week 10 
-*Dec. 3*
-
-- Drop-in lab
-
-*Dec. 5*
-
-- Collaborative Github Skills
-
-#### Finals 
-*Dec. 10*
-
-- Drop-in lab
-
-*Dec. 12*
-
-- Final assignment (in class & mandatory)
-
-
+See the Data Carpentry [website](http://www.datacarpentry.org/) for more information.

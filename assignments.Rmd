@@ -6,12 +6,12 @@ output:
 ---
 
 ```{r setup, include=FALSE, echo=FALSE, results='hide'}
-# List of all required packages across assignments
+# List of all required packages across labs
 required_packages <- c(
   "tidyverse",     # Used throughout for data manipulation and plotting
-  "lubridate",     # Assignment 8 - date/time handling
-  "viridis",       # Assignment 7 - color scales
-  "purrr",         # Assignment 9 - iteration and mapping
+  "lubridate",     # Lab 8 - date/time handling
+  "viridis",       # Lab 7 - color scales
+  "purrr",         # Lab 9 - iteration and mapping
   "ggplot2",       # Used throughout for plotting (part of tidyverse but sometimes loaded separately)
   "dplyr",         # Used throughout for data manipulation (part of tidyverse but sometimes loaded separately)
   "readr"          # Used throughout for data import (part of tidyverse but sometimes loaded separately)
@@ -29,18 +29,18 @@ if(length(new_packages)) {
 invisible(lapply(required_packages, library, character.only = TRUE))
 ```
 
-Assignments are designed to reinforce the code/lessons covered that week and provide you a chance to practice working with GitHub. Assignments are to be completed in your local project (on your computer) and pushed up to your GitHub repository for instructors to review by the following Wednesday. That said, these due dates are largely suggestive as a way to help you prioritize and stay caught up as a group -- if you need, or want, more time, take it. At the end of the quarter, we will simply look over the tasks you have completed in concert with the reflection you submit.
+Labs are designed to reinforce the code/lessons covered that week and provide you a chance to practice working with GitHub. Labs are to be completed in your local project (on your computer) and pushed up to your GitHub repository for instructors to review by the following Wednesday. That said, these due dates are largely suggestive as a way to help you prioritize and stay caught up as a group -- if you need, or want, more time, take it. At the end of the quarter, we will simply look over the tasks you have completed in concert with the reflection you submit.
 
 
 <br>
 
-## Assignments {.tabset .tabset-fade .tabset-pills}
+## Labs {.tabset .tabset-fade .tabset-pills}
 
-### <small>Assignment 1</small>
+### <small>Lab 1</small>
 <br>
 Because this class caters to a range of experiences, we would like you to identify how it is you plan on earning credit for this course. Before next week, please complete [this form](https://docs.google.com/forms/d/1aGHZra8ucJb_vKVgj75PwCDnzt9Viw5gnoVK-Qm8bZk) to select and describe your plans.
 
-### <small>Assignment 2</small>
+### <small>Lab 2</small>
 
 In this homework we are going to practice subsetting and manipulating vectors.  
 
@@ -100,7 +100,7 @@ final <- plus10[c(TRUE, FALSE)] #selecting every other number using logical subs
 </details>
 
 
-### <small>Assignment 3</small>
+### <small>Lab 3</small>
 
 Homework this week will be playing with the `surveys` data we worked on in class. First things first, open your r-davis-in-class-project and pull. Then create a new script in your `scripts` folder called `week_3_homework.R`. 
 
@@ -139,7 +139,7 @@ challenge_base <- surveys_base[surveys_base[, 2]>150,] #selecting just the weigh
 
 <br> 
 
-### <small>Assignment 4</small>
+### <small>Lab 4</small>
 
 By now you should be in the rhythm of pulling from your git repository and then creating new homework script. This week the homework will review data manipulation in the tidyverse.
 
@@ -213,7 +213,7 @@ surveys_avg_weight
 ```
 </details>
 
-### <small>Assignment 5</small>
+### <small>Lab 5</small>
 
 This week's questions will have us practicing pivots and conditional statements.
 
@@ -334,7 +334,7 @@ running_laps %>% filter(form == 'new form') %>%
 
 
 
-### <small>Assignment 6</small>
+### <small>Lab 6</small>
 
 For our week six homework, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`. This data set is looking at statistics for a few different counties including population, GDP per capita, and life expectancy. Download the data using the code below. Remember, this code is looking for a folder called `data` to put the .csv in, so make sure you have a folder named `data`, or modify the code to the correct folder name. 
 
@@ -416,7 +416,7 @@ gapminder %>%
 </details>
 
 
-### <small>Assignment 7</small>
+### <small>Lab 7</small>
 
 For week 7, we're going to be working on 2 critical `ggplot` skills: recreating a graph from a dataset and **googling stuff**.
 
@@ -498,7 +498,7 @@ pg %>%
 ```
 </details>
 
-### <small>Assignment 8</small>
+### <small>Lab 8</small>
 
 Let's look at some real data from Mauna Loa to try to format and plot. These meteorological data from Mauna Loa were collected every minute for the year 2001. *This dataset has 459,769 observations for 9 different metrics of wind, humidity, barometric pressure, air temperature, and precipitation.* Download this dataset [here](data/mauna_loa_met_2001_minute.rda). Save it to your `data/` folder. Alternatively, you can read the CSV directly from the R-DAVIS Github:
 `mloa <- read_csv("https://raw.githubusercontent.com/gge-ucd/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv")`
@@ -552,7 +552,7 @@ mloa2 %>%
 ```
 </details>
 
-### <small>Assignment 9</small>
+### <small>Lab 9</small>
 In this assignment, you'll use the iteration skills we built in the course to apply functions to an entire dataset.
 
 Let's load the surveys dataset:
