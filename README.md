@@ -26,7 +26,7 @@ grep -horE 'library\(.*?\)' . | sed 's/library//g; s/[()]//g; s/"//g' | grep -Eo
 
 ## Build Site Locally
 
-The [course website](https://gge-ucd.github.io/R-DAVIS/) can be rebuilt locally by using the "`Build`" tab in RStudio. Assuming the above packages are installed on your machine:
+The [course website](https://ucd-rdavis.github.io/R-DAVIS/) can be rebuilt locally by using the "`Build`" tab in RStudio. Assuming the above packages are installed on your machine:
 
  - Open the R-DAVIS project in RStudio. Click on the `Build` tab, and "*More*", select "*Clean All*".
  - Then select `Build Website`. This process make take a few minutes.

@@ -2,9 +2,9 @@ navbar:
   left:
   - text: Home
     href: index.html
-  - text: About
-    href: about.html
-    icon: fa-info-circle  fa-1x
+  - text: Outline
+    href: outline.html
+    icon: fa-calendar fa-1x
   - text: Syllabus
     href: syllabus.html
     icon: fa-map fa-1x
@@ -14,7 +14,7 @@ navbar:
       href: computer_setup.html
     - text: Setting up Git Repository
       href: setting_up_git.html
-  - text: Tutorials
+  - text: Lectures
     icon: fa-book  fa-1x
     menu:
     - text: Intro to Programming, R, & RStudio
@@ -46,7 +46,7 @@ navbar:
   - text: Videos
     icon: fa-slideshare fa-1x
     href: lectures.html
-  - text: Assignments
+  - text: Labs
     icon: fa-paperclip fa-1x
     href: assignments.html
   - text: Resources
