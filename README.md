@@ -2,7 +2,7 @@
 
 **R for Data Analysis &amp; Visualization in Science**
 
-This is the repository for website used to teach the quarter-long graduate seminar course, R-DAVIS. Course content integrates and builds on Data Carpentry Ecology lessons, and is taught as part of the curriculum for students in the Graduate Group in Ecology at the University of California, Davis, USA.
+This is the repository for website used to teach the quarter-long graduate seminar course, R-DAVIS. Course content integrates and builds on Data Carpentry Ecology lessons and prior student-led versions of the course held here at University of California, Davis, USA.
 
 
 ## Package Dependencies
