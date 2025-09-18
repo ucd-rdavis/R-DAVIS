@@ -2,6 +2,11 @@
 title: "Manipulating and analyzing data in the tidyverse, Part 1"
 ---
 
+## Videos
+
+- [Data manipulation Part 1a]()
+- [Data manipulation Part 1b]()
+
 ```{r, echo=FALSE, purl=FALSE, message = FALSE}
 #source("setup.R")
 surveys <- read.csv("data/portal_data_joined.csv")

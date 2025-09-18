@@ -2,6 +2,12 @@
 title: "Orientation to programming, R, and RStudio"
 ---
 
+## Videos
+
+- [Why programming and Intro to R (part 1)]()
+- [Intro to R (part 2)]()
+- [SSH keys]()
+
 <br>
 <div class = "blue">
 ### Learning objectives

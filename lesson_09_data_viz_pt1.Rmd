@@ -2,6 +2,10 @@
 title: Data visualization with ggplot2
 ---
 
+## Videos
+
+- [Data visualization Part 1a]()
+- [Data visualization Part 1b]()
 
 ```{r setup, echo=FALSE, purl=FALSE, message=F, results=F, warning = FALSE}
 library(tidyverse)
