@@ -2,6 +2,11 @@
 title: "Manipulating and analyzing data in the tidyverse, Part 2"
 ---
 
+## Videos
+
+- [Data manipulation Part 2a]()
+- [Data manipulation Part 2b]()
+
 <br>
 <div class = "blue">
 ## Learning objectives

@@ -2,6 +2,12 @@
 title: Data visualization best practices for publication and accessibility
 ---
 
+## Videos
+
+- [Data visualization Part 2a]()
+- [Data visualization Part 2b]()
+- [Data visualization Part 2c]()
+
 # Add a package check/install code block after the YAML header.
 
 ```{r setup, include=FALSE, echo=FALSE, results='hide'}

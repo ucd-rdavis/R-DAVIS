@@ -6,6 +6,10 @@ output:
     fig_caption: no
 ---
 
+## Videos
+
+- [Accessing spreadsheets]()
+
 <br>
 <div class = "blue">
 # Learning objectives
