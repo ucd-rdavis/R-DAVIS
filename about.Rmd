@@ -3,9 +3,8 @@ title: "About Data Carpentry"
 ---
 <p></p>
 
-This course content integrates and builds on Data Carpentry Ecology lessons, and is taught as part of the curriculum for students in the Graduate Group in Ecology (GGE) at the University of California, Davis, USA.
-
-The classroom space is provided by UC Davis Data Lab. Advice from Ethan White (University of Florida), Jenny Bryan (University of British Columbia), and Tracy Teal (The Carpentries) was also helpful in guiding the course implementation.
+This course content integrates and builds on Data Carpentry Ecology lessons. Course support is proviced by the UCD College of Agricultural and Environmental Sciences. 
+Advice from Ethan White (University of Florida), Jenny Bryan (University of British Columbia), and Tracy Teal (The Carpentries) was also helpful in guiding the course implementation. The original version of this course at UCD was led by Liza Wood, Christian John, and Tara Pozzi (among others).
 
 
 <p></p>
@@ -29,9 +28,9 @@ See the Data Carpentry [website](http://www.datacarpentry.org/) for more informa
 <i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tascott@ucdavis.edu)  
 
 
-**Tara Pozzi** 
+**Sara Ludwick** 
 
-<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tbpozzi@ucdavis.edu)
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:scludwick@i@ucdavis.edu)
 
 
 **Elise Zufall** 
