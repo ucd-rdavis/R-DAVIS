@@ -7,6 +7,25 @@ title: "R-DAVIS"
 
 **R for Data Analysis & Visualization in Science**
 
-Please see the [**Syllabus**](syllabus.html) tab for complete course information, or check the [**Outline**](outline.html) tab for the course schedule.
+Lectures: 1:10-3:00pm, Thursdays, Walker Hall 1320
+Labs: 1:10-3:00pm, Tuesdays, Walker Hall 1320
 
-This graduate-level course provides training in data science with R, focusing on reproducible research practices and practical skills for ecological data analysis.
+## Instructors 
+
+[**Tyler Scott**](https://environmentalpolicy.ucdavis.edu/people/scott) 
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tascott@ucdavis.edu)  
+
+
+[**Sara Ludwick**](https://environmentalpolicy.ucdavis.edu/people/sara-ludwick) 
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:scludwick@i@ucdavis.edu)
+
+
+[**Elise Zufall**](https://environmentalpolicy.ucdavis.edu/people/elise-zufall) 
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:ezufall@ucdavis.edu)
+
+<br>
+
+
+Please see the [**Outline**](outline.html) tab for the course schedule and deliverables, and review the [**Syllabus**](syllabus.html) tab for course policy information.
+
+This graduate-level course provides training in data science with R, focusing on reproducible research practices and practical skills for environmental data analysis.

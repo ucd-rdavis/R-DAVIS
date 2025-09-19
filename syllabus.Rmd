@@ -8,23 +8,6 @@ date: "Updated: `r format(Sys.Date())`"
 
 <br>
 
-## Instructors 
-
-**Tyler Scott** 
-
-<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tascott@ucdavis.edu)  
-
-
-**Sara Ludwick** 
-
-<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:scludwick@i@ucdavis.edu)
-
-
-**Elise Zufall** 
-
-<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:ezufall@ucdavis.edu)
-
-<br>
 
 ### Course Description
 
