@@ -48,7 +48,7 @@ navbar:
     href: lectures.html
   - text: Labs
     icon: fa-paperclip fa-1x
-    href: assignments.html
+    href: labs.html
   - text: Resources
     icon: fa-list
     href: resources.html
