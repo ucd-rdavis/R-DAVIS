@@ -6,18 +6,18 @@ title: "Course Outline"
 
 ## Course Schedule
 
-| Week | Tuesday Lab | Thursday Lecture | Topics & Materials | Labs |
-|------|-------------|------------------|-------------------|------|
-| **1** | *Sept. 23*<br>Pre-class setup help | *Sept. 25*<br>Course intro | [Intro to R & RStudio](lesson_01_intro_r_rstudio.html) | [Lab 1](https://classroom.github.com/a/kMIef3hb) |
-| **2** | *Sep. 30*<br>Drop-in lab | *Oct. 2* | [Project Management](lesson_02_project_management.html)<br>[How R Thinks About Data](lesson_03_how_r_thinks_about_data.html) | [Lab 2](https://classroom.github.com/a/AxSnsy-e) |
-| **3** | *Oct. 7*<br>Drop-in lab | *Oct. 9* | [Spreadsheet Best Practices](lesson_04_spreadsheets_condensed.html)<br>[Starting with Spreadsheets in R](lesson_05_data_import.html) | [Lab 3](https://classroom.github.com/a/HzmAhpLH) |
-| **4** | *Oct. 14*<br>Drop-in lab | *Oct. 16* | [Data Manipulation Pt1](lesson_06_data_manipulation_pt1.html) | [Lab 4](https://classroom.github.com/a/-TGD0-Tp) |
-| **5** | *Oct. 21*<br>Drop-in lab | *Oct. 23* | [Data Manipulation Pt2](lesson_08_data_manipulation_pt2.html) | [Lab 5](https://classroom.github.com/a/F1fLW6Yr) |
-| **6** | *Oct. 28*<br>**Midterm** | *Oct. 30* | [Data Visualization Pt1](lesson_09_data_viz_pt1.html) | [Lab 6](https://classroom.github.com/a/TZVr8Kfl) |
-| **7** | *Nov. 4*<br>Drop-in lab | *Nov. 5* | [Data Visualization Pt2](lesson_11_data_viz_pt2.html) | [Lab 7](https://classroom.github.com/a/zTSqmwqK) |
-| **8** | *Nov. 11*<br>**NO LAB** (University Holiday) | *Nov. 13* | [Date-time with Lubridate](lesson_12_lubridate.html)<br>[Writing Functions](lesson_13_functions.html) | [Lab 8](https://classroom.github.com/a/CoS6GwTH) |
-| **9** | *Nov. 18*<br>Drop-in lab | *Nov. 20* | [Iteration](lesson_14_iteration.html) | |
-| **10** | *Dec. 2*<br>Drop-in lab | *Dec. 4* | Collaborative Github Skills | |
-| **Finals** | *Dec. 10*<br>Drop-in lab | *Dec. 12*<br>**Final Exam** | In-class exam | |
+| Week | Tuesday Lab | Thursday Lecture | Labs |
+|------|-------------|------------------|------|
+| **Sept. 23 & 25** | *Sept. 23*<br>Pre-class setup help | *Sept. 25*<br>Course intro<br>[Intro to R & RStudio](lesson_01_intro_r_rstudio.html) | [Lab 1](https://classroom.github.com/a/kMIef3hb) |
+| **Sep. 30 & Oct. 2** | *Sep. 30*<br>Drop-in lab | *Oct. 2*<br>[Project Management](lesson_02_project_management.html)<br>[How R Thinks About Data](lesson_03_how_r_thinks_about_data.html) | [Lab 2](https://classroom.github.com/a/AxSnsy-e) |
+| **Oct. 7 & 9** | *Oct. 7*<br>Drop-in lab | *Oct. 9*<br>[Spreadsheet Best Practices](lesson_04_spreadsheets_condensed.html)<br>[Starting with Spreadsheets in R](lesson_05_data_import.html) | [Lab 3](https://classroom.github.com/a/HzmAhpLH) |
+| **Oct. 14 & 16** | *Oct. 14*<br>Drop-in lab | *Oct. 16*<br>[Data Manipulation Pt1](lesson_06_data_manipulation_pt1.html) | [Lab 4](https://classroom.github.com/a/-TGD0-Tp) |
+| **Oct. 21 & 23** | *Oct. 21*<br>Drop-in lab | *Oct. 23*<br>[Data Manipulation Pt2](lesson_08_data_manipulation_pt2.html) | [Lab 5](https://classroom.github.com/a/F1fLW6Yr) |
+| **Oct. 28 & 30** | *Oct. 28*<br>**Midterm** | *Oct. 30*<br>[Data Visualization Pt1](lesson_09_data_viz_pt1.html) | [Lab 6](https://classroom.github.com/a/TZVr8Kfl) |
+| **Nov. 4 & 5** | *Nov. 4*<br>Drop-in lab | *Nov. 5*<br>[Data Visualization Pt2](lesson_11_data_viz_pt2.html) | [Lab 7](https://classroom.github.com/a/zTSqmwqK) |
+| **Nov. 11 & 13** | *Nov. 11*<br>**NO LAB** (University Holiday) | *Nov. 13*<br>[Date-time with Lubridate](lesson_12_lubridate.html)<br>[Writing Functions](lesson_13_functions.html) | [Lab 8](https://classroom.github.com/a/CoS6GwTH) |
+| **Nov. 18 & 20** | *Nov. 18*<br>Drop-in lab | *Nov. 20*<br>[Iteration](lesson_14_iteration.html) | |
+| **Dec. 2 & 4** | *Dec. 2*<br>Drop-in lab | *Dec. 4*<br>Collaborative Github Skills | |
+| **Finals Week** | *Dec. 10*<br>Drop-in lab | *Dec. 12*<br>**Final Exam** | |
 
 **Note:** *Thanksgiving holiday is Nov. 28*
