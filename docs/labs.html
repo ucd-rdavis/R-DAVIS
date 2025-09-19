@@ -340,7 +340,7 @@ $(document).ready(function () {
   </a>
 </li>
 <li>
-  <a href="assignments.html">
+  <a href="labs.html">
     <span class="fa fa-paperclip fa-1x"></span>
      
     Labs
@@ -403,6 +403,8 @@ tasks you have completed in concert with the reflection you submit.</p>
 <h2 class="tabset tabset-fade tabset-pills">Labs</h2>
 <div id="lab-1" class="section level3">
 <h3><small>Lab 1</small></h3>
+<p><strong>GitHub Classroom Link:</strong> <a
+href="https://classroom.github.com/a/kMIef3hb">Lab 1</a></p>
 <p><br> Because this class caters to a range of experiences, we would
 like you to identify how it is you plan on earning credit for this
 course. Before next week, please complete <a
@@ -411,6 +413,8 @@ form</a> to select and describe your plans.</p>
 </div>
 <div id="lab-2" class="section level3">
 <h3><small>Lab 2</small></h3>
+<p><strong>GitHub Classroom Link:</strong> <a
+href="https://classroom.github.com/a/AxSnsy-e">Lab 2</a></p>
 <p>In this homework we are going to practice subsetting and manipulating
 vectors.</p>
 <p>First, open your r-davis-in-class-project-YourName and
@@ -473,6 +477,8 @@ final &lt;- plus10[c(TRUE, FALSE)] #selecting every other number using logical s
 </div>
 <div id="lab-3" class="section level3">
 <h3><small>Lab 3</small></h3>
+<p><strong>GitHub Classroom Link:</strong> <a
+href="https://classroom.github.com/a/HzmAhpLH">Lab 3</a></p>
 <p>Homework this week will be playing with the <code>surveys</code> data
 we worked on in class. First things first, open your
 r-davis-in-class-project and pull. Then create a new script in your
@@ -525,6 +531,8 @@ challenge_base &lt;- surveys_base[surveys_base[, 2]&gt;150,] #selecting just the
 </div>
 <div id="lab-4" class="section level3">
 <h3><small>Lab 4</small></h3>
+<p><strong>GitHub Classroom Link:</strong> <a
+href="https://classroom.github.com/a/-TGD0-Tp">Lab 4</a></p>
 <p>By now you should be in the rhythm of pulling from your git
 repository and then creating new homework script. This week the homework
 will review data manipulation in the tidyverse.</p>
@@ -733,6 +741,8 @@ surveys_avg_weight</code></pre>
 </div>
 <div id="lab-5" class="section level3">
 <h3><small>Lab 5</small></h3>
+<p><strong>GitHub Classroom Link:</strong> <a
+href="https://classroom.github.com/a/F1fLW6Yr">Lab 5</a></p>
 <p>This week’s questions will have us practicing pivots and conditional
 statements.</p>
 <ol style="list-style-type: decimal">
@@ -994,6 +1004,8 @@ running_laps %&gt;% group_by(form,pace_cat) %&gt;%
 </div>
 <div id="lab-6" class="section level3">
 <h3><small>Lab 6</small></h3>
+<p><strong>GitHub Classroom Link:</strong> <a
+href="https://classroom.github.com/a/TZVr8Kfl">Lab 6</a></p>
 <p>For our week six homework, we are going to be practicing the skills
 we learned with ggplot during class. You will be happy to know that we
 are going to be using a brand new data set called
@@ -1035,7 +1047,7 @@ out and see what happens with or without particular elements.</p>
     geom_smooth(method = &#39;lm&#39;, color = &#39;black&#39;, linetype = &#39;dashed&#39;) +
     theme_bw()</code></pre>
 <pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="assignments_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="labs_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Create a boxplot that shows the life expectency for Brazil, China,
 El Salvador, Niger, and the United States, with the data points in the
@@ -1059,7 +1071,7 @@ gapminder %&gt;%
   geom_line(aes(x = year, y = mean_lifeExp, color = continent)) #line plot</code></pre>
 <pre><code>## `summarise()` has grouped output by &#39;continent&#39;. You can
 ## override using the `.groups` argument.</code></pre>
-<p><img src="assignments_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="labs_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <pre class="r"><code>#there are other ways to represent this data and answer this question. Try a facet wrap! Play around with themes and ggplotly!  
 
 
@@ -1073,7 +1085,7 @@ ggplot(gapminder, aes(x = gdpPercap, y = lifeExp)) +
     geom_smooth(method = &#39;lm&#39;, color = &#39;black&#39;, linetype = &#39;dashed&#39;) +
     theme_bw()</code></pre>
 <pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="assignments_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+<p><img src="labs_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
 <pre class="r"><code>#PROBLEM 3: 
 
 countries &lt;- c(&quot;Brazil&quot;, &quot;China&quot;, &quot;El Salvador&quot;, &quot;Niger&quot;, &quot;United States&quot;) #create a vector with just the countries we are interested in
@@ -1087,17 +1099,19 @@ gapminder %&gt;%
   ggtitle(&quot;Life Expectancy of Five Countries&quot;) + #title the figure
   theme(plot.title = element_text(hjust = 0.5)) + #centered the plot title
   xlab(&quot;Country&quot;) + ylab(&quot;Life Expectancy&quot;) #how to change axis names</code></pre>
-<img src="assignments_files/figure-html/unnamed-chunk-11-3.png" width="672" />
+<img src="labs_files/figure-html/unnamed-chunk-11-3.png" width="672" />
 </details>
 </div>
 <div id="lab-7" class="section level3">
 <h3><small>Lab 7</small></h3>
+<p><strong>GitHub Classroom Link:</strong> <a
+href="https://classroom.github.com/a/zTSqmwqK">Lab 7</a></p>
 <p>For week 7, we’re going to be working on 2 critical
 <code>ggplot</code> skills: recreating a graph from a dataset and
 <strong>googling stuff</strong>.</p>
 <p>Our goal will be to make this final graph using the
 <code>gapminder</code> dataset:</p>
-<p><img src="assignments_files/figure-html/unnamed-chunk-13-1.png" width="768" /></p>
+<p><img src="labs_files/figure-html/unnamed-chunk-13-1.png" width="768" /></p>
 <p>The x axis labels are all scrunched up because we can’t make the
 image bigger on the webpage, but if you make it and then zoom it bigger
 in RStudio it looks much better.</p>
@@ -1161,6 +1175,8 @@ pg %&gt;%
 </div>
 <div id="lab-8" class="section level3">
 <h3><small>Lab 8</small></h3>
+<p><strong>GitHub Classroom Link:</strong> <a
+href="https://classroom.github.com/a/CoS6GwTH">Lab 8</a></p>
 <p>Let’s look at some real data from Mauna Loa to try to format and
 plot. These meteorological data from Mauna Loa were collected every
 minute for the year 2001. <em>This dataset has 459,769 observations for
