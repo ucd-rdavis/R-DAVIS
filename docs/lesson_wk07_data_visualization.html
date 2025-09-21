@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Week 7: Data Visualization with ggplot2</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="site_libs_extra/academicons-1.8.0/css/academicons.css"/>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="outline.html">
+    <span class="fa fa-calendar fa-1x"></span>
+     
+    Outline
+  </a>
+</li>
+<li>
+  <a href="syllabus.html">
+    <span class="fa fa-map fa-1x"></span>
+     
+    Syllabus
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Set Up
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="computer_setup.html">Computer Setup</a>
+    </li>
+    <li>
+      <a href="setting_up_git.html">Setting up Git Repository</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book  fa-1x"></span>
+     
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lesson_wk01_intro_r_rstudio.html">Intro to Programming, R, &amp; RStudio</a>
+    </li>
+    <li>
+      <a href="lesson_wk02_project_management_and_data.html">Project Management &amp; How R Thinks About Data</a>
+    </li>
+    <li>
+      <a href="lesson_wk03_spreadsheets_and_data_import.html">Spreadsheet Best Practices &amp; Data Import</a>
+    </li>
+    <li>
+      <a href="lesson_wk04_data_manipulation_pt1.html">Data Manipulation Pt1</a>
+    </li>
+    <li>
+      <a href="lesson_wk05_data_manipulation_pt2.html">Data Manipulation Pt2</a>
+    </li>
+    <li>
+      <a href="lesson_wk07_data_visualization.html">Data Visualization with ggplot2</a>
+    </li>
+    <li>
+      <a href="lesson_wk08_dates_and_functions.html">Dates &amp; Times with Lubridate and Creating Functions</a>
+    </li>
+    <li>
+      <a href="lesson_wk09_iteration.html">Iteration</a>
+    </li>
+    <li>
+      <a href="lesson_rmarkdown.html">Literate Programming with RMarkdown</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="labs.html">
+    <span class="fa fa-paperclip fa-1x"></span>
+     
+    Labs
+  </a>
+</li>
+<li>
+  <a href="resources.html">
+    <span class="fa fa-list"></span>
+     
+    Resources
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="contact.html">
+    <span class="fa fa-hand-spock-o"></span>
+     
+    Contact
+  </a>
+</li>
+<li>
+  <a href="https://github.com/ucd-rdavis/R-DAVIS">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Week 7: Data Visualization with
+ggplot2</h1>
+
+</div>
+
+
+<div id="learning-objectives" class="section level3 blue">
+<h3>Learning Objectives</h3>
+<ul>
+<li>Produce scatter plots, boxplots, and time series plots using
+ggplot.</li>
+<li>Describe what faceting is and apply faceting in ggplot.</li>
+<li>Set universal plot settings.</li>
+<li>Learn some basic visualization dos and don’ts</li>
+<li>Learn how to customize color in plots</li>
+<li>Gain a basic understanding of package <code>cowplot</code></li>
+<li>Introduction to interactive <code>plotly</code> package</li>
+</ul>
+</div>
+<p><br></p>
+<div id="videos" class="section level2">
+<h2>Videos</h2>
+<ul>
+<li><a href="">Data visualization Part 1a</a></li>
+<li><a href="">Data visualization Part 1b</a></li>
+<li><a href="">Data visualization Part 2a</a></li>
+<li><a href="">Data visualization Part 2b</a></li>
+<li><a href="">Data visualization Part 2c</a></li>
+</ul>
+</div>
+<div id="in-class-coding" class="section level2">
+<h2>In Class Coding</h2>
+<p><a
+href="https://canvas.ucdavis.edu/courses/1019595/assignments/1509412">Submit
+Week 7 In Class Coding</a></p>
+</div>
+<div id="add-a-package-checkinstall-code-block-after-the-yaml-header."
+class="section level1">
+<h1>Add a package check/install code block after the YAML header.</h1>
+<p><br></p>
+</div>
+<div id="part-1-building-plots-with-ggplot2" class="section level1">
+<h1>Part 1: Building Plots with ggplot2</h1>
+<p>We start by loading the required packages.
+<strong><code>ggplot2</code></strong> is included in the
+<strong><code>tidyverse</code></strong> package.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>Let’s read in our surveys data, but filter it to only get back rows
+where ALL the data are present, also known as “complete cases”. We’re
+also showing you a new little trick: using a period with a pipe.
+Normally, a pipe just sends the stuff on the left into the FIRST
+argument position in the function on the right. However, sometimes we
+want that stuff to get sent to a slightly different place in the
+righthand function. In this case, we want to send it into the
+<code>complete.cases()</code> function, so that function will run on the
+whole dataset. In order to specifically tell the pipe to send the
+lefthand side into this function, we put a period there. You can think
+of this as the target for the pipe.</p>
+<pre class="r"><code>surveys_complete &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;) %&gt;% 
+  filter(complete.cases(.))</code></pre>
+<div id="plotting-with-ggplot2" class="section level2">
+<h2>Plotting with <strong><code>ggplot2</code></strong></h2>
+<p><strong><code>ggplot2</code></strong> is a plotting package that
+makes it simple to create complex plots from data in a data frame. It
+provides a more programmatic interface for specifying what variables to
+plot, how they are displayed, and general visual properties. Therefore,
+we only need minimal changes if the underlying data change or if we
+decide to change from a bar plot to a scatterplot. This helps in
+creating publication quality plots with minimal amounts of adjustments
+and tweaking.</p>
+<p><strong><code>ggplot2</code></strong> functions like data in the
+‘long’ format, i.e., a column for every dimension, and a row for every
+observation. Well-structured data will save you lots of time when making
+figures with <strong><code>ggplot2</code></strong></p>
+<p>ggplot graphics are built step by step by adding new elements. Adding
+layers in this fashion allows for extensive flexibility and
+customization of plots.</p>
+<p>To build a ggplot, we will use the following basic template that can
+be used for different types of plots:</p>
+<pre><code>ggplot(data = &lt;DATA&gt;, mapping = aes(&lt;MAPPINGS&gt;)) +  &lt;GEOM_FUNCTION&gt;()</code></pre>
+<ul>
+<li>use the <code>ggplot()</code> function and bind the plot to a
+specific data frame using the <code>data</code> argument</li>
+</ul>
+<pre class="r"><code>ggplot(data = surveys_complete)</code></pre>
+<ul>
+<li>define a mapping (using the aesthetic (<code>aes</code>) function),
+by selecting the variables to be plotted and specifying how to present
+them in the graph, e.g. as x/y positions or characteristics such as
+size, shape, color, etc.</li>
+</ul>
+<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length))</code></pre>
+<ul>
+<li><p>add ‘geoms’ – graphical representations of the data in the plot
+(points, lines, bars). <strong><code>ggplot2</code></strong> offers many
+different geoms; we will use some common ones today, including:</p>
+<pre><code>* `geom_point()` for scatter plots, dot plots, etc.
+* `geom_boxplot()` for, well, boxplots!
+* `geom_line()` for trend lines, time series, etc.  </code></pre></li>
+</ul>
+<p>To add a geom to the plot use the <code>+</code> operator. Because we
+have two continuous variables, let’s use <code>geom_point()</code>
+first:</p>
+<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+  geom_point()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/first-ggplot-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;weight&#39; with labels 0, 100 and 200.
+## It has y-axis &#39;hindfoot_length&#39; with labels 0, 20, 40 and 60.
+## The chart is a set of 30676 big solid circle points of which about 4.2% can be seen.</code></pre>
+<p>The <code>+</code> in the <strong><code>ggplot2</code></strong>
+package is particularly useful because it allows you to modify existing
+<code>ggplot</code> objects. This means you can easily set up plot
+templates and conveniently explore different types of plots, so the
+above plot can also be generated with code like this:</p>
+<pre class="r"><code># Assign plot to a variable
+surveys_plot &lt;- ggplot(data = surveys_complete, 
+                       mapping = aes(x = weight, y = hindfoot_length))
+
+# Draw the plot
+surveys_plot + 
+    geom_point()</code></pre>
+<p><strong>Notes</strong></p>
+<ul>
+<li>Anything you put in the <code>ggplot()</code> function can be seen
+by any geom layers that you add (i.e., these are universal plot
+settings). This includes the x- and y-axis mapping you set up in
+<code>aes()</code>.</li>
+<li>You can also specify mappings for a given geom independently of the
+mappings defined globally in the <code>ggplot()</code> function.</li>
+<li>The <code>+</code> sign used to add new layers must be placed at the
+end of the line containing the <em>previous</em> layer. If, instead, the
+<code>+</code> sign is added at the beginning of the line containing the
+new layer, <strong><code>ggplot2</code></strong> will not add the new
+layer and will return an error message.</li>
+</ul>
+<pre class="r"><code># This is the correct syntax for adding layers
+surveys_plot +
+  geom_point()
+
+# This will not add the new layer and will return an error message
+surveys_plot
+  + geom_point()</code></pre>
+</div>
+<div id="building-your-plots-iteratively" class="section level2">
+<h2>Building your plots iteratively</h2>
+<p>Building plots with <strong><code>ggplot2</code></strong> is
+typically an iterative process. We start by defining the dataset we’ll
+use, lay out the axes, and choose a geom:</p>
+<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+    geom_point()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/create-ggplot-object-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;weight&#39; with labels 0, 100 and 200.
+## It has y-axis &#39;hindfoot_length&#39; with labels 0, 20, 40 and 60.
+## The chart is a set of 30676 big solid circle points of which about 4.2% can be seen.</code></pre>
+<p>Then, we start modifying this plot to extract more information from
+it. For instance, we can add transparency (<code>alpha</code>) to avoid
+overplotting:</p>
+<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/adding-transparency-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;weight&#39; with labels 0, 100 and 200.
+## It has y-axis &#39;hindfoot_length&#39; with labels 0, 20, 40 and 60.
+## The chart is a set of 30676 big solid circle points of which about 4.2% can be seen.
+## It has alpha set to 0.1.</code></pre>
+<p>We can also add colors for all the points:</p>
+<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1, color = &quot;blue&quot;)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/adding-colors-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;weight&#39; with labels 0, 100 and 200.
+## It has y-axis &#39;hindfoot_length&#39; with labels 0, 20, 40 and 60.
+## The chart is a set of 30676 big solid circle points of which about 4.2% can be seen.
+## It has alpha set to 0.1.
+## It has colour set to vivid violet.</code></pre>
+<p>Or to color each species in the plot differently, you could use a
+vector as an input to the argument <strong>color</strong>.
+<strong><code>ggplot2</code></strong> will provide a different color
+corresponding to different values in the vector. Here is an example
+where we color with <strong><code>species_id</code></strong>:</p>
+<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1, aes(color = species_id))</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/color-by-species-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;weight&#39; with labels 0, 100 and 200.
+## It has y-axis &#39;hindfoot_length&#39; with labels 0, 20, 40 and 60.
+## There is a legend indicating colour is used to show species_id, with 24 levels:
+## BA shown as strong reddish orange colour, 
+## DM shown as strong orange colour, 
+## DO shown as strong orange yellow colour, 
+## DS shown as deep orange yellow colour, 
+## NL shown as strong yellow colour, 
+## OL shown as strong greenish yellow colour, 
+## OT shown as vivid yellow green colour, 
+## OX shown as vivid yellowish green colour, 
+## PB shown as vivid yellowish green colour, 
+## PE shown as vivid yellowish green colour, 
+## PF shown as brilliant green colour, 
+## PH shown as brilliant bluish green colour, 
+## PI shown as brilliant bluish green colour, 
+## PL shown as vivid blue colour, 
+## PM shown as brilliant blue colour, 
+## PP shown as brilliant blue colour, 
+## PX shown as brilliant blue colour, 
+## RF shown as vivid violet colour, 
+## RM shown as vivid violet colour, 
+## RO shown as vivid purple colour, 
+## RX shown as vivid purple colour, 
+## SF shown as deep purplish pink colour, 
+## SH shown as vivid purplish red colour and 
+## SO shown as vivid purplish red colour.
+## The chart is a set of 30676 big solid circle points of which about 4.2% can be seen.
+## It has alpha set to 0.1.</code></pre>
+<p>We can also specify the colors directly inside the mapping provided
+in the <code>ggplot()</code> function. This will be seen by all geom
+layers and the mapping will be determined by the x- and y-axis set up in
+<code>aes()</code>.</p>
+<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length, color = species_id)) +
+    geom_point(alpha = 0.1)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/color-by-species2-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;weight&#39; with labels 0, 100 and 200.
+## It has y-axis &#39;hindfoot_length&#39; with labels 0, 20, 40 and 60.
+## There is a legend indicating colour is used to show species_id, with 24 levels:
+## BA shown as strong reddish orange colour, 
+## DM shown as strong orange colour, 
+## DO shown as strong orange yellow colour, 
+## DS shown as deep orange yellow colour, 
+## NL shown as strong yellow colour, 
+## OL shown as strong greenish yellow colour, 
+## OT shown as vivid yellow green colour, 
+## OX shown as vivid yellowish green colour, 
+## PB shown as vivid yellowish green colour, 
+## PE shown as vivid yellowish green colour, 
+## PF shown as brilliant green colour, 
+## PH shown as brilliant bluish green colour, 
+## PI shown as brilliant bluish green colour, 
+## PL shown as vivid blue colour, 
+## PM shown as brilliant blue colour, 
+## PP shown as brilliant blue colour, 
+## PX shown as brilliant blue colour, 
+## RF shown as vivid violet colour, 
+## RM shown as vivid violet colour, 
+## RO shown as vivid purple colour, 
+## RX shown as vivid purple colour, 
+## SF shown as deep purplish pink colour, 
+## SH shown as vivid purplish red colour and 
+## SO shown as vivid purplish red colour.
+## The chart is a set of 30676 big solid circle points of which about 4.2% can be seen.
+## It has alpha set to 0.1.</code></pre>
+<p>Notice that we can change the geom layer and colors will be still
+determined by <strong><code>species_id</code></strong></p>
+<div id="challenge" class="section level3 blue">
+<h3>Challenge</h3>
+<p>Use <code>ggplot()</code> to create a scatter plot of
+<code>weight</code> and <code>species_id</code> with weight on the
+Y-axis, and species_id on the X-axis. Have the colors be coded by
+<code>plot_type</code>. Is this a good way to show this type of data?
+What might be a better graph?</p>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+   geom_point(aes(color = plot_type))</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/scatter-challenge-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;species_id&#39; with labels BA, DM, DO, DS, NL, OL, OT, OX, PB, PE, PF, PH, PI, PL, PM, PP, PX, RF, RM, RO, RX, SF, SH and SO.
+## It has y-axis &#39;weight&#39; with labels 0, 100 and 200.
+## There is a legend indicating colour is used to show plot_type, with 5 levels:
+## Control shown as strong reddish orange colour, 
+## Long-term Krat Exclosure shown as strong greenish yellow colour, 
+## Rodent Exclosure shown as vivid yellowish green colour, 
+## Short-term Krat Exclosure shown as brilliant blue colour and 
+## Spectab exclosure shown as vivid purple colour.
+## The chart is a set of 30676 big solid circle points of which about 1.1% can be seen.</code></pre>
+</details>
+</div>
+<p><br></p>
+</div>
+<div id="boxplot" class="section level2">
+<h2>Boxplot</h2>
+<p>We can use boxplots to visualize the distribution of weight within
+each species:</p>
+<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+    geom_boxplot()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;species_id&#39; with labels BA, DM, DO, DS, NL, OL, OT, OX, PB, PE, PF, PH, PI, PL, PM, PP, PX, RF, RM, RO, RX, SF, SH and SO.
+## It has y-axis &#39;weight&#39; with labels 0, 100 and 200.
+## The chart is a boxplot comprised of 24 vertical boxes with whiskers.</code></pre>
+<p>By adding points to boxplot, we can have a better idea of the number
+of measurements and of their distribution.</p>
+<p>Let’s also use the geometry “jitter”. <code>geom_jitter</code> is
+almost like <code>geom_point</code> but it allows you to visualize how
+the density of points because it adds a small amount of random variation
+to the location of each point.</p>
+<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+    geom_boxplot(alpha = 0) +
+    geom_jitter(alpha = 0.3, color = &quot;tomato&quot;) #notice our color needs to be in quotations </code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-with-points-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;species_id&#39; with labels BA, DM, DO, DS, NL, OL, OT, OX, PB, PE, PF, PH, PI, PL, PM, PP, PX, RF, RM, RO, RX, SF, SH and SO.
+## It has y-axis &#39;weight&#39; with labels 0, 100 and 200.
+## It has 2 layers.
+## Layer 1 is a boxplot comprised of 24 vertical boxes with whiskers.
+## Layer 1 has alpha set to 0.
+## Layer 2 is a set of 30676 big solid circle points of which about 3.7% can be seen.
+## Layer 2 has alpha set to 0.3.
+## Layer 2 has colour set to vivid reddish orange.</code></pre>
+<p>Notice how the boxplot layer is behind the jitter layer? What do you
+need to change in the code to put the boxplot in front of the points
+such that it’s not hidden?</p>
+<div id="challenges" class="section level3 blue">
+<h3>Challenges</h3>
+<ol style="list-style-type: decimal">
+<li>Boxplots are useful summaries, but hide the <em>shape</em> of the
+distribution. For example, if the distribution is bimodal, we would not
+see it in a boxplot. An alternative to the boxplot is the violin plot,
+where the shape (of the density of points) is drawn.</li>
+</ol>
+<ul>
+<li>Replace the box plot code from above with a violin plot; see
+<code>geom_violin()</code>.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>In many types of data, it is important to consider the
+<em>scale</em> of the observations. For example, it may be worth
+changing the scale of the axis to better distribute the observations in
+the space of the plot. Changing the scale of the axes is done similarly
+to adding/modifying other components (i.e., by incrementally adding
+commands). Try making these modifications:</li>
+</ol>
+<ul>
+<li>Use the violin plot you made in Q1 and adjust the weight to be on
+the log<sub>10</sub> scale; see <code>scale_y_log10()</code>.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Make a new plot to explore the distribution of
+<code>hindfoot_length</code> just for species NL and PF using
+<code>geom_boxplot()</code>. Overlay a jitter/scatter plot of the
+hindfoot lengths of the two species behind the boxplots. Then, add an
+<code>aes()</code> argument to color the datapoints (but not the
+boxplots) according to the plot from which the sample was taken.</li>
+</ol>
+<p><em>Hint:</em> Check the class for <code>plot_id</code>. Consider
+changing the class of <code>plot_id</code> from integer to factor. Why
+does this change how R makes the graph?</p>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>#1 + 2
+
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+    geom_jitter(alpha = 0.3, color = &quot;tomato&quot;) +
+    geom_violin(alpha = 0) + 
+    scale_y_log10()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;species_id&#39; with labels BA, DM, DO, DS, NL, OL, OT, OX, PB, PE, PF, PH, PI, PL, PM, PP, PX, RF, RM, RO, RX, SF, SH and SO.
+## It has y-axis &#39;weight&#39; with labels 10, 30, 100 and 300.
+## It has 2 layers.
+## Layer 1 is a set of 30676 big solid circle points of which about 5% can be seen.
+## Layer 1 has alpha set to 0.3.
+## Layer 1 has colour set to vivid reddish orange.
+## Layer 2 is a violin graph that VI cannot process.
+## Layer 2 has alpha set to 0.</code></pre>
+<pre class="r"><code>#3
+surveys_complete %&gt;% 
+  filter(species_id == &quot;NL&quot; | species_id == &quot;PF&quot;) %&gt;% 
+ ggplot(mapping = aes(x= species_id, y = hindfoot_length)) + 
+  geom_jitter(alpha = 0.3, aes(color = as.factor(plot_id))) +
+  geom_boxplot()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;species_id&#39; with labels NL and PF.
+## It has y-axis &#39;hindfoot_length&#39; with labels 10, 20, 30 and 40.
+## There is a legend indicating colour is used to show as.factor(plot_id), with 24 levels:
+## 1 shown as strong reddish orange colour, 
+## 2 shown as strong orange colour, 
+## 3 shown as strong orange yellow colour, 
+## 4 shown as deep orange yellow colour, 
+## 5 shown as strong yellow colour, 
+## 6 shown as strong greenish yellow colour, 
+## 7 shown as vivid yellow green colour, 
+## 8 shown as vivid yellowish green colour, 
+## 9 shown as vivid yellowish green colour, 
+## 10 shown as vivid yellowish green colour, 
+## 11 shown as brilliant green colour, 
+## 12 shown as brilliant bluish green colour, 
+## 13 shown as brilliant bluish green colour, 
+## 14 shown as vivid blue colour, 
+## 15 shown as brilliant blue colour, 
+## 16 shown as brilliant blue colour, 
+## 17 shown as brilliant blue colour, 
+## 18 shown as vivid violet colour, 
+## 19 shown as vivid violet colour, 
+## 20 shown as vivid purple colour, 
+## 21 shown as vivid purple colour, 
+## 22 shown as deep purplish pink colour, 
+## 23 shown as vivid purplish red colour and 
+## 24 shown as vivid purplish red colour.
+## It has 2 layers.
+## Layer 1 is a set of 2514 big solid circle points of which about 39% can be seen.
+## These are offset by added random noise, and sorted by as.factor(plot_id).
+## Layer 1 has alpha set to 0.3.
+## Layer 2 is a boxplot comprised of 2 vertical boxes with whiskers.
+## There is a box at x=1.
+## It has median 32. The box goes from 31 to 33, and the whiskers extend to 28 and 36.
+## There are 7 max and 13 min outliers for this boxplot.
+## There is a box at x=2.
+## It has median 16. The box goes from 15 to 16, and the whiskers extend to 14 and 17.
+## There are 23 max and 28 min outliers for this boxplot.</code></pre>
+</details>
+</div>
+<p><br></p>
+</div>
+<div id="plotting-time-series-data" class="section level2">
+<h2>Plotting time series data</h2>
+<p>Let’s calculate number of counts per year for each species. First we
+need to group the data and count records within each group. We can
+quickly use the dplyr function <code>count</code> to do this.
+<code>count</code> is very similar to the function <code>tally</code> we
+have seen before, but it interally calls <code>group_by</code> before
+the function and <code>ungroup</code> after.</p>
+<pre class="r"><code>yearly_counts &lt;- surveys_complete %&gt;%
+                 count(year, species_id) </code></pre>
+<p>Time series data can be visualized as a line plot with years on the x
+axis and counts on the y axis:</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
+     geom_line()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/first-time-series-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;year&#39; with labels 1980, 1985, 1990, 1995 and 2000.
+## It has y-axis &#39;n&#39; with labels 0, 250, 500 and 750.
+## The chart is a set of 1 line.
+## Line 1 connects 332 points.</code></pre>
+<p>Unfortunately, this does not work because we plotted data for all the
+species together. We need to tell ggplot to draw a line for each species
+by modifying the aesthetic function to include
+<code>group = species_id</code>:</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = year, y = n, group = species_id)) +
+    geom_line()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/time-series-by-species-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;year&#39; with labels 1980, 1985, 1990, 1995 and 2000.
+## It has y-axis &#39;n&#39; with labels 0, 250, 500 and 750.
+## The chart is a set of 24 lines.</code></pre>
+<p>We will be able to distinguish species in the plot if we add colors
+(using <code>color</code> also automatically groups the data):</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = year, y = n, color = species_id)) +
+    geom_line()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/time-series-with-colors-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;year&#39; with labels 1980, 1985, 1990, 1995 and 2000.
+## It has y-axis &#39;n&#39; with labels 0, 250, 500 and 750.
+## There is a legend indicating colour is used to show species_id, with 24 levels:
+## BA shown as strong reddish orange colour, 
+## DM shown as strong orange colour, 
+## DO shown as strong orange yellow colour, 
+## DS shown as deep orange yellow colour, 
+## NL shown as strong yellow colour, 
+## OL shown as strong greenish yellow colour, 
+## OT shown as vivid yellow green colour, 
+## OX shown as vivid yellowish green colour, 
+## PB shown as vivid yellowish green colour, 
+## PE shown as vivid yellowish green colour, 
+## PF shown as brilliant green colour, 
+## PH shown as brilliant bluish green colour, 
+## PI shown as brilliant bluish green colour, 
+## PL shown as vivid blue colour, 
+## PM shown as brilliant blue colour, 
+## PP shown as brilliant blue colour, 
+## PX shown as brilliant blue colour, 
+## RF shown as vivid violet colour, 
+## RM shown as vivid violet colour, 
+## RO shown as vivid purple colour, 
+## RX shown as vivid purple colour, 
+## SF shown as deep purplish pink colour, 
+## SH shown as vivid purplish red colour and 
+## SO shown as vivid purplish red colour.
+## The chart is a set of 24 lines.</code></pre>
+</div>
+<div id="faceting" class="section level2">
+<h2>Faceting</h2>
+<p><strong><code>ggplot2</code></strong> has a special technique called
+<em>faceting</em> that allows the user to split one plot into multiple
+plots based on a factor included in the dataset. We will use it to make
+a time series plot for each species:</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
+    geom_line() +
+    facet_wrap(~ species_id)</code></pre>
+<pre><code>## `geom_line()`: Each group
+## consists of only one
+## observation.
+## ℹ Do you need to adjust the
+##   group aesthetic?</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/first-facet-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## The chart is comprised of 24 panels containing sub-charts, arranged horizontally.
+## The panels represent different values of species_id.
+## Each sub-chart has x-axis &#39;year&#39; with labels 1980, 1985, 1990, 1995 and 2000.
+## Each sub-chart has y-axis &#39;n&#39; with labels 0, 250, 500 and 750.
+## Panel 1 represents data for species_id = BA.
+## Panel 1 is a set of 1 line.
+## Line 1 connects 4 points, at (1989, 3), (1990, 11), (1991, 25) and (1992, 6).
+## Panel 2 represents data for species_id = DM.
+## Panel 2 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 3 represents data for species_id = DO.
+## Panel 3 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 4 represents data for species_id = DS.
+## Panel 4 is a set of 1 line.
+## Line 1 connects 21 points.
+## Panel 5 represents data for species_id = NL.
+## Panel 5 is a set of 1 line.
+## Line 1 connects 25 points.
+## Panel 6 represents data for species_id = OL.
+## Panel 6 is a set of 1 line.
+## Line 1 connects 22 points.
+## Panel 7 represents data for species_id = OT.
+## Panel 7 is a set of 1 line.
+## Line 1 connects 25 points.
+## Panel 8 represents data for species_id = OX.
+## Panel 8 is a set of 1 line.
+## Line 1 connects 4 points, at (1977, 2), (1982, 1), (1984, 1) and (1989, 1).
+## Panel 9 represents data for species_id = PB.
+## Panel 9 is a set of 1 line.
+## Line 1 connects 8 points, at (1995, 7), (1996, 38), (1997, 255), (1998, 302), (1999, 268), (2000, 545), (2001, 520) and (2002, 868).
+## Panel 10 represents data for species_id = PE.
+## Panel 10 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 11 represents data for species_id = PF.
+## Panel 11 is a set of 1 line.
+## Line 1 connects 23 points.
+## Panel 12 represents data for species_id = PH.
+## Panel 12 is a set of 1 line.
+## Line 1 connects 9 points, at (1984, 6), (1985, 3), (1986, 1), (1988, 1), (1989, 2), (1990, 7), (1992, 7), (1995, 3) and (1997, 1).
+## Panel 13 represents data for species_id = PI.
+## Panel 13 is a set of 1 line.
+## Line 1 connects 2 points, at (2001, 2) and (2002, 5).
+## Panel 14 represents data for species_id = PL.
+## Panel 14 is a set of 1 line.
+## Line 1 connects 5 points, at (1995, 2), (1996, 6), (1997, 19), (1998, 7) and (2000, 1).
+## Panel 15 represents data for species_id = PM.
+## Panel 15 is a set of 1 line.
+## Line 1 connects 20 points.
+## Panel 16 represents data for species_id = PP.
+## Panel 16 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 17 represents data for species_id = PX.
+## Panel 17 is a set of 1 line.
+## Line 1 connects 1 points, at (1997, 2).
+## Panel 18 represents data for species_id = RF.
+## Panel 18 is a set of 1 line.
+## Line 1 connects 5 points, at (1982, 2), (1988, 11), (1989, 47), (1990, 12) and (1997, 1).
+## Panel 19 represents data for species_id = RM.
+## Panel 19 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 20 represents data for species_id = RO.
+## Panel 20 is a set of 1 line.
+## Line 1 connects 2 points, at (1991, 1) and (2002, 7).
+## Panel 21 represents data for species_id = RX.
+## Panel 21 is a set of 1 line.
+## Line 1 connects 2 points, at (1995, 1) and (1997, 1).
+## Panel 22 represents data for species_id = SF.
+## Panel 22 is a set of 1 line.
+## Line 1 connects 6 points, at (1989, 5), (1990, 18), (1991, 6), (1992, 1), (1993, 3) and (2002, 5).
+## Panel 23 represents data for species_id = SH.
+## Panel 23 is a set of 1 line.
+## Line 1 connects 13 points.
+## Panel 24 represents data for species_id = SO.
+## Panel 24 is a set of 1 line.
+## Line 1 connects 5 points, at (1991, 11), (1992, 19), (1993, 5), (1994, 2) and (1997, 3).</code></pre>
+<div id="challenge-1" class="section level3 blue">
+<h3>Challenge</h3>
+<p>You are looking at a new dataset shared with you by a collaborator.
+You received the dataset shortly after the vernal equinox. Your
+collaborator didn’t really give you any context on what the data
+represent, and you need to do some preliminary visualizations before you
+can really even formulate a question for them. Import the mystery
+dataset using:</p>
+<pre class="r"><code>mystery &lt;- read_csv(&quot;https://raw.githubusercontent.com/gge-ucd/R-DAVIS/master/data/mysteryData.csv&quot;)</code></pre>
+<pre><code>## Rows: 91325 Columns: 3
+## ── Column specification ──────
+## Delimiter: &quot;,&quot;
+## chr (1): Group
+## dbl (2): x, y
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>Can you figure out what this dataset represents?</p>
+<p><em>Hint</em> Use your new knowledge of faceting to break up the data
+into groups, and consider changing the size and transparency of your
+<code>geom_</code>’s to get a better look!</p>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code># Preview the data
+mystery %&gt;%
+  head(5)</code></pre>
+<pre><code>## # A tibble: 5 × 3
+##       x     y Group
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;
+## 1 414.   282. A    
+## 2 412.   281. A    
+## 3 414.   281. A    
+## 4  26.2  275. A    
+## 5  33.9  275. A</code></pre>
+<pre class="r"><code># Plot the data
+ggplot(data = mystery, mapping = aes(x = x, y = y)) +
+     facet_wrap(~ Group) +
+     geom_point(size = 0.1, alpha = 0.01) </code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## The chart is comprised of 4 panels containing sub-charts, arranged horizontally.
+## The panels represent different values of Group.
+## Each sub-chart has x-axis &#39;x&#39; with labels -300, 0, 300 and 600.
+## Each sub-chart has y-axis &#39;y&#39; with labels -200, 0, 200, 400 and 600.
+## Panel 1 represents data for Group = A.
+## Panel 1 is a set of 13481 big solid circle points of which about 41% can be seen.
+## It has size set to 0.1.
+## It has alpha set to 0.01.
+## Panel 2 represents data for Group = B.
+## Panel 2 is a set of 33033 big solid circle points of which about 25% can be seen.
+## It has size set to 0.1.
+## It has alpha set to 0.01.
+## Panel 3 represents data for Group = C.
+## Panel 3 is a set of 31083 big solid circle points of which about 26% can be seen.
+## It has size set to 0.1.
+## It has alpha set to 0.01.
+## Panel 4 represents data for Group = D.
+## Panel 4 is a set of 13728 big solid circle points of which about 41% can be seen.
+## It has size set to 0.1.
+## It has alpha set to 0.01.</code></pre>
+<p>If all went well, and you faceted by group, set points to be very
+small, and transparency to be very high (i.e., a low <code>alpha</code>
+setting), you should discover that each group is the outline of a
+different animal! You may notice that there is some distortion going on,
+and our foxy friend in Group B appears to have some thick thighs. Try
+equalizing the coordinate space in the x- and y-axes by adding a
+<code>coord_equal()</code> to your <code>ggplot()</code> call:</p>
+<pre class="r"><code>## Equalize coordinate mapping
+ggplot(data = mystery, mapping = aes(x = x, y = y)) +
+  facet_wrap(~ Group) +
+  geom_point(size = 0.1, alpha = 0.01) +
+  coord_equal()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## The chart is comprised of 4 panels containing sub-charts, arranged horizontally.
+## The panels represent different values of Group.
+## Each sub-chart has x-axis &#39;x&#39; with labels -300, 0, 300 and 600.
+## Each sub-chart has y-axis &#39;y&#39; with labels -200, 0, 200, 400 and 600.
+## Panel 1 represents data for Group = A.
+## Panel 1 is a set of 13481 big solid circle points of which about 41% can be seen.
+## It has size set to 0.1.
+## It has alpha set to 0.01.
+## Panel 2 represents data for Group = B.
+## Panel 2 is a set of 33033 big solid circle points of which about 25% can be seen.
+## It has size set to 0.1.
+## It has alpha set to 0.01.
+## Panel 3 represents data for Group = C.
+## Panel 3 is a set of 31083 big solid circle points of which about 26% can be seen.
+## It has size set to 0.1.
+## It has alpha set to 0.01.
+## Panel 4 represents data for Group = D.
+## Panel 4 is a set of 13728 big solid circle points of which about 41% can be seen.
+## It has size set to 0.1.
+## It has alpha set to 0.01.</code></pre>
+<p>This challenge was inspired by Trevor Branch’s <a
+href="https://twitter.com/TrevorABranch/status/1227493205337182209">Coelocanth
+post on Twitter</a> and adapted by <a
+href="https://jepsonnomad.github.io/">Christian John</a>.</p>
+</details>
+</div>
+<p><br></p>
+</div>
+<div id="ggplot2-themes" class="section level2">
+<h2><strong><code>ggplot2</code></strong> themes</h2>
+<p>ggplot Themes are a great, easy addition that can make all your plots
+more readable (and a lot more pretty!)</p>
+<p>In addition to <code>theme_bw()</code>, which changes the plot
+background to white, <strong><code>ggplot2</code></strong> comes with
+several other themes which can be useful to quickly change the look of
+your visualization. The complete list of themes is available at <a
+href="http://docs.ggplot2.org/current/ggtheme.html"
+class="uri">http://docs.ggplot2.org/current/ggtheme.html</a>.
+<code>theme_minimal()</code> and <code>theme_light()</code> are popular,
+and <code>theme_void()</code> can be useful as a starting point to
+create a new hand-crafted theme.</p>
+<p>Usually plots with white background look more readable when printed.
+We can set the background to white using the function
+<code>theme_bw()</code>. Additionally, you can remove the grid:</p>
+<pre class="r"><code> ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
+     geom_line() +
+     facet_wrap(~ species_id) +
+     theme_bw() +
+     theme(panel.grid = element_blank())</code></pre>
+<pre><code>## `geom_line()`: Each group
+## consists of only one
+## observation.
+## ℹ Do you need to adjust the
+##   group aesthetic?</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/facet-by-species-and-sex-white-bg-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## The chart is comprised of 24 panels containing sub-charts, arranged horizontally.
+## The panels represent different values of species_id.
+## Each sub-chart has x-axis &#39;year&#39; with labels 1980, 1985, 1990, 1995 and 2000.
+## Each sub-chart has y-axis &#39;n&#39; with labels 0, 250, 500 and 750.
+## Panel 1 represents data for species_id = BA.
+## Panel 1 is a set of 1 line.
+## Line 1 connects 4 points, at (1989, 3), (1990, 11), (1991, 25) and (1992, 6).
+## Panel 2 represents data for species_id = DM.
+## Panel 2 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 3 represents data for species_id = DO.
+## Panel 3 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 4 represents data for species_id = DS.
+## Panel 4 is a set of 1 line.
+## Line 1 connects 21 points.
+## Panel 5 represents data for species_id = NL.
+## Panel 5 is a set of 1 line.
+## Line 1 connects 25 points.
+## Panel 6 represents data for species_id = OL.
+## Panel 6 is a set of 1 line.
+## Line 1 connects 22 points.
+## Panel 7 represents data for species_id = OT.
+## Panel 7 is a set of 1 line.
+## Line 1 connects 25 points.
+## Panel 8 represents data for species_id = OX.
+## Panel 8 is a set of 1 line.
+## Line 1 connects 4 points, at (1977, 2), (1982, 1), (1984, 1) and (1989, 1).
+## Panel 9 represents data for species_id = PB.
+## Panel 9 is a set of 1 line.
+## Line 1 connects 8 points, at (1995, 7), (1996, 38), (1997, 255), (1998, 302), (1999, 268), (2000, 545), (2001, 520) and (2002, 868).
+## Panel 10 represents data for species_id = PE.
+## Panel 10 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 11 represents data for species_id = PF.
+## Panel 11 is a set of 1 line.
+## Line 1 connects 23 points.
+## Panel 12 represents data for species_id = PH.
+## Panel 12 is a set of 1 line.
+## Line 1 connects 9 points, at (1984, 6), (1985, 3), (1986, 1), (1988, 1), (1989, 2), (1990, 7), (1992, 7), (1995, 3) and (1997, 1).
+## Panel 13 represents data for species_id = PI.
+## Panel 13 is a set of 1 line.
+## Line 1 connects 2 points, at (2001, 2) and (2002, 5).
+## Panel 14 represents data for species_id = PL.
+## Panel 14 is a set of 1 line.
+## Line 1 connects 5 points, at (1995, 2), (1996, 6), (1997, 19), (1998, 7) and (2000, 1).
+## Panel 15 represents data for species_id = PM.
+## Panel 15 is a set of 1 line.
+## Line 1 connects 20 points.
+## Panel 16 represents data for species_id = PP.
+## Panel 16 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 17 represents data for species_id = PX.
+## Panel 17 is a set of 1 line.
+## Line 1 connects 1 points, at (1997, 2).
+## Panel 18 represents data for species_id = RF.
+## Panel 18 is a set of 1 line.
+## Line 1 connects 5 points, at (1982, 2), (1988, 11), (1989, 47), (1990, 12) and (1997, 1).
+## Panel 19 represents data for species_id = RM.
+## Panel 19 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 20 represents data for species_id = RO.
+## Panel 20 is a set of 1 line.
+## Line 1 connects 2 points, at (1991, 1) and (2002, 7).
+## Panel 21 represents data for species_id = RX.
+## Panel 21 is a set of 1 line.
+## Line 1 connects 2 points, at (1995, 1) and (1997, 1).
+## Panel 22 represents data for species_id = SF.
+## Panel 22 is a set of 1 line.
+## Line 1 connects 6 points, at (1989, 5), (1990, 18), (1991, 6), (1992, 1), (1993, 3) and (2002, 5).
+## Panel 23 represents data for species_id = SH.
+## Panel 23 is a set of 1 line.
+## Line 1 connects 13 points.
+## Panel 24 represents data for species_id = SO.
+## Panel 24 is a set of 1 line.
+## Line 1 connects 5 points, at (1991, 11), (1992, 19), (1993, 5), (1994, 2) and (1997, 3).</code></pre>
+<div id="challenge-1-1" class="section level3 blue">
+<h3>Challenge 1</h3>
+<p>Let’s make one final change to our facet wrapped plot of our yearly
+count data. What if we wanted to split the counts of species up by sex
+where the lines for each sex are different colors? Make sure you have a
+nice theme on your graph too!</p>
+<p><em>Hint</em> Make a new dataframe using the <code>count</code>
+function we learned earlier!</p>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>#new data frame counting the number of each sex of each species 
+ yearly_sex_counts &lt;- surveys_complete %&gt;%
+                      count(year, species_id, sex)
+
+#plot code 
+ ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
+     geom_line() +
+     facet_wrap(~ species_id) +
+     theme_bw()</code></pre>
+<pre><code>## `geom_line()`: Each group
+## consists of only one
+## observation.
+## ℹ Do you need to adjust the
+##   group aesthetic?</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## The chart is comprised of 24 panels containing sub-charts, arranged horizontally.
+## The panels represent different values of species_id.
+## Each sub-chart has x-axis &#39;year&#39; with labels 1980, 1985, 1990, 1995 and 2000.
+## Each sub-chart has y-axis &#39;n&#39; with labels 0, 200 and 400.
+## There is a legend indicating colour is used to show sex, with 2 levels:
+## F shown as strong reddish orange colour and 
+## M shown as brilliant bluish green colour.
+## Panel 1 represents data for species_id = BA.
+## Panel 1 is a set of 2 lines.
+## Line 1 connects 3 points, at (1990, 8), (1991, 19) and (1992, 4).
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 4 points, at (1989, 3), (1990, 3), (1991, 6) and (1992, 2).
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 2 represents data for species_id = DM.
+## Panel 2 is a set of 2 lines.
+## Line 1 connects 26 points.
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 26 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 3 represents data for species_id = DO.
+## Panel 3 is a set of 2 lines.
+## Line 1 connects 26 points.
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 26 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 4 represents data for species_id = DS.
+## Panel 4 is a set of 2 lines.
+## Line 1 connects 21 points.
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 19 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 5 represents data for species_id = NL.
+## Panel 5 is a set of 2 lines.
+## Line 1 connects 24 points.
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 25 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 6 represents data for species_id = OL.
+## Panel 6 is a set of 2 lines.
+## Line 1 connects 21 points.
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 21 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 7 represents data for species_id = OT.
+## Panel 7 is a set of 2 lines.
+## Line 1 connects 25 points.
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 25 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 8 represents data for species_id = OX.
+## Panel 8 is a set of 2 lines.
+## Line 1 connects 1 points, at (1977, 1).
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 4 points, at (1977, 1), (1982, 1), (1984, 1) and (1989, 1).
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 9 represents data for species_id = PB.
+## Panel 9 is a set of 2 lines.
+## Line 1 connects 8 points, at (1995, 7), (1996, 19), (1997, 110), (1998, 161), (1999, 186), (2000, 295), (2001, 290) and (2002, 549).
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 7 points, at (1996, 19), (1997, 145), (1998, 141), (1999, 82), (2000, 250), (2001, 230) and (2002, 319).
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 10 represents data for species_id = PE.
+## Panel 10 is a set of 2 lines.
+## Line 1 connects 25 points.
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 26 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 11 represents data for species_id = PF.
+## Panel 11 is a set of 2 lines.
+## Line 1 connects 23 points.
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 22 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 12 represents data for species_id = PH.
+## Panel 12 is a set of 2 lines.
+## Line 1 connects 5 points, at (1984, 4), (1989, 2), (1990, 7), (1992, 5) and (1995, 2).
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 7 points, at (1984, 2), (1985, 3), (1986, 1), (1988, 1), (1992, 2), (1995, 1) and (1997, 1).
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 13 represents data for species_id = PI.
+## Panel 13 is a set of 1 line.
+## Line 1 connects 2 points, at (2001, 2) and (2002, 5).
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 14 represents data for species_id = PL.
+## Panel 14 is a set of 2 lines.
+## Line 1 connects 4 points, at (1995, 1), (1996, 4), (1997, 9) and (1998, 2).
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 5 points, at (1995, 1), (1996, 2), (1997, 10), (1998, 5) and (2000, 1).
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 15 represents data for species_id = PM.
+## Panel 15 is a set of 2 lines.
+## Line 1 connects 18 points.
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 19 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 16 represents data for species_id = PP.
+## Panel 16 is a set of 2 lines.
+## Line 1 connects 26 points.
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 25 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 17 represents data for species_id = PX.
+## Panel 17 is a set of 2 lines.
+## Line 1 connects 1 points, at (1997, 1).
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 1 points, at (1997, 1).
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 18 represents data for species_id = RF.
+## Panel 18 is a set of 2 lines.
+## Line 1 connects 4 points, at (1988, 8), (1989, 36), (1990, 10) and (1997, 1).
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 4 points, at (1982, 2), (1988, 3), (1989, 11) and (1990, 2).
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 19 represents data for species_id = RM.
+## Panel 19 is a set of 2 lines.
+## Line 1 connects 26 points.
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 26 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 20 represents data for species_id = RO.
+## Panel 20 is a set of 2 lines.
+## Line 1 connects 2 points, at (1991, 1) and (2002, 3).
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 1 points, at (2002, 4).
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 21 represents data for species_id = RX.
+## Panel 21 is a set of 1 line.
+## Line 1 connects 2 points, at (1995, 1) and (1997, 1).
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 22 represents data for species_id = SF.
+## Panel 22 is a set of 2 lines.
+## Line 1 connects 5 points, at (1989, 3), (1990, 7), (1991, 3), (1993, 1) and (2002, 1).
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 6 points, at (1989, 2), (1990, 11), (1991, 3), (1992, 1), (1993, 2) and (2002, 4).
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 23 represents data for species_id = SH.
+## Panel 23 is a set of 2 lines.
+## Line 1 connects 9 points, at (1987, 3), (1988, 19), (1989, 32), (1990, 5), (1991, 1), (1997, 4), (1999, 1), (2001, 4) and (2002, 2).
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 12 points.
+## This line has colour brilliant bluish green which maps to sex = M.
+## Panel 24 represents data for species_id = SO.
+## Panel 24 is a set of 2 lines.
+## Line 1 connects 5 points, at (1991, 9), (1992, 14), (1993, 3), (1994, 1) and (1997, 3).
+## This line has colour strong reddish orange which maps to sex = F.
+## Line 2 connects 4 points, at (1991, 2), (1992, 5), (1993, 2) and (1994, 1).
+## This line has colour brilliant bluish green which maps to sex = M.</code></pre>
+</details>
+</div>
+<p><br></p>
+<div id="challenge-2" class="section level3 blue">
+<h3>Challenge 2</h3>
+<p>Use what you just learned to create a plot that depicts how the
+average weight of each species changes through the years.</p>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>#create a new dataframe 
+yearly_weight &lt;- surveys_complete %&gt;%
+                 group_by(year, species_id) %&gt;%
+                 summarize(avg_weight = mean(weight))</code></pre>
+<pre><code>## `summarise()` has grouped
+## output by &#39;year&#39;. You can
+## override using the `.groups`
+## argument.</code></pre>
+<pre class="r"><code>ggplot(data = yearly_weight, mapping = aes(x=year, y=avg_weight)) +
+  geom_line() +
+  facet_wrap(~ species_id) +
+  theme_bw()</code></pre>
+<pre><code>## `geom_line()`: Each group
+## consists of only one
+## observation.
+## ℹ Do you need to adjust the
+##   group aesthetic?</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/average-weight-time-series-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## The chart is comprised of 24 panels containing sub-charts, arranged horizontally.
+## The panels represent different values of species_id.
+## Each sub-chart has x-axis &#39;year&#39; with labels 1980, 1985, 1990, 1995 and 2000.
+## Each sub-chart has y-axis &#39;avg_weight&#39; with labels 0, 50, 100 and 150.
+## Panel 1 represents data for species_id = BA.
+## Panel 1 is a set of 1 line.
+## Line 1 connects 4 points, at (1989, 7), (1990, 8), (1991, 9.24) and (1992, 7.83).
+## Panel 2 represents data for species_id = DM.
+## Panel 2 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 3 represents data for species_id = DO.
+## Panel 3 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 4 represents data for species_id = DS.
+## Panel 4 is a set of 1 line.
+## Line 1 connects 21 points.
+## Panel 5 represents data for species_id = NL.
+## Panel 5 is a set of 1 line.
+## Line 1 connects 25 points.
+## Panel 6 represents data for species_id = OL.
+## Panel 6 is a set of 1 line.
+## Line 1 connects 22 points.
+## Panel 7 represents data for species_id = OT.
+## Panel 7 is a set of 1 line.
+## Line 1 connects 25 points.
+## Panel 8 represents data for species_id = OX.
+## Panel 8 is a set of 1 line.
+## Line 1 connects 4 points, at (1977, 22), (1982, 24), (1984, 18) and (1989, 20).
+## Panel 9 represents data for species_id = PB.
+## Panel 9 is a set of 1 line.
+## Line 1 connects 8 points, at (1995, 34), (1996, 32.58), (1997, 31.14), (1998, 30.13), (1999, 31.68), (2000, 30.88), (2001, 32.78) and (2002, 32.36).
+## Panel 10 represents data for species_id = PE.
+## Panel 10 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 11 represents data for species_id = PF.
+## Panel 11 is a set of 1 line.
+## Line 1 connects 23 points.
+## Panel 12 represents data for species_id = PH.
+## Panel 12 is a set of 1 line.
+## Line 1 connects 9 points, at (1984, 28), (1985, 32.67), (1986, 39), (1988, 33), (1989, 30.5), (1990, 31.14), (1992, 31.14), (1995, 35.33) and (1997, 22).
+## Panel 13 represents data for species_id = PI.
+## Panel 13 is a set of 1 line.
+## Line 1 connects 2 points, at (2001, 18) and (2002, 20).
+## Panel 14 represents data for species_id = PL.
+## Panel 14 is a set of 1 line.
+## Line 1 connects 5 points, at (1995, 21), (1996, 21.17), (1997, 18.79), (1998, 16.71) and (2000, 21).
+## Panel 15 represents data for species_id = PM.
+## Panel 15 is a set of 1 line.
+## Line 1 connects 20 points.
+## Panel 16 represents data for species_id = PP.
+## Panel 16 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 17 represents data for species_id = PX.
+## Panel 17 is a set of 1 line.
+## Line 1 connects 1 points, at (1997, 19).
+## Panel 18 represents data for species_id = RF.
+## Panel 18 is a set of 1 line.
+## Line 1 connects 5 points, at (1982, 11.5), (1988, 13.82), (1989, 13.49), (1990, 12.92) and (1997, 20).
+## Panel 19 represents data for species_id = RM.
+## Panel 19 is a set of 1 line.
+## Line 1 connects 26 points.
+## Panel 20 represents data for species_id = RO.
+## Panel 20 is a set of 1 line.
+## Line 1 connects 2 points, at (1991, 11) and (2002, 10.14).
+## Panel 21 represents data for species_id = RX.
+## Panel 21 is a set of 1 line.
+## Line 1 connects 2 points, at (1995, 20) and (1997, 11).
+## Panel 22 represents data for species_id = SF.
+## Panel 22 is a set of 1 line.
+## Line 1 connects 6 points, at (1989, 54.8), (1990, 52.61), (1991, 93.17), (1992, 35), (1993, 44) and (2002, 67.4).
+## Panel 23 represents data for species_id = SH.
+## Panel 23 is a set of 1 line.
+## Line 1 connects 13 points.
+## Panel 24 represents data for species_id = SO.
+## Panel 24 is a set of 1 line.
+## Line 1 connects 5 points, at (1991, 53.91), (1992, 55.26), (1993, 55.6), (1994, 65) and (1997, 54.67).</code></pre>
+</details>
+</div>
+<p><br></p>
+</div>
+</div>
+<div id="part-2-data-visualization-best-practices"
+class="section level1">
+<h1>Part 2: Data Visualization Best Practices</h1>
+<div id="data-visualization-in-r" class="section level2">
+<h2>Data Visualization in R</h2>
+<p>There are many tips and tricks that are available for the multitude
+of visualization packages in R. However, there aren’t as many simple
+rules or suggestions on what actually makes a good visualization. This
+starts with the “grammar of graphics”, which is the fundamental rules or
+principals which describe an art or science (from Wickham 2010).</p>
+<blockquote>
+<p>“A good grammar will allow us to gain insight into the composition of
+complicated graphics, and reveal unexpected connections between
+seemingly different graphics (Cox 1978)”</p>
+</blockquote>
+<p>Because there are so many options and methods to plot our data in R,
+we need to think about how we are going to represent the data, how can
+that data be interpreted visually, and what story it may tell.</p>
+<p>A very nice example of this is provided by this animation (created by
+Darkhorse Analytics, and used in Jenny Bryan’s excellent <a
+href="http://stat545.com/block015_graph-dos-donts.html">stat545</a>
+course). It shows how <em>simplification</em> can make a big difference
+in communication.</p>
+<div class="float">
+<img src="img/less-is-more-darkhorse-analytics.gif"
+alt="Less is more graphic" />
+<div class="figcaption">Less is more graphic</div>
+</div>
+<div id="exploration-vs.-communication" class="section level3">
+<h3>Exploration vs. Communication</h3>
+<p>One thing to consider is what the objective is when creating a
+visualization or plot. When we build plots for exploratory purposes, we
+already know what the variables are we are using, and the objective is
+more about what sort of patterns the data might show. When
+communicating, the objective is more about providing a stand-alone
+snapshot which helps others <em>understand</em> what you are trying to
+convey. We’ll cover more on this when we talk about
+<code>Rmarkdown</code>.</p>
+</div>
+<div id="ggplot2" class="section level3">
+<h3><code>ggplot2</code></h3>
+<p>While there are many visualization options in R, we believe the most
+comprehensive and powerful is the <code>ggplot2</code> package. Much of
+the class has used/follows <code>ggplot</code>, so here’s a little
+background that might be useful.</p>
+<ul>
+<li>Based on Grammar of Graphics book by Leland Wilkinson hence
+‘gg’</li>
+<li>Each part of the plot is layered or built upon the other parts (like
+building legos).</li>
+<li>Consider parts of a <code>ggplot2</code> as parts of a house.
+<ul>
+<li>Data = The materials the house is built from
+(<code>ggplot(data=yourdata)</code>)</li>
+<li>Plot Type = The structure/design of your house (how will it look?)
+(<code>geom_</code>)</li>
+<li>Aesthetics = What the exterior looks like, i.e., the paint/decor
+(<code>aes()</code>)</li>
+<li>Stats = Ways to wire or plumb your house…how to tie your data
+together, or transform it (<code>stat_</code>)</li>
+</ul></li>
+</ul>
+<p>A questions we often get asked when helping students with ggplot
+figures is, <em>how can I put two y-axis on my graph?</em> Short answer,
+with ggplot, you can’t. There is a good reason for this though, which is
+basically that the creators of ggplot2 believe that duel y-axis are
+confusing, eaisly misunderstood and not invertible (given a point on the
+plot space, you can not uniquely map it back to a point in the data
+space). We agree with this logic, and would urge you to never put two
+differnt y-axis on the same plot. Instead, make two seperate graphs.</p>
+</div>
+</div>
+<div id="color" class="section level2">
+<h2>Color</h2>
+<p>There are so many options in R. It is fun to play around with color,
+but keep in mind not everyone sees color in the same way, and some folks
+cannot see certain spectrums of color (i.e., <a
+href="https://www.colormatters.com/color-and-vision/what-is-color-blindness">absence
+of blue or green receptors is common</a>). See below for a example of
+what colorblindness may do…if you see numbers inside these circles,
+great, you have some blue/green retinal receptors.</p>
+<p><img src="https://www.colormatters.com/images/cbtests/plate1.jpg" />
+<img src="https://www.colormatters.com/images/cbtests/plate3.jpg" /></p>
+<p>Having said that, <a
+href="https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf">here’s
+a great cheat sheet of colors in R</a>, it can be handy when trying to
+find the correct color or name of a color. Check out this recent Nature
+perspective piece on <a
+href="https://www.nature.com/articles/s41467-020-19160-7?utm_source=twitter&amp;utm_medium=social&amp;utm_content=organic&amp;utm_campaign=NGMT_USG_JC01_GL_NRJournals">The
+misuse of colour in science communication</a>.</p>
+<div id="discretecategorical" class="section level3">
+<h3>Discrete/Categorical:</h3>
+<p>For a very nice discussion about color palettes, I recommend <a
+href="http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/">this page</a>
+from the R cookbook folks.</p>
+<p>Additionally, check out the great <a
+href="https://cran.r-project.org/web/packages/ggthemes/vignettes/ggthemes.html">ggthemes</a>
+package, which has many options. One I find very helpful is using
+<code>scale_color_colorblind()</code>, which if you have 8-9 categories,
+may be a nice way to display your data.</p>
+</div>
+<div id="continuous-viridis" class="section level3">
+<h3>Continuous: <a
+href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html"><code>viridis</code></a></h3>
+<p>The <code>viridis</code> package is an excellent set of colors that
+better represent your data, are easier to read for those with
+colorblindness, and they also tend to print fairly well in
+grayscale.</p>
+<p>Take a look at the <a
+href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html">vignette
+online</a>!</p>
+<p>An example:</p>
+<div class="float">
+<img src="img/viridis_demo.png" alt="viridis" />
+<div class="figcaption">viridis</div>
+</div>
+</div>
+<div id="customizing-color-pallettes-in-ggplot" class="section level3">
+<h3>Customizing color pallettes in ggplot</h3>
+<p>The viridis color pallettes have been built into ggplot so that you
+can call upon them using the scale_fill_viridis_ or scale_color_viridis_
+functions. Note that whether or not you use the fill or color scale
+function depends on which aesthetic you set in your plot. The functions
+also have extenstions depending on the kind of variable that you want to
+color: scale_fill_viridis_<em>d</em> is for discrete variables while
+scale_fill_viridis_<em>c</em> is for continous variables. Within the
+function, you can specify which virids pallette to use: A-D.</p>
+<p>In this example we fill in our bars with the cut vairable in the
+diamond dataset, a categorical variable with 5 groups.</p>
+<pre class="r"><code>library(ggplot2)
+ggplot(diamonds, aes(x = clarity, fill = cut)) + 
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=70, vjust=0.5)) +
+  scale_fill_viridis_d(option = &quot;C&quot;) +
+  theme_classic()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;clarity&#39; with labels I1, SI2, SI1, VS2, VS1, VVS2, VVS1 and IF.
+## It has y-axis &#39;count&#39; with labels 0, 5000 and 10000.
+## There is a legend indicating fill is used to show cut, with 5 levels:
+## Fair shown as vivid purplish blue fill, 
+## Good shown as vivid purple fill, 
+## Very Good shown as vivid purplish red fill, 
+## Premium shown as brilliant orange fill and 
+## Ideal shown as brilliant greenish yellow fill.
+## The chart is a bar chart with 8 vertical bars.
+## These are stacked, as sorted by cut.</code></pre>
+</div>
+</div>
+<div id="visualization-tips" class="section level2 tabset tabset-fade">
+<h2 class="tabset tabset-fade">Visualization Tips</h2>
+<p>This information isn’t meant to be comprehensive, but at minimum, it
+may provide some guidance when you are creating plots and figures.</p>
+<div id="visualization-dos" class="section level3">
+<h3>Visualization Do’s</h3>
+<p>The most basic tip is keep it simple! Stick with a clean and clear
+message, what is your plot/figure trying to get across? Data
+visualization is effective when it is simple, and repackages data into a
+visual story that is easy to understand.</p>
+<ul>
+<li>Label appropriately and legibly, including axes, and use text to
+highlight important bits</li>
+<li>Use one color to represent each category, consider colorblind/BW
+friendly palettes</li>
+<li>Order datasets using logical heirarchy (Make it easy for reader to
+compare values)</li>
+<li>Use icons when possible to reduce unnecessary labeling</li>
+<li>Pay attention to scale (e.g., start axis at zero not 2.4 to
+3.5)</li>
+<li>Include your data/outliers where possible</li>
+</ul>
+</div>
+<div id="visualization-donts" class="section level3">
+<h3>Visualization Don’ts</h3>
+<p>A few things to avoid (which basically relates to keeping it
+simple):</p>
+<ul>
+<li>Don’t try to add too much into one plot…<strong>keep it
+simple</strong></li>
+<li>Don’t add color uncessarily unless it provides a specific
+function</li>
+<li>Avoid high contrast colors (red/green or blue/yellow)</li>
+<li>Don’t use 3D charts. They can make it hard to discern or perceive
+the actual information.</li>
+<li>Avoid ornamentation (shadowing, extra illustration, etc)</li>
+<li>Avoid more than 6 categorical colors in a layout unless you looking
+at continuous data.</li>
+<li>Keep fonts simple (avoid uncessary <strong>bold</strong> or
+<em>italicization</em>)</li>
+<li>Don’t try to compare too many categories or data types in one
+chart</li>
+</ul>
+</div>
+<div id="examples" class="section level3">
+<h3>Examples</h3>
+<div id="scatterplots" class="section level4">
+<h4>Scatterplots</h4>
+<p>One of the best simple plots for examining patterns in data, but very
+effective. Also used when adding model trend lines.</p>
+<pre class="r"><code>suppressPackageStartupMessages(library(ggplot2))
+plot(x=iris$Petal.Width) # single variable</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/scatterplots-1.png" width="672" /></p>
+<pre class="r"><code>plot(x=iris$Petal.Width, y=iris$Petal.Length) # multiple variables</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/scatterplots-2.png" width="672" /></p>
+<pre class="r"><code>ggplot() + geom_point(data=iris, aes(x=Petal.Width, y=Petal.Length))</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/scatterplots-3.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;Petal.Width&#39; with labels 0.0, 0.5, 1.0, 1.5, 2.0 and 2.5.
+## It has y-axis &#39;Petal.Length&#39; with labels 2, 4 and 6.
+## The chart is a set of 150 big solid circle points of which about 68% can be seen.</code></pre>
+<pre class="r"><code>ggplot() + geom_point(data=iris, aes(x=Petal.Width, y=Petal.Length, fill=Species), pch=21, size=3, alpha=0.5)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/scatterplots-4.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;Petal.Width&#39; with labels 0.0, 0.5, 1.0, 1.5, 2.0 and 2.5.
+## It has y-axis &#39;Petal.Length&#39; with labels 2, 4 and 6.
+## There is a legend indicating fill is used to show Species, with 3 levels:
+## setosa shown as strong reddish orange fill, 
+## versicolor shown as vivid yellowish green fill and 
+## virginica shown as brilliant blue fill.
+## The chart is a set of 150 fillable circle points of which about 68% can be seen.
+## It has shape set to fillable circle.
+## It has size set to 3.
+## It has alpha set to 0.5.</code></pre>
+</div>
+<div id="lineplots" class="section level4">
+<h4>Lineplots</h4>
+<p>Comparing relative change in quantities across a variable like time.
+Note the change when we avoid facetting each line independently.</p>
+<pre class="r"><code>plot(EuStockMarkets)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/lineplots-1.png" width="672" /></p>
+<pre class="r"><code>suppressPackageStartupMessages(library(tidyverse))
+EuStockMarkets_df &lt;- data.frame(as.matrix(EuStockMarkets), date=as.numeric(time(EuStockMarkets)))
+EuStockMarkets_long &lt;- gather(data = EuStockMarkets_df, key = &quot;Market&quot;, value=&quot;value&quot;, 1:4)
+ggplot() + geom_line(data=EuStockMarkets_long, aes(x=date, y=value, color=Market))</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/lineplots-2.png" width="672" /></p>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;date&#39; with labels 1993, 1995, 1997 and 1999.
+## It has y-axis &#39;value&#39; with labels 2000, 4000, 6000 and 8000.
+## There is a legend indicating colour is used to show Market, with 4 levels:
+## CAC shown as strong reddish orange colour, 
+## DAX shown as vivid yellow green colour, 
+## FTSE shown as brilliant bluish green colour and 
+## SMI shown as vivid violet colour.
+## The chart is a set of 4 lines.
+## Line 1 connects 1860 points.
+## This line has colour strong reddish orange which maps to Market = CAC.
+## Line 2 connects 1860 points.
+## This line has colour vivid yellow green which maps to Market = DAX.
+## Line 3 connects 1860 points.
+## This line has colour brilliant bluish green which maps to Market = FTSE.
+## Line 4 connects 1860 points.
+## This line has colour vivid violet which maps to Market = SMI.</code></pre>
+</div>
+<div id="barplots" class="section level4">
+<h4>Barplots</h4>
+<p>Comparing totals across multiple groups. Notice legibility when you
+stack the bars.</p>
+<pre class="r"><code># code adpated from https://www.analyticsvidhya.com/blog/2015/07/guide-data-visualization-r/
+suppressPackageStartupMessages(library(viridis))
+barplot(iris$Petal.Length)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/barplots-1.png" width="672" /></p>
+<pre class="r"><code>barplot(iris$Sepal.Length,col  = viridis(3, option = &quot;A&quot;)) </code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/barplots-2.png" width="672" /></p>
+<pre class="r"><code>barplot(table(iris$Species,iris$Sepal.Length),col  = viridis(3, option = &quot;A&quot;)) </code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/barplots-3.png" width="672" /></p>
+<p><br> <br></p>
+</div>
+</div>
+</div>
+<div id="non-visual-data-interaction" class="section level2">
+<h2>Non-visual data interaction</h2>
+<p>Discussions of visualization so far have taken for granted that
+visualization is accessible to everyone, but researchers and audiences
+alike are not all sighted. RStudio is behind on blind accessibility, but
+some packages can provide text descriptions and
+sonification/audification of plots to improve accessibility for
+non-visual data interaction.</p>
+<p>The <code>BrailleR</code> package (<a
+href="https://r-resources.massey.ac.nz/BrailleRInAction/">read more
+here</a>), has a <code>VI()</code> function that wraps around plots and
+provides a text-description output. We can use the VI wrapper to
+interact with our plots from a textual perspective and identify what
+information is missing. Such text can also be used as alt-text when
+publishing this material. What could we do to our plot to improve the
+text description?</p>
+<pre class="r"><code>#install.packages(&quot;BrailleR&quot;)
+library(BrailleR)
+
+barplot &lt;- ggplot(diamonds, aes(x = clarity, fill = cut)) + 
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=70, vjust=0.5)) +
+  scale_fill_viridis_d(option = &quot;C&quot;) +
+  theme_classic()
+
+VI(barplot)</code></pre>
+<pre><code>## This is an untitled chart with no subtitle or caption.
+## It has x-axis &#39;clarity&#39; with labels I1, SI2, SI1, VS2, VS1, VVS2, VVS1 and IF.
+## It has y-axis &#39;count&#39; with labels 0, 5000 and 10000.
+## There is a legend indicating fill is used to show cut, with 5 levels:
+## Fair shown as vivid purplish blue fill, 
+## Good shown as vivid purple fill, 
+## Very Good shown as vivid purplish red fill, 
+## Premium shown as brilliant orange fill and 
+## Ideal shown as brilliant greenish yellow fill.
+## The chart is a bar chart with 8 vertical bars.
+## These are stacked, as sorted by cut.</code></pre>
+<p>The <code>sonification</code> package’s <code>sonify</code> function
+can be used to represent data in audio form, where the x-axis can span
+sound across time, so that the length of time a sound plays follows the
+data long the x-axis from left to right; the y-axis can be expressed as
+pitch, so that the pitch of the sound matches to the values of the data
+(lower value = lower pitch).</p>
+<p>One variable can be used as an input to hear the distribution. For
+instance this univariate plot of iris petal width visually looks like
+this:</p>
+<pre class="r"><code>plot(iris$Petal.Width)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Using <code>sonify</code> instead of plot, the distribution of iris
+petal width sounds like this:</p>
+<pre class="r"><code>#install.packages(&quot;sonify&quot;)
+library(sonify)
+sonify(iris$Petal.Width)</code></pre>
+<p>If you try this on your computer it should play autmatically, buy on
+the website you can listen below:</p>
+<audio controls>
+<source src="sw.width.sound.wav" type="audio/wav">
+</audio>
+<p>Two variables can be used as input to hear the relationship between
+continuous variables. For instance this bivariate plot of iris petal
+length and petal width visually looks like this:</p>
+<pre class="r"><code>plot(x = iris$Petal.Width, y = iris$Petal.Length)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>And using <code>sonify</code>, sounds like this:</p>
+<pre class="r"><code>sonify(x=iris$Petal.Width, y = iris$Petal.Length) </code></pre>
+<audio controls>
+<source src="sw.width.length.sound.wav" type="audio/wav">
+</audio>
+</div>
+<div id="publishing-plots-cowplot" class="section level2">
+<h2>Publishing Plots: <code>cowplot</code></h2>
+<p>A few excellent options exist for creating multi-paneled plots for
+publications. The first and foremost is a package by Claus Wilke called
+<a
+href="https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html"><code>cowplot</code></a>.
+With <code>cowplot</code>, it’s possible to quickly combine existing
+<code>ggplots</code>, creating publication quality plots. See the
+vignette for more options, but here’s a quick example from the vignette
+below:</p>
+<pre class="r"><code>detach(&quot;package:BrailleR&quot;, unload=TRUE)</code></pre>
+<pre class="r"><code>library(cowplot)
+
+# make a few plots:
+plot.diamonds &lt;- ggplot(diamonds, aes(clarity, fill = cut)) + 
+  geom_bar() +
+  theme(axis.text.x = element_text(angle=70, vjust=0.5))
+#plot.diamonds
+
+plot.cars &lt;- ggplot(mpg, aes(x = cty, y = hwy, colour = factor(cyl))) + 
+   geom_point(size = 2.5)
+#plot.cars
+
+plot.iris &lt;- ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Length, fill=Species)) +
+  geom_point(size=3, alpha=0.7, shape=21)
+#plot.iris
+
+# use plot_grid
+panel_plot &lt;- plot_grid(plot.cars, plot.iris, plot.diamonds, labels=c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;), ncol=2, nrow = 2)
+
+panel_plot</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/cowplot-1.png" width="672" /></p>
+<pre class="r"><code># fix the sizes draw_plot
+fixed_gridplot &lt;- ggdraw() + draw_plot(plot.iris, x = 0, y = 0, width = 1, height = 0.5) +
+           draw_plot(plot.cars, x=0, y=.5, width=0.5, height = 0.5) +
+           draw_plot(plot.diamonds, x=0.5, y=0.5, width=0.5, height = 0.5) + 
+  draw_plot_label(label = c(&quot;A&quot;,&quot;B&quot;,&quot;C&quot;), x = c(0, 0.5, 0), y = c(1, 1, 0.5))
+
+fixed_gridplot</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/cowplot-2.png" width="672" /></p>
+</div>
+<div id="saving-figures-and-plots" class="section level2">
+<h2>Saving Figures and Plots</h2>
+<p>A plot you created with ggplot or another plotting package can be
+saved as .JPEGS (or .tiff, .img, etc) onto you. For any ggplot objects,
+we recommend using <code>ggsave</code>.</p>
+<p>First, let’s create a new folder in this project called
+<code>figures</code>. Let’s save all the figures we create to that
+folder. <code>ggsave</code> will default to saving the last plot you
+created, however, we think it is always a good idea to specify exactly
+which plot you want saved. To do that, we have to save our plot as an
+object.</p>
+<pre class="r"><code>ggsave(&quot;figures/gridplot.png&quot;, fixed_gridplot)</code></pre>
+<div id="with-ggsave-you-can-save-images-as" class="section level4">
+<h4>With <code>ggsave</code> you can save images as</h4>
+<ul>
+<li>.png, .jpeg, .tiff, .pdf, .bmp, or .svg</li>
+</ul>
+</div>
+<div id="other-arguments-of-ggsave" class="section level4">
+<h4>Other arguments of <code>ggsave</code></h4>
+<ul>
+<li><code>scale</code> can scale the image (multiplicative scaling
+factor)</li>
+<li><code>width</code> and <code>height</code> let you specify the size
+of the image in <code>units</code> that you specify</li>
+<li><code>dpi</code> can change the quality of the image; for
+publication graphs we suggest over 700 dpi</li>
+</ul>
+<pre class="r"><code>ggsave(&quot;figures/gridplot.png&quot;, fixed_gridplot, width = 6, height = 4, units = &quot;in&quot;, dpi = 700)</code></pre>
+</div>
+</div>
+<div id="the-package-plotly" class="section level2">
+<h2>The package <code>plotly</code></h2>
+<p>The package <code>plotly</code> is an excellent, easy to use resource
+that allows you to quickly create interactive, web-based figures. We
+have used plotly to illustrate patterns in data to collaborators, to
+visualize patterns in our data during the pre-analysis stage, and even
+impress with “fancy” graphics during a conference talk!</p>
+<p>Let’s try plotly together using some of the <code>iris</code>
+data:</p>
+<pre class="r"><code>library(plotly)
+
+plot.iris &lt;- ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Length, fill=Species)) +
+  geom_point(size=3, alpha=0.7, shape=21)
+
+plotly::ggplotly(plot.iris) #it&#39;s as simple as that! </code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-304a30b740732657a150" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-304a30b740732657a150">{"x":{"data":[{"x":[5.0999999999999996,4.9000000000000004,4.7000000000000002,4.5999999999999996,5,5.4000000000000004,4.5999999999999996,5,4.4000000000000004,4.9000000000000004,5.4000000000000004,4.7999999999999998,4.7999999999999998,4.2999999999999998,5.7999999999999998,5.7000000000000002,5.4000000000000004,5.0999999999999996,5.7000000000000002,5.0999999999999996,5.4000000000000004,5.0999999999999996,4.5999999999999996,5.0999999999999996,4.7999999999999998,5,5,5.2000000000000002,5.2000000000000002,4.7000000000000002,4.7999999999999998,5.4000000000000004,5.2000000000000002,5.5,4.9000000000000004,5,5.5,4.9000000000000004,4.4000000000000004,5.0999999999999996,5,4.5,4.4000000000000004,5,5.0999999999999996,4.7999999999999998,5.0999999999999996,4.5999999999999996,5.2999999999999998,5],"y":[1.3999999999999999,1.3999999999999999,1.3,1.5,1.3999999999999999,1.7,1.3999999999999999,1.5,1.3999999999999999,1.5,1.5,1.6000000000000001,1.3999999999999999,1.1000000000000001,1.2,1.5,1.3,1.3999999999999999,1.7,1.5,1.7,1.5,1,1.7,1.8999999999999999,1.6000000000000001,1.6000000000000001,1.5,1.3999999999999999,1.6000000000000001,1.6000000000000001,1.5,1.5,1.3999999999999999,1.5,1.2,1.3,1.3999999999999999,1.3,1.5,1.3,1.3,1.3,1.6000000000000001,1.8999999999999999,1.3999999999999999,1.6000000000000001,1.3999999999999999,1.5,1.3999999999999999],"text":["Sepal.Length: 5.1<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.9<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.7<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 4.6<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 5.4<br />Petal.Length: 1.7<br />Species: setosa","Sepal.Length: 4.6<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 4.4<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.9<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.4<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 4.8<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 4.8<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.3<br />Petal.Length: 1.1<br />Species: setosa","Sepal.Length: 5.8<br />Petal.Length: 1.2<br />Species: setosa","Sepal.Length: 5.7<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.4<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 5.7<br />Petal.Length: 1.7<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.4<br />Petal.Length: 1.7<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 4.6<br />Petal.Length: 1.0<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.7<br />Species: setosa","Sepal.Length: 4.8<br />Petal.Length: 1.9<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 5.2<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.2<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.7<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 4.8<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 5.4<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.2<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.5<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.9<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.2<br />Species: setosa","Sepal.Length: 5.5<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 4.9<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.4<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 4.5<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 4.4<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.9<br />Species: setosa","Sepal.Length: 4.8<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 4.6<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 5.3<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.4<br />Species: setosa"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":0.69999999999999996,"size":11.338582677165356,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","name":"setosa","legendgroup":"setosa","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[7,6.4000000000000004,6.9000000000000004,5.5,6.5,5.7000000000000002,6.2999999999999998,4.9000000000000004,6.5999999999999996,5.2000000000000002,5,5.9000000000000004,6,6.0999999999999996,5.5999999999999996,6.7000000000000002,5.5999999999999996,5.7999999999999998,6.2000000000000002,5.5999999999999996,5.9000000000000004,6.0999999999999996,6.2999999999999998,6.0999999999999996,6.4000000000000004,6.5999999999999996,6.7999999999999998,6.7000000000000002,6,5.7000000000000002,5.5,5.5,5.7999999999999998,6,5.4000000000000004,6,6.7000000000000002,6.2999999999999998,5.5999999999999996,5.5,5.5,6.0999999999999996,5.7999999999999998,5,5.5999999999999996,5.7000000000000002,5.7000000000000002,6.2000000000000002,5.0999999999999996,5.7000000000000002],"y":[4.7000000000000002,4.5,4.9000000000000004,4,4.5999999999999996,4.5,4.7000000000000002,3.2999999999999998,4.5999999999999996,3.8999999999999999,3.5,4.2000000000000002,4,4.7000000000000002,3.6000000000000001,4.4000000000000004,4.5,4.0999999999999996,4.5,3.8999999999999999,4.7999999999999998,4,4.9000000000000004,4.7000000000000002,4.2999999999999998,4.4000000000000004,4.7999999999999998,5,4.5,3.5,3.7999999999999998,3.7000000000000002,3.8999999999999999,5.0999999999999996,4.5,4.5,4.7000000000000002,4.4000000000000004,4.0999999999999996,4,4.4000000000000004,4.5999999999999996,4,3.2999999999999998,4.2000000000000002,4.2000000000000002,4.2000000000000002,4.2999999999999998,3,4.0999999999999996],"text":["Sepal.Length: 7.0<br />Petal.Length: 4.7<br />Species: versicolor","Sepal.Length: 6.4<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 6.9<br />Petal.Length: 4.9<br />Species: versicolor","Sepal.Length: 5.5<br />Petal.Length: 4.0<br />Species: versicolor","Sepal.Length: 6.5<br />Petal.Length: 4.6<br />Species: versicolor","Sepal.Length: 5.7<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 6.3<br />Petal.Length: 4.7<br />Species: versicolor","Sepal.Length: 4.9<br />Petal.Length: 3.3<br />Species: versicolor","Sepal.Length: 6.6<br />Petal.Length: 4.6<br />Species: versicolor","Sepal.Length: 5.2<br />Petal.Length: 3.9<br />Species: versicolor","Sepal.Length: 5.0<br />Petal.Length: 3.5<br />Species: versicolor","Sepal.Length: 5.9<br />Petal.Length: 4.2<br />Species: versicolor","Sepal.Length: 6.0<br />Petal.Length: 4.0<br />Species: versicolor","Sepal.Length: 6.1<br />Petal.Length: 4.7<br />Species: versicolor","Sepal.Length: 5.6<br />Petal.Length: 3.6<br />Species: versicolor","Sepal.Length: 6.7<br />Petal.Length: 4.4<br />Species: versicolor","Sepal.Length: 5.6<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 5.8<br />Petal.Length: 4.1<br />Species: versicolor","Sepal.Length: 6.2<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 5.6<br />Petal.Length: 3.9<br />Species: versicolor","Sepal.Length: 5.9<br />Petal.Length: 4.8<br />Species: versicolor","Sepal.Length: 6.1<br />Petal.Length: 4.0<br />Species: versicolor","Sepal.Length: 6.3<br />Petal.Length: 4.9<br />Species: versicolor","Sepal.Length: 6.1<br />Petal.Length: 4.7<br />Species: versicolor","Sepal.Length: 6.4<br />Petal.Length: 4.3<br />Species: versicolor","Sepal.Length: 6.6<br />Petal.Length: 4.4<br />Species: versicolor","Sepal.Length: 6.8<br />Petal.Length: 4.8<br />Species: versicolor","Sepal.Length: 6.7<br />Petal.Length: 5.0<br />Species: versicolor","Sepal.Length: 6.0<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 5.7<br />Petal.Length: 3.5<br />Species: versicolor","Sepal.Length: 5.5<br />Petal.Length: 3.8<br />Species: versicolor","Sepal.Length: 5.5<br />Petal.Length: 3.7<br />Species: versicolor","Sepal.Length: 5.8<br />Petal.Length: 3.9<br />Species: versicolor","Sepal.Length: 6.0<br />Petal.Length: 5.1<br />Species: versicolor","Sepal.Length: 5.4<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 6.0<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 6.7<br />Petal.Length: 4.7<br />Species: versicolor","Sepal.Length: 6.3<br />Petal.Length: 4.4<br />Species: versicolor","Sepal.Length: 5.6<br />Petal.Length: 4.1<br />Species: versicolor","Sepal.Length: 5.5<br />Petal.Length: 4.0<br />Species: versicolor","Sepal.Length: 5.5<br />Petal.Length: 4.4<br />Species: versicolor","Sepal.Length: 6.1<br />Petal.Length: 4.6<br />Species: versicolor","Sepal.Length: 5.8<br />Petal.Length: 4.0<br />Species: versicolor","Sepal.Length: 5.0<br />Petal.Length: 3.3<br />Species: versicolor","Sepal.Length: 5.6<br />Petal.Length: 4.2<br />Species: versicolor","Sepal.Length: 5.7<br />Petal.Length: 4.2<br />Species: versicolor","Sepal.Length: 5.7<br />Petal.Length: 4.2<br />Species: versicolor","Sepal.Length: 6.2<br />Petal.Length: 4.3<br />Species: versicolor","Sepal.Length: 5.1<br />Petal.Length: 3.0<br />Species: versicolor","Sepal.Length: 5.7<br />Petal.Length: 4.1<br />Species: versicolor"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":0.69999999999999996,"size":11.338582677165356,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","name":"versicolor","legendgroup":"versicolor","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6.2999999999999998,5.7999999999999998,7.0999999999999996,6.2999999999999998,6.5,7.5999999999999996,4.9000000000000004,7.2999999999999998,6.7000000000000002,7.2000000000000002,6.5,6.4000000000000004,6.7999999999999998,5.7000000000000002,5.7999999999999998,6.4000000000000004,6.5,7.7000000000000002,7.7000000000000002,6,6.9000000000000004,5.5999999999999996,7.7000000000000002,6.2999999999999998,6.7000000000000002,7.2000000000000002,6.2000000000000002,6.0999999999999996,6.4000000000000004,7.2000000000000002,7.4000000000000004,7.9000000000000004,6.4000000000000004,6.2999999999999998,6.0999999999999996,7.7000000000000002,6.2999999999999998,6.4000000000000004,6,6.9000000000000004,6.7000000000000002,6.9000000000000004,5.7999999999999998,6.7999999999999998,6.7000000000000002,6.7000000000000002,6.2999999999999998,6.5,6.2000000000000002,5.9000000000000004],"y":[6,5.0999999999999996,5.9000000000000004,5.5999999999999996,5.7999999999999998,6.5999999999999996,4.5,6.2999999999999998,5.7999999999999998,6.0999999999999996,5.0999999999999996,5.2999999999999998,5.5,5,5.0999999999999996,5.2999999999999998,5.5,6.7000000000000002,6.9000000000000004,5,5.7000000000000002,4.9000000000000004,6.7000000000000002,4.9000000000000004,5.7000000000000002,6,4.7999999999999998,4.9000000000000004,5.5999999999999996,5.7999999999999998,6.0999999999999996,6.4000000000000004,5.5999999999999996,5.0999999999999996,5.5999999999999996,6.0999999999999996,5.5999999999999996,5.5,4.7999999999999998,5.4000000000000004,5.5999999999999996,5.0999999999999996,5.0999999999999996,5.9000000000000004,5.7000000000000002,5.2000000000000002,5,5.2000000000000002,5.4000000000000004,5.0999999999999996],"text":["Sepal.Length: 6.3<br />Petal.Length: 6.0<br />Species: virginica","Sepal.Length: 5.8<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 7.1<br />Petal.Length: 5.9<br />Species: virginica","Sepal.Length: 6.3<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 6.5<br />Petal.Length: 5.8<br />Species: virginica","Sepal.Length: 7.6<br />Petal.Length: 6.6<br />Species: virginica","Sepal.Length: 4.9<br />Petal.Length: 4.5<br />Species: virginica","Sepal.Length: 7.3<br />Petal.Length: 6.3<br />Species: virginica","Sepal.Length: 6.7<br />Petal.Length: 5.8<br />Species: virginica","Sepal.Length: 7.2<br />Petal.Length: 6.1<br />Species: virginica","Sepal.Length: 6.5<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 6.4<br />Petal.Length: 5.3<br />Species: virginica","Sepal.Length: 6.8<br />Petal.Length: 5.5<br />Species: virginica","Sepal.Length: 5.7<br />Petal.Length: 5.0<br />Species: virginica","Sepal.Length: 5.8<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 6.4<br />Petal.Length: 5.3<br />Species: virginica","Sepal.Length: 6.5<br />Petal.Length: 5.5<br />Species: virginica","Sepal.Length: 7.7<br />Petal.Length: 6.7<br />Species: virginica","Sepal.Length: 7.7<br />Petal.Length: 6.9<br />Species: virginica","Sepal.Length: 6.0<br />Petal.Length: 5.0<br />Species: virginica","Sepal.Length: 6.9<br />Petal.Length: 5.7<br />Species: virginica","Sepal.Length: 5.6<br />Petal.Length: 4.9<br />Species: virginica","Sepal.Length: 7.7<br />Petal.Length: 6.7<br />Species: virginica","Sepal.Length: 6.3<br />Petal.Length: 4.9<br />Species: virginica","Sepal.Length: 6.7<br />Petal.Length: 5.7<br />Species: virginica","Sepal.Length: 7.2<br />Petal.Length: 6.0<br />Species: virginica","Sepal.Length: 6.2<br />Petal.Length: 4.8<br />Species: virginica","Sepal.Length: 6.1<br />Petal.Length: 4.9<br />Species: virginica","Sepal.Length: 6.4<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 7.2<br />Petal.Length: 5.8<br />Species: virginica","Sepal.Length: 7.4<br />Petal.Length: 6.1<br />Species: virginica","Sepal.Length: 7.9<br />Petal.Length: 6.4<br />Species: virginica","Sepal.Length: 6.4<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 6.3<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 6.1<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 7.7<br />Petal.Length: 6.1<br />Species: virginica","Sepal.Length: 6.3<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 6.4<br />Petal.Length: 5.5<br />Species: virginica","Sepal.Length: 6.0<br />Petal.Length: 4.8<br />Species: virginica","Sepal.Length: 6.9<br />Petal.Length: 5.4<br />Species: virginica","Sepal.Length: 6.7<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 6.9<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 5.8<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 6.8<br />Petal.Length: 5.9<br />Species: virginica","Sepal.Length: 6.7<br />Petal.Length: 5.7<br />Species: virginica","Sepal.Length: 6.7<br />Petal.Length: 5.2<br />Species: virginica","Sepal.Length: 6.3<br />Petal.Length: 5.0<br />Species: virginica","Sepal.Length: 6.5<br />Petal.Length: 5.2<br />Species: virginica","Sepal.Length: 6.2<br />Petal.Length: 5.4<br />Species: virginica","Sepal.Length: 5.9<br />Petal.Length: 5.1<br />Species: virginica"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":0.69999999999999996,"size":11.338582677165356,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","name":"virginica","legendgroup":"virginica","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.228310502283108,"r":7.3059360730593621,"b":40.182648401826498,"l":31.415525114155255},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[4.1200000000000001,8.0800000000000001],"tickmode":"array","ticktext":["5","6","7","8"],"tickvals":[5,6,7,8],"categoryorder":"array","categoryarray":["5","6","7","8"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Sepal.Length","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.70499999999999996,7.1950000000000003],"tickmode":"array","ticktext":["2","4","6"],"tickvals":[2,4,6],"categoryorder":"array","categoryarray":["2","4","6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Petal.Length","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":null,"line":{"color":null,"width":0,"linetype":[]},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Species","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"789676b2c22d":{"x":{},"y":{},"fill":{},"type":"scatter"}},"cur_data":"789676b2c22d","visdat":{"789676b2c22d":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>This lesson was contributed by <a
+href="https://github.com/MarthaWohlfeil">Martha Zillig</a>.</p>
+<p>This lesson is adapted from the Software Carpentry: R for
+Reproducible Scientific Analysis <a
+href="http://data-lessons.github.io/gapminder-R/03-data-types-subsetting.html">Vectors
+and Data Frames materials</a> and the Data Carpentry: R for Data
+Analysis and Visualization of Ecological Data <a
+href="http://www.datacarpentry.org/R-ecology-lesson/03-dplyr.html">Exporting
+Data materials</a>.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

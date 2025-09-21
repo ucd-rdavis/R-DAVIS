@@ -1,5 +1,5 @@
 ---
-title: "Coding Practice"
+title: "Take-home Labs"
 output:
   html_document:
     toc: false
@@ -36,17 +36,100 @@ Labs are designed to reinforce the code/lessons covered that week and provide yo
 
 ## Labs {.tabset .tabset-fade .tabset-pills}
 
+### <small>Lab Week 1</small>
+
+This lab will help you get oriented with R, RStudio, and your first programming concepts. The goal is to practice the fundamentals covered in the the introduction to R and RStudio lecture.
+
+**Setup Instructions:**
+1. Open RStudio
+2. Create a new R script by going to `File -> New File -> R Script` or pressing `Ctrl/Cmd+Shift+N`
+3. Save your script as `lab_week_1.R` in an appropriate location
+4. As you work through the problems below, write your code in the script and run it using `Ctrl/Cmd+Enter`
+
+**Part 1: Basic Arithmetic and Order of Operations**
+
+1. Use parentheses to edit `15 + 7 * 3` force R to return `66` instead of `36`.
+
+2. Calculate the square root of 144.
+
+3. Calculate 2 raised to the power of 8.
+
+**Part 2: Objects and Assignment**
+
+4. Create an object called `current_year` and assign a value of `2025` to it using the `<-` operator.
+
+5. Calculate how many years it has been since `1977` using the `current_year` object.
+
+**Part 3: Mathematical Functions**
+
+6. Calculate the natural logarithm of 10 using the `log()` function.
+
+7. Calculate e raised to the power of 2 using the `exp()` function. 
+
+
+**Part 4: Logical Comparisons**
+
+8. Test whether 10 is equal to 5 + 5 using the `==` operator.
+
+9. Test whether 7 is greater than 10.
+
+10. Test whether 15 is greater than or equal to 15.
+
+11. Create an object called `x` with the value 25, then test whether `x` is not equal to 30.
+
+**Part 5: Exploring Functions and Getting Help**
+
+12. Use the help function to learn about the `round()` function by typing `?round` in the console.
+
+13. Round the number 3.14159 to 2 decimal places using the `round()` function.
+
+14. Calculate the absolute value of -15 using the `abs()` function.
+
+**Part 6: Working with Scripts** 
+
+15. Add comments to your script using `#` to explain what each section does.
+
+16. Save your script and make sure you can run the entire script from top to bottom without errors.
+
+<details>
+<summary>**DO NOT OPEN** until you are ready to see the answers</summary>
+```{r, eval=FALSE}
+# Part 1: Basic Arithmetic and Order of Operations
+(15 + 7) * 3  # Result: 66 (parentheses force addition first)
+sqrt(144)  # Result: 12
+2^8  # Result: 256
+
+# Part 2: Objects and Assignment
+current_year <- 2025  # 
+current_year - 1977
+
+# Part 3: Mathematical Functions
+log(10)  # Natural logarithm of 10
+exp(2)   # e^2
+
+# Part 4: Logical Comparisons
+10 == 5 + 5  # TRUE
+7 > 10       # FALSE
+15 >= 15     # TRUE
+x <- 25
+x != 30      # TRUE
+
+# Part 5: Exploring Functions and Getting Help
+?round  # Opens help for round function
+round(3.14159, 2)  # Result: 3.14
+abs(-15)  # Result: 15
+
+# Part 6 involves adding comments and saving the script
+```
+</details>
+
 ### <small>Lab Week 2</small>
 
-**GitHub Classroom Link:** [Lab 2](https://classroom.github.com/a/AxSnsy-e)
+In this lab we are going to practice subsetting and manipulating vectors.  
 
-In this homework we are going to practice subsetting and manipulating vectors.  
+First, open a new script in your workgin directory and save it to your `scripts` folder. Call this new script `week_2_lab`. 
 
-First, open your r-davis-in-class-project-YourName and `pull`. Remember, we always want to start working on a github project by pulling, even if we are sure nothing has changed (believe me, this small step will save you lots of headaches).
-
-Second, open a new script in your r-davis-in-class-project-YourName and save it to your `scripts` folder. Call this new script `week_2_homework`. 
-
-Copy and paste the chunk of code below into your new `week_2_homework` script and run it. This chunk of code will create the vector you will use in your homework today. Check in your environment to see what it looks like. What do you think each line of code is doing? 
+Copy and paste the chunk of code below into your new `week_2_lab` script and run it. This chunk of code will create the vector you will use in your lab today. Check in your environment to see what it looks like. What do you think each line of code is doing? 
 
 ```{r}
 set.seed(15)
@@ -100,9 +183,7 @@ final <- plus10[c(TRUE, FALSE)] #selecting every other number using logical subs
 
 ### <small>Lab Week 3</small>
 
-**GitHub Classroom Link:** [Lab 3](https://classroom.github.com/a/HzmAhpLH)
-
-Homework this week will be playing with the `surveys` data we worked on in class. First things first, open your r-davis-in-class-project and pull. Then create a new script in your `scripts` folder called `week_3_homework.R`. 
+Lab this week will be playing with the `surveys` data we worked on in class. Create a new script in your `scripts` folder called `week_3_lab.R`. 
 
 Load your `survey` data frame with the read.csv() function. Create a new data frame called `surveys_base` with only the species_id, the weight, and the plot_type columns. Have this data frame only be the first 5,000 rows. Convert both species_id and plot_type to factors. Remove all rows where there is an NA in the weight column. Explore these variables and try to explain why a factor is different from a character. Why might we want to use factors? Can you think of any examples? 
 
@@ -110,7 +191,7 @@ CHALLENGE:
 Create a second data frame called `challenge_base` that only consists of individuals from your `surveys_base` data frame with weights greater than 150g.  
 
 <details>
-<summary>**DO NOT OPEN** until you are ready to see the answers for the the homework</summary>
+<summary>**DO NOT OPEN** until you are ready to see the answers for the the lab</summary>
 ```{r, eval=T}
 #PROBLEM 1
 
@@ -141,9 +222,7 @@ challenge_base <- surveys_base[surveys_base[, 2]>150,] #selecting just the weigh
 
 ### <small>Lab Week 4</small>
 
-**GitHub Classroom Link:** [Lab 4](https://classroom.github.com/a/-TGD0-Tp)
-
-By now you should be in the rhythm of pulling from your git repository and then creating new homework script. This week the homework will review data manipulation in the tidyverse.
+This week the lab will review data manipulation in the tidyverse.
 
 1. Create a tibble named `surveys` from the portal_data_joined.csv file.
 
@@ -158,7 +237,7 @@ By now you should be in the rhythm of pulling from your git repository and then 
 6. Take `surveys_avg_weight` and add a new column called `above_average` that contains logical values stating whether or not a row’s weight is above average for its species+sex combination (recall the new column we made for this tibble).
 
 <details>
-<summary>**DO NOT OPEN** until you are ready to see the answers for the homework</summary>
+<summary>**DO NOT OPEN** until you are ready to see the answers for the lab</summary>
 ```{r, eval = T}
 library(tidyverse)
 #1
@@ -217,8 +296,6 @@ surveys_avg_weight
 
 ### <small>Lab Week 5</small>
 
-**GitHub Classroom Link:** [Lab 5](https://classroom.github.com/a/F1fLW6Yr)
-
 This week's questions will have us practicing pivots and conditional statements.
 
 1. Create a tibble named `surveys` from the portal_data_joined.csv file. Then manipulate `surveys` to create a new dataframe called `surveys_wide` with a column for genus and a column named after every plot type, with each of these columns containing the mean hindfoot length of animals in that plot type and genus. So every row has a genus and then a mean hindfoot length value for every plot type. The dataframe should be sorted by values in the Control plot type column. This question will involve quite a few of the functions you've used so far, and it may be useful to sketch out the steps to get to the final result.
@@ -228,7 +305,7 @@ This week's questions will have us practicing pivots and conditional statements.
 BONUS: How might you soft code the values (i.e. not type them in manually) of the 1st and 3rd quartile into your conditional statements in question 2?
 
 <details>
-<summary>**DO NOT OPEN** until you are ready to see the answers for the homework</summary>
+<summary>**DO NOT OPEN** until you are ready to see the answers for the lab</summary>
 ```{r, eval = T}
 # 1
 library(tidyverse)
@@ -340,9 +417,7 @@ running_laps %>% filter(form == 'new form') %>%
 
 ### <small>Lab Week 6</small>
 
-**GitHub Classroom Link:** [Lab 6](https://classroom.github.com/a/TZVr8Kfl)
-
-For our week six homework, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`. This data set is looking at statistics for a few different counties including population, GDP per capita, and life expectancy. Download the data using the code below. Remember, this code is looking for a folder called `data` to put the .csv in, so make sure you have a folder named `data`, or modify the code to the correct folder name. 
+For our week six lab, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`. This data set is looking at statistics for a few different counties including population, GDP per capita, and life expectancy. Download the data using the code below. Remember, this code is looking for a folder called `data` to put the .csv in, so make sure you have a folder named `data`, or modify the code to the correct folder name. 
 
 ```{r, warnings = F}
 library(tidyverse)
@@ -423,8 +498,6 @@ gapminder %>%
 
 
 ### <small>Lab Week 7</small>
-
-**GitHub Classroom Link:** [Lab 7](https://classroom.github.com/a/zTSqmwqK)
 
 For week 7, we're going to be working on 2 critical `ggplot` skills: recreating a graph from a dataset and **googling stuff**.
 
@@ -507,8 +580,6 @@ pg %>%
 </details>
 
 ### <small>Lab Week 8</small>
-
-**GitHub Classroom Link:** [Lab 8](https://classroom.github.com/a/CoS6GwTH)
 
 Let's look at some real data from Mauna Loa to try to format and plot. These meteorological data from Mauna Loa were collected every minute for the year 2001. *This dataset has 459,769 observations for 9 different metrics of wind, humidity, barometric pressure, air temperature, and precipitation.* Download this dataset [here](data/mauna_loa_met_2001_minute.rda). Save it to your `data/` folder. Alternatively, you can read the CSV directly from the R-DAVIS Github:
 `mloa <- read_csv("https://raw.githubusercontent.com/gge-ucd/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv")`

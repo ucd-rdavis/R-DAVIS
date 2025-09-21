@@ -11,7 +11,7 @@
 
 
 
-<title>Coding Practice</title>
+<title>Take-home Labs</title>
 
 <script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -292,52 +292,33 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="lesson_01_intro_r_rstudio.html">Intro to Programming, R, &amp; RStudio</a>
+      <a href="lesson_wk01_intro_r_rstudio.html">Intro to Programming, R, &amp; RStudio</a>
     </li>
     <li>
-      <a href="lesson_02_project_management.html">Project Management</a>
+      <a href="lesson_wk02_project_management_and_data.html">Project Management &amp; How R Thinks About Data</a>
     </li>
     <li>
-      <a href="lesson_03_how_r_thinks_about_data.html">How R Thinks About Data</a>
+      <a href="lesson_wk03_spreadsheets_and_data_import.html">Spreadsheet Best Practices &amp; Data Import</a>
     </li>
     <li>
-      <a href="lesson_04_spreadsheets_condensed.html">Spreadsheets</a>
+      <a href="lesson_wk04_data_manipulation_pt1.html">Data Manipulation Pt1</a>
     </li>
     <li>
-      <a href="lesson_05_data_import.html">Starting With Spreadsheets in R</a>
+      <a href="lesson_wk05_data_manipulation_pt2.html">Data Manipulation Pt2</a>
     </li>
     <li>
-      <a href="lesson_06_data_manipulation_pt1.html">Data Manipulation Pt1</a>
+      <a href="lesson_wk07_data_visualization.html">Data Visualization with ggplot2</a>
     </li>
     <li>
-      <a href="lesson_08_data_manipulation_pt2.html">Data Manipulation Pt2</a>
+      <a href="lesson_wk08_dates_and_functions.html">Dates &amp; Times with Lubridate and Creating Functions</a>
     </li>
     <li>
-      <a href="lesson_09_data_viz_pt1.html">Data Visualization Pt1</a>
-    </li>
-    <li>
-      <a href="lesson_11_data_viz_pt2.html">Data Visualization Pt2</a>
-    </li>
-    <li>
-      <a href="lesson_12_lubridate.html">Date-times with lubridate</a>
-    </li>
-    <li>
-      <a href="lesson_13_functions.html">Writing functions</a>
-    </li>
-    <li>
-      <a href="lesson_14_iteration.html">Iteration</a>
+      <a href="lesson_wk09_iteration.html">Iteration</a>
     </li>
     <li>
       <a href="lesson_rmarkdown.html">Literate Programming with RMarkdown</a>
     </li>
   </ul>
-</li>
-<li>
-  <a href="lectures.html">
-    <span class="fa fa-slideshare fa-1x"></span>
-     
-    Videos
-  </a>
 </li>
 <li>
   <a href="labs.html">
@@ -385,7 +366,7 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Coding Practice</h1>
+<h1 class="title toc-ignore">Take-home Labs</h1>
 
 </div>
 
@@ -401,22 +382,106 @@ tasks you have completed in concert with the reflection you submit.</p>
 <p><br></p>
 <div id="labs" class="section level2 tabset tabset-fade tabset-pills">
 <h2 class="tabset tabset-fade tabset-pills">Labs</h2>
+<div id="lab-week-1" class="section level3">
+<h3><small>Lab Week 1</small></h3>
+<p>This lab will help you get oriented with R, RStudio, and your first
+programming concepts. The goal is to practice the fundamentals covered
+in the the introduction to R and RStudio lecture.</p>
+<p><strong>Setup Instructions:</strong> 1. Open RStudio 2. Create a new
+R script by going to <code>File -&gt; New File -&gt; R Script</code> or
+pressing <code>Ctrl/Cmd+Shift+N</code> 3. Save your script as
+<code>lab_week_1.R</code> in an appropriate location 4. As you work
+through the problems below, write your code in the script and run it
+using <code>Ctrl/Cmd+Enter</code></p>
+<p><strong>Part 1: Basic Arithmetic and Order of Operations</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Use parentheses to edit <code>15 + 7 * 3</code> force R to return
+<code>66</code> instead of <code>36</code>.</p></li>
+<li><p>Calculate the square root of 144.</p></li>
+<li><p>Calculate 2 raised to the power of 8.</p></li>
+</ol>
+<p><strong>Part 2: Objects and Assignment</strong></p>
+<ol start="4" style="list-style-type: decimal">
+<li><p>Create an object called <code>current_year</code> and assign a
+value of <code>2025</code> to it using the <code>&lt;-</code>
+operator.</p></li>
+<li><p>Calculate how many years it has been since <code>1977</code>
+using the <code>current_year</code> object.</p></li>
+</ol>
+<p><strong>Part 3: Mathematical Functions</strong></p>
+<ol start="6" style="list-style-type: decimal">
+<li><p>Calculate the natural logarithm of 10 using the
+<code>log()</code> function.</p></li>
+<li><p>Calculate e raised to the power of 2 using the <code>exp()</code>
+function.</p></li>
+</ol>
+<p><strong>Part 4: Logical Comparisons</strong></p>
+<ol start="8" style="list-style-type: decimal">
+<li><p>Test whether 10 is equal to 5 + 5 using the <code>==</code>
+operator.</p></li>
+<li><p>Test whether 7 is greater than 10.</p></li>
+<li><p>Test whether 15 is greater than or equal to 15.</p></li>
+<li><p>Create an object called <code>x</code> with the value 25, then
+test whether <code>x</code> is not equal to 30.</p></li>
+</ol>
+<p><strong>Part 5: Exploring Functions and Getting Help</strong></p>
+<ol start="12" style="list-style-type: decimal">
+<li><p>Use the help function to learn about the <code>round()</code>
+function by typing <code>?round</code> in the console.</p></li>
+<li><p>Round the number 3.14159 to 2 decimal places using the
+<code>round()</code> function.</p></li>
+<li><p>Calculate the absolute value of -15 using the <code>abs()</code>
+function.</p></li>
+</ol>
+<p><strong>Part 6: Working with Scripts</strong></p>
+<ol start="15" style="list-style-type: decimal">
+<li><p>Add comments to your script using <code>#</code> to explain what
+each section does.</p></li>
+<li><p>Save your script and make sure you can run the entire script from
+top to bottom without errors.</p></li>
+</ol>
+<details>
+<summary>
+<strong>DO NOT OPEN</strong> until you are ready to see the answers
+</summary>
+<pre class="r"><code># Part 1: Basic Arithmetic and Order of Operations
+(15 + 7) * 3  # Result: 66 (parentheses force addition first)
+sqrt(144)  # Result: 12
+2^8  # Result: 256
+
+# Part 2: Objects and Assignment
+current_year &lt;- 2025  # 
+current_year - 1977
+
+# Part 3: Mathematical Functions
+log(10)  # Natural logarithm of 10
+exp(2)   # e^2
+
+# Part 4: Logical Comparisons
+10 == 5 + 5  # TRUE
+7 &gt; 10       # FALSE
+15 &gt;= 15     # TRUE
+x &lt;- 25
+x != 30      # TRUE
+
+# Part 5: Exploring Functions and Getting Help
+?round  # Opens help for round function
+round(3.14159, 2)  # Result: 3.14
+abs(-15)  # Result: 15
+
+# Part 6 involves adding comments and saving the script</code></pre>
+</details>
+</div>
 <div id="lab-week-2" class="section level3">
 <h3><small>Lab Week 2</small></h3>
-<p><strong>GitHub Classroom Link:</strong> <a
-href="https://classroom.github.com/a/AxSnsy-e">Lab 2</a></p>
-<p>In this homework we are going to practice subsetting and manipulating
+<p>In this lab we are going to practice subsetting and manipulating
 vectors.</p>
-<p>First, open your r-davis-in-class-project-YourName and
-<code>pull</code>. Remember, we always want to start working on a github
-project by pulling, even if we are sure nothing has changed (believe me,
-this small step will save you lots of headaches).</p>
-<p>Second, open a new script in your r-davis-in-class-project-YourName
-and save it to your <code>scripts</code> folder. Call this new script
-<code>week_2_homework</code>.</p>
+<p>First, open a new script in your workgin directory and save it to
+your <code>scripts</code> folder. Call this new script
+<code>week_2_lab</code>.</p>
 <p>Copy and paste the chunk of code below into your new
-<code>week_2_homework</code> script and run it. This chunk of code will
-create the vector you will use in your homework today. Check in your
+<code>week_2_lab</code> script and run it. This chunk of code will
+create the vector you will use in your lab today. Check in your
 environment to see what it looks like. What do you think each line of
 code is doing?</p>
 <pre class="r"><code>set.seed(15)
@@ -467,12 +532,9 @@ final &lt;- plus10[c(TRUE, FALSE)] #selecting every other number using logical s
 </div>
 <div id="lab-week-3" class="section level3">
 <h3><small>Lab Week 3</small></h3>
-<p><strong>GitHub Classroom Link:</strong> <a
-href="https://classroom.github.com/a/HzmAhpLH">Lab 3</a></p>
-<p>Homework this week will be playing with the <code>surveys</code> data
-we worked on in class. First things first, open your
-r-davis-in-class-project and pull. Then create a new script in your
-<code>scripts</code> folder called <code>week_3_homework.R</code>.</p>
+<p>Lab this week will be playing with the <code>surveys</code> data we
+worked on in class. Create a new script in your <code>scripts</code>
+folder called <code>week_3_lab.R</code>.</p>
 <p>Load your <code>survey</code> data frame with the read.csv()
 function. Create a new data frame called <code>surveys_base</code> with
 only the species_id, the weight, and the plot_type columns. Have this
@@ -487,7 +549,7 @@ think of any examples?</p>
 <details>
 <summary>
 <strong>DO NOT OPEN</strong> until you are ready to see the answers for
-the the homework
+the the lab
 </summary>
 <pre class="r"><code>#PROBLEM 1
 
@@ -521,11 +583,7 @@ challenge_base &lt;- surveys_base[surveys_base[, 2]&gt;150,] #selecting just the
 </div>
 <div id="lab-week-4" class="section level3">
 <h3><small>Lab Week 4</small></h3>
-<p><strong>GitHub Classroom Link:</strong> <a
-href="https://classroom.github.com/a/-TGD0-Tp">Lab 4</a></p>
-<p>By now you should be in the rhythm of pulling from your git
-repository and then creating new homework script. This week the homework
-will review data manipulation in the tidyverse.</p>
+<p>This week the lab will review data manipulation in the tidyverse.</p>
 <ol style="list-style-type: decimal">
 <li><p>Create a tibble named <code>surveys</code> from the
 portal_data_joined.csv file.</p></li>
@@ -556,13 +614,13 @@ or not a row’s weight is above average for its species+sex combination
 <details>
 <summary>
 <strong>DO NOT OPEN</strong> until you are ready to see the answers for
-the homework
+the lab
 </summary>
 <pre class="r"><code>library(tidyverse)
 #1
 surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 34786 Columns: 13
-## ── Column specification ────────────────────
+## ── Column specification ──────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -592,8 +650,9 @@ biggest_critters &lt;- surveys %&gt;%
   filter(!is.na(weight)) %&gt;% 
   group_by(species_id, sex) %&gt;% 
   summarise(max_weight = max(weight))</code></pre>
-<pre><code>## `summarise()` has grouped output by
-## &#39;species_id&#39;. You can override using the
+<pre><code>## `summarise()` has grouped
+## output by &#39;species_id&#39;. You
+## can override using the
 ## `.groups` argument.</code></pre>
 <pre class="r"><code>biggest_critters %&gt;% arrange(max_weight)</code></pre>
 <pre><code>## # A tibble: 64 × 3
@@ -694,7 +753,8 @@ surveys_avg_weight &lt;- surveys %&gt;%
 
 surveys_avg_weight</code></pre>
 <pre><code>## # A tibble: 32,283 × 4
-## # Groups:   species_id, sex [64]
+## # Groups:   species_id, sex
+## #   [64]
 ##    species_id sex   weight avg_weight
 ##    &lt;chr&gt;      &lt;chr&gt;  &lt;dbl&gt;      &lt;dbl&gt;
 ##  1 NL         M        218       166.
@@ -714,7 +774,8 @@ surveys_avg_weight &lt;- surveys_avg_weight %&gt;%
 
 surveys_avg_weight</code></pre>
 <pre><code>## # A tibble: 32,283 × 5
-## # Groups:   species_id, sex [64]
+## # Groups:   species_id, sex
+## #   [64]
 ##    species_id sex   weight avg_weight above_average
 ##    &lt;chr&gt;      &lt;chr&gt;  &lt;dbl&gt;      &lt;dbl&gt; &lt;lgl&gt;        
 ##  1 NL         M        218       166. TRUE         
@@ -732,8 +793,6 @@ surveys_avg_weight</code></pre>
 </div>
 <div id="lab-week-5" class="section level3">
 <h3><small>Lab Week 5</small></h3>
-<p><strong>GitHub Classroom Link:</strong> <a
-href="https://classroom.github.com/a/F1fLW6Yr">Lab 5</a></p>
 <p>This week’s questions will have us practicing pivots and conditional
 statements.</p>
 <ol style="list-style-type: decimal">
@@ -765,13 +824,13 @@ in question 2?</p>
 <details>
 <summary>
 <strong>DO NOT OPEN</strong> until you are ready to see the answers for
-the homework
+the lab
 </summary>
 <pre class="r"><code># 1
 library(tidyverse)
 surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 34786 Columns: 13
-## ── Column specification ────────────────────
+## ── Column specification ──────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -784,9 +843,10 @@ surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
   summarise(mean_hindfoot = mean(hindfoot_length)) %&gt;% 
   pivot_wider(names_from = plot_type, values_from = mean_hindfoot) %&gt;% 
   arrange(Control)</code></pre>
-<pre><code>## `summarise()` has grouped output by
-## &#39;genus&#39;. You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped
+## output by &#39;genus&#39;. You can
+## override using the `.groups`
+## argument.</code></pre>
 <pre class="r"><code># 2
 summary(surveys$weight)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
@@ -949,7 +1009,7 @@ October 2024 for comparison.</p></li>
 url &lt;- &#39;https://raw.githubusercontent.com/ucd-cepb/R-DAVIS/refs/heads/main/data/tyler_activity_laps_10-24.csv&#39;
 lap_dt &lt;- read_csv(url)</code></pre>
 <pre><code>## Rows: 8985 Columns: 12
-## ── Column specification ────────────────────
+## ── Column specification ──────
 ## Delimiter: &quot;,&quot;
 ## chr   (1): sport
 ## dbl  (10): year, month, day, total_distance_m, minutes_per_mile, total_elaps...
@@ -971,8 +1031,9 @@ running_laps %&gt;% group_by(form,pace_cat) %&gt;%
   summarize(avg_spm = mean(steps_per_minute)) %&gt;%
   pivot_wider(id_cols = form,values_from = avg_spm,names_from = pace_cat) %&gt;%
   select(form,slow,medium,fast)</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;form&#39;.
-## You can override using the `.groups`
+<pre><code>## `summarise()` has grouped
+## output by &#39;form&#39;. You can
+## override using the `.groups`
 ## argument.</code></pre>
 <pre><code>## # A tibble: 2 × 4
 ## # Groups:   form [2]
@@ -997,22 +1058,20 @@ running_laps %&gt;% group_by(form,pace_cat) %&gt;%
 </div>
 <div id="lab-week-6" class="section level3">
 <h3><small>Lab Week 6</small></h3>
-<p><strong>GitHub Classroom Link:</strong> <a
-href="https://classroom.github.com/a/TZVr8Kfl">Lab 6</a></p>
-<p>For our week six homework, we are going to be practicing the skills
-we learned with ggplot during class. You will be happy to know that we
-are going to be using a brand new data set called
-<code>gapminder</code>. This data set is looking at statistics for a few
-different counties including population, GDP per capita, and life
-expectancy. Download the data using the code below. Remember, this code
-is looking for a folder called <code>data</code> to put the .csv in, so
-make sure you have a folder named <code>data</code>, or modify the code
-to the correct folder name.</p>
+<p>For our week six lab, we are going to be practicing the skills we
+learned with ggplot during class. You will be happy to know that we are
+going to be using a brand new data set called <code>gapminder</code>.
+This data set is looking at statistics for a few different counties
+including population, GDP per capita, and life expectancy. Download the
+data using the code below. Remember, this code is looking for a folder
+called <code>data</code> to put the .csv in, so make sure you have a
+folder named <code>data</code>, or modify the code to the correct folder
+name.</p>
 <pre class="r"><code>library(tidyverse)
 
 gapminder &lt;- read_csv(&quot;https://ucd-r-davis.github.io/R-DAVIS/data/gapminder.csv&quot;) #ONLY change the &quot;data&quot; part of this path if necessary</code></pre>
 <pre><code>## Rows: 1704 Columns: 6
-## ── Column specification ────────────────────
+## ── Column specification ──────
 ## Delimiter: &quot;,&quot;
 ## chr (2): country, continent
 ## dbl (4): year, pop, lifeExp, gdpPercap
@@ -1039,8 +1098,9 @@ out and see what happens with or without particular elements.</p>
     scale_x_log10() +
     geom_smooth(method = &#39;lm&#39;, color = &#39;black&#39;, linetype = &#39;dashed&#39;) +
     theme_bw()</code></pre>
-<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="labs_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre><code>## `geom_smooth()` using formula
+## = &#39;y ~ x&#39;</code></pre>
+<p><img src="labs_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Create a boxplot that shows the life expectency for Brazil, China,
 El Salvador, Niger, and the United States, with the data points in the
@@ -1062,10 +1122,11 @@ gapminder %&gt;%
   ggplot()+
   geom_point(aes(x = year, y = mean_lifeExp, color = continent))+ #scatter plot
   geom_line(aes(x = year, y = mean_lifeExp, color = continent)) #line plot</code></pre>
-<pre><code>## `summarise()` has grouped output by
-## &#39;continent&#39;. You can override using the
+<pre><code>## `summarise()` has grouped
+## output by &#39;continent&#39;. You
+## can override using the
 ## `.groups` argument.</code></pre>
-<p><img src="labs_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p><img src="labs_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r"><code>#there are other ways to represent this data and answer this question. Try a facet wrap! Play around with themes and ggplotly!  
 
 
@@ -1078,8 +1139,9 @@ ggplot(gapminder, aes(x = gdpPercap, y = lifeExp)) +
     scale_x_log10() +
     geom_smooth(method = &#39;lm&#39;, color = &#39;black&#39;, linetype = &#39;dashed&#39;) +
     theme_bw()</code></pre>
-<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
-<p><img src="labs_files/figure-html/unnamed-chunk-11-2.png" width="672" /></p>
+<pre><code>## `geom_smooth()` using formula
+## = &#39;y ~ x&#39;</code></pre>
+<p><img src="labs_files/figure-html/unnamed-chunk-12-2.png" width="672" /></p>
 <pre class="r"><code>#PROBLEM 3: 
 
 countries &lt;- c(&quot;Brazil&quot;, &quot;China&quot;, &quot;El Salvador&quot;, &quot;Niger&quot;, &quot;United States&quot;) #create a vector with just the countries we are interested in
@@ -1093,19 +1155,17 @@ gapminder %&gt;%
   ggtitle(&quot;Life Expectancy of Five Countries&quot;) + #title the figure
   theme(plot.title = element_text(hjust = 0.5)) + #centered the plot title
   xlab(&quot;Country&quot;) + ylab(&quot;Life Expectancy&quot;) #how to change axis names</code></pre>
-<img src="labs_files/figure-html/unnamed-chunk-11-3.png" width="672" />
+<img src="labs_files/figure-html/unnamed-chunk-12-3.png" width="672" />
 </details>
 </div>
 <div id="lab-week-7" class="section level3">
 <h3><small>Lab Week 7</small></h3>
-<p><strong>GitHub Classroom Link:</strong> <a
-href="https://classroom.github.com/a/zTSqmwqK">Lab 7</a></p>
 <p>For week 7, we’re going to be working on 2 critical
 <code>ggplot</code> skills: recreating a graph from a dataset and
 <strong>googling stuff</strong>.</p>
 <p>Our goal will be to make this final graph using the
 <code>gapminder</code> dataset:</p>
-<p><img src="labs_files/figure-html/unnamed-chunk-13-1.png" width="768" /></p>
+<p><img src="labs_files/figure-html/unnamed-chunk-14-1.png" width="768" /></p>
 <p>The x axis labels are all scrunched up because we can’t make the
 image bigger on the webpage, but if you make it and then zoom it bigger
 in RStudio it looks much better.</p>
@@ -1169,8 +1229,6 @@ pg %&gt;%
 </div>
 <div id="lab-week-8" class="section level3">
 <h3><small>Lab Week 8</small></h3>
-<p><strong>GitHub Classroom Link:</strong> <a
-href="https://classroom.github.com/a/CoS6GwTH">Lab 8</a></p>
 <p>Let’s look at some real data from Mauna Loa to try to format and
 plot. These meteorological data from Mauna Loa were collected every
 minute for the year 2001. <em>This dataset has 459,769 observations for
@@ -1255,7 +1313,7 @@ in a string.</li>
 <p>Next let’s load the Mauna Loa dataset from last week.</p>
 <pre class="r"><code>mloa &lt;- read_csv(&quot;https://raw.githubusercontent.com/ucd-cepb/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv&quot;)</code></pre>
 <pre><code>## Rows: 459769 Columns: 16
-## ── Column specification ────────────────────
+## ── Column specification ──────
 ## Delimiter: &quot;,&quot;
 ## chr  (2): filename, siteID
 ## dbl (14): year, month, day, hour24, min, windDir, windSpeed_m_s, windSteady,...

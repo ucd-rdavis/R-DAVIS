@@ -2,16 +2,13 @@
 title: "RStudio and Git"
 ---
 
-Once we've setup R/RStudio, and installed git, the next step is seeing whether we can connect RStudio with Git. Please try this at home before class, and then we'll go through it when we meet.
-
-<br>
+**WE WILL TALK ABOUT THIS IN WEEK 10**
 
 ::: blue
 **This lesson assumes you have:**
 
 -   registered for your free Github account
 -   installed **R**, **RStudio**, and **git**
--   Filled out our google form and accepted your invitation to the repository in our [`UCD-R-DAVIS` group](https://github.com/ucd-r-davis)
 :::
 
 <br> This lesson is to demonstrate the basics of using git with RStudio, and should provide a basic understanding of why we want to use version control where possible.
