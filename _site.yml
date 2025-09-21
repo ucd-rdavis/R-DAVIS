@@ -33,8 +33,6 @@ navbar:
       href: lesson_wk08_dates_and_functions.html
     - text: Iteration
       href: lesson_wk09_iteration.html
-    - text: Literate Programming with RMarkdown
-      href: lesson_rmarkdown.html
   - text: Labs
     icon: fa-paperclip fa-1x
     href: labs.html
