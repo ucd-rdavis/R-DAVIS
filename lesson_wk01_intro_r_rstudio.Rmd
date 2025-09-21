@@ -19,7 +19,6 @@ title: "Orientation to programming, R, and RStudio"
 
 - [Why programming and Intro to R (part 1)]()
 - [Intro to R (part 2)]()
-- [SSH keys]()
 
 ## In Class Coding
 
