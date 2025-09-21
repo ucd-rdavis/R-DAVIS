@@ -43,9 +43,12 @@ Students completing this course should be able to:
 To get the most out of in-class time together, R-DAVIS will combine video material that you watch outside of class with in-person discussion and hands-on activities that we do together in class. Unless unforeseen circumstances arise, videos will be posted by Monday to the relevant week on the Lectures page. Please come to class having watched the material relevant to that week's lesson, completed the video quiz, and perhaps having taken a cursory attempt at trying out what is covered in the videos. We are organizing the course this way so as to spend less of our time together lecturing, and more time working and learning together.
 
 ### Grading and Class Expectations 
+
 R-DAVIS is a graded, 3-unit course. The [university's formula](https://registrar.ucdavis.edu/faculty-staff/faculty/courses#:~:text=Academic%20Credit%2C%20Units%2C%20&%20Workload,Committee%20on%20Courses%20of%20Instruction.&text=The%20value%20of%20a%20course,a%20student%2C%20or%20the%20equivalent) for a 3-unit course is that you should expect to spend ~9 hours a week in total on the course. You might spend less time then that, or some weeks you might spend more. Regardless, if you only put in work during the scheduled class time, you are unlikely to meet learning goals for the course.
 
-R-DAVIS grades are based on a combination of several tasks and deliverables. The total number of possible points earned is 250 points. Grades are calculated at points_earned/270
+R-DAVIS only has 10 class sessions (and 10 labs), so missing class means that you are missing a sizable chunk of the course. We expect you to attend class in person, and will not have a hybrid remote option (in our experience, it works really poorly in this instructional context). Becuase we know that things do come up from time to time, we give each student one dropped in-class or lab submission (i.e., you can miss one). 
+
+R-DAVIS grades are based on a combination of several tasks and deliverables. Grades are calculated at points_earned/total_available.
 
 - A = 93-100% | A- = 90-92%
 - B+ = 87-89 | B = 83-86 | B- = 80-82%
@@ -54,10 +57,26 @@ R-DAVIS grades are based on a combination of several tasks and deliverables. The
 - F = < 60%
 
 Points are earned as follows:
-- Submitting weekly in-class scratch work. These submissions are credit/no-credit (but we will pay attention to good faith effort) NOTE: WEEKLY IN-CLASS SCRATCH WORK FUNCTIONS AS ATTENDANCE. R-DAVIS only has 10 class sessions (and 10 labs), so missing class means that you are missing a sizable chunk of the course. 10 weeks, 10 points each, out of 90 (i.e., we will drop one (1) absence). The absence can be for any reasons, we do not have "excused" and "unexcused" absences in this course.
-- Submitting take-home labs. These submissions are credit/no-credit, but again will be reviewed for good-faith effort (primarily, evidence of working and learning). 9 take-home labs, 10 points each, 90 points total.
+
+- Watching lecture videos before class
+
+Videos will be posted by Monday. By Thursday at 10am before class, you are expected to post a brief discussion about the questions and major points of uncertainty you have after the video that you want to resolve in class. 9 weeks, 3 points each.
+
+- Submitting weekly in-class scratch work.
+
+These submissions are credit/no-credit (but we will pay attention to good faith effort). 9 weeks, 10 points each.
+
+- Submitting take-home labs. 
+
+These submissions are credit/no-credit, but again will be reviewed for good-faith effort (primarily, evidence of working and learning). 9 take-home labs, 10 points each.
+
 - Midterm Exam: In-class exam, 45 points
+
+We will provide guidance about the format later in the course. 
+
 - Final Exam: In-class (during university-designated examp period), 45 points
+
+We will provide guidance about the format later in the course. 
 
 We will not take attendance for Tuesday afternoon discussion sections, since not all students are typically there at the same time. But we strongly encourage you to attend. Our experience is that students who engage with R more times during the week have much better learning outcomes. 
 
@@ -67,7 +86,7 @@ We believe that instructors have a duty to examine their pedagogy--and students 
 
 #### Equity is a vital social project
 
-Many educational institutions and practices perpetuate the discrimination of our wider society, further marginalizing Black, Brown, and Indigenous people, people of differing abilities, and people of genders or gender identities other than those reflecting "conventional" notions of male masculinity. In perhaps no field of academia is this reality more apparent than in Science, Technology, Engineering, and Mathematics (STEM) fields. We are committed to diversity (social/demographic differences such as race, ethnicity, gender, sex, sexual orientation, ability, and language) and the pursuit of equity (the fair distribution of resources and opportunities, accounting for past and present events, conditions, and contexts) as a vital project in and outside of the classroom. We are also acutely aware that we will fall short of these ideals — as will our teaching. We invite you to hold us and this course to them, and to help us learn.
+We are committed to diversity (social/demographic differences such as race, ethnicity, gender, sex, sexual orientation, ability, and language) and the pursuit of equity (the fair distribution of resources and opportunities, accounting for past and present events, conditions, and contexts) as a vital project in and outside of the classroom. We are also acutely aware that we will fall short of these ideals — as will our teaching. We invite you to hold us and this course to them, and to help us learn.
 
 #### Inaccessibility is a choice
 
@@ -80,7 +99,7 @@ Physical, emotional, psychological, and spiritual trauma are real and have real 
 
 #### Failure is productive
 
-Data science and programming are all about learning from failure--stuff like fixing bugs, troubleshooting messy data, and figuring out why your model blew up. You will learn the most by trying something, having it break, trying to decipher the error message, and iterating until you get it to work. We want to encourage you to take risks, fail repeatedly, and learn volumes in the process. In practice, this means that we would *much* rather have you only get half of a lab done, but really understand that half, instead of borrowing your friends' code that you don't really understand and completing the lab. To put our money where our mouth is: *in-class work and labs is credit/no-credit and NOT graded based on completion*. We *will* pay attention to effort and evidence of learning. That means that w want to see your work and your scratch code and how you got where you got *MUCH* more than we want to see a perfectly rendered AI code block that you made when you couldn't figure it all out and panicked about wanting a completed assignment.
+Data science and programming are all about learning from failure--stuff like fixing bugs, troubleshooting messy data, and figuring out why your model blew up. You will learn the most by trying something, having it break, trying to decipher the error message, and iterating until you get it to work. We want to encourage you to take risks, fail repeatedly, and learn volumes in the process. In practice, this means that we would *much* rather have you only get half of a lab done, but really understand that half, instead of borrowing your friends' code that you don't really understand and completing the lab. To put our money where our mouth is: *in-class work and labs is graded on a credit/no-credit basis, but credit is NOT simply conditoinal on completion*. We *will* pay attention to effort and evidence of learning. That means that we want to see your work, your scratch code, and how you got where you got *MUCH* more than we want to see a perfectly rendered AI code block that you made when you couldn't figure it all out and panicked about wanting a completed assignment. In fact, if it becomes clear to us that we are reviewing AI-only output, that work will not receive credit.
 
 #### Busywork is bad
 
@@ -91,11 +110,7 @@ We want this course to be a "no busy work" space. On a micro-level, if you find 
 
 ### Territory Acknowledgement
 
-Acknowledging territory shows recognition of and respect for Native Americans. It is recognition of their presence both in the past and the present. Recognition and respect are essential elements of establishing healthy, reciprocal relations. These relationships are key to reconciliation, a process to which we are committed.
-
-We would like to respectfully acknowledge that the land on which we gather is traditional unceded Patwin territory. We recognize and respect our role as guests here.
-
-This territory acknowledgement is an adaptation of one written by the Canadian Association of University Teachers. For more information, please see their [website](https://www.caut.ca/content/guide-acknowledging-first-peoples-traditional-territory).
+Acknowledging territory shows recognition of and respect for Native Americans. We would like to respectfully acknowledge that the land on which we gather is traditional unceded Patwin territory. This territory acknowledgement is an adaptation of one written by the Canadian Association of University Teachers. For more information, please see their [website](https://www.caut.ca/content/guide-acknowledging-first-peoples-traditional-territory).
 
 ### Academic Integrity
 As a University of California, Davis student, you have agreed to abide by the University's Code of Academic Conduct (http://sja.ucdavis.edu/files/cac.pdfLinks to an external site.).  All academic work must meet these standards. Lack of knowledge of the academic honesty policy is not a reasonable explanation for a violation. Questions related to course assignments and the academic honesty policy should be directed to the instructor.
