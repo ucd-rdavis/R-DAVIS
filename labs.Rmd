@@ -36,7 +36,7 @@ Labs are designed to reinforce the code/lessons covered that week and provide yo
 
 ## Labs {.tabset .tabset-fade .tabset-pills}
 
-### <small>Lab Week 1</small>
+### <small>Lab Week 1</small> {#lab-week-1}
 
 This lab will help you get oriented with R, RStudio, and your first programming concepts. The goal is to practice the fundamentals covered in the the introduction to R and RStudio lecture.
 
@@ -123,7 +123,7 @@ abs(-15)  # Result: 15
 ```
 </details>
 
-### <small>Lab Week 2</small>
+### <small>Lab Week 2</small> {#lab-week-2}
 
 In this lab we are going to practice subsetting and manipulating vectors.  
 
@@ -181,7 +181,7 @@ final <- plus10[c(TRUE, FALSE)] #selecting every other number using logical subs
 </details>
 
 
-### <small>Lab Week 3</small>
+### <small>Lab Week 3</small> {#lab-week-3}
 
 Lab this week will be playing with the `surveys` data we worked on in class. Create a new script in your `scripts` folder called `week_3_lab.R`. 
 
@@ -220,7 +220,7 @@ challenge_base <- surveys_base[surveys_base[, 2]>150,] #selecting just the weigh
 
 <br> 
 
-### <small>Lab Week 4</small>
+### <small>Lab Week 4</small> {#lab-week-4}
 
 This week the lab will review data manipulation in the tidyverse.
 
@@ -294,7 +294,7 @@ surveys_avg_weight
 ```
 </details>
 
-### <small>Lab Week 5</small>
+### <small>Lab Week 5</small> {#lab-week-5}
 
 This week's questions will have us practicing pivots and conditional statements.
 
@@ -358,66 +358,9 @@ surveys %>%
 ```
 </details>
 
+### <small>Lab Week 7</small> {#lab-week-7}
 
-
-### <small>Midterm </small>
-
-This is the midterm exam for R-DAVIS Fall 2024. THE MIDTERM IS NOT GRADED. This is strictly meant to be an assessment of your learning thus far. You are welcome to use whatever materials you'd like. The exam is meant to take 1 hour. When you are finished, save a .R script as midterm_[lastname]_[firstname] in your class git repository and push your script to github.
-
-BACKGROUND: The pandemic spurred Tyler to get back into running semi-seriously. That went pretty well until he hurt his Achilles tendon. The sports med doctors at UC Davis filmed and analyzed his running. The doctors said Tyler was getting old... and that he was over-striding and putting too much pressure on his Achilles when landing. So in 2024, Tyler has been practicing running differently. The doctors and trainers are having Tyler increase his cadence (strides per minute) while running, with the idea being that fast, short strides place less stress on the lower body. For this exam, you are going to read in data that Tyler has exported from his Garmin running watch and perform a descriptive analysis to assess how successful this effort has been.
-
-TASK DESCRIPTION: 
-
-1. Read in the file tyler_activity_laps_10-24.csv from the class github page. This file is at url `https://raw.githubusercontent.com/ucd-cepb/R-DAVIS/refs/heads/main/data/tyler_activity_laps_10-24.csv`, so you can code that url value as a string object in R and call read_csv() on that object. The file is a .csv file where each row is a "lap" from an activity Tyler tracked with his watch. 
-
-2. Filter out any non-running activities. 
-
-3. Next, Tyler often has to take walk breaks between laps right now because trying to change how you've run for 25 years is hard. You can assume that any lap with a pace above 10 minute-per-mile pace is walking, so remove those laps. You should also remove any abnormally fast laps (< 5 minute-per-mile pace) and abnormally short records where the total elapsed time is one minute or less. 
-
-4. Create a new categorical variable, pace, that categorizes laps by pace: "fast" (< 6 minutes-per-mile), "medium" (6:00 to 8:00), and "slow" ( > 8:00). Create a second categorical variable, `form` that distinguishes between laps run in the year 2024 ("new", as Tyler started his rehab in January 2024) and all prior years ("old"). 
-
-5. Identify the average steps per minute for laps by form and pace, and generate a table showing these values with old and new as separate rows and pace categories as columns. Make sure that `slow` speed is the second column, `medium` speed is the third column, and `fast` speed is the fourth column (hint: think about what the `select()` function does). 
-
-6. Finally, Tyler thinks he's been doing better since July after the doctors filmed him running again and provided new advice. Summarize the minimum, mean, median, and maximum steps per minute results for all laps (regardless of pace category) run between January - June 2024 and July - October 2024 for comparison.
-
-<details>
-<summary>**DO NOT OPEN** until you are ready to see the answers! </summary>
-```{r, eval = T}
-library(tidyverse)
-url <- 'https://raw.githubusercontent.com/ucd-cepb/R-DAVIS/refs/heads/main/data/tyler_activity_laps_10-24.csv'
-lap_dt <- read_csv(url)
-
-running_laps <- lap_dt %>% 
-  filter(sport == 'running') %>%
-  filter(total_elapsed_time_s >= 60) %>%
-  filter(minutes_per_mile < 10 & minutes_per_mile > 5) %>%
-  mutate(pace_cat = case_when(minutes_per_mile < 6 ~ 'fast',
-                           minutes_per_mile >=6 & minutes_per_mile < 8 ~ 'medium',
-                           T ~ 'slow'),
-         form = case_when(year == 2024 ~ 'new form',
-                          T ~ 'old form'))
-
-running_laps %>% group_by(form,pace_cat) %>% 
-  summarize(avg_spm = mean(steps_per_minute)) %>%
-  pivot_wider(id_cols = form,values_from = avg_spm,names_from = pace_cat) %>%
-  select(form,slow,medium,fast)
-
-running_laps %>% filter(form == 'new form') %>%
-  mutate(months = ifelse(month %in% 1:6,'early 2024','late 2024')) %>%
-  group_by(months) %>% 
-  summarize(
-    min_spm = min(steps_per_minute),
-    median_spm = median(steps_per_minute),
-    mean_spm = mean(steps_per_minute),
-    max_spm = max(steps_per_minute))
-```
-<details>
-
-
-
-### <small>Lab Week 6</small>
-
-For our week six lab, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`. This data set is looking at statistics for a few different counties including population, GDP per capita, and life expectancy. Download the data using the code below. Remember, this code is looking for a folder called `data` to put the .csv in, so make sure you have a folder named `data`, or modify the code to the correct folder name. 
+For our week seven lab, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`. This data set is looking at statistics for a few different counties including population, GDP per capita, and life expectancy. Download the data using the code below. Remember, this code is looking for a folder called `data` to put the .csv in, so make sure you have a folder named `data`, or modify the code to the correct folder name. 
 
 ```{r, warnings = F}
 library(tidyverse)
@@ -426,6 +369,7 @@ gapminder <- read_csv("https://ucd-r-davis.github.io/R-DAVIS/data/gapminder.csv"
 
 ```
 
+**Part A: Basic ggplot Skills**
 
 1. First calculates mean life expectancy on each continent. Then create a plot that shows how life expectancy has changed over time in each continent. Try to do this all in one step using pipes! (aka, try not to create intermediate dataframes)
 
@@ -446,60 +390,11 @@ ggplot(gapminder, aes(x = gdpPercap, y = lifeExp)) +
 
 ```
 
-
 3. Create a boxplot that shows the life expectency for Brazil, China, El Salvador, Niger, and the United States, with the data points in the backgroud using geom_jitter. Label the X and Y axis with "Country" and "Life Expectancy" and title the plot "Life Expectancy of Five Countries".
 
-<details>
-<summary>**DO NOT OPEN** until you are ready to see the answers! </summary>
-```{r, eval = T}
+**Part B: Advanced ggplot Skills - Graph Recreation**
 
-library(tidyverse)
-
-#PROBLEM 1:
-
-gapminder %>%
-  group_by(continent, year) %>% 
-  summarize(mean_lifeExp = mean(lifeExp)) %>% #calculating the mean life expectancy for each continent and year
-  ggplot()+
-  geom_point(aes(x = year, y = mean_lifeExp, color = continent))+ #scatter plot
-  geom_line(aes(x = year, y = mean_lifeExp, color = continent)) #line plot
-
-#there are other ways to represent this data and answer this question. Try a facet wrap! Play around with themes and ggplotly!  
-
-
-
-#PROBLEM 2:
-
-#challenge answer
-ggplot(gapminder, aes(x = gdpPercap, y = lifeExp)) +
-    geom_point(aes(color = continent, size = pop)) + 
-    scale_x_log10() +
-    geom_smooth(method = 'lm', color = 'black', linetype = 'dashed') +
-    theme_bw()
-
-
-#PROBLEM 3: 
-
-countries <- c("Brazil", "China", "El Salvador", "Niger", "United States") #create a vector with just the countries we are interested in
-
-gapminder %>% 
-  filter(country %in% countries) %>% 
-  ggplot(aes(x = country, y = lifeExp))+
-  geom_boxplot() +
-  geom_jitter(alpha = 0.3, color = "blue")+
-  theme_minimal() +
-  ggtitle("Life Expectancy of Five Countries") + #title the figure
-  theme(plot.title = element_text(hjust = 0.5)) + #centered the plot title
-  xlab("Country") + ylab("Life Expectancy") #how to change axis names
-
-
-```
-</details>
-
-
-### <small>Lab Week 7</small>
-
-For week 7, we're going to be working on 2 critical `ggplot` skills: recreating a graph from a dataset and **googling stuff**.
+For the second part of this lab, we're going to be working on 2 critical `ggplot` skills: recreating a graph from a dataset and **googling stuff**.
 
 Our goal will be to make this final graph using the `gapminder` dataset:
 
@@ -553,7 +448,54 @@ This lesson should illustrate a key reality of making plots in R, one that appli
 So if you spend most of your time on this lesson googling stuff, you're not alone!
 
 <details>
-<summary>**DO NOT OPEN** until you are ready to see the answers</summary>
+<summary>**DO NOT OPEN** until you are ready to see the answers for Part A</summary>
+```{r, eval = T}
+
+library(tidyverse)
+
+#PROBLEM 1:
+
+gapminder %>%
+  group_by(continent, year) %>% 
+  summarize(mean_lifeExp = mean(lifeExp)) %>% #calculating the mean life expectancy for each continent and year
+  ggplot()+
+  geom_point(aes(x = year, y = mean_lifeExp, color = continent))+ #scatter plot
+  geom_line(aes(x = year, y = mean_lifeExp, color = continent)) #line plot
+
+#there are other ways to represent this data and answer this question. Try a facet wrap! Play around with themes and ggplotly!  
+
+
+
+#PROBLEM 2:
+
+#challenge answer
+ggplot(gapminder, aes(x = gdpPercap, y = lifeExp)) +
+    geom_point(aes(color = continent, size = pop)) + 
+    scale_x_log10() +
+    geom_smooth(method = 'lm', color = 'black', linetype = 'dashed') +
+    theme_bw()
+
+
+#PROBLEM 3: 
+
+countries <- c("Brazil", "China", "El Salvador", "Niger", "United States") #create a vector with just the countries we are interested in
+
+gapminder %>% 
+  filter(country %in% countries) %>% 
+  ggplot(aes(x = country, y = lifeExp))+
+  geom_boxplot() +
+  geom_jitter(alpha = 0.3, color = "blue")+
+  theme_minimal() +
+  ggtitle("Life Expectancy of Five Countries") + #title the figure
+  theme(plot.title = element_text(hjust = 0.5)) + #centered the plot title
+  xlab("Country") + ylab("Life Expectancy") #how to change axis names
+
+
+```
+</details>
+
+<details>
+<summary>**DO NOT OPEN** until you are ready to see the answers for Part B</summary>
 ```{r, eval=FALSE}
 library(tidyverse)
 
@@ -579,7 +521,7 @@ pg %>%
 ```
 </details>
 
-### <small>Lab Week 8</small>
+### <small>Lab Week 8</small> {#lab-week-8}
 
 Let's look at some real data from Mauna Loa to try to format and plot. These meteorological data from Mauna Loa were collected every minute for the year 2001. *This dataset has 459,769 observations for 9 different metrics of wind, humidity, barometric pressure, air temperature, and precipitation.* Download this dataset [here](data/mauna_loa_met_2001_minute.rda). Save it to your `data/` folder. Alternatively, you can read the CSV directly from the R-DAVIS Github:
 `mloa <- read_csv("https://raw.githubusercontent.com/gge-ucd/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv")`
@@ -633,7 +575,7 @@ mloa2 %>%
 ```
 </details>
 
-### <small>Lab Week 9</small>
+### <small>Lab Week 9</small> {#lab-week-9}
 In this assignment, you'll use the iteration skills we built in the course to apply functions to an entire dataset.
 
 Let's load the surveys dataset:
@@ -690,44 +632,4 @@ surveys$genusspecies <- lapply(1:length(surveys$species), function(i){
 ```
 </details>
 
-### <small>Reflection</small> 
 
--   Complete the [post-course credit reflection](https://docs.google.com/forms/d/e/1FAIpQLScR_AUTFx4Q9tL2QJumIEeOGdwFvyEsrqrZMXkwAqi2AzBFRw/viewform?usp=sharing)
-
-
-
-### <small>Final </small>
-
-This is the final exam for R-DAVIS Fall 2024. THE FINAL IS NOT GRADED. This is strictly meant to be an assessment of your learning thus far. You are welcome to use whatever materials you'd like. The exam is meant to take 1 hour. When you are finished, save a .R script as final_[lastname]_[firstname] in your class git repository and push your script to github.
-
-BACKGROUND
-
-For the midterm, you compared Tyler's old running data with recent data to analyze to see if there was any difference in strides-per-minute (SPM). On July 1, 2024, Tyler went to a follow-up appointment with the UCD Sports Medicine clinic, and they told him that has cadence was still too low, and that his form was perhaps *more* damaging than it had been. The technician gave Tyler some training cues, as well as the advice that "elite professional runners are at least 180 strides-per-minute, so aim for that". 
-
-Tyler looked into it, and found out that:
-
-* He is not an elite professional runner
-
-* That 180 number was based on strides counted in the 1984 MEN'S OLYMPIC 10K FINAL (seriously, this is true)
-
-Given these two facts, the conclusion (since confirmed with technician) is that what really matters is not just high cadence but a positive relationship between cadence and speed. Perform the tasks below to analyze whether Tyler's SPM appears responsive to changes in pace, and more importantly whether things have improved since the July 1 check-up.
-
-TASK DESCRIPTION 
-
-1. Read in the file tyler_activity_laps_12-6.csv from the class github page. This file is at url `https://raw.githubusercontent.com/UCD-R-DAVIS/R-DAVIS/refs/heads/main/data/tyler_activity_laps_12-6.csv`, so you can code that url value as a string object in R and call read_csv() on that object. The file is a .csv file where each row is a "lap" from an activity Tyler tracked with his watch. 
-
-2. Filter out any non-running activities. 
-
-3. We are interested in *normal* running. You can assume that any lap with a pace above 10 `minutes_per_mile` pace is walking, so remove those laps. You should also remove any abnormally fast laps (< 5 `minute_per_mile` pace) and abnormally short records where the total elapsed time is one minute or less. 
-
-4. Group observations into three time periods corresponding to pre-2024 running, Tyler's initial rehab efforts from January to June of this year, and activities from July to the present. 
-5. Make a scatter plot that graphs SPM over speed by lap.
-
-6. Make 5 aesthetic changes to the plot to improve the visual. 
-7. Add linear (i.e., straight) trendlines to the plot to show the relationship between speed and SPM for each of the three time periods (hint: you might want to check out the options for `geom_smooth()`)
-
-8. Does this relationship maintain or break down as Tyler gets tired? Focus just on post-intervention runs (after July 1, 2024). Make a plot (of your choosing) that shows SPM vs. speed by *lap*. Use the `timestamp` indicator to assign lap numbers, assuming that all laps on a given day correspond to the same run (hint: check out the `rank()` function). Select only laps 1-3 (Tyler never runs more than three miles these days). Make a plot that shows SPM, speed, *and* lap number (pick a visualization that you think best shows these three variables).
-
-<details>
-<summary>We'll post the answer key Thursday afternoon.</summary>
-</details>
