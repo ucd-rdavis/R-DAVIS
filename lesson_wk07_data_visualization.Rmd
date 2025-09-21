@@ -22,6 +22,7 @@ title: "Week 7: Data Visualization with ggplot2"
 - [Data visualization Part 2a]()
 - [Data visualization Part 2b]()
 - [Data visualization Part 2c]()
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510681)
 
 ## In Class Coding
 

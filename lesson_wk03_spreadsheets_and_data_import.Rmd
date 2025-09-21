@@ -26,6 +26,7 @@ output:
 
 - [Accessing spreadsheets]()
 - [Data Import]()
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510678)
 
 ## In Class Coding
 

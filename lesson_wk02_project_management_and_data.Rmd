@@ -21,6 +21,7 @@ title: "Week 2: How R Thinks About Data"
 - [How R thinks about data (Part 3, vector math)]()
 - [How R thinks about data (Part 4, missing values)]()
 - [How R thinks about data (Part 5, not-vectors)]()
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510677)
 
 ## In Class Coding
 

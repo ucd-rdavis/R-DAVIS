@@ -21,6 +21,7 @@ minutes: 30
 
 - [Dates with Lubridate]()
 - [Function-writing]()
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510685)
 
 ## In Class Coding
 

@@ -1,0 +1,23 @@
+---
+title: "Collaborative Github Skills"
+---
+
+<div class = "blue">
+### Learning objectives
+
+Content for this lesson will be added later.
+
+</div>
+<br>
+
+## Videos
+
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510684)
+
+## In Class Coding
+
+[Submit Week 10 In Class Coding](https://canvas.ucdavis.edu/courses/1019595/assignments/1510297)
+
+<br>
+
+Content for this lecture will be added later.

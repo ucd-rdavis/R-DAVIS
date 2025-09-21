@@ -21,6 +21,7 @@ title: "Manipulating and analyzing data in the tidyverse, Part 1"
 
 - [Data manipulation Part 1a]()
 - [Data manipulation Part 1b]()
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510679)
 
 ## In Class Coding
 

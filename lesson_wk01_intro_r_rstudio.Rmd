@@ -19,6 +19,7 @@ title: "Orientation to programming, R, and RStudio"
 
 - [Why programming and Intro to R (part 1)]()
 - [Intro to R (part 2)]()
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510676)
 
 ## In Class Coding
 
