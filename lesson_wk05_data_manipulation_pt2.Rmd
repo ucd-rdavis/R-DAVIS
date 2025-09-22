@@ -1,5 +1,5 @@
 ---
-title: "Manipulating and analyzing data in the tidyverse, Part 2"
+title: "Wk05: Manipulating and analyzing data in the tidyverse, Part 2"
 ---
 
 <div class = "blue">

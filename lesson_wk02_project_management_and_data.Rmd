@@ -1,5 +1,5 @@
 ---
-title: "Week 2: How R Thinks About Data"
+title: "Wk02: How R Thinks About Data"
 ---
 
 <div class = "blue">

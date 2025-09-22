@@ -1,5 +1,5 @@
 ---
-title: "Week 8: Dates & Times with Lubridate and Creating Functions"
+title: "Wk08: Dates & Times with Lubridate and Creating Functions"
 subtitle: Working with datetimes and writing your own functions
 minutes: 30
 ---

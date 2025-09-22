@@ -17,23 +17,23 @@ navbar:
   - text: Lectures
     icon: fa-book  fa-1x
     menu:
-    - text: Intro to Programming, R, & RStudio
+    - text: Wk01 Intro to Programming, R, & RStudio
       href: lesson_wk01_intro_r_rstudio.html
-    - text: Project Management & How R Thinks About Data
+    - text: Wk02 Project Management & How R Thinks About Data
       href: lesson_wk02_project_management_and_data.html
-    - text: Spreadsheet Best Practices & Data Import
+    - text: Wk03 Spreadsheet Best Practices & Data Import
       href: lesson_wk03_spreadsheets_and_data_import.html
-    - text: Data Manipulation Pt1
+    - text: Wk04 Data Manipulation Pt1
       href: lesson_wk04_data_manipulation_pt1.html
-    - text: Data Manipulation Pt2
+    - text: Wk05 Data Manipulation Pt2
       href: lesson_wk05_data_manipulation_pt2.html
-    - text: Data Visualization with ggplot2
+    - text: Wk07 Data Visualization with ggplot2
       href: lesson_wk07_data_visualization.html
-    - text: Dates & Times with Lubridate and Creating Functions
+    - text: Wk08 Dates & Times with Lubridate and Creating Functions
       href: lesson_wk08_dates_and_functions.html
-    - text: Iteration
+    - text: Wk09 Iteration
       href: lesson_wk09_iteration.html
-    - text: Collaborative Github Skills
+    - text: Wk10 Collaborative Github Skills
       href: lesson_wk10_collaborative_github_skills.html
   - text: Labs
     icon: fa-paperclip fa-1x

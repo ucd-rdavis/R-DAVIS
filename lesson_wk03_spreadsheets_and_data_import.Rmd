@@ -1,5 +1,5 @@
 ---
-title: "Week 3: Spreadsheet Best Practices & Data Import"
+title: "Wk03: Spreadsheet Best Practices & Data Import"
 subtitle: Or, How I Learned to Stop Worrying and Think Like R
 output:
   html_document:

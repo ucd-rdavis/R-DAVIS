@@ -1,5 +1,5 @@
 ---
-title: "Orientation to programming, R, and RStudio"
+title: "Wk01: Orientation to programming, R, and RStudio"
 ---
 
 <div class = "blue">
