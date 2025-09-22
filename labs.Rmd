@@ -41,10 +41,14 @@ Labs are designed to reinforce the code/lessons covered that week and provide yo
 This lab will help you get oriented with R, RStudio, and your first programming concepts. The goal is to practice the fundamentals covered in the the introduction to R and RStudio lecture.
 
 **Setup Instructions:**
+
 1. Open RStudio
+
 2. Create a new R script by going to `File -> New File -> R Script` or pressing `Ctrl/Cmd+Shift+N`
+
 3. Save your script as `lab_week_1.R` in an appropriate location
-4. As you work through the problems below, write your code in the script and run it using `Ctrl/Cmd+Enter`
+
+4. As you work through the problems below, write your code in the script and run it using `Ctrl/Cmd+Enter` (try to practice not highlighting and clicking "run")
 
 **Part 1: Basic Arithmetic and Order of Operations**
 
