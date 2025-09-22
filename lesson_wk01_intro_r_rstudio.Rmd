@@ -17,8 +17,8 @@ title: "Orientation to programming, R, and RStudio"
 
 ## Videos
 
-- [Why programming and Intro to R (part 1)]()
-- [Intro to R (part 2)]()
+- [Why programming and Intro to R (part 1)](https://video.ucdavis.edu/media/Orientation+to+programming+R+and+RStudio/1_74skxlby/390286133)
+- [Intro to R (part 2)](https://video.ucdavis.edu/media/Introduction+to+R/1_lc6zsh8j/390286133)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510676)
 
 ## In Class Coding
