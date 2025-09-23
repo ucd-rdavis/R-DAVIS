@@ -56,19 +56,21 @@ R-DAVIS grades are based on a combination of several tasks and deliverables. Gra
 - D = 60-69%
 - F = < 60%
 
+### Assignments and Credit
+
 Points are earned as follows:
 
 - Watching lecture videos before class
 
-Videos will be posted by Monday. By Thursday at 10am before class, you are expected to post a brief discussion about the questions and major points of uncertainty you have after the video that you want to resolve in class. 9 weeks, 3 points each.
+Videos will be posted by Monday. By Thursday at 10am before class, you are expected to post a brief discussion about the questions and major points of uncertainty you have after the video that you want to resolve in class. 9 weeks, 3 points each (Due at 10am on Thursdays, i.e., 3 hours before class starts)
 
-- Submitting weekly in-class scratch work.
+- Submitting weekly in-class scratch work. 
 
-These submissions are credit/no-credit (but we will pay attention to good faith effort). 9 weeks, 10 points each.
+These submissions are credit/no-credit (but we will pay attention to good faith effort). 9 weeks, 10 points each. (Due at 3:10pm, i.e., 10 minutes after class ends)
 
 - Submitting take-home labs. 
 
-These submissions are credit/no-credit, but again will be reviewed for good-faith effort (primarily, evidence of working and learning). 9 take-home labs, 10 points each.
+These submissions are credit/no-credit, but again will be reviewed for good-faith effort (primarily, evidence of working and learning). 9 take-home labs, 10 points each. (Due at 1:00pm, on Thursdays, i.e. by start of class)
 
 - Midterm Exam: In-class exam, 45 points
 
