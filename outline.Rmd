@@ -18,6 +18,6 @@ title: "Course Outline"
 | **Week 8 (11/11-13)** | **NO LAB** (University Holiday) | [Dates & Times with Lubridate and Creating Functions](lesson_wk08_dates_and_functions.html)<br>[(submit Week 8)](https://canvas.ucdavis.edu/courses/1019595/assignments/1509413) | [Lab 8](https://ucd-rdavis.github.io/R-DAVIS/labs.html#lab-week-8)<br>[(submit lab 8)](https://canvas.ucdavis.edu/courses/1019595/assignments/1510304) |
 | **Week 9 (11/18-20)** | Drop-in lab | [Iteration](lesson_wk09_iteration.html)<br>[(submit Week 9)](https://canvas.ucdavis.edu/courses/1019595/assignments/1510297) | [Lab 9](https://ucd-rdavis.github.io/R-DAVIS/labs.html#lab-week-9)<br>[(submit lab 9)](https://canvas.ucdavis.edu/courses/1019595/assignments/1510303) |
 | **Week 10 (12/2-4)** | Drop-in lab | [Collaborative Github Skills](lesson_wk10_collaborative_github_skills.html)<br>[(submit Week 10)](https://canvas.ucdavis.edu/courses/1019595/assignments/1510296) | [Lab 10](https://ucd-rdavis.github.io/R-DAVIS/labs.html#lab-week-10)<br>[(submit lab 10)](https://canvas.ucdavis.edu/courses/1019595/assignments/1510306) |
-| **Finals Week (12/10-12)** | Drop-in lab | **Final Exam** | |
+| **Final Exam** | Drop-in lab | **3:30-5:30pm, December 11th (Thurs)** | |
 
 **Note:** *Thanksgiving holiday is Nov. 28*
