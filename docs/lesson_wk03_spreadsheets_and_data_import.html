@@ -1029,7 +1029,7 @@ surveys[, 1]    </code></pre>
 ## [16] 1374 1453 1756 1818 1882 2133 2184 2406 2728 3000 3002 4667 4859 5048 5180
 ## [31] 5299 5485 5558 5583 5966 6020 6023 6036 6167 6479 6500 8022 8263 8387 8394
 ## [46] 8407 8514 8543 8657 8675
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 34736 entries ]</code></pre>
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 34736 entries ]</code></pre>
 <pre class="r"><code># first column of the data frame (as a data.frame)
 surveys[1]      </code></pre>
 <pre><code>##    record_id
@@ -1246,7 +1246,7 @@ function for reading a CSV file is <code>read_csv()</code> instead of
 <code>read.csv()</code>. Let’s try it:</p>
 <pre class="r"><code>t_surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 34786 Columns: 13
-## ── Column specification ─────────────────────
+## ── Column specification ───────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -1291,7 +1291,7 @@ sure to check whether you’re getting a tibble or a vector back.</p>
 ## [16] 1374 1453 1756 1818 1882 2133 2184 2406 2728 3000 3002 4667 4859 5048 5180
 ## [31] 5299 5485 5558 5583 5966 6020 6023 6036 6167 6479 6500 8022 8263 8387 8394
 ## [46] 8407 8514 8543 8657 8675
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 34736 entries ]</code></pre>
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 34736 entries ]</code></pre>
 <pre class="r"><code>t_surveys[,1] # gives a tibble back</code></pre>
 <pre><code>## # A tibble: 34,786 × 1
 ##    record_id
