@@ -762,35 +762,6 @@ classy and timeless</li>
 </ul></li>
 </ul>
 </div>
-<div id="put-it-all-together" class="section level2">
-<h2>Put It All Together</h2>
-<div id="exercise" class="section level3 blue">
-<h3>Exercise</h3>
-<p>We’re going to take a messy version of the survey data and describe
-how we would clean it up.</p>
-<ol style="list-style-type: decimal">
-<li>Everyone should already have the data file on your computer in your
-R_DAVIS_2020 project in a folder called <code>data</code></li>
-<li>Navigate to the <code>data</code> folder in your File Explorer
-(Windows) or Finder (Mac)</li>
-<li>Open up the data in a spreadsheet program.</li>
-<li>You can see that there are two tabs. Two field assistants conducted
-the surveys, one in 2013 and one in 2014, and they both kept track of
-the data in their own way. Now you’re the person in charge of this
-project and you want to be able to start analyzing the data.<br />
-</li>
-<li>With your breakout room, identify what is wrong with this
-spreadsheet. Also discuss the steps you would need to take to clean up
-the 2013 and 2014 tabs, and to put them all together in one
-spreadsheet.</li>
-</ol>
-<p><strong>Important:</strong> Do not forget our first piece of advice:
-to create a new file (or tab) for the cleaned data, never modify your
-original (raw) data.</p>
-<p>After you go through this exercise, we’ll discuss as a group what was
-wrong with this data and how you would fix it.</p>
-</div>
-</div>
 </div>
 <div id="part-2-starting-with-spreadsheets-in-r" class="section level1">
 <h1>Part 2: Starting with Spreadsheets in R</h1>
@@ -1029,7 +1000,7 @@ surveys[, 1]    </code></pre>
 ## [16] 1374 1453 1756 1818 1882 2133 2184 2406 2728 3000 3002 4667 4859 5048 5180
 ## [31] 5299 5485 5558 5583 5966 6020 6023 6036 6167 6479 6500 8022 8263 8387 8394
 ## [46] 8407 8514 8543 8657 8675
-##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 34736 entries ]</code></pre>
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 34736 entries ]</code></pre>
 <pre class="r"><code># first column of the data frame (as a data.frame)
 surveys[1]      </code></pre>
 <pre><code>##    record_id
@@ -1237,6 +1208,16 @@ be permanently installed so you can use it any time.</p>
 <p>Once a package has been installed on your computer, you can load it
 in order to use it:</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.4     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <p>Loading the <code>tidyverse</code> package actually loads a whole
 bunch of commonly used tidyverse packages at once, which is pretty
 convenient.</p>
@@ -1246,7 +1227,7 @@ function for reading a CSV file is <code>read_csv()</code> instead of
 <code>read.csv()</code>. Let’s try it:</p>
 <pre class="r"><code>t_surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 34786 Columns: 13
-## ── Column specification ────────────────
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -1291,7 +1272,7 @@ sure to check whether you’re getting a tibble or a vector back.</p>
 ## [16] 1374 1453 1756 1818 1882 2133 2184 2406 2728 3000 3002 4667 4859 5048 5180
 ## [31] 5299 5485 5558 5583 5966 6020 6023 6036 6167 6479 6500 8022 8263 8387 8394
 ## [46] 8407 8514 8543 8657 8675
-##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 34736 entries ]</code></pre>
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 34736 entries ]</code></pre>
 <pre class="r"><code>t_surveys[,1] # gives a tibble back</code></pre>
 <pre><code>## # A tibble: 34,786 × 1
 ##    record_id
