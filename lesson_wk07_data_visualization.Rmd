@@ -599,6 +599,30 @@ barplot(table(iris$Species,iris$Sepal.Length),col  = viridis(3, option = "A"))
 ```
 
 <br>
+
+## Saving Figures and Plots 
+
+A plot you created with ggplot or another plotting package can be saved as .JPEGS (or .tiff, .img, etc) onto you. For any ggplot objects, we recommend using `ggsave`. 
+
+First, let's create a new folder in this project called `figures`. Let's save all the figures we create to that folder. `ggsave` will default to saving the last plot you created, however, we think it is always a good idea to specify exactly which plot you want saved. To do that, we have to save our plot as an object. 
+
+```{r, eval = F}
+ggsave("figures/gridplot.png", fixed_gridplot)
+```
+#### With `ggsave` you can save images as
+
+ - .png, .jpeg, .tiff, .pdf, .bmp, or .svg
+
+#### Other arguments of `ggsave`
+
+ - `scale` can scale the image (multiplicative scaling factor)
+ - `width` and `height` let you specify the size of the image in `units` that you specify
+ - `dpi` can change the quality of the image; for publication graphs we suggest over 700 dpi
+
+```{r, eval = F}
+ggsave("figures/gridplot.png", fixed_gridplot, width = 6, height = 4, units = "in", dpi = 700)
+```
+
 <br>
 
 ## Non-visual data interaction  
@@ -665,6 +689,10 @@ sonify(x=iris$Petal.Width, y = iris$Petal.Length)
   <source src="sw.width.length.sound.wav" type="audio/wav">
 </audio>
 
+## BONUS CONTENT ##
+
+This is provided for your reference, but won't be something we cover in class or address on the exam.
+
 ## Publishing Plots: `cowplot`
 
 A few excellent options exist for creating multi-paneled plots for publications. The first and foremost is a package by Claus Wilke called [`cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html). With `cowplot`, it's possible to quickly combine existing `ggplots`, creating publication quality plots. See the vignette for more options, but here's a quick example from the vignette below:
@@ -703,29 +731,6 @@ fixed_gridplot <- ggdraw() + draw_plot(plot.iris, x = 0, y = 0, width = 1, heigh
   draw_plot_label(label = c("A","B","C"), x = c(0, 0.5, 0), y = c(1, 1, 0.5))
 
 fixed_gridplot
-```
-
-## Saving Figures and Plots 
-
-A plot you created with ggplot or another plotting package can be saved as .JPEGS (or .tiff, .img, etc) onto you. For any ggplot objects, we recommend using `ggsave`. 
-
-First, let's create a new folder in this project called `figures`. Let's save all the figures we create to that folder. `ggsave` will default to saving the last plot you created, however, we think it is always a good idea to specify exactly which plot you want saved. To do that, we have to save our plot as an object. 
-
-```{r, eval = F}
-ggsave("figures/gridplot.png", fixed_gridplot)
-```
-#### With `ggsave` you can save images as
-
- - .png, .jpeg, .tiff, .pdf, .bmp, or .svg
-
-#### Other arguments of `ggsave`
-
- - `scale` can scale the image (multiplicative scaling factor)
- - `width` and `height` let you specify the size of the image in `units` that you specify
- - `dpi` can change the quality of the image; for publication graphs we suggest over 700 dpi
-
-```{r, eval = F}
-ggsave("figures/gridplot.png", fixed_gridplot, width = 6, height = 4, units = "in", dpi = 700)
 ```
 
 ## The package `plotly`
