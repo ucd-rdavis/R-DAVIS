@@ -28,8 +28,6 @@ title: "Wk07: Data Visualization with ggplot2"
 
 [Submit Week 7 In Class Coding](https://canvas.ucdavis.edu/courses/1019595/assignments/1509412)
 
-# Add a package check/install code block after the YAML header.
-
 ```{r setup, include=FALSE, echo=FALSE, results='hide'}
 # List of all required packages across assignments
 required_packages <- c(
@@ -689,7 +687,7 @@ sonify(x=iris$Petal.Width, y = iris$Petal.Length)
   <source src="sw.width.length.sound.wav" type="audio/wav">
 </audio>
 
-## BONUS CONTENT ##
+# BONUS CONTENT #
 
 This is provided for your reference, but won't be something we cover in class or address on the exam.
 
