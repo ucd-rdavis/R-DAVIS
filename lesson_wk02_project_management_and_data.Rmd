@@ -19,7 +19,7 @@ output:
 <br>
 
 ## Videos
-- [Project Management in RStudio]()
+- Project Management in RStudio (coming soon)
 - [How R thinks about data (vectors)](https://video.ucdavis.edu/media/Week2_HowRThinksData_1/1_k1x0v34a/390286133)
 - [How R thinks about data (subsetting)](https://video.ucdavis.edu/media/Week2_HowRThinksData_2/1_t2wv5qr1/390286133)
 - [How R thinks about data (vector math)](https://video.ucdavis.edu/media/Week2_HowRThinksData_3/1_w17p1iyl/390286133)

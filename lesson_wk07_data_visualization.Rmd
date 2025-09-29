@@ -17,11 +17,11 @@ title: "Wk07: Data Visualization with ggplot2"
 
 ## Videos
 
-- [Data visualization Part 1a]()
-- [Data visualization Part 1b]()
-- [Data visualization Part 2a]()
-- [Data visualization Part 2b]()
-- [Data visualization Part 2c]()
+- Data visualization Part 1a (coming soon)
+- Data visualization Part 1b (coming soon)
+- Data visualization Part 2a (coming soon)
+- Data visualization Part 2b (coming soon)
+- Data visualization Part 2c (coming soon)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510681)
 
 ## In Class Coding

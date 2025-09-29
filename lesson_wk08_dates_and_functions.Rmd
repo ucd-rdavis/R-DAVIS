@@ -19,8 +19,8 @@ minutes: 30
 
 ## Videos
 
-- [Dates with Lubridate]()
-- [Function-writing]()
+- Dates with Lubridate (coming soon)
+- Function-writing (coming soon)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510685)
 
 ## In Class Coding

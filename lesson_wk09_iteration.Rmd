@@ -14,8 +14,8 @@ title: "Iteration, Iteration, Iteration, Iter"
 
 ## Videos
 
-- [For loops]()
-- [Map functions]()
+- For loops (coming soon)
+- Map functions (coming soon)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510683)
 
 ## In Class Coding
