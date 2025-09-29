@@ -20,11 +20,11 @@ output:
 
 ## Videos
 - [Project Management in RStudio]()
-- [How R thinks about data (vectors)]()
-- [How R thinks about data (subsetting)]()
-- [How R thinks about data (vector math)]()
-- [How R thinks about data (missing values)]()
-- [How R thinks about data (not-vectors)]()
+- [How R thinks about data (vectors)](https://video.ucdavis.edu/media/Week2_HowRThinksData_1/1_k1x0v34a/390286133)
+- [How R thinks about data (subsetting)](https://video.ucdavis.edu/media/Week2_HowRThinksData_2/1_t2wv5qr1/390286133)
+- [How R thinks about data (vector math)](https://video.ucdavis.edu/media/Week2_HowRThinksData_3/1_w17p1iyl/390286133)
+- [How R thinks about data (missing values)](https://video.ucdavis.edu/media/Week2_HowRThinksData_4/1_4yudpeyo)
+- [How R thinks about data (not-vectors)](https://video.ucdavis.edu/media/Week2_HowRThinksData_5.mp4/1_iu848ida/390286133)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510677)
 
 ## In Class Coding
