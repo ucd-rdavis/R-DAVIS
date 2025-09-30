@@ -134,7 +134,7 @@ final <- plus10[c(TRUE, FALSE)] #selecting every other number
 final
 ```
 
-Finally, save your script and push all your changes to your github account. 
+Finally, save your script and submit. 
 
 
 
