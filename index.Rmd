@@ -1,6 +1,6 @@
 ---
-pagetitle: "R-DAVIS"
 title: "R-DAVIS"
+pagetitle: "R-DAVIS"
 ---
 
 ## Welcome to R-DAVIS
@@ -18,7 +18,7 @@ This graduate-level course provides training in data science with R, focusing on
 <i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tascott@ucdavis.edu)  
 
 [**Sara Ludwick**](https://environmentalpolicy.ucdavis.edu/people/sara-ludwick) 
-<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:scludwick@i@ucdavis.edu)
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:scludwick@ucdavis.edu)
 
 [**Elise Zufall**](https://environmentalpolicy.ucdavis.edu/people/elise-zufall) 
 <i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:ezufall@ucdavis.edu)

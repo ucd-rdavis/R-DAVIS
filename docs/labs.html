@@ -393,8 +393,8 @@ in the the introduction to R and RStudio lecture.</p>
 <li><p>Create a new R script by going to
 <code>File -&gt; New File -&gt; R Script</code> or pressing
 <code>Ctrl/Cmd+Shift+N</code></p></li>
-<li><p>Save your script as <code>lab_week_1.R</code> in an appropriate
-location</p></li>
+<li><p>Save your script as <code>lastname_lab_week_1.R</code> in an
+appropriate location (with your own last name)</p></li>
 <li><p>As you work through the problems below, write your code in the
 script and run it using <code>Ctrl/Cmd+Enter</code> (try to practice not
 highlighting and clicking “run”)</p></li>
@@ -453,10 +453,10 @@ top to bottom without errors.</p></li>
 vectors.</p>
 <p>First, open a new script in your workgin directory and save it to
 your <code>scripts</code> folder. Call this new script
-<code>week_2_lab</code>.</p>
+<code>lastname_week_2_lab</code> (with your last name).</p>
 <p>Copy and paste the chunk of code below into your new
-<code>week_2_lab</code> script and run it. This chunk of code will
-create the vector you will use in your lab today. Check in your
+<code>lastname_week_2_lab</code> script and run it. This chunk of code
+will create the vector you will use in your lab today. Check in your
 environment to see what it looks like. What do you think each line of
 code is doing?</p>
 <pre class="r"><code>set.seed(15)
@@ -488,13 +488,14 @@ now have a vector that is 12 numbers long that looks
 <pre class="r"><code>final</code></pre>
 <pre><code>##  [1] 105.09174  57.04763  92.25447  83.74723 100.07297  87.73902  57.43049
 ##  [8]  92.76726  93.19901  85.12543  69.44137  67.57845</code></pre>
-<p>Finally, save your script and submit.</p>
+<p>Finally, save your script and upload your file to Canvas.</p>
 </div>
 <div id="lab-week-3" class="section level3">
 <h3><small>Lab Week 3</small></h3>
 <p>Lab this week will be playing with the <code>surveys</code> data we
 worked on in class. Create a new script in your <code>scripts</code>
-folder called <code>week_3_lab.R</code>.</p>
+folder called <code>lastname_week_3_lab.R</code> (with your own last
+name).</p>
 <p>Load your <code>survey</code> data frame with the read.csv()
 function. Create a new data frame called <code>surveys_base</code> with
 only the species_id, the weight, and the plot_type columns. Have this
@@ -513,7 +514,9 @@ think of any examples?</p>
 <p>This week the lab will review data manipulation in the tidyverse.</p>
 <ol style="list-style-type: decimal">
 <li><p>Create a tibble named <code>surveys</code> from the
-portal_data_joined.csv file.</p></li>
+portal_data_joined.csv file, found at <a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv"
+class="uri">https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv</a>.</p></li>
 <li><p>Subset <code>surveys</code> using Tidyverse methods to keep rows
 with weight between 30 and 60, and print out the first 6 rows.</p></li>
 <li><p>Create a new tibble showing the maximum weight for each species +
@@ -545,15 +548,18 @@ or not a row’s weight is above average for its species+sex combination
 statements.</p>
 <ol style="list-style-type: decimal">
 <li><p>Create a tibble named <code>surveys</code> from the
-portal_data_joined.csv file. Then manipulate <code>surveys</code> to
-create a new dataframe called <code>surveys_wide</code> with a column
-for genus and a column named after every plot type, with each of these
-columns containing the mean hindfoot length of animals in that plot type
-and genus. So every row has a genus and then a mean hindfoot length
-value for every plot type. The dataframe should be sorted by values in
-the Control plot type column. This question will involve quite a few of
-the functions you’ve used so far, and it may be useful to sketch out the
-steps to get to the final result.</p></li>
+portal_data_joined.csv file, found at <a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv"
+class="uri">https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv</a>.
+Then manipulate <code>surveys</code> to create a new dataframe called
+<code>surveys_wide</code> with a column for genus and a column named
+after every plot type, with each of these columns containing the mean
+hindfoot length of animals in that plot type and genus. So every row has
+a genus and then a mean hindfoot length value for every plot type. The
+dataframe should be sorted by values in the Control plot type column.
+This question will involve quite a few of the functions you’ve used so
+far, and it may be useful to sketch out the steps to get to the final
+result.</p></li>
 <li><p>Using the original <code>surveys</code> dataframe, use the two
 different functions we laid out for conditional statements, ifelse() and
 case_when(), to calculate a new weight category variable called
@@ -577,13 +583,10 @@ learned with ggplot during class. You will be happy to know that we are
 going to be using a brand new data set called <code>gapminder</code>.
 This data set is looking at statistics for a few different counties
 including population, GDP per capita, and life expectancy. Download the
-data using the code below. Remember, this code is looking for a folder
-called <code>data</code> to put the .csv in, so make sure you have a
-folder named <code>data</code>, or modify the code to the correct folder
-name.</p>
+data using the code below.</p>
 <pre class="r"><code>library(tidyverse)
 
-gapminder &lt;- read_csv(&quot;https://ucd-r-davis.github.io/R-DAVIS/data/gapminder.csv&quot;) #ONLY change the &quot;data&quot; part of this path if necessary</code></pre>
+gapminder &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/gapminder.csv&quot;) #ONLY change the &quot;data&quot; part of this path if necessary</code></pre>
 <pre><code>## Rows: 1704 Columns: 6
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -671,39 +674,38 @@ you’re not alone!</p>
 plot. These meteorological data from Mauna Loa were collected every
 minute for the year 2001. <em>This dataset has 459,769 observations for
 9 different metrics of wind, humidity, barometric pressure, air
-temperature, and precipitation.</em> Download this dataset <a
-href="data/mauna_loa_met_2001_minute.rda">here</a>. Save it to your
-<code>data/</code> folder. Alternatively, you can read the CSV directly
-from the R-DAVIS Github:
-<code>mloa &lt;- read_csv("https://raw.githubusercontent.com/gge-ucd/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv")</code></p>
-<p>Use the <a href="data/mauna_loa_README.txt">README</a> file
-associated with the Mauna Loa dataset to determine in what time zone the
-data are reported, and how missing values are reported in each column.
-With the <code>mloa</code> data.frame, remove observations with missing
-values in rel_humid, temp_C_2m, and windSpeed_m_s. Generate a column
-called “datetime” using the year, month, day, hour24, and min columns.
-Next, create a column called “datetimeLocal” that converts the datetime
-column to Pacific/Honolulu time (<em>HINT</em>: look at the lubridate
-function called <code>with_tz()</code>). Then, use dplyr to calculate
-the mean hourly temperature each month using the temp_C_2m column and
-the datetimeLocal columns. (<em>HINT</em>: Look at the lubridate
-functions called <code>month()</code> and <code>hour()</code>). Finally,
-make a ggplot scatterplot of the mean monthly temperature, with points
-colored by local hour.</p>
+temperature, and precipitation.</em> You can read the CSV directly from
+the R-DAVIS Github:
+<code>mloa &lt;- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/mauna_loa_met_2001_minute.csv")</code></p>
+<p>Use the <a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/mauna_loa_README.txt">README</a>
+file associated with the Mauna Loa dataset to determine in what time
+zone the data are reported, and how missing values are reported in each
+column. With the <code>mloa</code> data.frame, remove observations with
+missing values in rel_humid, temp_C_2m, and windSpeed_m_s. Generate a
+column called “datetime” using the year, month, day, hour24, and min
+columns. Next, create a column called “datetimeLocal” that converts the
+datetime column to Pacific/Honolulu time (<em>HINT</em>: look at the
+lubridate function called <code>with_tz()</code>). Then, use dplyr to
+calculate the mean hourly temperature each month using the temp_C_2m
+column and the datetimeLocal columns. (<em>HINT</em>: Look at the
+lubridate functions called <code>month()</code> and
+<code>hour()</code>). Finally, make a ggplot scatterplot of the mean
+monthly temperature, with points colored by local hour.</p>
 </div>
 <div id="lab-week-9" class="section level3">
 <h3><small>Lab Week 9</small></h3>
 <p>In this assignment, you’ll use the iteration skills we built in the
 course to apply functions to an entire dataset.</p>
 <p>Let’s load the surveys dataset:</p>
-<pre class="r"><code>surveys &lt;- read.csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
+<pre class="r"><code>surveys &lt;- read.csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
 <ol style="list-style-type: decimal">
 <li>Using a for loop, print to the console the longest species name of
 each taxon. Hint: the function nchar() gets you the number of characters
 in a string.</li>
 </ol>
 <p>Next let’s load the Mauna Loa dataset from last week.</p>
-<pre class="r"><code>mloa &lt;- read_csv(&quot;https://raw.githubusercontent.com/ucd-cepb/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv&quot;)</code></pre>
+<pre class="r"><code>mloa &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/mauna_loa_met_2001_minute.csv&quot;)</code></pre>
 <pre><code>## Rows: 459769 Columns: 16
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;

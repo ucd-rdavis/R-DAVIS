@@ -609,55 +609,30 @@ RMarkdown, and .pdf or .html rendered documents.</li>
 </div>
 <div id="rstudio-projects" class="section level4">
 <h4>RStudio Projects</h4>
-<p>RStudio has a feature to help keep everything organized in a
-self-contained, reproducible package, called a “project”.</p>
+<p>As we learned last week, RStudio has a feature to help keep
+everything organized in a self-contained, reproducible package, called a
+“project”.</p>
 <p>A project is a small file with a <code>.Rproj</code> extension, but
 you can think of all the files and sub-directories as belonging to that
 project. We recommend creating a directory and a project file for each
 project you work on. It should look something like this:</p>
 <p><img src="img/working-directory-structure.png" /></p>
-<p>hen you want to work on this project using R, double click on the
-.Rproj file, and RStudio will open it and keep everything organized for
-you. You can also open an existing project from RStudio by clicking
-“File -&gt; Open project…</p>
+<p>Open the R Project file “R_DAVIS_20XX” you made for this class. You
+can do this by going to your file explorer (“Finder” on a Mac) and
+double clicking the file. Alternatively, you can open an existing
+project from within RStudio by clicking “File -&gt; Open project…”, or
+by going to the top right with the blue R symbol and clicking your
+project from the drop-down menu.</p>
+<p>Let’s now make a directory structure for your R_DAVIS_20XX project,
+using the structure described above: a folder for each of data, code,
+results, and papers. You can do this in RStudio by clicking on the “New
+Folder” button in the Files pane, or in your OS by navigating to the
+directory you just created.</p>
 <br>
 </div>
-</div>
-<div id="challenge-create-a-project" class="section level3 blue">
-<h3>Challenge – Create a Project</h3>
-<p>Let’s create a new project in RStudio. We won’t use this project
-today (we will ALWAYS work in the repository we pulled from github), but
-it’s good practice.</p>
-<ol style="list-style-type: decimal">
-<li>Click the “File” menu button, then “New Project”.</li>
-<li>Click “New Directory”.</li>
-<li>Click “Empty Project”.</li>
-<li>Call your project “test_project_lastname”</li>
-<li>Store the new directory in the R_DAVIS_2022 folder you should have
-already created on your desktop.</li>
-<li>Click “Create Project”.</li>
-</ol>
-</div>
-<p><br></p>
-<p>If everything went right, RStudio should’ve flickered and you should
-be looking at a pretty bare RStudio instance. That’s okay. Click on the
-“Files” tab in the lower right pane. Your .Rproj file should be there
-with nothing else. You’ve got the bare bones of a new project. Let’s now
-create the directory structure described above, a folder for each of
-data, code, results, and papers. You can do this in RStudio by clicking
-on the “New Folder” button in the Files pane, or in your OS by
-navigating to the directory you just created.</p>
-<br>
-<div id="challenge-project-organization" class="section level4 blue">
-<h4>Challenge – Project Organization</h4>
+<div id="challenge---file-navigation" class="section level4 blue">
+<h4>Challenge - File Navigation</h4>
 <ul>
-<li>In your project directory, either using the Project tab of RStudio
-or your OS’ file system, create the following directories:
-<ul>
-<li>data</li>
-<li>scripts</li>
-<li>figures</li>
-</ul></li>
 <li>Open up a new R script (File &gt; New File &gt; R Script) and save
 it in your scripts folder as test_script.R”. In this script, check out
 your working directory with the <code>getwd()</code> function. Your
@@ -674,19 +649,15 @@ followed by a forward slash (“../”).</li>
 </ul>
 </div>
 <p><br></p>
-<p>Finally, let’s switch back to our R_DAVIS project that we will be
-working in for the rest of class. Go up to the right hand corner of your
-screen and click the pull down tab that currently says something like
-“test_project_lastname.” Once you click it, you can toggle between
-multiple projects at once by clicking the white square/arrow icon next
-to the project name. This will allow you to have multiple projects open
-at once. If you want to switch projects completely, just click the
-project name (not the white square/arrow icon).</p>
-<p>Now in this project go ahead and create a file structure like we’ve
-practiced. You should already have a data folder. In addition to this,
-create a “scripts” folder to store your weekly code in. It is good to
-come up with some kind of naming convention that you can keep
-consistently (e.g. week_2.R).</p>
+<p>Go up to the right hand corner of your screen and click the pull down
+tab that currently says R_DAVIS_20XX. Once you click it, you can toggle
+between multiple projects at once by clicking the white square/arrow
+icon next to the project name. This will allow you to have multiple
+projects open at once. If you want to switch projects completely, just
+click the project name (not the white square/arrow icon).</p>
+<p>It is good to come up with some kind of naming convention that you
+can keep consistently (e.g. lastname_week_2.R).</p>
+</div>
 </div>
 </div>
 <div id="how-r-thinks-about-data" class="section level1 blue">
