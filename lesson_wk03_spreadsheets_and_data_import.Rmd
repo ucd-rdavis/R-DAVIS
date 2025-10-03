@@ -208,10 +208,17 @@ Each row holds information for a single animal, and the columns represent:
 
 ## Loading the Data
 
-Your current R project should already have a `data` folder with the surveys data CSV file in it. We can read it into R and assign it to an object by using the `read.csv()` function. The first argument to `read.csv()` is the path of the file you want to read, in quotes. This path will be relative to your current **working directory**, which in our case is the R Project folder. So from there, we want to access the "data" folder, and then the name of the CSV file.
+Your current R project should already have a `data` folder with the surveys data CSV file in it. We can read it into R and assign it to an object by using the `read.csv()` function. The first argument to `read.csv()` is the path of the file you want to read, in quotes. This path will be relative to your current **working directory**, which in our case is the R Project folder. So from there, we want to access the "data" folder, and then the name of the CSV file. `read.csv()` also works with urls (if you have an internet connection, of course). The url below links to a csv stored on the course github page. You can call `read.csv()` directly on the url: 
 
 ```{r, eval=TRUE,  purl=FALSE}
-surveys <- read.csv("data/portal_data_joined.csv")
+surveys_url <- 'https://raw.githubusercontent.com/ucd-rdavis/R-DAVIS/refs/heads/main/data/surveys.csv'
+surveys <- read.csv(surveys_url)
+```
+
+or you can download the file and then load from your local computer. Note that the `destfile` is a relative location, it assumes there is a subdirectry called `data` in your working directory, and then saves a file called `portal_data_joined.csv` in that subdirectory.
+```{r, eval=TRUE,  purl=FALSE}
+download.file(url = surveys_url,destfile = 'data/portal_data_joined.csv')
+surveys <- read.csv('data/portal_data_joined.csv')
 ```
 
 * Hint: tab-completion works with file paths too. Type the pair of quotes, and with your cursor between them, hit tab to bring up the files in your working directory.

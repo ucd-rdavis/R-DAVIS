@@ -846,8 +846,19 @@ argument to <code>read.csv()</code> is the path of the file you want to
 read, in quotes. This path will be relative to your current
 <strong>working directory</strong>, which in our case is the R Project
 folder. So from there, we want to access the “data” folder, and then the
-name of the CSV file.</p>
-<pre class="r"><code>surveys &lt;- read.csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
+name of the CSV file. <code>read.csv()</code> also works with urls (if
+you have an internet connection, of course). The url below links to a
+csv stored on the course github page. You can call
+<code>read.csv()</code> directly on the url:</p>
+<pre class="r"><code>surveys_url &lt;- &#39;https://raw.githubusercontent.com/ucd-rdavis/R-DAVIS/refs/heads/main/data/surveys.csv&#39;
+surveys &lt;- read.csv(surveys_url)</code></pre>
+<p>or you can download the file and then load from your local computer.
+Note that the <code>destfile</code> is a relative location, it assumes
+there is a subdirectry called <code>data</code> in your working
+directory, and then saves a file called
+<code>portal_data_joined.csv</code> in that subdirectory.</p>
+<pre class="r"><code>download.file(url = surveys_url,destfile = &#39;data/portal_data_joined.csv&#39;)
+surveys &lt;- read.csv(&#39;data/portal_data_joined.csv&#39;)</code></pre>
 <ul>
 <li>Hint: tab-completion works with file paths too. Type the pair of
 quotes, and with your cursor between them, hit tab to bring up the files
@@ -860,13 +871,11 @@ it is.</p>
 <pre class="r"><code>surveys</code></pre>
 <pre><code>##   record_id month day year plot_id species_id sex hindfoot_length weight
 ## 1         1     7  16 1977       2         NL   M              32     NA
-## 2        72     8  19 1977       2         NL   M              31     NA
-## 3       224     9  13 1977       2         NL                  NA     NA
-##     genus  species   taxa plot_type
-## 1 Neotoma albigula Rodent   Control
-## 2 Neotoma albigula Rodent   Control
-## 3 Neotoma albigula Rodent   Control
-##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 34783 rows ]</code></pre>
+## 2         2     7  16 1977       3         NL   M              33     NA
+## 3         3     7  16 1977       2         DM   F              37     NA
+## 4         4     7  16 1977       7         DM   M              36     NA
+## 5         5     7  16 1977       3         DM   M              35     NA
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 35544 rows ]</code></pre>
 <pre class="r"><code>class(surveys)</code></pre>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
 <p>Wow, printing a data frame gives us quite a bit of output. This is a
@@ -934,43 +943,31 @@ how to count the unique observations in a character string in R)</li>
 ANSWER
 </summary>
 <pre class="r"><code>str(surveys)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    34786 obs. of  13 variables:
-##  $ record_id      : int  1 72 224 266 349 363 435 506 588 661 ...
-##  $ month          : int  7 8 9 10 11 11 12 1 2 3 ...
-##  $ day            : int  16 19 13 16 12 12 10 8 18 11 ...
-##  $ year           : int  1977 1977 1977 1977 1977 1977 1977 1978 1978 1978 ...
-##  $ plot_id        : int  2 2 2 2 2 2 2 2 2 2 ...
-##  $ species_id     : chr  &quot;NL&quot; &quot;NL&quot; &quot;NL&quot; &quot;NL&quot; ...
-##  $ sex            : chr  &quot;M&quot; &quot;M&quot; &quot;&quot; &quot;&quot; ...
-##  $ hindfoot_length: int  32 31 NA NA NA NA NA NA NA NA ...
-##  $ weight         : int  NA NA NA NA NA NA NA NA 218 NA ...
-##  $ genus          : chr  &quot;Neotoma&quot; &quot;Neotoma&quot; &quot;Neotoma&quot; &quot;Neotoma&quot; ...
-##  $ species        : chr  &quot;albigula&quot; &quot;albigula&quot; &quot;albigula&quot; &quot;albigula&quot; ...
-##  $ taxa           : chr  &quot;Rodent&quot; &quot;Rodent&quot; &quot;Rodent&quot; &quot;Rodent&quot; ...
-##  $ plot_type      : chr  &quot;Control&quot; &quot;Control&quot; &quot;Control&quot; &quot;Control&quot; ...</code></pre>
+<pre><code>## &#39;data.frame&#39;:    35549 obs. of  9 variables:
+##  $ record_id      : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ month          : int  7 7 7 7 7 7 7 7 7 7 ...
+##  $ day            : int  16 16 16 16 16 16 16 16 16 16 ...
+##  $ year           : int  1977 1977 1977 1977 1977 1977 1977 1977 1977 1977 ...
+##  $ plot_id        : int  2 3 2 7 3 1 2 1 1 6 ...
+##  $ species_id     : chr  &quot;NL&quot; &quot;NL&quot; &quot;DM&quot; &quot;DM&quot; ...
+##  $ sex            : chr  &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; ...
+##  $ hindfoot_length: int  32 33 37 36 35 14 NA 37 34 20 ...
+##  $ weight         : int  NA NA NA NA NA NA NA NA NA NA ...</code></pre>
 <pre class="r"><code>## * class: data frame
 ## * how many rows: 34786,  how many columns: 13
 ## * the character data are characters if you have R Version 4.0.0 of later, factors for older versions
 length(unique(surveys$species))</code></pre>
-<pre><code>## [1] 40</code></pre>
+<pre><code>## [1] 49</code></pre>
 <pre class="r"><code>table(surveys$species)</code></pre>
 <pre><code>## 
-##        albigula       audubonii         baileyi       bilineata brunneicapillus 
-##            1252              75            2891             303              50 
-##       chlorurus          clarki        eremicus          flavus      fulvescens 
-##              39               1            1299            1597              75 
-##     fulviventer          fuscus       gramineus         harrisi        hispidus 
-##              43               5               8             437             179 
-##     intermedius     leucogaster      leucophrys        leucopus     maniculatus 
-##               9            1006               2              36             899 
-##       megalotis     melanocorys        merriami        montanus    ochrognathus 
-##            2609              13           10596               8              43 
-##           ordii    penicillatus      savannarum      scutalatus             sp. 
-##            3027            3123               2               1              86 
-##     spectabilis       spilosoma        squamata         taylori    tereticaudus 
-##            2504             248              16              46               1 
-##          tigris        torridus       undulatus       uniparens         viridis 
-##               1            2249               5               1               1</code></pre>
+##          AB    AH    AS    BA    CB    CM    CQ    CS    CT    CU    CV    DM 
+##   763   303   437     2    46    50    13    16     1     1     1     1 10596 
+##    DO    DS    DX    NL    OL    OT    OX    PB    PC    PE    PF    PG    PH 
+##  3027  2504    40  1252  1006  2249    12  2891    39  1299  1597     8    32 
+##    PI    PL    PM    PP    PU    PX    RF    RM    RO    RX    SA    SC    SF 
+##     9    36   899  3123     5     6    75  2609     8     2    75     1    43 
+##    SH    SO    SS    ST    SU    UL    UP    UR    US    ZL 
+##   147    43   248     1     5     4     8    10     4     2</code></pre>
 <pre class="r"><code>## * how many species: 48</code></pre>
 </details>
 </div>
@@ -996,74 +993,70 @@ surveys[1, 6]   </code></pre>
 <pre><code>## [1] &quot;NL&quot;</code></pre>
 <pre class="r"><code># first column of the data frame (as a vector)
 surveys[, 1]    </code></pre>
-<pre><code>##  [1]    1   72  224  266  349  363  435  506  588  661  748  845  990 1164 1261
-## [16] 1374 1453 1756 1818 1882 2133 2184 2406 2728 3000 3002 4667 4859 5048 5180
-## [31] 5299 5485 5558 5583 5966 6020 6023 6036 6167 6479 6500 8022 8263 8387 8394
-## [46] 8407 8514 8543 8657 8675
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 34736 entries ]</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+## [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 35499 entries ]</code></pre>
 <pre class="r"><code># first column of the data frame (as a data.frame)
 surveys[1]      </code></pre>
 <pre><code>##    record_id
 ## 1          1
-## 2         72
-## 3        224
-## 4        266
-## 5        349
-## 6        363
-## 7        435
-## 8        506
-## 9        588
-## 10       661
-## 11       748
-## 12       845
-## 13       990
-## 14      1164
-## 15      1261
-## 16      1374
-## 17      1453
-## 18      1756
-## 19      1818
-## 20      1882
-## 21      2133
-## 22      2184
-## 23      2406
-## 24      2728
-## 25      3000
-## 26      3002
-## 27      4667
-## 28      4859
-## 29      5048
-## 30      5180
-## 31      5299
-## 32      5485
-## 33      5558
-## 34      5583
-## 35      5966
-## 36      6020
-## 37      6023
-## 38      6036
-## 39      6167
-## 40      6479
-## 41      6500
-## 42      8022
-## 43      8263
-## 44      8387
-## 45      8394
-## 46      8407
-## 47      8514
-## 48      8543
-## 49      8657
-## 50      8675
-##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 34736 rows ]</code></pre>
+## 2          2
+## 3          3
+## 4          4
+## 5          5
+## 6          6
+## 7          7
+## 8          8
+## 9          9
+## 10        10
+## 11        11
+## 12        12
+## 13        13
+## 14        14
+## 15        15
+## 16        16
+## 17        17
+## 18        18
+## 19        19
+## 20        20
+## 21        21
+## 22        22
+## 23        23
+## 24        24
+## 25        25
+## 26        26
+## 27        27
+## 28        28
+## 29        29
+## 30        30
+## 31        31
+## 32        32
+## 33        33
+## 34        34
+## 35        35
+## 36        36
+## 37        37
+## 38        38
+## 39        39
+## 40        40
+## 41        41
+## 42        42
+## 43        43
+## 44        44
+## 45        45
+## 46        46
+## 47        47
+## 48        48
+## 49        49
+## 50        50
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 35499 rows ]</code></pre>
 <pre class="r"><code># first three elements in the 7th column (as a vector)
 surveys[1:3, 7] </code></pre>
-<pre><code>## [1] &quot;M&quot; &quot;M&quot; &quot;&quot;</code></pre>
+<pre><code>## [1] &quot;M&quot; &quot;M&quot; &quot;F&quot;</code></pre>
 <pre class="r"><code># the 3rd row of the data frame (as a data.frame)
 surveys[3, ]    </code></pre>
 <pre><code>##   record_id month day year plot_id species_id sex hindfoot_length weight
-## 3       224     9  13 1977       2         NL                  NA     NA
-##     genus  species   taxa plot_type
-## 3 Neotoma albigula Rodent   Control</code></pre>
+## 3         3     7  16 1977       2         DM   F              37     NA</code></pre>
 <pre class="r"><code># equivalent to head_surveys &lt;- head(surveys)
 head_surveys &lt;- surveys[1:6, ] </code></pre>
 <p><code>:</code> is a special function that creates numeric vectors of
@@ -1072,27 +1065,22 @@ integers in increasing or decreasing order; try running
 <p>You can also exclude certain indices of a data frame using the
 “<code>-</code>” sign:</p>
 <pre class="r"><code>surveys[, -1]          # The whole data frame, except the first column</code></pre>
-<pre><code>##   month day year plot_id species_id sex hindfoot_length weight   genus  species
-## 1     7  16 1977       2         NL   M              32     NA Neotoma albigula
-## 2     8  19 1977       2         NL   M              31     NA Neotoma albigula
-## 3     9  13 1977       2         NL                  NA     NA Neotoma albigula
-## 4    10  16 1977       2         NL                  NA     NA Neotoma albigula
-##     taxa plot_type
-## 1 Rodent   Control
-## 2 Rodent   Control
-## 3 Rodent   Control
-## 4 Rodent   Control
-##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 34782 rows ]</code></pre>
+<pre><code>##   month day year plot_id species_id sex hindfoot_length weight
+## 1     7  16 1977       2         NL   M              32     NA
+## 2     7  16 1977       3         NL   M              33     NA
+## 3     7  16 1977       2         DM   F              37     NA
+## 4     7  16 1977       7         DM   M              36     NA
+## 5     7  16 1977       3         DM   M              35     NA
+## 6     7  16 1977       1         PF   M              14     NA
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 35543 rows ]</code></pre>
 <pre class="r"><code>surveys[-c(7:34786), ] # Equivalent to head(surveys)</code></pre>
 <pre><code>##   record_id month day year plot_id species_id sex hindfoot_length weight
 ## 1         1     7  16 1977       2         NL   M              32     NA
-## 2        72     8  19 1977       2         NL   M              31     NA
-## 3       224     9  13 1977       2         NL                  NA     NA
-##     genus  species   taxa plot_type
-## 1 Neotoma albigula Rodent   Control
-## 2 Neotoma albigula Rodent   Control
-## 3 Neotoma albigula Rodent   Control
-##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 3 rows ]</code></pre>
+## 2         2     7  16 1977       3         NL   M              33     NA
+## 3         3     7  16 1977       2         DM   F              37     NA
+## 4         4     7  16 1977       7         DM   M              36     NA
+## 5         5     7  16 1977       3         DM   M              35     NA
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 764 rows ]</code></pre>
 <p>Data frames can be subset by calling indices (as shown previously),
 but also by calling their column names directly:</p>
 <pre class="r"><code>surveys[&quot;species_id&quot;]       # Result is a data.frame
@@ -1208,6 +1196,16 @@ be permanently installed so you can use it any time.</p>
 <p>Once a package has been installed on your computer, you can load it
 in order to use it:</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.5.2     ✔ tibble    3.3.0
+## ✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+## ✔ purrr     1.0.4     
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <p>Loading the <code>tidyverse</code> package actually loads a whole
 bunch of commonly used tidyverse packages at once, which is pretty
 convenient.</p>
@@ -1216,31 +1214,30 @@ underscores in the name. For example, the <code>tidyverse</code>
 function for reading a CSV file is <code>read_csv()</code> instead of
 <code>read.csv()</code>. Let’s try it:</p>
 <pre class="r"><code>t_surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
-<pre><code>## Rows: 34786 Columns: 13
-## ── Column specification ───────────────────
+<pre><code>## Rows: 35549 Columns: 9
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
-## chr (6): species_id, sex, genus, species, taxa, plot_type
+## chr (2): species_id, sex
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>Now let’s take a look at how prints and check the class:</p>
 <pre class="r"><code>t_surveys</code></pre>
-<pre><code>## # A tibble: 34,786 × 13
+<pre><code>## # A tibble: 35,549 × 9
 ##    record_id month   day  year plot_id species_id sex   hindfoot_length weight
 ##        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
 ##  1         1     7    16  1977       2 NL         M                  32     NA
-##  2        72     8    19  1977       2 NL         M                  31     NA
-##  3       224     9    13  1977       2 NL         &lt;NA&gt;               NA     NA
-##  4       266    10    16  1977       2 NL         &lt;NA&gt;               NA     NA
-##  5       349    11    12  1977       2 NL         &lt;NA&gt;               NA     NA
-##  6       363    11    12  1977       2 NL         &lt;NA&gt;               NA     NA
-##  7       435    12    10  1977       2 NL         &lt;NA&gt;               NA     NA
-##  8       506     1     8  1978       2 NL         &lt;NA&gt;               NA     NA
-##  9       588     2    18  1978       2 NL         M                  NA    218
-## 10       661     3    11  1978       2 NL         &lt;NA&gt;               NA     NA
-## # ℹ 34,776 more rows
-## # ℹ 4 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
+##  2         2     7    16  1977       3 NL         M                  33     NA
+##  3         3     7    16  1977       2 DM         F                  37     NA
+##  4         4     7    16  1977       7 DM         M                  36     NA
+##  5         5     7    16  1977       3 DM         M                  35     NA
+##  6         6     7    16  1977       1 PF         M                  14     NA
+##  7         7     7    16  1977       2 PE         F                  NA     NA
+##  8         8     7    16  1977       1 DM         M                  37     NA
+##  9         9     7    16  1977       1 DM         F                  34     NA
+## 10        10     7    16  1977       6 PF         F                  20     NA
+## # ℹ 35,539 more rows</code></pre>
 <pre class="r"><code>class(t_surveys)</code></pre>
 <pre><code>## [1] &quot;spec_tbl_df&quot; &quot;tbl_df&quot;      &quot;tbl&quot;         &quot;data.frame&quot;</code></pre>
 <p>Ooh, doesn’t that print out nicely? It only prints 10 rows by
@@ -1258,26 +1255,24 @@ as data frames, but they print nicely as we just saw, and they usually
 return a tibble when you’re using bracket subsetting. As always, just be
 sure to check whether you’re getting a tibble or a vector back.</p>
 <pre class="r"><code>surveys[,1] # gives a vector back</code></pre>
-<pre><code>##  [1]    1   72  224  266  349  363  435  506  588  661  748  845  990 1164 1261
-## [16] 1374 1453 1756 1818 1882 2133 2184 2406 2728 3000 3002 4667 4859 5048 5180
-## [31] 5299 5485 5558 5583 5966 6020 6023 6036 6167 6479 6500 8022 8263 8387 8394
-## [46] 8407 8514 8543 8657 8675
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 34736 entries ]</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+## [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+##  [ reached getOption(&quot;max.print&quot;) -- omitted 35499 entries ]</code></pre>
 <pre class="r"><code>t_surveys[,1] # gives a tibble back</code></pre>
-<pre><code>## # A tibble: 34,786 × 1
+<pre><code>## # A tibble: 35,549 × 1
 ##    record_id
 ##        &lt;dbl&gt;
 ##  1         1
-##  2        72
-##  3       224
-##  4       266
-##  5       349
-##  6       363
-##  7       435
-##  8       506
-##  9       588
-## 10       661
-## # ℹ 34,776 more rows</code></pre>
+##  2         2
+##  3         3
+##  4         4
+##  5         5
+##  6         6
+##  7         7
+##  8         8
+##  9         9
+## 10        10
+## # ℹ 35,539 more rows</code></pre>
 <p>This lesson is adapted from the Data Carpentry: R for Data Analysis
 and Visualization of Ecological Data <a
 href="https://datacarpentry.org/R-ecology-lesson/02-starting-with-data.html">Starting
