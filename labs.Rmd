@@ -46,7 +46,7 @@ This lab will help you get oriented with R, RStudio, and your first programming 
 
 2. Create a new R script by going to `File -> New File -> R Script` or pressing `Ctrl/Cmd+Shift+N`
 
-3. Save your script as `lab_week_1.R` in an appropriate location
+3. Save your script as `lastname_lab_week_1.R` in an appropriate location (with your own last name)
 
 4. As you work through the problems below, write your code in the script and run it using `Ctrl/Cmd+Enter` (try to practice not highlighting and clicking "run")
 
@@ -100,9 +100,9 @@ This lab will help you get oriented with R, RStudio, and your first programming 
 
 In this lab we are going to practice subsetting and manipulating vectors.  
 
-First, open a new script in your workgin directory and save it to your `scripts` folder. Call this new script `week_2_lab`. 
+First, open a new script in your workgin directory and save it to your `scripts` folder. Call this new script `lastname_week_2_lab` (with your last name). 
 
-Copy and paste the chunk of code below into your new `week_2_lab` script and run it. This chunk of code will create the vector you will use in your lab today. Check in your environment to see what it looks like. What do you think each line of code is doing? 
+Copy and paste the chunk of code below into your new `lastname_week_2_lab` script and run it. This chunk of code will create the vector you will use in your lab today. Check in your environment to see what it looks like. What do you think each line of code is doing? 
 
 ```{r}
 set.seed(15)
@@ -134,13 +134,14 @@ final <- plus10[c(TRUE, FALSE)] #selecting every other number
 final
 ```
 
-Finally, save your script and submit. 
+Finally, save your script and upload your file to Canvas. 
+
 
 
 
 ### <small>Lab Week 3</small> {#lab-week-3}
 
-Lab this week will be playing with the `surveys` data we worked on in class. Create a new script in your `scripts` folder called `week_3_lab.R`. 
+Lab this week will be playing with the `surveys` data we worked on in class. Create a new script in your `scripts` folder called `lastname_week_3_lab.R` (with your own last name). 
 
 Load your `survey` data frame with the read.csv() function. Create a new data frame called `surveys_base` with only the species_id, the weight, and the plot_type columns. Have this data frame only be the first 5,000 rows. Convert both species_id and plot_type to factors. Remove all rows where there is an NA in the weight column. Explore these variables and try to explain why a factor is different from a character. Why might we want to use factors? Can you think of any examples? 
 
@@ -155,7 +156,7 @@ Create a second data frame called `challenge_base` that only consists of individ
 
 This week the lab will review data manipulation in the tidyverse.
 
-1. Create a tibble named `surveys` from the portal_data_joined.csv file.
+1. Create a tibble named `surveys` from the portal_data_joined.csv file, found at https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv.
 
 2. Subset `surveys` using Tidyverse methods to keep rows with weight between 30 and 60, and print out the first 6 rows.
 
@@ -173,7 +174,7 @@ This week the lab will review data manipulation in the tidyverse.
 
 This week's questions will have us practicing pivots and conditional statements.
 
-1. Create a tibble named `surveys` from the portal_data_joined.csv file. Then manipulate `surveys` to create a new dataframe called `surveys_wide` with a column for genus and a column named after every plot type, with each of these columns containing the mean hindfoot length of animals in that plot type and genus. So every row has a genus and then a mean hindfoot length value for every plot type. The dataframe should be sorted by values in the Control plot type column. This question will involve quite a few of the functions you've used so far, and it may be useful to sketch out the steps to get to the final result.
+1. Create a tibble named `surveys` from the portal_data_joined.csv file, found at https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv. Then manipulate `surveys` to create a new dataframe called `surveys_wide` with a column for genus and a column named after every plot type, with each of these columns containing the mean hindfoot length of animals in that plot type and genus. So every row has a genus and then a mean hindfoot length value for every plot type. The dataframe should be sorted by values in the Control plot type column. This question will involve quite a few of the functions you've used so far, and it may be useful to sketch out the steps to get to the final result.
 
 2. Using the original `surveys` dataframe, use the two different functions we laid out for conditional statements, ifelse() and case_when(), to calculate a new weight category variable called `weight_cat`. For this variable, define the rodent weight into three categories, where "small" is less than or equal to the 1st quartile of weight distribution, "medium" is between (but not inclusive) the 1st and 3rd quartile, and "large" is any weight greater than or equal to the 3rd quartile. (Hint: the summary() function on a column summarizes the distribution). For ifelse() and case_when(), compare what happens to the weight values of NA, depending on how you specify your arguments.
 
@@ -183,12 +184,12 @@ BONUS: How might you soft code the values (i.e. not type them in manually) of th
 
 ### <small>Lab Week 7</small> {#lab-week-7}
 
-For our week seven lab, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`. This data set is looking at statistics for a few different counties including population, GDP per capita, and life expectancy. Download the data using the code below. Remember, this code is looking for a folder called `data` to put the .csv in, so make sure you have a folder named `data`, or modify the code to the correct folder name. 
+For our week seven lab, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`. This data set is looking at statistics for a few different counties including population, GDP per capita, and life expectancy. Download the data using the code below.
 
 ```{r, warnings = F}
 library(tidyverse)
 
-gapminder <- read_csv("https://ucd-r-davis.github.io/R-DAVIS/data/gapminder.csv") #ONLY change the "data" part of this path if necessary
+gapminder <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/gapminder.csv") #ONLY change the "data" part of this path if necessary
 
 ```
 
@@ -224,7 +225,7 @@ Our goal will be to make this final graph using the `gapminder` dataset:
 ```{r, eval=T, echo=F, warning=F, message=F}
 library(tidyverse)
 
-gapminder <- read_csv("data/gapminder.csv")
+gapminder <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/gapminder.csv")
 
 pg <- gapminder %>% 
   select(country, year, pop, continent) %>% 
@@ -276,10 +277,10 @@ So if you spend most of your time on this lesson googling stuff, you're not alon
 
 ### <small>Lab Week 8</small> {#lab-week-8}
 
-Let's look at some real data from Mauna Loa to try to format and plot. These meteorological data from Mauna Loa were collected every minute for the year 2001. *This dataset has 459,769 observations for 9 different metrics of wind, humidity, barometric pressure, air temperature, and precipitation.* Download this dataset [here](data/mauna_loa_met_2001_minute.rda). Save it to your `data/` folder. Alternatively, you can read the CSV directly from the R-DAVIS Github:
-`mloa <- read_csv("https://raw.githubusercontent.com/gge-ucd/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv")`
+Let's look at some real data from Mauna Loa to try to format and plot. These meteorological data from Mauna Loa were collected every minute for the year 2001. *This dataset has 459,769 observations for 9 different metrics of wind, humidity, barometric pressure, air temperature, and precipitation.*  You can read the CSV directly from the R-DAVIS Github:
+`mloa <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/mauna_loa_met_2001_minute.csv")`
 
-Use the [README](data/mauna_loa_README.txt) file associated with the Mauna Loa dataset to determine in what time zone the data are reported, and how missing values are reported in each column. With the `mloa` data.frame, remove observations with missing values in rel_humid, temp_C_2m, and windSpeed_m_s. Generate a column called "datetime" using the year, month, day, hour24, and min columns. Next, create a column called "datetimeLocal" that converts the datetime column to Pacific/Honolulu time (*HINT*: look at the lubridate function called `with_tz()`). Then, use dplyr to calculate the mean hourly temperature each month using the temp_C_2m column and the datetimeLocal columns. (*HINT*: Look at the lubridate functions called `month()` and `hour()`). Finally, make a ggplot scatterplot of the mean monthly temperature, with points colored by local hour.
+Use the [README](https://ucd-rdavis.github.io/R-DAVIS/data/mauna_loa_README.txt) file associated with the Mauna Loa dataset to determine in what time zone the data are reported, and how missing values are reported in each column. With the `mloa` data.frame, remove observations with missing values in rel_humid, temp_C_2m, and windSpeed_m_s. Generate a column called "datetime" using the year, month, day, hour24, and min columns. Next, create a column called "datetimeLocal" that converts the datetime column to Pacific/Honolulu time (*HINT*: look at the lubridate function called `with_tz()`). Then, use dplyr to calculate the mean hourly temperature each month using the temp_C_2m column and the datetimeLocal columns. (*HINT*: Look at the lubridate functions called `month()` and `hour()`). Finally, make a ggplot scatterplot of the mean monthly temperature, with points colored by local hour.
 
 
 ### <small>Lab Week 9</small> {#lab-week-9}
@@ -288,7 +289,7 @@ In this assignment, you'll use the iteration skills we built in the course to ap
 Let's load the surveys dataset:
 
 ```{r wk9a}
-surveys <- read.csv("data/portal_data_joined.csv")
+surveys <- read.csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv")
 ```
 
 1) Using a for loop, print to the console the longest species name of each taxon. Hint: the function nchar() gets you the number of characters in a string.
@@ -296,7 +297,7 @@ surveys <- read.csv("data/portal_data_joined.csv")
 Next let's load the Mauna Loa dataset from last week.
 
 ```{r week9b}
-mloa <- read_csv("https://raw.githubusercontent.com/ucd-cepb/R-DAVIS/master/data/mauna_loa_met_2001_minute.csv")
+mloa <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/mauna_loa_met_2001_minute.csv")
 ```
 
 2) Use the map function from purrr to print the max of each of the following columns: "windDir","windSpeed_m_s","baro_hPa","temp_C_2m","temp_C_10m","temp_C_towertop","rel_humid",and "precip_intens_mm_hr". 

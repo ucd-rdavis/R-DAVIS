@@ -1,5 +1,5 @@
 ---
-title: "Wk01: Orientation to programming, R, and RStudio"
+title: 'Wk01: Orientation to programming, R, and RStudio'
 ---
 
 <div class = "blue">
@@ -141,6 +141,23 @@ One of the biggest benefits in using RStudio is that you get to use R Projects, 
 
 If you take a look in the very upper-right corner of the RStudio window, you should see a little cube icon with an R in it, possibly with "Project (None)" next to it. If you click on this, you'll see some options to create a New Project, Open Project, etc.
 
+<br>
+<div class = "blue">
+### Create a Project
+Let's create a new project in RStudio for this class. All of your files for this class should live in this new project. 
+
+1. Click the "File" menu button, then "New Project".
+2. Click "New Directory".
+3. Click "Empty Project".
+4. Call your project "R_DAVIS_2025", and save it to your computer, somewhere that you will be able to find it later! For instance, you can save it within your Documents folder or on your Desktop. (If you have a Mac, you can use Finder to drag a folder to your "Favorites" so you can easily find it later.)
+5. Click "Create Project".
+</div>
+<br>
+
+If everything went right, RStudio should've flickered and you should be looking 
+at a pretty bare RStudio instance. That's okay. Click on the "Files" tab in the 
+lower right pane. Your .Rproj file should be there with nothing else. You've got 
+the bare bones of a new project. 
 
 # Always Start Clean
 
