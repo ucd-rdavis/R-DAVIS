@@ -24,6 +24,7 @@ output:
 
 ## Videos
 
+- [Spreadsheet Best Practices](https://video.ucdavis.edu/media/t/1_z9i2s55k)
 - Accessing spreadsheets (coming soon)
 - Data Import (coming soon)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510678)
