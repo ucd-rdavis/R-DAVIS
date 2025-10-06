@@ -24,7 +24,7 @@ output:
 
 ## Videos
 
-- [Accessing spreadsheets] (https://video.ucdavis.edu/media/Week+3+Part+1%3A+Spreadsheet+Best+Practices/1_z9i2s55k/390286133)
+- [Accessing spreadsheets](https://video.ucdavis.edu/media/Week+3+Part+1%3A+Spreadsheet+Best+Practices/1_z9i2s55k/390286133)
 - [Data Import](https://video.ucdavis.edu/media/Week+3%2C+Part+2%3A+Starting+with+Spreadsheets+in+R/1_e9mv3mvt/390286133)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510678)
 
