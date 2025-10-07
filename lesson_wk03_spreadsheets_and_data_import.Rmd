@@ -276,11 +276,11 @@ Based on the output of `str(surveys)`, can you answer the following questions?
 ```{r, results="markup", purl=FALSE}
 str(surveys)
 ## * class: data frame
-## * how many rows: 34786,  how many columns: 13
+## * how many rows: 35549,  how many columns: 9
 ## * the character data are characters if you have R Version 4.0.0 of later, factors for older versions
 length(unique(surveys$species))
 table(surveys$species)
-## * how many species: 48
+## * how many species: 48 (well, 49, but the 49th value is "", i.e., blank)
 ```
 </details>
 </div>
