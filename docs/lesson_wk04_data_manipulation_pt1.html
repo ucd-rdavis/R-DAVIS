@@ -558,11 +558,11 @@ from the tidyverse package <strong><code>readr</code></strong>, instead
 of <code>read.csv()</code>, the base function for reading in data. The
 data we are going to be using today should already be in your
 R_DAVIS_2022 project in the folder <code>data</code>.</p>
-<pre class="r"><code>surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
-<pre><code>## Rows: 34786 Columns: 13
-## ── Column specification ───────────────────
+<pre class="r"><code>surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
+<pre><code>## Rows: 35549 Columns: 9
+## ── Column specification ─────────────────────────
 ## Delimiter: &quot;,&quot;
-## chr (6): species_id, sex, genus, species, taxa, plot_type
+## chr (2): species_id, sex
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
@@ -596,21 +596,20 @@ arguments are the <strong>columns</strong> to keep.</p>
 <p>To choose <strong>rows</strong> based on a specific criteria, use
 <code>filter()</code>:</p>
 <pre class="r"><code>filter(surveys, year == 1995)</code></pre>
-<pre><code>## # A tibble: 1,180 × 13
+<pre><code>## # A tibble: 1,222 × 9
 ##    record_id month   day  year plot_id species_id sex   hindfoot_length weight
 ##        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
-##  1     22314     6     7  1995       2 NL         M                  34     NA
-##  2     22728     9    23  1995       2 NL         F                  32    165
-##  3     22899    10    28  1995       2 NL         F                  32    171
-##  4     23032    12     2  1995       2 NL         F                  33     NA
-##  5     22003     1    11  1995       2 DM         M                  37     41
-##  6     22042     2     4  1995       2 DM         F                  36     45
-##  7     22044     2     4  1995       2 DM         M                  37     46
-##  8     22105     3     4  1995       2 DM         F                  37     49
-##  9     22109     3     4  1995       2 DM         M                  37     46
-## 10     22168     4     1  1995       2 DM         M                  36     48
-## # ℹ 1,170 more rows
-## # ℹ 4 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
+##  1     21993     1    11  1995      18 PF         F                  16      7
+##  2     21994     1    11  1995      12 DO         M                  36     47
+##  3     21995     1    11  1995       2 DO         M                  36     51
+##  4     21996     1    11  1995      21 PF         F                  14      7
+##  5     21997     1    11  1995      24 RM         M                  15     10
+##  6     21998     1    11  1995       1 DM         M                  38     46
+##  7     21999     1    11  1995      19 PF         F                  15      8
+##  8     22000     1    11  1995       1 DM         F                  37     45
+##  9     22001     1    11  1995       2 DO         M                  36     41
+## 10     22002     1    11  1995      18 PF         F                  16      8
+## # ℹ 1,212 more rows</code></pre>
 <p><code>filter</code> is used for <strong>rows</strong> and
 <code>select</code> is used for <strong>columns</strong>.</p>
 </div>
@@ -647,23 +646,23 @@ have a Mac.</p>
 <pre><code>## # A tibble: 17 × 3
 ##    species_id sex   weight
 ##    &lt;chr&gt;      &lt;chr&gt;  &lt;dbl&gt;
-##  1 PF         F          4
+##  1 PF         M          4
 ##  2 PF         F          4
-##  3 PF         M          4
-##  4 RM         F          4
-##  5 RM         M          4
-##  6 PF         &lt;NA&gt;       4
-##  7 PP         M          4
+##  3 PF         &lt;NA&gt;       4
+##  4 PF         F          4
+##  5 PF         F          4
+##  6 RM         M          4
+##  7 RM         F          4
 ##  8 RM         M          4
 ##  9 RM         M          4
 ## 10 RM         M          4
-## 11 PF         M          4
-## 12 PF         F          4
+## 11 RM         M          4
+## 12 RM         F          4
 ## 13 RM         M          4
 ## 14 RM         M          4
-## 15 RM         F          4
-## 16 RM         M          4
-## 17 RM         M          4</code></pre>
+## 15 RM         M          4
+## 16 PF         M          4
+## 17 PP         M          4</code></pre>
 <p>In the above code, we use the pipe to send the <code>surveys</code>
 dataset first through <code>filter()</code> to keep rows where
 <code>weight</code> is less than 5, then through <code>select()</code>
@@ -692,23 +691,23 @@ surveys_sml</code></pre>
 <pre><code>## # A tibble: 17 × 3
 ##    species_id sex   weight
 ##    &lt;chr&gt;      &lt;chr&gt;  &lt;dbl&gt;
-##  1 PF         F          4
+##  1 PF         M          4
 ##  2 PF         F          4
-##  3 PF         M          4
-##  4 RM         F          4
-##  5 RM         M          4
-##  6 PF         &lt;NA&gt;       4
-##  7 PP         M          4
+##  3 PF         &lt;NA&gt;       4
+##  4 PF         F          4
+##  5 PF         F          4
+##  6 RM         M          4
+##  7 RM         F          4
 ##  8 RM         M          4
 ##  9 RM         M          4
 ## 10 RM         M          4
-## 11 PF         M          4
-## 12 PF         F          4
+## 11 RM         M          4
+## 12 RM         F          4
 ## 13 RM         M          4
 ## 14 RM         M          4
-## 15 RM         F          4
-## 16 RM         M          4
-## 17 RM         M          4</code></pre>
+## 15 RM         M          4
+## 16 PF         M          4
+## 17 PP         M          4</code></pre>
 <p>Note that the final data frame is the leftmost part of this
 expression.</p>
 <div id="challenge" class="section level3 blue">
@@ -737,43 +736,41 @@ ratio of values in two columns. For this we’ll use
 <p>To create a new column of weight in kg:</p>
 <pre class="r"><code>surveys %&gt;%
   mutate(weight_kg = weight / 1000)</code></pre>
-<pre><code>## # A tibble: 34,786 × 14
+<pre><code>## # A tibble: 35,549 × 10
 ##    record_id month   day  year plot_id species_id sex   hindfoot_length weight
 ##        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
 ##  1         1     7    16  1977       2 NL         M                  32     NA
-##  2        72     8    19  1977       2 NL         M                  31     NA
-##  3       224     9    13  1977       2 NL         &lt;NA&gt;               NA     NA
-##  4       266    10    16  1977       2 NL         &lt;NA&gt;               NA     NA
-##  5       349    11    12  1977       2 NL         &lt;NA&gt;               NA     NA
-##  6       363    11    12  1977       2 NL         &lt;NA&gt;               NA     NA
-##  7       435    12    10  1977       2 NL         &lt;NA&gt;               NA     NA
-##  8       506     1     8  1978       2 NL         &lt;NA&gt;               NA     NA
-##  9       588     2    18  1978       2 NL         M                  NA    218
-## 10       661     3    11  1978       2 NL         &lt;NA&gt;               NA     NA
-## # ℹ 34,776 more rows
-## # ℹ 5 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;,
-## #   weight_kg &lt;dbl&gt;</code></pre>
+##  2         2     7    16  1977       3 NL         M                  33     NA
+##  3         3     7    16  1977       2 DM         F                  37     NA
+##  4         4     7    16  1977       7 DM         M                  36     NA
+##  5         5     7    16  1977       3 DM         M                  35     NA
+##  6         6     7    16  1977       1 PF         M                  14     NA
+##  7         7     7    16  1977       2 PE         F                  NA     NA
+##  8         8     7    16  1977       1 DM         M                  37     NA
+##  9         9     7    16  1977       1 DM         F                  34     NA
+## 10        10     7    16  1977       6 PF         F                  20     NA
+## # ℹ 35,539 more rows
+## # ℹ 1 more variable: weight_kg &lt;dbl&gt;</code></pre>
 <p>You can also create a second new column based on the first new column
 within the same call of <code>mutate()</code>:</p>
 <pre class="r"><code>surveys %&gt;%
   mutate(weight_kg = weight / 1000,
          weight_kg2 = weight_kg * 2)</code></pre>
-<pre><code>## # A tibble: 34,786 × 15
+<pre><code>## # A tibble: 35,549 × 11
 ##    record_id month   day  year plot_id species_id sex   hindfoot_length weight
 ##        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
 ##  1         1     7    16  1977       2 NL         M                  32     NA
-##  2        72     8    19  1977       2 NL         M                  31     NA
-##  3       224     9    13  1977       2 NL         &lt;NA&gt;               NA     NA
-##  4       266    10    16  1977       2 NL         &lt;NA&gt;               NA     NA
-##  5       349    11    12  1977       2 NL         &lt;NA&gt;               NA     NA
-##  6       363    11    12  1977       2 NL         &lt;NA&gt;               NA     NA
-##  7       435    12    10  1977       2 NL         &lt;NA&gt;               NA     NA
-##  8       506     1     8  1978       2 NL         &lt;NA&gt;               NA     NA
-##  9       588     2    18  1978       2 NL         M                  NA    218
-## 10       661     3    11  1978       2 NL         &lt;NA&gt;               NA     NA
-## # ℹ 34,776 more rows
-## # ℹ 6 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;,
-## #   weight_kg &lt;dbl&gt;, weight_kg2 &lt;dbl&gt;</code></pre>
+##  2         2     7    16  1977       3 NL         M                  33     NA
+##  3         3     7    16  1977       2 DM         F                  37     NA
+##  4         4     7    16  1977       7 DM         M                  36     NA
+##  5         5     7    16  1977       3 DM         M                  35     NA
+##  6         6     7    16  1977       1 PF         M                  14     NA
+##  7         7     7    16  1977       2 PE         F                  NA     NA
+##  8         8     7    16  1977       1 DM         M                  37     NA
+##  9         9     7    16  1977       1 DM         F                  34     NA
+## 10        10     7    16  1977       6 PF         F                  20     NA
+## # ℹ 35,539 more rows
+## # ℹ 2 more variables: weight_kg &lt;dbl&gt;, weight_kg2 &lt;dbl&gt;</code></pre>
 <p>If this runs off your screen and you just want to see the first few
 rows, you can use a pipe to view the <code>head()</code> of the data.
 (Pipes work with non-<strong><code>dplyr</code></strong> functions, too,
@@ -782,17 +779,16 @@ as long as the <strong><code>dplyr</code></strong> or
 <pre class="r"><code>surveys %&gt;%
   mutate(weight_kg = weight / 1000) %&gt;%
   head()</code></pre>
-<pre><code>## # A tibble: 6 × 14
+<pre><code>## # A tibble: 6 × 10
 ##   record_id month   day  year plot_id species_id sex   hindfoot_length weight
 ##       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
 ## 1         1     7    16  1977       2 NL         M                  32     NA
-## 2        72     8    19  1977       2 NL         M                  31     NA
-## 3       224     9    13  1977       2 NL         &lt;NA&gt;               NA     NA
-## 4       266    10    16  1977       2 NL         &lt;NA&gt;               NA     NA
-## 5       349    11    12  1977       2 NL         &lt;NA&gt;               NA     NA
-## 6       363    11    12  1977       2 NL         &lt;NA&gt;               NA     NA
-## # ℹ 5 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;,
-## #   weight_kg &lt;dbl&gt;</code></pre>
+## 2         2     7    16  1977       3 NL         M                  33     NA
+## 3         3     7    16  1977       2 DM         F                  37     NA
+## 4         4     7    16  1977       7 DM         M                  36     NA
+## 5         5     7    16  1977       3 DM         M                  35     NA
+## 6         6     7    16  1977       1 PF         M                  14     NA
+## # ℹ 1 more variable: weight_kg &lt;dbl&gt;</code></pre>
 <p>The first few rows of the output are full of <code>NA</code>s, so if
 we wanted to remove those we could insert a <code>filter()</code> in the
 chain:</p>
@@ -800,17 +796,16 @@ chain:</p>
   filter(!is.na(weight)) %&gt;%
   mutate(weight_kg = weight / 1000) %&gt;%
   head()</code></pre>
-<pre><code>## # A tibble: 6 × 14
+<pre><code>## # A tibble: 6 × 10
 ##   record_id month   day  year plot_id species_id sex   hindfoot_length weight
 ##       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
-## 1       588     2    18  1978       2 NL         M                  NA    218
-## 2       845     5     6  1978       2 NL         M                  32    204
-## 3       990     6     9  1978       2 NL         M                  NA    200
-## 4      1164     8     5  1978       2 NL         M                  34    199
-## 5      1261     9     4  1978       2 NL         M                  32    197
-## 6      1453    11     5  1978       2 NL         M                  NA    218
-## # ℹ 5 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;,
-## #   weight_kg &lt;dbl&gt;</code></pre>
+## 1        63     8    19  1977       3 DM         M                  35     40
+## 2        64     8    19  1977       7 DM         M                  37     48
+## 3        65     8    19  1977       4 DM         F                  34     29
+## 4        66     8    19  1977       4 DM         F                  35     46
+## 5        67     8    19  1977       7 DM         M                  35     36
+## 6        68     8    19  1977       8 DO         F                  32     52
+## # ℹ 1 more variable: weight_kg &lt;dbl&gt;</code></pre>
 <p><code>is.na()</code> is a function that determines whether something
 is an <code>NA</code>. The <code>!</code> symbol negates the result, so
 we’re asking for every row where weight <em>is not</em> an
@@ -868,10 +863,9 @@ run off the screen anymore. It’s one of the advantages of
 <pre class="r"><code>surveys %&gt;%
   group_by(sex, species_id) %&gt;%
   summarize(mean_weight = mean(weight, na.rm = TRUE))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;sex&#39;.
-## You can override using the `.groups`
-## argument.</code></pre>
-<pre><code>## # A tibble: 92 × 3
+<pre><code>## `summarise()` has grouped output by &#39;sex&#39;. You
+## can override using the `.groups` argument.</code></pre>
+<pre><code>## # A tibble: 93 × 3
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight
 ##    &lt;chr&gt; &lt;chr&gt;            &lt;dbl&gt;
@@ -885,7 +879,7 @@ run off the screen anymore. It’s one of the advantages of
 ##  8 F     OX               21   
 ##  9 F     PB               30.2 
 ## 10 F     PE               22.8 
-## # ℹ 82 more rows</code></pre>
+## # ℹ 83 more rows</code></pre>
 <p>When grouping both by <code>sex</code> and <code>species_id</code>,
 the first rows are for individuals that escaped before their sex could
 be determined and weighted. You may notice that the last column does not
@@ -898,9 +892,8 @@ the missing values are removed first, we can omit
   filter(!is.na(weight)) %&gt;%
   group_by(sex, species_id) %&gt;%
   summarize(mean_weight = mean(weight))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;sex&#39;.
-## You can override using the `.groups`
-## argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;sex&#39;. You
+## can override using the `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 64 × 3
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight
@@ -925,9 +918,8 @@ anymore. If you want to display more data, you can use the
   group_by(sex, species_id) %&gt;%
   summarize(mean_weight = mean(weight)) %&gt;%
   print(n = 15)</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;sex&#39;.
-## You can override using the `.groups`
-## argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;sex&#39;. You
+## can override using the `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 64 × 3
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight
@@ -957,9 +949,8 @@ species for each sex:</p>
   group_by(sex, species_id) %&gt;%
   summarize(mean_weight = mean(weight),
             min_weight = min(weight))</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;sex&#39;.
-## You can override using the `.groups`
-## argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;sex&#39;. You
+## can override using the `.groups` argument.</code></pre>
 <pre><code>## # A tibble: 64 × 4
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight min_weight
@@ -1025,7 +1016,7 @@ surveys %&gt;%
 ##   &lt;chr&gt; &lt;int&gt;
 ## 1 F     15690
 ## 2 M     17348
-## 3 &lt;NA&gt;   1748</code></pre>
+## 3 &lt;NA&gt;   2511</code></pre>
 <pre class="r"><code>surveys %&gt;%
   group_by(sex) %&gt;%
   summarize(n = n())</code></pre>
@@ -1034,7 +1025,7 @@ surveys %&gt;%
 ##   &lt;chr&gt; &lt;int&gt;
 ## 1 F     15690
 ## 2 M     17348
-## 3 &lt;NA&gt;   1748</code></pre>
+## 3 &lt;NA&gt;   2511</code></pre>
 </details>
 </div>
 <p><br></p>

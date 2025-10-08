@@ -659,7 +659,7 @@ library(dplyr)
 library(readr)
 
 # read in some data and skip header lines
-nfy1 &lt;- read_csv(&quot;data/2015_NFY_solinst.csv&quot;, skip = 12)
+nfy1 &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/2015_NFY_solinst.csv&quot;, skip = 12)
 head(nfy1) #R tried to guess for you that the first column was a date and the second a time</code></pre>
 <pre><code>## # A tibble: 6 × 5
 ##   Date       Time      ms Level Temperature
@@ -671,7 +671,7 @@ head(nfy1) #R tried to guess for you that the first column was a date and the se
 ## 5 2015-05-22 15:00      0 -8.30           0
 ## 6 2015-05-22 15:15      0 -8.29           0</code></pre>
 <pre class="r"><code># import raw dataset &amp; specify column types
-nfy2 &lt;- read_csv(&quot;data/2015_NFY_solinst.csv&quot;, col_types = &quot;ccidd&quot;, skip=12)
+nfy2 &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/2015_NFY_solinst.csv&quot;, col_types = &quot;ccidd&quot;, skip=12)
 
 glimpse(nfy1) # notice the data types in the Date.Time and datetime cols</code></pre>
 <pre><code>## Rows: 7,764

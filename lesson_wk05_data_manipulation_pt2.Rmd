@@ -1,5 +1,5 @@
 ---
-title: "Wk05: Manipulating and analyzing data in the tidyverse, Part 2"
+title: 'Wk05: Manipulating and analyzing data in the tidyverse, Part 2'
 ---
 
 <div class = "blue">
@@ -29,7 +29,7 @@ We'll begin again with our surveys data, and remember to load in the tidyverse
 
 ```{r,results = 'hide', purl = FALSE, warning=FALSE, message=FALSE}
 library(tidyverse)
-surveys <- read_csv("data/portal_data_joined.csv")
+surveys <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv")
 ```
 
 The general logic of conditional statements is this: if a statement is true, then execute x, if it is false, then execute y. For example, let's say that we want to create a categorical variable for hindfoot length in our data. Using the summary function below, we see that the mean hindfoot length is 29.29, so let's split the data at the mean using a conditional statement.
@@ -117,7 +117,7 @@ To learn more about the `join` family of functions, check out this [useful link]
 Let's read in another dataset. This data set is a record of the tail length of every rodent in our `surveys` dataframe. For some annoying reason, it was recorded on a seperate data sheet. We want to take the tail length data and add it to our surveys dataframe. 
 
 ```{r, message=FALSE}
-tail <- read_csv("data/tail_length.csv")
+tail <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/tail_length.csv")
 ```
 
 The `join` functions join dataframes together based on shared columns between the two data frames. Luckily, both our `surveys` dataframe and our new `tail_length` data frame both have the column `record_id`. Let's double check that our record_id columns in the two data frames are the same by using the `summary` function. 
@@ -197,7 +197,7 @@ Here we examine the fourth rule: Each type of observational unit forms a table.
 In `surveys` , the rows of `surveys` contain the values of variables associated
 with each record (the unit), values such the weight or sex of each animal 
 associated with each record. What if instead of comparing records, we 
-wanted to compare the different mean weight of each species between plots? (Ignoring `plot_type` for simplicity).
+wanted to compare the different mean weight of each species between plots? 
 
 We'd need to create a new table where each row (the unit) is comprise of values of variables associated with each plot. In practical terms this means the values
 of the species in `genus` would become the names of column variables and the cells would contain the values of the mean weight observed on each plot.
@@ -221,38 +221,40 @@ We can do both these of transformations with two new `tidyr` functions, `pivot_l
 2. `names_from` the name of the column you'd like to spread out
 3. `values_from` the data you want to fill all your new columns with 
 
-Let's try an example using our surveys data frame. Let's pretend we are interested in what the mean weight is for each species in each plot. How would we create a dataframe that would tell us that information? 
+Let's try an example using our surveys data. Let's pretend we are interested in what the mean weight is for each species in each plot. How would we create a dataframe that would tell us that information? 
 
 First, we need to calculate the mean weight for each species in each plot:
 ```{r}
 surveys_mz <- surveys %>% 
   filter(!is.na(weight)) %>% 
-  group_by(genus, plot_id) %>% 
+  group_by(species_id, plot_id) %>% 
   summarize(mean_weight = mean(weight)) 
 
 str(surveys_mz) #let's take a look at the data
 
 ```
-In `surveys_mz` there are 196 rows and 3 columns. Using `pivot_wider` we are going to *increase* the number of columns and *decrease* the number of rows. We want each row to signify a single genus, with their mean weight listed for each plot id. How many rows do we want our final data frame to have?
+In `surveys_mz` there are 382 rows and 3 columns. Using `pivot_wider` we are going to *increase* the number of columns and *decrease* the number of rows. We want each row to signify a single species, with their mean weight listed for each plot id. How many rows do we want our final data frame to have?
 
 ```{r}
 
-unique(surveys_mz$genus) #lists every unique genus in surveys_mz
+unique(surveys_mz$species_id) #lists every unique species_id in surveys_mz
 
-n_distinct(surveys_mz$genus) #another way to look at the number of distinct genera
+n_distinct(surveys_mz$species_id) #another way to look at the number of distinct species
 
 ```
-There are 10 unique genera, so we want to create a data frame with just 10 rows. How many columns would we want? Since we want each column to be a distinct plot id, our number of columns should equal our number of plot ids. 
+There are 25 unique species, so we want to create a data frame with just 25 rows. How many columns would we want? Since we want each column to be a distinct plot id, our number of columns should equal our number of plot ids. 
 ```{r}
 n_distinct(surveys_mz$plot_id)
 ```
-Alright, so we want a data frame with 10 rows and 24 columns. `pivot_wider` can do the job! 
+Alright, so we want a data frame with 25 rows and 24 columns for each of the plot ids (plus one more column for the species id). `pivot_wider` can do the job! 
+
 ```{r}
 wide_survey <- surveys_mz %>% 
   pivot_wider(names_from = "plot_id", values_from =  "mean_weight")
 
-head(wide_survey)
+str(wide_survey)
 ```
+(Note that the fact this resulting table is square is a total coincidence, and this will not necessarily be the case when pivoting in general. The `plot_id` data was converted into 24 columns, since that's the number of unique plot ids in the dataset. Meanwhile, there are 25 rows because that's the number of unique species ids in the dataset.)
 
 ### `pivot_longer`
 
@@ -273,10 +275,10 @@ Let's pretend that we got sent the dataset we just created (`wide_survey`) and w
 #values_to = the name of the new column we will put our values in
 
 surveys_long <- wide_survey %>% 
-  pivot_longer(col = -genus, names_to = "plot_id", values_to = "mean_weight")
+  pivot_longer(col = -species_id, names_to = "plot_id", values_to = "mean_weight")
 
 ```
-This data set should look just like `surveys_mz`. But this one is 240 rows, and `surveys_mz` is 196 rows. What's going on? 
+This data set should look just like `surveys_mz`. But this one is 600 rows, and `surveys_mz` is 382 rows. What's going on? 
 
 ```{r}
 View(surveys_long)
@@ -285,7 +287,7 @@ View(surveys_long)
 Looks like all the NAs are included in this data set. This is always going to happen when moving between `pivot_longer` and `pivot_wider`, but is actually a useful way to balance out a dataset so every replicate has the same composition.  Luckily, we now know how to remove the NAs if we want! 
 ```{r}
 surveys_long <- surveys_long %>% 
-  filter(!is.na(mean_weight)) #now 196 rows
+  filter(!is.na(mean_weight)) #now 382 rows
 ```
 
 `pivot_wider` and `pivot_longer` are both new additions to the `tidyverse` which means there are some cool new blog posts detailing all their abilities. If you'd like to read more about this group of functions, check out these links:
@@ -297,10 +299,13 @@ surveys_long <- surveys_long %>%
 <div class = "blue">
 ### Challenge
 
-1. Use `pivot_wider` on the `surveys` data frame with `year` as columns, `plot_id` as rows, and the number of genera per plot as the values. You will need to summarize before
+1. Using the same approach as we did earlier in this lesson to join `surveys` and `tail`, start with the `surveys` dataframe and use a join to merge in data from two additional tables: a `species` table found at "https://ucd-rdavis.github.io/R-DAVIS/data/species.csv" and a `plots` table found at "https://ucd-rdavis.github.io/R-DAVIS/data/plots.csv". 
+Hint: you will have to perform these two joins one at a time. 
+Call the resulting data frame `surveys_spp_and_plots`.
+2. Use `pivot_wider` on the `surveys_spp_and_plots` data frame with `year` as columns, `plot_id` as rows, and the number of genera per plot as the values. You will need to summarize before
   reshaping, and use the function `n_distinct()` to get the number of unique
   genera within a particular chunk of data.  
-2. The `surveys` data set has two measurement columns: `hindfoot_length` and `weight`.  This makes it
+3. The `surveys_spp_and_plots` data set will have two measurement columns: `hindfoot_length` and `weight`.  This makes it
    difficult to do things like look at the relationship between mean values of
    each measurement per year in different plot types. Let's walk through a
    common solution for this type of problem. First, use `pivot_longer()` to create a
@@ -317,26 +322,32 @@ Then with this new data set, calculate the average of each
 <summary>ANSWER</summary>   
 ```{r, purl=FALSE}
 ## Answer 1
-q1 <- surveys %>%
+species <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/species.csv")
+plots <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/plots.csv")
+surveys_and_spp <- left_join(surveys, species)
+surveys_spp_and_plots <- left_join(surveys_and_spp, plots)
+
+## Answer 2
+q2 <- surveys_spp_and_plots %>%
   group_by(plot_id, year) %>%
   summarize(n_genera = n_distinct(genus)) %>%
   pivot_wider(names_from = "year", values_from = "n_genera")
 
-head(q1)
+head(q2)
 
-## Answer 2
-q2a <- surveys %>%
+## Answer 3
+q3a <- surveys_spp_and_plots %>%
   pivot_longer(cols = c("hindfoot_length", "weight"), names_to = "measurement_type", values_to = "value")
 
 #cols = columns we want to manipulate 
 #names_to = name of new column
 #values_to = the values we want to fill our new column with (here we already told the function that we were intersted in hindfoot_length and weight, so it will automatically fill our new column, which we named "values", with those numbers.)
 
-q2b <- q2a %>% 
+q3b <- q3a %>% 
   group_by(measurement_type, plot_type) %>% 
   summarize(mean_value = mean(value, na.rm=TRUE)) %>% 
   pivot_wider(names_from = "measurement_type", values_from = "mean_value")
-head(q2b)
+head(q3b)
 ```
  </details>
 </div>

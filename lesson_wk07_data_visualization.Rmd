@@ -1,5 +1,5 @@
 ---
-title: "Wk07: Data Visualization with ggplot2"
+title: 'Wk07: Data Visualization with ggplot2'
 ---
 
 <div class = "blue">
@@ -50,7 +50,7 @@ if(length(new_packages)) install.packages(new_packages, repos = "http://cran.us.
 invisible(lapply(required_packages, library, character.only = TRUE))
 
 library(tidyverse)
-surveys_complete <- read_csv("data/portal_data_joined.csv") %>% 
+surveys_complete <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/surveys_spp_and_plots.csv") %>% 
   filter(complete.cases(.))
 ```
 
@@ -64,10 +64,10 @@ We start by loading the required packages. **`ggplot2`** is included in the **`t
 library(tidyverse)
 ```
 
-Let's read in our surveys data, but filter it to only get back rows where ALL the data are present, also known as "complete cases". We're also showing you a new little trick: using a period with a pipe. Normally, a pipe just sends the stuff on the left into the FIRST argument position in the function on the right. However, sometimes we want that stuff to get sent to a slightly different place in the righthand function. In this case, we want to send it into the `complete.cases()` function, so that function will run on the whole dataset. In order to specifically tell the pipe to send the lefthand side into this function, we put a period there. You can think of this as the target for the pipe.
+Remember the challenge from last week, where we merged in some extra variables to the survey data? This week we did it for you, since we're going to need those variables. We'll read in that merged datafile, but filter it to only get back rows where ALL the data are present, also known as "complete cases". We're also showing you a new little trick: using a period with a pipe. Normally, a pipe just sends the stuff on the left into the FIRST argument position in the function on the right. However, sometimes we want that stuff to get sent to a slightly different place in the righthand function. In this case, we want to send it into the `complete.cases()` function, so that function will run on the whole dataset. In order to specifically tell the pipe to send the lefthand side into this function, we put a period there. You can think of this as the target for the pipe.
 
 ```{r load-data, eval=FALSE, purl=FALSE}
-surveys_complete <- read_csv("data/portal_data_joined.csv") %>% 
+surveys_complete <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/surveys_spp_and_plots.csv") %>% 
   filter(complete.cases(.))
 ```
 
@@ -343,7 +343,7 @@ ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
 You are looking at a new dataset shared with you by a collaborator. You received the dataset shortly after the vernal equinox. Your collaborator didn't really give you any context on what the data represent, and you need to do some preliminary visualizations before you can really even formulate a question for them. Import the mystery dataset using:
 
 ```{r}
-mystery <- read_csv("https://raw.githubusercontent.com/gge-ucd/R-DAVIS/master/data/mysteryData.csv")
+mystery <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/mysteryData.csv")
 ```
 
 Can you figure out what this dataset represents? 

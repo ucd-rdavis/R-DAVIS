@@ -482,7 +482,7 @@ manipulate your data to create new variables.</p>
 <p>We’ll begin again with our surveys data, and remember to load in the
 tidyverse</p>
 <pre class="r"><code>library(tidyverse)
-surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
+surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
 <p>The general logic of conditional statements is this: if a statement
 is true, then execute x, if it is false, then execute y. For example,
 let’s say that we want to create a categorical variable for hindfoot
@@ -491,7 +491,7 @@ mean hindfoot length is 29.29, so let’s split the data at the mean using
 a conditional statement.</p>
 <pre class="r"><code>summary(surveys$hindfoot_length)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
-##    2.00   21.00   32.00   29.29   36.00   70.00    3348</code></pre>
+##    2.00   21.00   32.00   29.29   36.00   70.00    4111</code></pre>
 <div id="ifelse-function" class="section level3">
 <h3>ifelse() function</h3>
 <p>To do this, we define the logic: if hindfoot length is less than the
@@ -504,7 +504,7 @@ true, and the third argument is the new variable if the statement is
 false.</p>
 <pre class="r"><code>surveys$hindfoot_cat &lt;- ifelse(surveys$hindfoot_length &lt; 29.29, &quot;small&quot;, &quot;big&quot;)
 head(surveys$hindfoot_cat)</code></pre>
-<pre><code>## [1] &quot;big&quot; &quot;big&quot; NA    NA    NA    NA</code></pre>
+<pre><code>## [1] &quot;big&quot;   &quot;big&quot;   &quot;big&quot;   &quot;big&quot;   &quot;big&quot;   &quot;small&quot;</code></pre>
 </div>
 <div id="case_when-function" class="section level3">
 <h3>case_when() function</h3>
@@ -535,11 +535,11 @@ hindfoot_lengths are NA.</p>
 ##   hindfoot_length hindfoot_cat
 ##             &lt;dbl&gt; &lt;chr&gt;       
 ## 1              32 big         
-## 2              31 big         
-## 3              NA small       
-## 4              NA small       
-## 5              NA small       
-## 6              NA small</code></pre>
+## 2              33 big         
+## 3              37 big         
+## 4              36 big         
+## 5              35 big         
+## 6              14 small</code></pre>
 <p>To adjust for this, we need to add in more than one condition:</p>
 <pre class="r"><code>surveys %&gt;% 
   mutate(hindfoot_cat = case_when(
@@ -553,11 +553,11 @@ hindfoot_lengths are NA.</p>
 ##   hindfoot_length hindfoot_cat
 ##             &lt;dbl&gt; &lt;chr&gt;       
 ## 1              32 big         
-## 2              31 big         
-## 3              NA &lt;NA&gt;        
-## 4              NA &lt;NA&gt;        
-## 5              NA &lt;NA&gt;        
-## 6              NA &lt;NA&gt;</code></pre>
+## 2              33 big         
+## 3              37 big         
+## 4              36 big         
+## 5              35 big         
+## 6              14 small</code></pre>
 </div>
 <div id="challenge" class="section level3 blue">
 <h3>Challenge</h3>
@@ -619,7 +619,7 @@ link</a>.</p>
 length of every rodent in our <code>surveys</code> dataframe. For some
 annoying reason, it was recorded on a seperate data sheet. We want to
 take the tail length data and add it to our surveys dataframe.</p>
-<pre class="r"><code>tail &lt;- read_csv(&quot;data/tail_length.csv&quot;)</code></pre>
+<pre class="r"><code>tail &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/tail_length.csv&quot;)</code></pre>
 <p>The <code>join</code> functions join dataframes together based on
 shared columns between the two data frames. Luckily, both our
 <code>surveys</code> dataframe and our new <code>tail_length</code> data
@@ -628,7 +628,7 @@ that our record_id columns in the two data frames are the same by using
 the <code>summary</code> function.</p>
 <pre class="r"><code>summary(surveys$record_id) #just summarize the record_id column by using the $ operator </code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##       1    8964   17762   17804   26655   35548</code></pre>
+##       1    8888   17775   17775   26662   35549</code></pre>
 <pre class="r"><code>summary(tail$record_id)</code></pre>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##       1    8964   17762   17804   26655   35548</code></pre>
@@ -711,8 +711,7 @@ forms a table.</p>
 the values of variables associated with each record (the unit), values
 such the weight or sex of each animal associated with each record. What
 if instead of comparing records, we wanted to compare the different mean
-weight of each species between plots? (Ignoring <code>plot_type</code>
-for simplicity).</p>
+weight of each species between plots?</p>
 <p>We’d need to create a new table where each row (the unit) is comprise
 of values of variables associated with each plot. In practical terms
 this means the values of the species in <code>genus</code> would become
@@ -741,74 +740,138 @@ out</li>
 <li><code>values_from</code> the data you want to fill all your new
 columns with</li>
 </ol>
-<p>Let’s try an example using our surveys data frame. Let’s pretend we
-are interested in what the mean weight is for each species in each plot.
-How would we create a dataframe that would tell us that information?</p>
+<p>Let’s try an example using our surveys data. Let’s pretend we are
+interested in what the mean weight is for each species in each plot. How
+would we create a dataframe that would tell us that information?</p>
 <p>First, we need to calculate the mean weight for each species in each
 plot:</p>
 <pre class="r"><code>surveys_mz &lt;- surveys %&gt;% 
   filter(!is.na(weight)) %&gt;% 
-  group_by(genus, plot_id) %&gt;% 
+  group_by(species_id, plot_id) %&gt;% 
   summarize(mean_weight = mean(weight)) </code></pre>
 <pre><code>## `summarise()` has grouped output by
-## &#39;genus&#39;. You can override using the
+## &#39;species_id&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <pre class="r"><code>str(surveys_mz) #let&#39;s take a look at the data</code></pre>
-<pre><code>## gropd_df [196 × 3] (S3: grouped_df/tbl_df/tbl/data.frame)
-##  $ genus      : chr [1:196] &quot;Baiomys&quot; &quot;Baiomys&quot; &quot;Baiomys&quot; &quot;Baiomys&quot; ...
-##  $ plot_id    : num [1:196] 1 2 3 5 18 19 20 21 1 2 ...
-##  $ mean_weight: num [1:196] 7 6 8.61 7.75 9.5 ...
-##  - attr(*, &quot;groups&quot;)= tibble [10 × 2] (S3: tbl_df/tbl/data.frame)
-##   ..$ genus: chr [1:10] &quot;Baiomys&quot; &quot;Chaetodipus&quot; &quot;Dipodomys&quot; &quot;Neotoma&quot; ...
-##   ..$ .rows: list&lt;int&gt; [1:10] 
+<pre><code>## gropd_df [382 × 3] (S3: grouped_df/tbl_df/tbl/data.frame)
+##  $ species_id : chr [1:382] &quot;BA&quot; &quot;BA&quot; &quot;BA&quot; &quot;BA&quot; ...
+##  $ plot_id    : num [1:382] 1 2 3 5 18 19 20 21 1 2 ...
+##  $ mean_weight: num [1:382] 7 6 8.61 7.75 9.5 ...
+##  - attr(*, &quot;groups&quot;)= tibble [25 × 2] (S3: tbl_df/tbl/data.frame)
+##   ..$ species_id: chr [1:25] &quot;BA&quot; &quot;DM&quot; &quot;DO&quot; &quot;DS&quot; ...
+##   ..$ .rows     : list&lt;int&gt; [1:25] 
 ##   .. ..$ : int [1:8] 1 2 3 4 5 6 7 8
 ##   .. ..$ : int [1:24] 9 10 11 12 13 14 15 16 17 18 ...
-##   .. ..$ : int [1:24] 33 34 35 36 37 38 39 40 41 42 ...
-##   .. ..$ : int [1:24] 57 58 59 60 61 62 63 64 65 66 ...
-##   .. ..$ : int [1:24] 81 82 83 84 85 86 87 88 89 90 ...
-##   .. ..$ : int [1:23] 105 106 107 108 109 110 111 112 113 114 ...
-##   .. ..$ : int [1:24] 128 129 130 131 132 133 134 135 136 137 ...
-##   .. ..$ : int [1:24] 152 153 154 155 156 157 158 159 160 161 ...
-##   .. ..$ : int [1:19] 176 177 178 179 180 181 182 183 184 185 ...
-##   .. ..$ : int [1:2] 195 196
+##   .. ..$ : int [1:23] 33 34 35 36 37 38 39 40 41 42 ...
+##   .. ..$ : int [1:22] 56 57 58 59 60 61 62 63 64 65 ...
+##   .. ..$ : int [1:24] 78 79 80 81 82 83 84 85 86 87 ...
+##   .. ..$ : int [1:23] 102 103 104 105 106 107 108 109 110 111 ...
+##   .. ..$ : int [1:24] 125 126 127 128 129 130 131 132 133 134 ...
+##   .. ..$ : int [1:6] 149 150 151 152 153 154
+##   .. ..$ : int [1:23] 155 156 157 158 159 160 161 162 163 164 ...
+##   .. ..$ : int [1:24] 178 179 180 181 182 183 184 185 186 187 ...
+##   .. ..$ : int [1:23] 202 203 204 205 206 207 208 209 210 211 ...
+##   .. ..$ : int [1:9] 225 226 227 228 229 230 231 232 233
+##   .. ..$ : int [1:3] 234 235 236
+##   .. ..$ : int [1:11] 237 238 239 240 241 242 243 244 245 246 ...
+##   .. ..$ : int [1:24] 248 249 250 251 252 253 254 255 256 257 ...
+##   .. ..$ : int [1:24] 272 273 274 275 276 277 278 279 280 281 ...
+##   .. ..$ : int [1:2] 296 297
+##   .. ..$ : int [1:17] 298 299 300 301 302 303 304 305 306 307 ...
+##   .. ..$ : int [1:24] 315 316 317 318 319 320 321 322 323 324 ...
+##   .. ..$ : int [1:6] 339 340 341 342 343 344
+##   .. ..$ : int [1:2] 345 346
+##   .. ..$ : int [1:10] 347 348 349 350 351 352 353 354 355 356
+##   .. ..$ : int [1:16] 357 358 359 360 361 362 363 364 365 366 ...
+##   .. ..$ : int [1:8] 373 374 375 376 377 378 379 380
+##   .. ..$ : int [1:2] 381 382
 ##   .. ..@ ptype: int(0) 
 ##   ..- attr(*, &quot;.drop&quot;)= logi TRUE</code></pre>
-<p>In <code>surveys_mz</code> there are 196 rows and 3 columns. Using
+<p>In <code>surveys_mz</code> there are 382 rows and 3 columns. Using
 <code>pivot_wider</code> we are going to <em>increase</em> the number of
 columns and <em>decrease</em> the number of rows. We want each row to
-signify a single genus, with their mean weight listed for each plot id.
-How many rows do we want our final data frame to have?</p>
-<pre class="r"><code>unique(surveys_mz$genus) #lists every unique genus in surveys_mz</code></pre>
-<pre><code>##  [1] &quot;Baiomys&quot;         &quot;Chaetodipus&quot;     &quot;Dipodomys&quot;       &quot;Neotoma&quot;        
-##  [5] &quot;Onychomys&quot;       &quot;Perognathus&quot;     &quot;Peromyscus&quot;      &quot;Reithrodontomys&quot;
-##  [9] &quot;Sigmodon&quot;        &quot;Spermophilus&quot;</code></pre>
-<pre class="r"><code>n_distinct(surveys_mz$genus) #another way to look at the number of distinct genera</code></pre>
-<pre><code>## [1] 10</code></pre>
-<p>There are 10 unique genera, so we want to create a data frame with
-just 10 rows. How many columns would we want? Since we want each column
+signify a single species, with their mean weight listed for each plot
+id. How many rows do we want our final data frame to have?</p>
+<pre class="r"><code>unique(surveys_mz$species_id) #lists every unique species_id in surveys_mz</code></pre>
+<pre><code>##  [1] &quot;BA&quot; &quot;DM&quot; &quot;DO&quot; &quot;DS&quot; &quot;NL&quot; &quot;OL&quot; &quot;OT&quot; &quot;OX&quot; &quot;PB&quot; &quot;PE&quot; &quot;PF&quot; &quot;PH&quot; &quot;PI&quot; &quot;PL&quot; &quot;PM&quot;
+## [16] &quot;PP&quot; &quot;PX&quot; &quot;RF&quot; &quot;RM&quot; &quot;RO&quot; &quot;RX&quot; &quot;SF&quot; &quot;SH&quot; &quot;SO&quot; &quot;SS&quot;</code></pre>
+<pre class="r"><code>n_distinct(surveys_mz$species_id) #another way to look at the number of distinct species</code></pre>
+<pre><code>## [1] 25</code></pre>
+<p>There are 25 unique species, so we want to create a data frame with
+just 25 rows. How many columns would we want? Since we want each column
 to be a distinct plot id, our number of columns should equal our number
 of plot ids.</p>
 <pre class="r"><code>n_distinct(surveys_mz$plot_id)</code></pre>
 <pre><code>## [1] 24</code></pre>
-<p>Alright, so we want a data frame with 10 rows and 24 columns.
+<p>Alright, so we want a data frame with 25 rows and 24 columns for each
+of the plot ids (plus one more column for the species id).
 <code>pivot_wider</code> can do the job!</p>
 <pre class="r"><code>wide_survey &lt;- surveys_mz %&gt;% 
   pivot_wider(names_from = &quot;plot_id&quot;, values_from =  &quot;mean_weight&quot;)
 
-head(wide_survey)</code></pre>
-<pre><code>## # A tibble: 6 × 25
-## # Groups:   genus [6]
-##   genus       `1`    `2`    `3`    `5`   `18`   `19`   `20`   `21`    `4`    `6`
-##   &lt;chr&gt;     &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-## 1 Baiomys    7      6      8.61   7.75   9.5    9.53   6      6.67  NA     NA   
-## 2 Chaetod…  22.2   25.1   24.6   18.0   26.8   26.4   25.1   28.2   23.0   24.9 
-## 3 Dipodom…  60.2   55.7   52.0   51.1   61.4   43.3   65.9   42.7   57.5   58.6 
-## 4 Neotoma  156.   169.   158.   190.   149.   120    155.   138.   164.   180.  
-## 5 Onychom…  27.7   26.9   26.0   27.0   26.6   23.8   25.2   24.6   28.1   25.9 
-## 6 Perogna…   9.62   6.95   7.51   8.66   8.62   8.09   8.14   9.19   7.82   7.81
-## # ℹ 14 more variables: `7` &lt;dbl&gt;, `8` &lt;dbl&gt;, `9` &lt;dbl&gt;, `10` &lt;dbl&gt;, `11` &lt;dbl&gt;,
-## #   `12` &lt;dbl&gt;, `13` &lt;dbl&gt;, `14` &lt;dbl&gt;, `15` &lt;dbl&gt;, `16` &lt;dbl&gt;, `17` &lt;dbl&gt;,
-## #   `22` &lt;dbl&gt;, `23` &lt;dbl&gt;, `24` &lt;dbl&gt;</code></pre>
+str(wide_survey)</code></pre>
+<pre><code>## gropd_df [25 × 25] (S3: grouped_df/tbl_df/tbl/data.frame)
+##  $ species_id: chr [1:25] &quot;BA&quot; &quot;DM&quot; &quot;DO&quot; &quot;DS&quot; ...
+##  $ 1         : num [1:25] 7 43 50 129 156 ...
+##  $ 2         : num [1:25] 6 43.4 49 123.4 169.1 ...
+##  $ 3         : num [1:25] 8.61 43.64 48.99 127.64 158.24 ...
+##  $ 5         : num [1:25] 7.75 42.97 49.83 111.38 190.04 ...
+##  $ 18        : num [1:25] 9.5 41.7 46.3 116.6 148.6 ...
+##  $ 19        : num [1:25] 9.53 42.92 52 NA 120 ...
+##  $ 20        : num [1:25] 6 41.7 47.7 128.2 155.3 ...
+##  $ 21        : num [1:25] 6.67 42.69 NA NA 137.76 ...
+##  $ 4         : num [1:25] NA 43 46.7 118.4 164.2 ...
+##  $ 6         : num [1:25] NA 42.1 48.2 114.1 179.9 ...
+##  $ 7         : num [1:25] NA 43.1 52.6 125.7 170.2 ...
+##  $ 8         : num [1:25] NA 43.4 48.9 128.1 133.9 ...
+##  $ 9         : num [1:25] NA 43.2 48.5 114.9 161.8 ...
+##  $ 10        : num [1:25] NA 42.4 51 130 190 ...
+##  $ 11        : num [1:25] NA 42.8 47.2 112.7 153.3 ...
+##  $ 12        : num [1:25] NA 42.7 49.9 121.3 169 ...
+##  $ 13        : num [1:25] NA 43.8 50.1 118.3 153.7 ...
+##  $ 14        : num [1:25] NA 44.4 48.7 111.4 139.1 ...
+##  $ 15        : num [1:25] NA 43.2 42 110.3 164.3 ...
+##  $ 16        : num [1:25] NA 42.2 49.4 135 117 ...
+##  $ 17        : num [1:25] NA 43.9 48.3 127.9 145.9 ...
+##  $ 22        : num [1:25] NA 43.5 47 117.7 136.9 ...
+##  $ 23        : num [1:25] NA 45 47 126 118 ...
+##  $ 24        : num [1:25] NA 41.1 47.9 117.3 165.7 ...
+##  - attr(*, &quot;groups&quot;)= tibble [25 × 2] (S3: tbl_df/tbl/data.frame)
+##   ..$ species_id: chr [1:25] &quot;BA&quot; &quot;DM&quot; &quot;DO&quot; &quot;DS&quot; ...
+##   ..$ .rows     : list&lt;int&gt; [1:25] 
+##   .. ..$ : int 1
+##   .. ..$ : int 2
+##   .. ..$ : int 3
+##   .. ..$ : int 4
+##   .. ..$ : int 5
+##   .. ..$ : int 6
+##   .. ..$ : int 7
+##   .. ..$ : int 8
+##   .. ..$ : int 9
+##   .. ..$ : int 10
+##   .. ..$ : int 11
+##   .. ..$ : int 12
+##   .. ..$ : int 13
+##   .. ..$ : int 14
+##   .. ..$ : int 15
+##   .. ..$ : int 16
+##   .. ..$ : int 17
+##   .. ..$ : int 18
+##   .. ..$ : int 19
+##   .. ..$ : int 20
+##   .. ..$ : int 21
+##   .. ..$ : int 22
+##   .. ..$ : int 23
+##   .. ..$ : int 24
+##   .. ..$ : int 25
+##   .. ..@ ptype: int(0) 
+##   ..- attr(*, &quot;.drop&quot;)= logi TRUE</code></pre>
+<p>(Note that the fact this resulting table is square is a total
+coincidence, and this will not necessarily be the case when pivoting in
+general. The <code>plot_id</code> data was converted into 24 columns,
+since that’s the number of unique plot ids in the dataset. Meanwhile,
+there are 25 rows because that’s the number of unique species ids in the
+dataset.)</p>
 </div>
 <div id="pivot_longer" class="section level3">
 <h3><code>pivot_longer</code></h3>
@@ -835,9 +898,9 @@ format. We can easily do that using <code>pivot_longer</code></p>
 #values_to = the name of the new column we will put our values in
 
 surveys_long &lt;- wide_survey %&gt;% 
-  pivot_longer(col = -genus, names_to = &quot;plot_id&quot;, values_to = &quot;mean_weight&quot;)</code></pre>
+  pivot_longer(col = -species_id, names_to = &quot;plot_id&quot;, values_to = &quot;mean_weight&quot;)</code></pre>
 <p>This data set should look just like <code>surveys_mz</code>. But this
-one is 240 rows, and <code>surveys_mz</code> is 196 rows. What’s going
+one is 600 rows, and <code>surveys_mz</code> is 382 rows. What’s going
 on?</p>
 <pre class="r"><code>View(surveys_long)</code></pre>
 <p>Looks like all the NAs are included in this data set. This is always
@@ -846,7 +909,7 @@ going to happen when moving between <code>pivot_longer</code> and
 dataset so every replicate has the same composition. Luckily, we now
 know how to remove the NAs if we want!</p>
 <pre class="r"><code>surveys_long &lt;- surveys_long %&gt;% 
-  filter(!is.na(mean_weight)) #now 196 rows</code></pre>
+  filter(!is.na(mean_weight)) #now 382 rows</code></pre>
 <p><code>pivot_wider</code> and <code>pivot_longer</code> are both new
 additions to the <code>tidyverse</code> which means there are some cool
 new blog posts detailing all their abilities. If you’d like to read more
@@ -865,22 +928,35 @@ Yutani’s slides</a></li>
 <div id="challenge-2" class="section level3 blue">
 <h3>Challenge</h3>
 <ol style="list-style-type: decimal">
-<li>Use <code>pivot_wider</code> on the <code>surveys</code> data frame
-with <code>year</code> as columns, <code>plot_id</code> as rows, and the
-number of genera per plot as the values. You will need to summarize
-before reshaping, and use the function <code>n_distinct()</code> to get
-the number of unique genera within a particular chunk of data.<br />
+<li>Using the same approach as we did earlier in this lesson to join
+<code>surveys</code> and <code>tail</code>, start with the
+<code>surveys</code> dataframe and use a join to merge in data from two
+additional tables: a <code>species</code> table found at “<a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/species.csv"
+class="uri">https://ucd-rdavis.github.io/R-DAVIS/data/species.csv</a>”
+and a <code>plots</code> table found at “<a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/plots.csv"
+class="uri">https://ucd-rdavis.github.io/R-DAVIS/data/plots.csv</a>”.
+Hint: you will have to perform these two joins one at a time. Call the
+resulting data frame <code>surveys_spp_and_plots</code>.</li>
+<li>Use <code>pivot_wider</code> on the
+<code>surveys_spp_and_plots</code> data frame with <code>year</code> as
+columns, <code>plot_id</code> as rows, and the number of genera per plot
+as the values. You will need to summarize before reshaping, and use the
+function <code>n_distinct()</code> to get the number of unique genera
+within a particular chunk of data.<br />
 </li>
-<li>The <code>surveys</code> data set has two measurement columns:
-<code>hindfoot_length</code> and <code>weight</code>. This makes it
-difficult to do things like look at the relationship between mean values
-of each measurement per year in different plot types. Let’s walk through
-a common solution for this type of problem. First, use
-<code>pivot_longer()</code> to create a dataset where we have a new
-column called <code>measurement</code> and a <code>value</code> column
-that takes on the value of either <code>hindfoot_length</code> or
-<code>weight</code>. <em>Hint</em>: You’ll need to specify which columns
-are being selected to make longer.<br />
+<li>The <code>surveys_spp_and_plots</code> data set will have two
+measurement columns: <code>hindfoot_length</code> and
+<code>weight</code>. This makes it difficult to do things like look at
+the relationship between mean values of each measurement per year in
+different plot types. Let’s walk through a common solution for this type
+of problem. First, use <code>pivot_longer()</code> to create a dataset
+where we have a new column called <code>measurement</code> and a
+<code>value</code> column that takes on the value of either
+<code>hindfoot_length</code> or <code>weight</code>. <em>Hint</em>:
+You’ll need to specify which columns are being selected to make
+longer.<br />
 Then with this new data set, calculate the average of each
 <code>measurement</code> for each different <code>plot_type</code>. Then
 use <code>pivot_wider()</code> to get them into a data set with a column
@@ -893,44 +969,65 @@ You only need to specify the <code>names_from =</code> and
 ANSWER
 </summary>
 <pre class="r"><code>## Answer 1
-q1 &lt;- surveys %&gt;%
+species &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/species.csv&quot;)</code></pre>
+<pre><code>## Rows: 54 Columns: 4
+## ── Column specification ─────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (4): species_id, genus, species, taxa
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>plots &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/plots.csv&quot;)</code></pre>
+<pre><code>## Rows: 24 Columns: 2
+## ── Column specification ─────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (1): plot_type
+## dbl (1): plot_id
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>surveys_and_spp &lt;- left_join(surveys, species)</code></pre>
+<pre><code>## Joining with `by = join_by(species_id)`</code></pre>
+<pre class="r"><code>surveys_spp_and_plots &lt;- left_join(surveys_and_spp, plots)</code></pre>
+<pre><code>## Joining with `by = join_by(plot_id)`</code></pre>
+<pre class="r"><code>## Answer 2
+q2 &lt;- surveys_spp_and_plots %&gt;%
   group_by(plot_id, year) %&gt;%
   summarize(n_genera = n_distinct(genus)) %&gt;%
   pivot_wider(names_from = &quot;year&quot;, values_from = &quot;n_genera&quot;)</code></pre>
-<pre><code>## `summarise()` has grouped output by
-## &#39;plot_id&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>head(q1)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;plot_id&#39;.
+## You can override using the `.groups` argument.</code></pre>
+<pre class="r"><code>head(q2)</code></pre>
 <pre><code>## # A tibble: 6 × 27
 ## # Groups:   plot_id [6]
 ##   plot_id `1977` `1978` `1979` `1980` `1981` `1982` `1983` `1984` `1985` `1986`
 ##     &lt;dbl&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;  &lt;int&gt;
-## 1       1      2      3      4      7      5      6      7      6      4      3
-## 2       2      6      6      6      8      5      9      9      9      6      4
-## 3       3      5      6      4      6      6      8     10     11      7      6
-## 4       4      4      4      3      4      5      4      6      3      4      3
-## 5       5      4      3      2      5      4      6      7      7      3      1
-## 6       6      3      4      3      4      5      9      9      7      5      6
+## 1       1      2      3      5      7      5      6      7      6      4      3
+## 2       2      6      6      6      8      6      9      9      9      6      4
+## 3       3      6      7      5      7      7      8     10     11      7      6
+## 4       4      4      4      4      4      5      4      6      3      4      3
+## 5       5      4      3      3      5      4      6      7      7      3      1
+## 6       6      3      5      4      5      5      9      9      7      5      6
 ## # ℹ 16 more variables: `1987` &lt;int&gt;, `1988` &lt;int&gt;, `1989` &lt;int&gt;, `1990` &lt;int&gt;,
 ## #   `1991` &lt;int&gt;, `1992` &lt;int&gt;, `1993` &lt;int&gt;, `1994` &lt;int&gt;, `1995` &lt;int&gt;,
 ## #   `1996` &lt;int&gt;, `1997` &lt;int&gt;, `1998` &lt;int&gt;, `1999` &lt;int&gt;, `2000` &lt;int&gt;,
 ## #   `2001` &lt;int&gt;, `2002` &lt;int&gt;</code></pre>
-<pre class="r"><code>## Answer 2
-q2a &lt;- surveys %&gt;%
+<pre class="r"><code>## Answer 3
+q3a &lt;- surveys_spp_and_plots %&gt;%
   pivot_longer(cols = c(&quot;hindfoot_length&quot;, &quot;weight&quot;), names_to = &quot;measurement_type&quot;, values_to = &quot;value&quot;)
 
 #cols = columns we want to manipulate 
 #names_to = name of new column
 #values_to = the values we want to fill our new column with (here we already told the function that we were intersted in hindfoot_length and weight, so it will automatically fill our new column, which we named &quot;values&quot;, with those numbers.)
 
-q2b &lt;- q2a %&gt;% 
+q3b &lt;- q3a %&gt;% 
   group_by(measurement_type, plot_type) %&gt;% 
   summarize(mean_value = mean(value, na.rm=TRUE)) %&gt;% 
   pivot_wider(names_from = &quot;measurement_type&quot;, values_from = &quot;mean_value&quot;)</code></pre>
 <pre><code>## `summarise()` has grouped output by
-## &#39;measurement_type&#39;. You can override using
-## the `.groups` argument.</code></pre>
-<pre class="r"><code>head(q2b)</code></pre>
+## &#39;measurement_type&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>head(q3b)</code></pre>
 <pre><code>## # A tibble: 5 × 3
 ##   plot_type                 hindfoot_length weight
 ##   &lt;chr&gt;                               &lt;dbl&gt;  &lt;dbl&gt;
