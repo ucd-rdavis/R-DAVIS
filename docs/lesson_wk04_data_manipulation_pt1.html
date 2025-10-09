@@ -561,10 +561,10 @@ of <code>read.csv()</code>, the base function for reading in data. The
 data we are going to be using today should already be in your
 R_DAVIS_2022 project in the folder <code>data</code>.</p>
 <pre class="r"><code>surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
-<pre><code>## Rows: 35549 Columns: 9
+<pre><code>## Rows: 35549 Columns: 13
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
-## chr (2): species_id, sex
+## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
@@ -598,7 +598,7 @@ arguments are the <strong>columns</strong> to keep.</p>
 <p>To choose <strong>rows</strong> based on a specific criteria, use
 <code>filter()</code>:</p>
 <pre class="r"><code>filter(surveys, year == 1995)</code></pre>
-<pre><code>## # A tibble: 1,222 × 9
+<pre><code>## # A tibble: 1,222 × 13
 ##    record_id month   day  year plot_id species_id sex   hindfoot_length weight
 ##        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
 ##  1     21993     1    11  1995      18 PF         F                  16      7
@@ -611,7 +611,8 @@ arguments are the <strong>columns</strong> to keep.</p>
 ##  8     22000     1    11  1995       1 DM         F                  37     45
 ##  9     22001     1    11  1995       2 DO         M                  36     41
 ## 10     22002     1    11  1995      18 PF         F                  16      8
-## # ℹ 1,212 more rows</code></pre>
+## # ℹ 1,212 more rows
+## # ℹ 4 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;</code></pre>
 <p><code>filter</code> is used for <strong>rows</strong> and
 <code>select</code> is used for <strong>columns</strong>.</p>
 </div>
@@ -738,7 +739,7 @@ ratio of values in two columns. For this we’ll use
 <p>To create a new column of weight in kg:</p>
 <pre class="r"><code>surveys %&gt;%
   mutate(weight_kg = weight / 1000)</code></pre>
-<pre><code>## # A tibble: 35,549 × 10
+<pre><code>## # A tibble: 35,549 × 14
 ##    record_id month   day  year plot_id species_id sex   hindfoot_length weight
 ##        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
 ##  1         1     7    16  1977       2 NL         M                  32     NA
@@ -752,13 +753,14 @@ ratio of values in two columns. For this we’ll use
 ##  9         9     7    16  1977       1 DM         F                  34     NA
 ## 10        10     7    16  1977       6 PF         F                  20     NA
 ## # ℹ 35,539 more rows
-## # ℹ 1 more variable: weight_kg &lt;dbl&gt;</code></pre>
+## # ℹ 5 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;,
+## #   weight_kg &lt;dbl&gt;</code></pre>
 <p>You can also create a second new column based on the first new column
 within the same call of <code>mutate()</code>:</p>
 <pre class="r"><code>surveys %&gt;%
   mutate(weight_kg = weight / 1000,
          weight_kg2 = weight_kg * 2)</code></pre>
-<pre><code>## # A tibble: 35,549 × 11
+<pre><code>## # A tibble: 35,549 × 15
 ##    record_id month   day  year plot_id species_id sex   hindfoot_length weight
 ##        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
 ##  1         1     7    16  1977       2 NL         M                  32     NA
@@ -772,7 +774,8 @@ within the same call of <code>mutate()</code>:</p>
 ##  9         9     7    16  1977       1 DM         F                  34     NA
 ## 10        10     7    16  1977       6 PF         F                  20     NA
 ## # ℹ 35,539 more rows
-## # ℹ 2 more variables: weight_kg &lt;dbl&gt;, weight_kg2 &lt;dbl&gt;</code></pre>
+## # ℹ 6 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;,
+## #   weight_kg &lt;dbl&gt;, weight_kg2 &lt;dbl&gt;</code></pre>
 <p>If this runs off your screen and you just want to see the first few
 rows, you can use a pipe to view the <code>head()</code> of the data.
 (Pipes work with non-<strong><code>dplyr</code></strong> functions, too,
@@ -781,7 +784,7 @@ as long as the <strong><code>dplyr</code></strong> or
 <pre class="r"><code>surveys %&gt;%
   mutate(weight_kg = weight / 1000) %&gt;%
   head()</code></pre>
-<pre><code>## # A tibble: 6 × 10
+<pre><code>## # A tibble: 6 × 14
 ##   record_id month   day  year plot_id species_id sex   hindfoot_length weight
 ##       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
 ## 1         1     7    16  1977       2 NL         M                  32     NA
@@ -790,7 +793,8 @@ as long as the <strong><code>dplyr</code></strong> or
 ## 4         4     7    16  1977       7 DM         M                  36     NA
 ## 5         5     7    16  1977       3 DM         M                  35     NA
 ## 6         6     7    16  1977       1 PF         M                  14     NA
-## # ℹ 1 more variable: weight_kg &lt;dbl&gt;</code></pre>
+## # ℹ 5 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;,
+## #   weight_kg &lt;dbl&gt;</code></pre>
 <p>The first few rows of the output are full of <code>NA</code>s, so if
 we wanted to remove those we could insert a <code>filter()</code> in the
 chain:</p>
@@ -798,7 +802,7 @@ chain:</p>
   filter(!is.na(weight)) %&gt;%
   mutate(weight_kg = weight / 1000) %&gt;%
   head()</code></pre>
-<pre><code>## # A tibble: 6 × 10
+<pre><code>## # A tibble: 6 × 14
 ##   record_id month   day  year plot_id species_id sex   hindfoot_length weight
 ##       &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;
 ## 1        63     8    19  1977       3 DM         M                  35     40
@@ -807,7 +811,8 @@ chain:</p>
 ## 4        66     8    19  1977       4 DM         F                  35     46
 ## 5        67     8    19  1977       7 DM         M                  35     36
 ## 6        68     8    19  1977       8 DO         F                  32     52
-## # ℹ 1 more variable: weight_kg &lt;dbl&gt;</code></pre>
+## # ℹ 5 more variables: genus &lt;chr&gt;, species &lt;chr&gt;, taxa &lt;chr&gt;, plot_type &lt;chr&gt;,
+## #   weight_kg &lt;dbl&gt;</code></pre>
 <p><code>is.na()</code> is a function that determines whether something
 is an <code>NA</code>. The <code>!</code> symbol negates the result, so
 we’re asking for every row where weight <em>is not</em> an
