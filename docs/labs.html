@@ -496,20 +496,19 @@ now have a vector that is 12 numbers long that looks
 <code>surveys</code> dataset we worked on in class, that has some other
 data columns merged in (You’ll learn how to do data merges yourself
 later in the class!). You’ll need to access this file from <a
-href="https://ucd-rdavis.github.io/R-DAVIS/data/surveys_spp_and_plots.csv">https://ucd-rdavis.github.io/R-DAVIS/data/surveys_spp_and_plots.csv</a>.
+href="https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv">https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv</a>.
 Save it to your <code>data</code> folder with the name
-<code>surveys_spp_and_plots.csv</code>, using the process we practiced
-in lecture.</p>
+<code>surveys.csv</code>, using the process we practiced in lecture.</p>
 <p>Create a new script in your <code>scripts</code> folder called
 <code>lastname_week_3_lab.R</code> (with your own last name).</p>
-<p>Load the <code>surveys_spp_and_plots</code> data frame with the
-read.csv() function. Create a new data frame called
-<code>surveys_base</code> with only the species_id, the weight, and the
-plot_type columns. Have this data frame only be the first 5,000 rows.
-Convert both species_id and plot_type to factors. Remove all rows where
-there is an NA in the weight column. Explore these variables and try to
-explain why a factor is different from a character. Why might we want to
-use factors? Can you think of any examples?</p>
+<p>Load the <code>surveys</code> data frame with the read.csv()
+function. Create a new data frame called <code>surveys_base</code> with
+only the species_id, the weight, and the plot_type columns. Have this
+data frame only be the first 5,000 rows. Convert both species_id and
+plot_type to factors. Remove all rows where there is an NA in the weight
+column. Explore these variables and try to explain why a factor is
+different from a character. Why might we want to use factors? Can you
+think of any examples?</p>
 <p>CHALLENGE: Create a second data frame called
 <code>challenge_base</code> that only consists of individuals from your
 <code>surveys_base</code> data frame with weights greater than 150g.</p>
@@ -733,8 +732,9 @@ Fahrenheit. Hint: first you need to multiply the Celsius temperature by
 by using map_df? Don’t forget to name your new columns “temp_F…” and not
 “temp_C…”!</p></li>
 </ol>
-<p>Challenge: Use lapply to create a new column of the surveys dataframe
-that includes the genus and species name together as one string.</p>
+<p>Challenge: Use lapply to create a new column of the
+<code>surveys</code> dataframe that includes the genus and species name
+together as one string.</p>
 </div>
 </div>
 
