@@ -141,9 +141,7 @@ Finally, save your script and upload your file to Canvas.
 
 ### <small>Lab Week 3</small> {#lab-week-3}
 
-This week, we will play with a wider version of the `surveys` dataset we worked on in class, that has some other data columns merged in (You'll learn how to do data merges yourself later in the class!). You'll need to access this file from [https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv](https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv).  Save it to your `data` folder with the name `surveys.csv`, using the process we practiced in lecture.
-
-Create a new script in your `scripts` folder called `lastname_week_3_lab.R` (with your own last name). 
+Lab this week will be playing with the `surveys` data we worked on in class. Create a new script within your  `scripts` folder called `lastname_week_3_lab.R` (with your own last name). 
 
 Load the `surveys` data frame with the read.csv() function. Create a new data frame called `surveys_base` with only the species_id, the weight, and the plot_type columns. Have this data frame only be the first 5,000 rows. Convert both species_id and plot_type to factors. Remove all rows where there is an NA in the weight column. Explore these variables and try to explain why a factor is different from a character. Why might we want to use factors? Can you think of any examples? 
 
