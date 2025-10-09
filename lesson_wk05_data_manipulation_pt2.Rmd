@@ -200,7 +200,7 @@ associated with each record. What if instead of comparing records, we
 wanted to compare the different mean weight of each species between plots? 
 
 We'd need to create a new table where each row (the unit) is comprise of values of variables associated with each plot. In practical terms this means the values
-of the species in `genus` would become the names of column variables and the cells would contain the values of the mean weight observed on each plot.
+of the species in `species` would become the names of column variables and the cells would contain the values of the mean weight observed on each plot.
 
 Having created a new table, it is therefore straightforward to explore the 
 relationship between the weight of different species within, and between, the
@@ -299,13 +299,10 @@ surveys_long <- surveys_long %>%
 <div class = "blue">
 ### Challenge
 
-1. Using the same approach as we did earlier in this lesson to join `surveys` and `tail`, start with the `surveys` dataframe and use a join to merge in data from two additional tables: a `species` table found at "https://ucd-rdavis.github.io/R-DAVIS/data/species.csv" and a `plots` table found at "https://ucd-rdavis.github.io/R-DAVIS/data/plots.csv". 
-Hint: you will have to perform these two joins one at a time. 
-Call the resulting data frame `surveys_spp_and_plots`.
-2. Use `pivot_wider` on the `surveys_spp_and_plots` data frame with `year` as columns, `plot_id` as rows, and the number of genera per plot as the values. You will need to summarize before
+1. Use `pivot_wider` on the `surveys` data frame with `year` as columns, `plot_id` as rows, and the number of genera per plot as the values. You will need to summarize before
   reshaping, and use the function `n_distinct()` to get the number of unique
   genera within a particular chunk of data.  
-3. The `surveys_spp_and_plots` data set will have two measurement columns: `hindfoot_length` and `weight`.  This makes it
+2. The `surveys` data set will have two measurement columns: `hindfoot_length` and `weight`.  This makes it
    difficult to do things like look at the relationship between mean values of
    each measurement per year in different plot types. Let's walk through a
    common solution for this type of problem. First, use `pivot_longer()` to create a
@@ -322,32 +319,28 @@ Then with this new data set, calculate the average of each
 <summary>ANSWER</summary>   
 ```{r, purl=FALSE}
 ## Answer 1
-species <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/species.csv")
-plots <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/plots.csv")
-surveys_and_spp <- left_join(surveys, species)
-surveys_spp_and_plots <- left_join(surveys_and_spp, plots)
+surveys <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv")
 
-## Answer 2
-q2 <- surveys_spp_and_plots %>%
+q1 <- surveys %>%
   group_by(plot_id, year) %>%
   summarize(n_genera = n_distinct(genus)) %>%
   pivot_wider(names_from = "year", values_from = "n_genera")
 
-head(q2)
+head(q1)
 
-## Answer 3
-q3a <- surveys_spp_and_plots %>%
+## Answer 2
+q2a <- surveys %>%
   pivot_longer(cols = c("hindfoot_length", "weight"), names_to = "measurement_type", values_to = "value")
 
 #cols = columns we want to manipulate 
 #names_to = name of new column
-#values_to = the values we want to fill our new column with (here we already told the function that we were intersted in hindfoot_length and weight, so it will automatically fill our new column, which we named "values", with those numbers.)
+#values_to = the values we want to fill our new column with (here we already told the function that we were interested in hindfoot_length and weight, so it will automatically fill our new column, which we named "values", with those numbers.)
 
-q3b <- q3a %>% 
+q2b <- q2a %>% 
   group_by(measurement_type, plot_type) %>% 
   summarize(mean_value = mean(value, na.rm=TRUE)) %>% 
   pivot_wider(names_from = "measurement_type", values_from = "mean_value")
-head(q3b)
+head(q2b)
 ```
  </details>
 </div>

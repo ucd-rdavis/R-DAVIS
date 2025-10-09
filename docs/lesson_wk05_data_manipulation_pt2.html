@@ -714,9 +714,9 @@ if instead of comparing records, we wanted to compare the different mean
 weight of each species between plots?</p>
 <p>We’d need to create a new table where each row (the unit) is comprise
 of values of variables associated with each plot. In practical terms
-this means the values of the species in <code>genus</code> would become
-the names of column variables and the cells would contain the values of
-the mean weight observed on each plot.</p>
+this means the values of the species in <code>species</code> would
+become the names of column variables and the cells would contain the
+values of the mean weight observed on each plot.</p>
 <p>Having created a new table, it is therefore straightforward to
 explore the relationship between the weight of different species within,
 and between, the plots. The key point here is that we are still
@@ -749,8 +749,7 @@ plot:</p>
   filter(!is.na(weight)) %&gt;% 
   group_by(species_id, plot_id) %&gt;% 
   summarize(mean_weight = mean(weight)) </code></pre>
-<pre><code>## `summarise()` has grouped output by
-## &#39;species_id&#39;. You can override using the
+<pre><code>## `summarise()` has grouped output by &#39;species_id&#39;. You can override using the
 ## `.groups` argument.</code></pre>
 <pre class="r"><code>str(surveys_mz) #let&#39;s take a look at the data</code></pre>
 <pre><code>## gropd_df [382 × 3] (S3: grouped_df/tbl_df/tbl/data.frame)
@@ -928,35 +927,22 @@ Yutani’s slides</a></li>
 <div id="challenge-2" class="section level3 blue">
 <h3>Challenge</h3>
 <ol style="list-style-type: decimal">
-<li>Using the same approach as we did earlier in this lesson to join
-<code>surveys</code> and <code>tail</code>, start with the
-<code>surveys</code> dataframe and use a join to merge in data from two
-additional tables: a <code>species</code> table found at “<a
-href="https://ucd-rdavis.github.io/R-DAVIS/data/species.csv"
-class="uri">https://ucd-rdavis.github.io/R-DAVIS/data/species.csv</a>”
-and a <code>plots</code> table found at “<a
-href="https://ucd-rdavis.github.io/R-DAVIS/data/plots.csv"
-class="uri">https://ucd-rdavis.github.io/R-DAVIS/data/plots.csv</a>”.
-Hint: you will have to perform these two joins one at a time. Call the
-resulting data frame <code>surveys_spp_and_plots</code>.</li>
-<li>Use <code>pivot_wider</code> on the
-<code>surveys_spp_and_plots</code> data frame with <code>year</code> as
-columns, <code>plot_id</code> as rows, and the number of genera per plot
-as the values. You will need to summarize before reshaping, and use the
-function <code>n_distinct()</code> to get the number of unique genera
-within a particular chunk of data.<br />
+<li>Use <code>pivot_wider</code> on the <code>surveys</code> data frame
+with <code>year</code> as columns, <code>plot_id</code> as rows, and the
+number of genera per plot as the values. You will need to summarize
+before reshaping, and use the function <code>n_distinct()</code> to get
+the number of unique genera within a particular chunk of data.<br />
 </li>
-<li>The <code>surveys_spp_and_plots</code> data set will have two
-measurement columns: <code>hindfoot_length</code> and
-<code>weight</code>. This makes it difficult to do things like look at
-the relationship between mean values of each measurement per year in
-different plot types. Let’s walk through a common solution for this type
-of problem. First, use <code>pivot_longer()</code> to create a dataset
-where we have a new column called <code>measurement</code> and a
-<code>value</code> column that takes on the value of either
-<code>hindfoot_length</code> or <code>weight</code>. <em>Hint</em>:
-You’ll need to specify which columns are being selected to make
-longer.<br />
+<li>The <code>surveys</code> data set will have two measurement columns:
+<code>hindfoot_length</code> and <code>weight</code>. This makes it
+difficult to do things like look at the relationship between mean values
+of each measurement per year in different plot types. Let’s walk through
+a common solution for this type of problem. First, use
+<code>pivot_longer()</code> to create a dataset where we have a new
+column called <code>measurement</code> and a <code>value</code> column
+that takes on the value of either <code>hindfoot_length</code> or
+<code>weight</code>. <em>Hint</em>: You’ll need to specify which columns
+are being selected to make longer.<br />
 Then with this new data set, calculate the average of each
 <code>measurement</code> for each different <code>plot_type</code>. Then
 use <code>pivot_wider()</code> to get them into a data set with a column
@@ -969,35 +955,22 @@ You only need to specify the <code>names_from =</code> and
 ANSWER
 </summary>
 <pre class="r"><code>## Answer 1
-species &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/species.csv&quot;)</code></pre>
-<pre><code>## Rows: 54 Columns: 4
-## ── Column specification ─────────────────────────
+surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
+<pre><code>## Rows: 35549 Columns: 13
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
-## chr (4): species_id, genus, species, taxa
+## chr (6): species_id, sex, genus, species, taxa, plot_type
+## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>plots &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/plots.csv&quot;)</code></pre>
-<pre><code>## Rows: 24 Columns: 2
-## ── Column specification ─────────────────────────
-## Delimiter: &quot;,&quot;
-## chr (1): plot_type
-## dbl (1): plot_id
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>surveys_and_spp &lt;- left_join(surveys, species)</code></pre>
-<pre><code>## Joining with `by = join_by(species_id)`</code></pre>
-<pre class="r"><code>surveys_spp_and_plots &lt;- left_join(surveys_and_spp, plots)</code></pre>
-<pre><code>## Joining with `by = join_by(plot_id)`</code></pre>
-<pre class="r"><code>## Answer 2
-q2 &lt;- surveys_spp_and_plots %&gt;%
+<pre class="r"><code>q1 &lt;- surveys %&gt;%
   group_by(plot_id, year) %&gt;%
   summarize(n_genera = n_distinct(genus)) %&gt;%
   pivot_wider(names_from = &quot;year&quot;, values_from = &quot;n_genera&quot;)</code></pre>
-<pre><code>## `summarise()` has grouped output by &#39;plot_id&#39;.
-## You can override using the `.groups` argument.</code></pre>
-<pre class="r"><code>head(q2)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;plot_id&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<pre class="r"><code>head(q1)</code></pre>
 <pre><code>## # A tibble: 6 × 27
 ## # Groups:   plot_id [6]
 ##   plot_id `1977` `1978` `1979` `1980` `1981` `1982` `1983` `1984` `1985` `1986`
@@ -1012,22 +985,21 @@ q2 &lt;- surveys_spp_and_plots %&gt;%
 ## #   `1991` &lt;int&gt;, `1992` &lt;int&gt;, `1993` &lt;int&gt;, `1994` &lt;int&gt;, `1995` &lt;int&gt;,
 ## #   `1996` &lt;int&gt;, `1997` &lt;int&gt;, `1998` &lt;int&gt;, `1999` &lt;int&gt;, `2000` &lt;int&gt;,
 ## #   `2001` &lt;int&gt;, `2002` &lt;int&gt;</code></pre>
-<pre class="r"><code>## Answer 3
-q3a &lt;- surveys_spp_and_plots %&gt;%
+<pre class="r"><code>## Answer 2
+q2a &lt;- surveys %&gt;%
   pivot_longer(cols = c(&quot;hindfoot_length&quot;, &quot;weight&quot;), names_to = &quot;measurement_type&quot;, values_to = &quot;value&quot;)
 
 #cols = columns we want to manipulate 
 #names_to = name of new column
-#values_to = the values we want to fill our new column with (here we already told the function that we were intersted in hindfoot_length and weight, so it will automatically fill our new column, which we named &quot;values&quot;, with those numbers.)
+#values_to = the values we want to fill our new column with (here we already told the function that we were interested in hindfoot_length and weight, so it will automatically fill our new column, which we named &quot;values&quot;, with those numbers.)
 
-q3b &lt;- q3a %&gt;% 
+q2b &lt;- q2a %&gt;% 
   group_by(measurement_type, plot_type) %&gt;% 
   summarize(mean_value = mean(value, na.rm=TRUE)) %&gt;% 
   pivot_wider(names_from = &quot;measurement_type&quot;, values_from = &quot;mean_value&quot;)</code></pre>
-<pre><code>## `summarise()` has grouped output by
-## &#39;measurement_type&#39;. You can override using the
-## `.groups` argument.</code></pre>
-<pre class="r"><code>head(q3b)</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;measurement_type&#39;. You can override using
+## the `.groups` argument.</code></pre>
+<pre class="r"><code>head(q2b)</code></pre>
 <pre><code>## # A tibble: 5 × 3
 ##   plot_type                 hindfoot_length weight
 ##   &lt;chr&gt;                               &lt;dbl&gt;  &lt;dbl&gt;
