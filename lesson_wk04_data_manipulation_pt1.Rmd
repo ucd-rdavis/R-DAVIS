@@ -299,9 +299,7 @@ surveys %>%
   summarize(mean_weight = mean(weight, na.rm = TRUE))
 ```
 
-We can also remove the missing values for weight before we
-attempt to calculate the summary statistics on weight. Because the missing
-values are removed first, we can omit `na.rm = TRUE` when computing the mean:
+We can also remove the missing values for weight before we attempt to calculate the summary statistics on weight. Because the missing values are removed first, we can omit `na.rm = TRUE` when computing the mean:
 
 ```{r, purl = FALSE}
 surveys %>%
