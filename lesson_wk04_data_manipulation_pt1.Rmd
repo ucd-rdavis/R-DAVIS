@@ -20,7 +20,7 @@ title: 'Wk04: Manipulating and analyzing data in the tidyverse, Part 1'
 ## Videos
 
 - [Data manipulation Part 1a](https://video.ucdavis.edu/media/t/1_3i0lfxul/390286133)
-- Data manipulation Part 1b (coming soon)
+- [Data manipulation Part 1b](https://video.ucdavis.edu/media/Week+4%3A+Data+Manipulation+Part+2+%28mutate%2C+group_by%2C+and+summarize%29/1_rgmwrirs)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510679)
 
 ## In Class Coding
@@ -299,10 +299,7 @@ surveys %>%
   summarize(mean_weight = mean(weight, na.rm = TRUE))
 ```
 
-When grouping both by `sex` and `species_id`, the first rows are for individuals
-that escaped before their sex could be determined and weighted. You may notice
-that the last column does not contain `NA` but `NaN` (which refers to "Not a
-Number"). To avoid this, we can remove the missing values for weight before we
+We can also remove the missing values for weight before we
 attempt to calculate the summary statistics on weight. Because the missing
 values are removed first, we can omit `na.rm = TRUE` when computing the mean:
 

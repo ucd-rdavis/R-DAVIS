@@ -13,7 +13,7 @@
 
 <title>Wk04: Manipulating and analyzing data in the tidyverse, Part 1</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -29,15 +29,15 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <link rel="stylesheet" href="site_libs_extra/academicons-1.8.0/css/academicons.css"/>
 
 <style type="text/css">
@@ -477,7 +477,9 @@ results.</li>
 <li><a
 href="https://video.ucdavis.edu/media/t/1_3i0lfxul/390286133">Data
 manipulation Part 1a</a></li>
-<li>Data manipulation Part 1b (coming soon)</li>
+<li><a
+href="https://video.ucdavis.edu/media/Week+4%3A+Data+Manipulation+Part+2+%28mutate%2C+group_by%2C+and+summarize%29/1_rgmwrirs">Data
+manipulation Part 1b</a></li>
 <li><a
 href="https://canvas.ucdavis.edu/courses/1019595/assignments/1510679">Video
 Discussion</a></li>
@@ -887,14 +889,10 @@ run off the screen anymore. It’s one of the advantages of
 ##  9 F     PB               30.2 
 ## 10 F     PE               22.8 
 ## # ℹ 83 more rows</code></pre>
-<p>When grouping both by <code>sex</code> and <code>species_id</code>,
-the first rows are for individuals that escaped before their sex could
-be determined and weighted. You may notice that the last column does not
-contain <code>NA</code> but <code>NaN</code> (which refers to “Not a
-Number”). To avoid this, we can remove the missing values for weight
-before we attempt to calculate the summary statistics on weight. Because
-the missing values are removed first, we can omit
-<code>na.rm = TRUE</code> when computing the mean:</p>
+<p>We can also remove the missing values for weight before we attempt to
+calculate the summary statistics on weight. Because the missing values
+are removed first, we can omit <code>na.rm = TRUE</code> when computing
+the mean:</p>
 <pre class="r"><code>surveys %&gt;%
   filter(!is.na(weight)) %&gt;%
   group_by(sex, species_id) %&gt;%
