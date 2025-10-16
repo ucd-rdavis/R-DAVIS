@@ -478,11 +478,7 @@ results.</li>
 href="https://video.ucdavis.edu/media/t/1_3i0lfxul/390286133">Data
 manipulation Part 1a</a></li>
 <li><a
-<<<<<<< HEAD
-href="https://video.ucdavis.edu/media/Week+4%3A+Data+Manipulation+Part+2+%28mutate%2C+group_by%2C+and+summarize%29/1_rgmwrirs">Data
-=======
 href="https://video.ucdavis.edu/media/Week+4%3A+Data+Manipulation+Part+2+%28mutate%2C+group_by%2C+and+summarize%29/1_rgmwrirs/390286133">Data
->>>>>>> 83bf97577a6ea82d792b524ae8c1ca8fac23c1e6
 manipulation Part 1b</a></li>
 <li><a
 href="https://canvas.ucdavis.edu/courses/1019595/assignments/1510679">Video
@@ -893,10 +889,15 @@ run off the screen anymore. It’s one of the advantages of
 ##  9 F     PB               30.2 
 ## 10 F     PE               22.8 
 ## # ℹ 83 more rows</code></pre>
-<p>We can also remove the missing values for weight before we attempt to
-calculate the summary statistics on weight. Because the missing values
-are removed first, we can omit <code>na.rm = TRUE</code> when computing
-the mean:</p>
+<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD We can also remove the missing
+values for weight before we attempt to calculate the summary statistics
+on weight. Because the missing values are removed first, we can omit
+<code>na.rm = TRUE</code> when computing the mean: ======= We can also
+remove the missing values for weight before we attempt to calculate the
+summary statistics on weight. Because the missing values are removed
+first, we can omit <code>na.rm = TRUE</code> when computing the mean:
+&gt;&gt;&gt;&gt;&gt;&gt;&gt;
+83bf97577a6ea82d792b524ae8c1ca8fac23c1e6</p>
 <pre class="r"><code>surveys %&gt;%
   filter(!is.na(weight)) %&gt;%
   group_by(sex, species_id) %&gt;%
@@ -1000,20 +1001,20 @@ surveys %&gt;%
     group_by(year) %&gt;%
     summarize(max_weight_g = max(weight)) %&gt;% 
     mutate(max_weight_kg = max_weight_g/1000) %&gt;% 
-    arrange()</code></pre>
+    arrange(-max_weight_g)</code></pre>
 <pre><code>## # A tibble: 26 × 3
 ##     year max_weight_g max_weight_kg
 ##    &lt;dbl&gt;        &lt;dbl&gt;         &lt;dbl&gt;
-##  1  1977          149         0.149
-##  2  1978          232         0.232
-##  3  1979          274         0.274
-##  4  1980          243         0.243
-##  5  1981          264         0.264
-##  6  1982          252         0.252
-##  7  1983          256         0.256
-##  8  1984          259         0.259
-##  9  1985          225         0.225
-## 10  1986          240         0.24 
+##  1  2001          280         0.28 
+##  2  1987          278         0.278
+##  3  1989          275         0.275
+##  4  1979          274         0.274
+##  5  2000          265         0.265
+##  6  1981          264         0.264
+##  7  1984          259         0.259
+##  8  1983          256         0.256
+##  9  1982          252         0.252
+## 10  1988          248         0.248
 ## # ℹ 16 more rows</code></pre>
 <pre class="r"><code>## Answer 2
 surveys %&gt;%
