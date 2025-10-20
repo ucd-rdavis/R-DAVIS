@@ -16,7 +16,8 @@ title: 'Wk05: Manipulating and analyzing data in the tidyverse, Part 2'
 ## Videos
 
 - Data manipulation Part 2a (coming soon)
-- Data manipulation Part 2b (coming soon)
+- [Data manipulation Part 2b: Joins](https://video.ucdavis.edu/media/Week+5%3A+Joins/1_q4spxyb0)
+- [Data manipulation Part 2b: Pivots] (coming soon)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510680)
 
 <br>
@@ -272,12 +273,12 @@ str(wide_survey)
 Let's pretend that we got sent the dataset we just created (`wide_survey`) and we want to reshape it to be in a long format. We can easily do that using `pivot_longer`
 
 ```{r, purl=FALSE}
-#cols = columns to be pivoted. Here we want to pivot all the plot_id columns, except the colum "genus"
+#cols = columns to be pivoted. Here we want to pivot all the plot_id columns, but not the "species_id" column
 #names_to = the name of the new column we created from the `cols` argument 
 #values_to = the name of the new column we will put our values in
 
 surveys_long <- wide_survey %>% 
-  pivot_longer(col = -species_id, names_to = "plot_id", values_to = "mean_weight")
+  pivot_longer(cols = -species_id, names_to = "plot_id", values_to = "mean_weight")
 
 ```
 This data set should look just like `surveys_mz`. But this one is 600 rows, and `surveys_mz` is 382 rows. What's going on? 

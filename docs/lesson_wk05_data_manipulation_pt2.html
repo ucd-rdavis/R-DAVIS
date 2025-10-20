@@ -466,7 +466,10 @@ purpose those formats are useful.</li>
 <h2>Videos</h2>
 <ul>
 <li>Data manipulation Part 2a (coming soon)</li>
-<li>Data manipulation Part 2b (coming soon)</li>
+<li><a
+href="https://video.ucdavis.edu/media/Week+5%3A+Joins/1_q4spxyb0">Data
+manipulation Part 2b: Joins</a></li>
+<li>[Data manipulation Part 2b: Pivots] (coming soon)</li>
 <li><a
 href="https://canvas.ucdavis.edu/courses/1019595/assignments/1510680">Video
 Discussion</a></li>
@@ -941,12 +944,12 @@ values in</li>
 <p>Let’s pretend that we got sent the dataset we just created
 (<code>wide_survey</code>) and we want to reshape it to be in a long
 format. We can easily do that using <code>pivot_longer</code></p>
-<pre class="r"><code>#cols = columns to be pivoted. Here we want to pivot all the plot_id columns, except the colum &quot;genus&quot;
+<pre class="r"><code>#cols = columns to be pivoted. Here we want to pivot all the plot_id columns, but not the &quot;species_id&quot; column
 #names_to = the name of the new column we created from the `cols` argument 
 #values_to = the name of the new column we will put our values in
 
 surveys_long &lt;- wide_survey %&gt;% 
-  pivot_longer(col = -species_id, names_to = &quot;plot_id&quot;, values_to = &quot;mean_weight&quot;)</code></pre>
+  pivot_longer(cols = -species_id, names_to = &quot;plot_id&quot;, values_to = &quot;mean_weight&quot;)</code></pre>
 <p>This data set should look just like <code>surveys_mz</code>. But this
 one is 600 rows, and <code>surveys_mz</code> is 382 rows. What’s going
 on?</p>
