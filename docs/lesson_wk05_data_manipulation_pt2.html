@@ -13,7 +13,7 @@
 
 <title>Wk05: Manipulating and analyzing data in the tidyverse, Part 2</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -29,15 +29,15 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 <link rel="stylesheet" href="site_libs_extra/academicons-1.8.0/css/academicons.css"/>
 
 <style type="text/css">
@@ -616,26 +616,30 @@ out this <a
 href="https://dplyr.tidyverse.org/reference/join.html">useful
 link</a>.</p>
 <p>Let’s read in another dataset. This data set is a record of the tail
-length of every rodent in our <code>surveys</code> dataframe. For some
+length of the rodents in our <code>surveys</code> dataframe. For some
 annoying reason, it was recorded on a seperate data sheet. We want to
 take the tail length data and add it to our surveys dataframe.</p>
 <pre class="r"><code>tail &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/tail_length.csv&quot;)</code></pre>
 <p>The <code>join</code> functions join dataframes together based on
-shared columns between the two data frames. Luckily, both our
-<code>surveys</code> dataframe and our new <code>tail_length</code> data
-frame both have the column <code>record_id</code>. Let’s double check
-that our record_id columns in the two data frames are the same by using
-the <code>summary</code> function.</p>
-<pre class="r"><code>summary(surveys$record_id) #just summarize the record_id column by using the $ operator </code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##       1    8888   17775   17775   26662   35549</code></pre>
-<pre class="r"><code>summary(tail$record_id)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##       1    8964   17762   17804   26655   35548</code></pre>
-<p>Looks like all those values are identical. Awesome! Let’s join the
-dataframes together.</p>
+shared columns between the two data frames. Let’s see what the
+<code>tail</code> data frame looks like.</p>
+<pre class="r"><code>str(tail)</code></pre>
+<pre><code>## spc_tbl_ [34,786 × 2] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ record_id  : num [1:34786] 1 72 224 266 349 363 435 506 588 661 ...
+##  $ tail_length: num [1:34786] 8.46 6.27 7.47 6.45 8.06 ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   record_id = col_double(),
+##   ..   tail_length = col_double()
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<p>Looks like we have a data frame with 34,786 rows and two columns:
+<code>record_id</code> and <code>tail_length</code>. Luckily, both our
+<code>surveys</code> and <code>tail</code> data frames have the column
+<code>record_id</code>. We can use this shared column to
+<code>join</code> the two data frames together.</p>
 <p>The basic structure of a <code>join</code> looks like this:</p>
-<p><code>join_type(FirstTable, SecondTable, by=columnTojoinBy)</code></p>
+<p><code>join_type(TableA, TableB, by=columnTojoinBy)</code></p>
 <div id="there-are-many-different-kinds-of-join-types"
 class="section level4">
 <h4>There are many different kinds of join types:</h4>
@@ -654,12 +658,57 @@ from Table A and Table B. Where there are no matching values, returns NA
 for the one that is missing.</p></li>
 </ul>
 <p>For our data we are going to use a <code>left_join</code>. We want
-all the rows from the <code>survey</code> data frame, and we want all
+all the rows from the <code>surveys</code> data frame, and we want all
 the columns from both data frames to be in our new data frame.</p>
+<p>You might have noticed that our <code>tail</code> data frame had
+fewer rows than our <code>surveys</code> data frame. We must not have
+tail length measurements for all of our observations in
+<code>surveys</code>. Since we are using a <code>left_join</code>, any
+observations in <code>surveys</code> that do not have a match in
+<code>tail</code> will be given an NA value for
+<code>tail_length</code>.</p>
 <pre class="r"><code>surveys_joined &lt;- left_join(surveys, tail, by = &quot;record_id&quot;)</code></pre>
 <p>If we don’t include the <code>by =</code> argument, the default is to
-join by all the variables with common names across the two data
-frames.</p>
+join by all the variables with common names across the two data frames.
+Let’s take a look at our new <code>surveys_joined</code> data frame:</p>
+<pre class="r"><code>str(surveys_joined)</code></pre>
+<pre><code>## spc_tbl_ [35,549 × 15] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
+##  $ record_id      : num [1:35549] 1 2 3 4 5 6 7 8 9 10 ...
+##  $ month          : num [1:35549] 7 7 7 7 7 7 7 7 7 7 ...
+##  $ day            : num [1:35549] 16 16 16 16 16 16 16 16 16 16 ...
+##  $ year           : num [1:35549] 1977 1977 1977 1977 1977 ...
+##  $ plot_id        : num [1:35549] 2 3 2 7 3 1 2 1 1 6 ...
+##  $ species_id     : chr [1:35549] &quot;NL&quot; &quot;NL&quot; &quot;DM&quot; &quot;DM&quot; ...
+##  $ sex            : chr [1:35549] &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; ...
+##  $ hindfoot_length: num [1:35549] 32 33 37 36 35 14 NA 37 34 20 ...
+##  $ weight         : num [1:35549] NA NA NA NA NA NA NA NA NA NA ...
+##  $ genus          : chr [1:35549] &quot;Neotoma&quot; &quot;Neotoma&quot; &quot;Dipodomys&quot; &quot;Dipodomys&quot; ...
+##  $ species        : chr [1:35549] &quot;albigula&quot; &quot;albigula&quot; &quot;merriami&quot; &quot;merriami&quot; ...
+##  $ taxa           : chr [1:35549] &quot;Rodent&quot; &quot;Rodent&quot; &quot;Rodent&quot; &quot;Rodent&quot; ...
+##  $ plot_type      : chr [1:35549] &quot;Control&quot; &quot;Long-term Krat Exclosure&quot; &quot;Control&quot; &quot;Rodent Exclosure&quot; ...
+##  $ hindfoot_cat   : chr [1:35549] &quot;big&quot; &quot;big&quot; &quot;big&quot; &quot;big&quot; ...
+##  $ tail_length    : num [1:35549] 8.46 8.31 10.08 7.4 7.78 ...
+##  - attr(*, &quot;spec&quot;)=
+##   .. cols(
+##   ..   record_id = col_double(),
+##   ..   month = col_double(),
+##   ..   day = col_double(),
+##   ..   year = col_double(),
+##   ..   plot_id = col_double(),
+##   ..   species_id = col_character(),
+##   ..   sex = col_character(),
+##   ..   hindfoot_length = col_double(),
+##   ..   weight = col_double(),
+##   ..   genus = col_character(),
+##   ..   species = col_character(),
+##   ..   taxa = col_character(),
+##   ..   plot_type = col_character()
+##   .. )
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+<p>We now have a new data frame called <code>surveys_joined</code> which
+has all of the information from our original <code>surveys</code> data
+frame, plus the new <code>tail_length</code> column that we added when
+joining the <code>tail</code> data frame.</p>
 </div>
 <div id="challenge-1" class="section level3 blue">
 <h3>Challenge</h3>

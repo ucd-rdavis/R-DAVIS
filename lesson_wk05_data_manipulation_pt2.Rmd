@@ -125,12 +125,8 @@ The `join` functions join dataframes together based on shared columns between th
 ```{r}
 str(tail)
 ```
-Looks like we have a data frame with 34,786 rows and two columns: `record_id` and `tail_length`.
-Recall the structure of our `surveys` data frame:
-```{r}
-str(surveys)
-```
-Luckily, both our `surveys` and `tail` data frames have the column `record_id`. We can use this shared column to `join` the two data frames together, so that we can add the `tail_length` variable to our `surveys` data frame. 
+
+Looks like we have a data frame with 34,786 rows and two columns: `record_id` and `tail_length`. Luckily, both our `surveys` and `tail` data frames have the column `record_id`. We can use this shared column to `join` the two data frames together.
 
 The basic structure of a `join` looks like this:
 
@@ -148,19 +144,18 @@ The basic structure of a `join` looks like this:
 
 For our data we are going to use a `left_join`. We want all the rows from the `surveys` data frame, and we want all the columns from both data frames to be in our new data frame. 
 
-You might have noticed that our `tail` data frame had fewer rows than our `surveys` data frame. Some of our observations in `surveys` must be missing tail length measurements. Since we are using a `left_join`, any observations in `surveys` that do not have a match in `tail` will be given an NA value for `tail_length`. 
+You might have noticed that our `tail` data frame had fewer rows than our `surveys` data frame. We must not have tail length measurements for all of our observations in `surveys`. Since we are using a `left_join`, any observations in `surveys` that do not have a match in `tail` will be given an NA value for `tail_length`. 
 
 ```{r}
-
 surveys_joined <- left_join(surveys, tail, by = "record_id")
 ```
 
-If we don't include the `by = ` argument, the default is to join by all the variables with common names across the two data frames.  
+If we don't include the `by = ` argument, the default is to join by all the variables with common names across the two data frames. Let's take a look at our new `surveys_joined` data frame:
 
 ```{r}
-surveys_joined
+str(surveys_joined)
 ```
-We now have a new data frame called `surveys_joined` which has all of the information from our original `surveys` data frame, plus the new `tail_length` column that we added from the `tail` data frame!
+We now have a new data frame called `surveys_joined` which has all of the information from our original `surveys` data frame, plus the new `tail_length` column that we added when joining the `tail` data frame.
 
 <div class = "blue">
 ### Challenge
@@ -287,7 +282,7 @@ surveys_long <- wide_survey %>%
 ```
 This data set should look just like `surveys_mz`. But this one is 600 rows, and `surveys_mz` is 382 rows. What's going on? 
 
-```{r}
+```{r, eval = F}
 View(surveys_long)
 ```
 
