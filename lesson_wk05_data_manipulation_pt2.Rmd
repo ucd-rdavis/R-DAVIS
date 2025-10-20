@@ -114,25 +114,27 @@ Often when working with real data, data might be separated in multiple .csvs. Th
 
 To learn more about the `join` family of functions, check out this [useful link](https://dplyr.tidyverse.org/reference/join.html). 
 
-Let's read in another dataset. This data set is a record of the tail length of every rodent in our `surveys` dataframe. For some annoying reason, it was recorded on a seperate data sheet. We want to take the tail length data and add it to our surveys dataframe. 
+Let's read in another dataset. This data set is a record of the tail length of the rodents in our `surveys` dataframe. For some annoying reason, it was recorded on a seperate data sheet. We want to take the tail length data and add it to our surveys dataframe. 
 
 ```{r, message=FALSE}
 tail <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/tail_length.csv")
 ```
 
-The `join` functions join dataframes together based on shared columns between the two data frames. Luckily, both our `surveys` dataframe and our new `tail_length` data frame both have the column `record_id`. Let's double check that our record_id columns in the two data frames are the same by using the `summary` function. 
+The `join` functions join dataframes together based on shared columns between the two data frames. Let's see what the `tail` data frame looks like. 
 
 ```{r}
-summary(surveys$record_id) #just summarize the record_id column by using the $ operator 
-
-summary(tail$record_id)
+str(tail)
 ```
-
-Looks like all those values are identical. Awesome! Let's join the dataframes together. 
+Looks like we have a data frame with 34,786 rows and two columns: `record_id` and `tail_length`.
+Recall the structure of our `surveys` data frame:
+```{r}
+str(surveys)
+```
+Luckily, both our `surveys` and `tail` data frames have the column `record_id`. We can use this shared column to `join` the two data frames together, so that we can add the `tail_length` variable to our `surveys` data frame. 
 
 The basic structure of a `join` looks like this:
 
-`join_type(FirstTable, SecondTable, by=columnTojoinBy)`
+`join_type(TableA, TableB, by=columnTojoinBy)`
 
 #### There are many different kinds of join types:
 
@@ -144,16 +146,21 @@ The basic structure of a `join` looks like this:
 
 - `full_join` returns all the rows and all the columns from Table A and Table B. Where there are no matching values, returns NA for the one that is missing. 
 
-For our data we are going to use a `left_join`. We want all the rows from the `survey` data frame, and we want all the columns from both data frames to be in our new data frame. 
+For our data we are going to use a `left_join`. We want all the rows from the `surveys` data frame, and we want all the columns from both data frames to be in our new data frame. 
+
+You might have noticed that our `tail` data frame had fewer rows than our `surveys` data frame. Some of our observations in `surveys` must be missing tail length measurements. Since we are using a `left_join`, any observations in `surveys` that do not have a match in `tail` will be given an NA value for `tail_length`. 
 
 ```{r}
 
 surveys_joined <- left_join(surveys, tail, by = "record_id")
-
 ```
 
-If we don't include the `by = ` argument, the default is to join by all the variables with common names across the two data frames. 
+If we don't include the `by = ` argument, the default is to join by all the variables with common names across the two data frames.  
 
+```{r}
+surveys_joined
+```
+We now have a new data frame called `surveys_joined` which has all of the information from our original `surveys` data frame, plus the new `tail_length` column that we added from the `tail` data frame!
 
 <div class = "blue">
 ### Challenge
