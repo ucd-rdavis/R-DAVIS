@@ -295,7 +295,7 @@ surveys_long <- surveys_long %>%
 
 `pivot_wider` and `pivot_longer` are both new additions to the `tidyverse` which means there are some cool new blog posts detailing all their abilities. If you'd like to read more about this group of functions, check out these links:
 
-- [Blog post by Burno Rodrigues](https://www.brodrigues.co/blog/2019-03-20-pivot/)
+- [Blog post by Burno Rodrigues](https://brodrigues.co/posts/2019-03-20-pivot.html)
 - [tidyr's vignette](https://tidyr.tidyverse.org/dev/articles/pivot.html)
 - [Hiroaki Yutani's slides](https://speakerdeck.com/yutannihilation/a-graphical-introduction-to-tidyrs-pivot-star?slide=1)
 
