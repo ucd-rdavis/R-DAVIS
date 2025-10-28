@@ -964,28 +964,20 @@ ANSWER
 ##  $ taxa           : chr  &quot;Rodent&quot; &quot;Rodent&quot; &quot;Rodent&quot; &quot;Rodent&quot; ...
 ##  $ plot_type      : chr  &quot;Control&quot; &quot;Long-term Krat Exclosure&quot; &quot;Control&quot; &quot;Rodent Exclosure&quot; ...</code></pre>
 <pre class="r"><code>## * class: data frame
-## * how many rows: 35549,  how many columns: 9
+## * how many rows: 35549,  how many columns: 13
 ## * the character data are characters if you have R Version 4.0.0 of later, factors for older versions
-length(unique(surveys$species))</code></pre>
-<pre><code>## [1] 41</code></pre>
-<pre class="r"><code>table(surveys$species)</code></pre>
+length(unique(surveys$species_id))</code></pre>
+<pre><code>## [1] 49</code></pre>
+<pre class="r"><code>table(surveys$species_id)</code></pre>
 <pre><code>## 
-##        albigula       audubonii         baileyi       bilineata brunneicapillus 
-##            1252              75            2891             303              50 
-##       chlorurus          clarki        eremicus          flavus      fulvescens 
-##              39               1            1299            1597              75 
-##     fulviventer          fuscus       gramineus         harrisi        hispidus 
-##              43               5               8             437             179 
-##     intermedius     leucogaster      leucophrys        leucopus     maniculatus 
-##               9            1006               2              36             899 
-##       megalotis     melanocorys        merriami        montanus    ochrognathus 
-##            2609              13           10596               8              43 
-##           ordii    penicillatus      savannarum      scutalatus             sp. 
-##            3027            3123               2               1              86 
-##     spectabilis       spilosoma        squamata         taylori    tereticaudus 
-##            2504             248              16              46               1 
-##          tigris        torridus       undulatus       uniparens         viridis 
-##               1            2249               5               1               1</code></pre>
+##          AB    AH    AS    BA    CB    CM    CQ    CS    CT    CU    CV    DM 
+##   763   303   437     2    46    50    13    16     1     1     1     1 10596 
+##    DO    DS    DX    NL    OL    OT    OX    PB    PC    PE    PF    PG    PH 
+##  3027  2504    40  1252  1006  2249    12  2891    39  1299  1597     8    32 
+##    PI    PL    PM    PP    PU    PX    RF    RM    RO    RX    SA    SC    SF 
+##     9    36   899  3123     5     6    75  2609     8     2    75     1    43 
+##    SH    SO    SS    ST    SU    UL    UP    UR    US    ZL 
+##   147    43   248     1     5     4     8    10     4     2</code></pre>
 <pre class="r"><code>## * how many species: 48 (well, 49, but the 49th value is &quot;&quot;, i.e., blank)</code></pre>
 </details>
 </div>
