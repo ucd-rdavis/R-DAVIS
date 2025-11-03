@@ -17,7 +17,7 @@ title: 'Wk07: Data Visualization with ggplot2'
 
 ## Videos
 
-- Data visualization Part 1a (coming soon)
+- [Data visualization Part 1a](https://video.ucdavis.edu/media/Week+7%3A+Data+Visualization+Part+1a/1_m55wx7pr)
 - Data visualization Part 1b (coming soon)
 - Data visualization Part 2a (coming soon)
 - Data visualization Part 2b (coming soon)
