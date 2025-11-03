@@ -378,6 +378,37 @@ This challenge was inspired by Trevor Branch's [Coelocanth post on Twitter](http
 </div>
 <br>
 
+## Saving plots with **`ggsave()`**
+
+Now that we've created some nice plots, you'll probably want to save them! The **`ggsave()`** function is the easiest way to save any ggplot. Let's save the faceted time series plot we just made:
+
+```{r save-facet-plot, eval=FALSE, purl=FALSE}
+# ggsave() will save the last plot you created
+ggsave("species_time_series.png")
+```
+
+You can also save a specific plot by first assigning it to a variable:
+
+```{r save-assigned-plot, eval=FALSE, purl=FALSE}
+# Create and assign our plot to a variable
+my_plot <- ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
+    geom_line() +
+    facet_wrap(~ species_id)
+
+# Save the specific plot
+ggsave("my_time_series.png", plot = my_plot)
+```
+
+**`ggsave()`** can save your plots in different formats (.png, .jpg, .pdf) and you can control the size and quality:
+
+```{r save-with-options, eval=FALSE, purl=FALSE}
+# Save with custom size and higher quality
+ggsave("high_quality_plot.png", plot = my_plot, 
+       width = 8, height = 6, units = "in", dpi = 300)
+```
+
+<br>
+
 ## **`ggplot2`** themes
 
 ggplot Themes are a great, easy addition that can make all your plots more readable (and a lot more pretty!)
