@@ -60,20 +60,6 @@ surveys_complete <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_d
 
 This lecture has a somewhat inverted order. We are going to start by teaching you how to make plots in Part 1. Then in Part 2, take a step back and think about the principles and practices of making *good* plots.
 
-### `ggplot2`
-
-While there are many visualization options in R, we believe the most comprehensive and powerful is the `ggplot2` package. Much of the class has used/follows `ggplot`, so here's a little background that might be useful.
-
- - Based on Grammar of Graphics book by Leland Wilkinson hence 'gg'
- - Each part of the plot is layered or built upon the other parts (like building legos).
- - Consider parts of a `ggplot2` as parts of a house.
-    - Data = The materials the house is built from (`ggplot(data=yourdata)`)
-    - Plot Type = The structure/design of your house (how will it look?) (`geom_`)
-    - Aesthetics = What the exterior looks like, i.e., the paint/decor (`aes()`)
-    - Stats = Ways to wire or plumb your house...how to tie your data together, or transform it (`stat_`)
-    
-A questions we often get asked when helping students with ggplot figures is, *how can I put two y-axis on my graph?* Short answer, with ggplot, you can't. There is a good reason for this though, which is basically that the creators of ggplot2 believe that duel y-axis are confusing, easily misunderstood and not invertible (given a point on the plot space, you can not uniquely map it back to a point in the data space). We agree with this logic, and would urge you to never put two different y-axis on the same plot. Instead, make two separate graphs.
-
 We start by loading the required packages. **`ggplot2`** is included in the **`tidyverse`** package.
 
 ```{r load-package, message=FALSE, purl=FALSE}
@@ -260,6 +246,7 @@ change in the code to put the boxplot in front of the points such that it's not
 hidden?
 
 <div class = "blue">
+
 ### Challenges
 
 1. Boxplots are useful summaries, but hide the *shape* of the distribution. For
