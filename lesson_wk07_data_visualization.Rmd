@@ -58,6 +58,22 @@ surveys_complete <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_d
 
 # Part 1: Building Plots with ggplot2
 
+This lecture has a somewhat inverted order. We are going to start by teaching you how to make plots in Part 1. Then in Part 2, take a step back and think about the principles and practices of making *good* plots.
+
+### `ggplot2`
+
+While there are many visualization options in R, we believe the most comprehensive and powerful is the `ggplot2` package. Much of the class has used/follows `ggplot`, so here's a little background that might be useful.
+
+ - Based on Grammar of Graphics book by Leland Wilkinson hence 'gg'
+ - Each part of the plot is layered or built upon the other parts (like building legos).
+ - Consider parts of a `ggplot2` as parts of a house.
+    - Data = The materials the house is built from (`ggplot(data=yourdata)`)
+    - Plot Type = The structure/design of your house (how will it look?) (`geom_`)
+    - Aesthetics = What the exterior looks like, i.e., the paint/decor (`aes()`)
+    - Stats = Ways to wire or plumb your house...how to tie your data together, or transform it (`stat_`)
+    
+A questions we often get asked when helping students with ggplot figures is, *how can I put two y-axis on my graph?* Short answer, with ggplot, you can't. There is a good reason for this though, which is basically that the creators of ggplot2 believe that duel y-axis are confusing, easily misunderstood and not invertible (given a point on the plot space, you can not uniquely map it back to a point in the data space). We agree with this logic, and would urge you to never put two different y-axis on the same plot. Instead, make two separate graphs.
+
 We start by loading the required packages. **`ggplot2`** is included in the **`tidyverse`** package.
 
 ```{r load-package, message=FALSE, purl=FALSE}
@@ -376,36 +392,6 @@ This challenge was inspired by Trevor Branch's [Coelocanth post on Twitter](http
 
 </details>
 </div>
-<br>
-
-## Saving plots with **`ggsave()`**
-
-Now that we've created some nice plots, you'll probably want to save them! The **`ggsave()`** function is the easiest way to save any ggplot. Let's save the faceted time series plot we just made:
-
-```{r save-facet-plot, eval=FALSE, purl=FALSE}
-# ggsave() will save the last plot you created
-ggsave("species_time_series.png")
-```
-
-You can also save a specific plot by first assigning it to a variable:
-
-```{r save-assigned-plot, eval=FALSE, purl=FALSE}
-# Create and assign our plot to a variable
-my_plot <- ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
-    geom_line() +
-    facet_wrap(~ species_id)
-
-# Save the specific plot
-ggsave("my_time_series.png", plot = my_plot)
-```
-
-**`ggsave()`** can save your plots in different formats (.png, .jpg, .pdf) and you can control the size and quality:
-
-```{r save-with-options, eval=FALSE, purl=FALSE}
-# Save with custom size and higher quality
-ggsave("high_quality_plot.png", plot = my_plot, 
-       width = 8, height = 6, units = "in", dpi = 300)
-```
 
 <br>
 
@@ -502,20 +488,7 @@ A very nice example of this is provided by this animation (created by Darkhorse 
 
 One thing to consider is what the objective is when creating a visualization or plot. When we build plots for exploratory purposes, we already know what the variables are we are using, and the objective is more about what sort of patterns the data might show. When communicating, the objective is more about providing a stand-alone snapshot which helps others *understand* what you are trying to convey. We'll cover more on this when we talk about `Rmarkdown`.
 
-### `ggplot2`
-
-While there are many visualization options in R, we believe the most comprehensive and powerful is the `ggplot2` package. Much of the class has used/follows `ggplot`, so here's a little background that might be useful.
-
- - Based on Grammar of Graphics book by Leland Wilkinson hence 'gg'
- - Each part of the plot is layered or built upon the other parts (like building legos).
- - Consider parts of a `ggplot2` as parts of a house.
-    - Data = The materials the house is built from (`ggplot(data=yourdata)`)
-    - Plot Type = The structure/design of your house (how will it look?) (`geom_`)
-    - Aesthetics = What the exterior looks like, i.e., the paint/decor (`aes()`)
-    - Stats = Ways to wire or plumb your house...how to tie your data together, or transform it (`stat_`)
     
-A questions we often get asked when helping students with ggplot figures is, *how can I put two y-axis on my graph?* Short answer, with ggplot, you can't. There is a good reason for this though, which is basically that the creators of ggplot2 believe that duel y-axis are confusing, eaisly misunderstood and not invertible (given a point on the plot space, you can not uniquely map it back to a point in the data space). We agree with this logic, and would urge you to never put two differnt y-axis on the same plot. Instead, make two seperate graphs.    
-
 ## Color
 
 There are so many options in R. It is fun to play around with color, but keep in mind not everyone sees color in the same way, and some folks cannot see certain spectrums of color (i.e., [absence of blue or green receptors is common](https://www.colormatters.com/color-and-vision/what-is-color-blindness)). See below for a example of what colorblindness may do...if you see numbers inside these circles, great, you have some blue/green retinal receptors.
