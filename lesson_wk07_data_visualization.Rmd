@@ -19,8 +19,9 @@ title: 'Wk07: Data Visualization with ggplot2'
 
 - [Data visualization Part 1a](https://video.ucdavis.edu/media/Week+7%3A+Data+Visualization+Part+1a/1_m55wx7pr)
 - [Data visualization Part 1b](https://video.ucdavis.edu/media/Week7_TimeSeries_and_Faceting/1_mcgh2gkw/390286133)
-- Data visualization Part 2a (coming soon)
-- [Data visualization Part 2b](https://video.ucdavis.edu/media/Week7_Saving_and_NonVizViz/1_2fzv6mle/390286133)
+- [Data visualization Part 2a](https://www.youtube.com/watch?v=aahVpfygvtc)
+- [Data visualization Part 2b](https://www.youtube.com/watch?v=0yTQY9doaZM)
+- [Data visualization Part 2c](https://video.ucdavis.edu/media/Week7_Saving_and_NonVizViz/1_2fzv6mle/390286133)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510681)
 
 ## In Class Coding
