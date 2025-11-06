@@ -509,9 +509,9 @@ In this example we fill in our bars with the cut vairable in the diamond dataset
 library(ggplot2)
 ggplot(diamonds, aes(x = clarity, fill = cut)) + 
   geom_bar() +
+    theme_classic() +
   theme(axis.text.x = element_text(angle=70, vjust=0.5)) +
-  scale_fill_viridis_d(option = "C") +
-  theme_classic()
+  scale_fill_viridis_d(option = "C") 
 ```
 
 ## Visualization Tips {.tabset .tabset-fade}
