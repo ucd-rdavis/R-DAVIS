@@ -19,7 +19,7 @@ minutes: 30
 
 ## Videos
 
-- Dates with Lubridate (coming soon)
+- [Dates with Lubridate](https://video.ucdavis.edu/media/Week8%3A+Dates+and+Times+with+Lubridate/1_dvn2txzq/390286133)
 - Function-writing (coming soon)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510685)
 
