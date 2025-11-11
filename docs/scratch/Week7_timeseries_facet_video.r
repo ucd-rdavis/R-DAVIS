@@ -11,12 +11,13 @@ surveys_complete <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_d
 
 yearly_counts <- surveys_complete %>%
                  count(year, species_id) 
-
+head(yearly_counts)
+yearly_counts <- surveys_complete %>% group_by(year,species_id) %>% summarize(n = n())
+head(yearly_counts)
 # Time series data can be visualized as a line plot with years on the x axis and counts
 # on the y axis:
-
 head(yearly_counts)
-?aes
+
 ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
      geom_line()
 
@@ -46,6 +47,6 @@ ggplot(data = yearly_counts,
 #make a time series plot for each species:
 
 ggplot(data = yearly_counts, 
-       mapping = aes(x = year, y = n,group = species_id)) +
+       mapping = aes(x = year, y = n)) +
     geom_line() +
-    facet_wrap(~species_id,scales = 'fixed')
+    facet_wrap(~species_id,scales = 'free_y')
