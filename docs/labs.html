@@ -702,7 +702,8 @@ course to apply functions to an entire dataset.</p>
 <ol style="list-style-type: decimal">
 <li>Using a for loop, print to the console the longest species name of
 each taxon. Hint: the function nchar() gets you the number of characters
-in a string.</li>
+in a string. The function unique() gets you the unique values in a
+vector.</li>
 </ol>
 <p>Next let’s load the Mauna Loa dataset from last week.</p>
 <pre class="r"><code>mloa &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/mauna_loa_met_2001_minute.csv&quot;)</code></pre>
@@ -715,17 +716,15 @@ in a string.</li>
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Use the map function from purrr to print the max of each of the
-following columns:
+<li><p>Use the lapply function to print the max of each of the following
+columns:
 “windDir”,“windSpeed_m_s”,“baro_hPa”,“temp_C_2m”,“temp_C_10m”,“temp_C_towertop”,“rel_humid”,and
 “precip_intens_mm_hr”.</p></li>
 <li><p>Make a function called C_to_F that converts Celsius to
 Fahrenheit. Hint: first you need to multiply the Celsius temperature by
 1.8, then add 32. Make three new columns called “temp_F_2m”,
 “temp_F_10m”, and “temp_F_towertop” by applying this function to columns
-“temp_C_2m”, “temp_C_10m”, and “temp_C_towertop”. Bonus: can you do this
-by using map_df? Don’t forget to name your new columns “temp_F…” and not
-“temp_C…”!</p></li>
+“temp_C_2m”, “temp_C_10m”, and “temp_C_towertop”.</p></li>
 </ol>
 <p>Challenge: Use lapply to create a new column of the
 <code>surveys</code> dataframe that includes the genus and species name
