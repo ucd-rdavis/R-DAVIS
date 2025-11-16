@@ -452,7 +452,7 @@ div.tocify {
 <ul>
 <li>Understand when and why to iterate code</li>
 <li>Be able to start with a single use and build up to iteration</li>
-<li>Use for loops, apply functions, and purrr to iterate</li>
+<li>Use for loops and apply functions to iterate</li>
 <li>Be able to write functions to cleanly iterate code</li>
 </ul>
 </div>
@@ -461,7 +461,7 @@ div.tocify {
 <h2>Videos</h2>
 <ul>
 <li>For loops (coming soon)</li>
-<li>Map functions (coming soon)</li>
+<li>Apply functions (coming soon)</li>
 <li><a
 href="https://canvas.ucdavis.edu/courses/1019595/assignments/1510683">Video
 Discussion</a></li>
@@ -606,26 +606,63 @@ results</code></pre>
 ## [16] 5424 5345 2200 1615 1835 2465 3520 3435 3840 3845 1935 2140 1513 3170 2770
 ## [31] 3570 2780</code></pre>
 </div>
-<div id="purrr" class="section level2">
-<h2><code>purrr</code></h2>
+<div id="apply-functions" class="section level2">
+<h2><code>apply</code> Functions</h2>
 <p>For loops are very handy and important to understand, but they can
-involve writing a lot of code and can generally look fairly messy.</p>
-<p>The <code>tidyverse</code> includes another way to iterate, using the
-<code>map</code> family of functions. These functions all do the same
-basic thing: take a series of values and apply a function to each of
-them. That function could be a function from a package, or it could be
-one you write to do something specific.</p>
-<p>For a wonderful and thorough exploration of the <code>purrr</code>
-package, check out <a
-href="https://jennybc.github.io/purrr-tutorial/">Jenny Brian’s
-tutorial</a>.</p>
-<div id="map" class="section level3">
-<h3><code>map</code></h3>
-<p>When using the <code>map</code> family of functions, the first
-argument (as in all tidyverse functions) is the data. One nice feature
-is that you can specify the format of the output explicitly by using a
-different member of the family.</p>
-<pre class="r"><code>mtcars %&gt;% map(mean) # gives a list</code></pre>
+involve writing a lot of code and can generally look fairly messy. Base
+R includes a family of functions called the <code>apply</code> functions
+that provide a more concise way to iterate operations across data
+structures.</p>
+<p>The <code>apply</code> family of functions all do the same basic
+thing: take a data structure and apply a function to parts of it. The
+different functions in the family are designed for different data
+structures and different ways of applying functions.</p>
+<div id="apply" class="section level3">
+<h3><code>apply()</code></h3>
+<p>The <code>apply()</code> function is designed for matrices and data
+frames. It applies a function over the rows or columns of a matrix or
+data frame. The basic syntax is:</p>
+<p><code>apply(X, MARGIN, FUN, ...)</code></p>
+<ul>
+<li><code>X</code> is the data (matrix or data frame)</li>
+<li><code>MARGIN</code> tells it whether to apply the function over rows
+(1) or columns (2)</li>
+<li><code>FUN</code> is the function to apply</li>
+<li><code>...</code> allows you to pass additional arguments to the
+function</li>
+</ul>
+<p>Let’s try some examples with the mtcars dataset:</p>
+<pre class="r"><code># Apply mean function to each column (MARGIN = 2)
+apply(mtcars, 2, mean)</code></pre>
+<pre><code>##        mpg        cyl       disp         hp       drat         wt       qsec 
+##  20.090625   6.187500 230.721875 146.687500   3.596563   3.217250  17.848750 
+##         vs         am       gear       carb 
+##   0.437500   0.406250   3.687500   2.812500</code></pre>
+<pre class="r"><code># Apply mean function to each row (MARGIN = 1) 
+head(apply(mtcars, 1, mean))</code></pre>
+<pre><code>##         Mazda RX4     Mazda RX4 Wag        Datsun 710    Hornet 4 Drive 
+##          29.90727          29.98136          23.59818          38.73955 
+## Hornet Sportabout           Valiant 
+##          53.66455          35.04909</code></pre>
+<pre class="r"><code># Apply a function with additional arguments
+apply(mtcars, 2, mean, na.rm = TRUE)</code></pre>
+<pre><code>##        mpg        cyl       disp         hp       drat         wt       qsec 
+##  20.090625   6.187500 230.721875 146.687500   3.596563   3.217250  17.848750 
+##         vs         am       gear       carb 
+##   0.437500   0.406250   3.687500   2.812500</code></pre>
+</div>
+<div id="lapply-and-sapply" class="section level3">
+<h3><code>lapply()</code> and <code>sapply()</code></h3>
+<p>While <code>apply()</code> works on matrices and data frames,
+<code>lapply()</code> and <code>sapply()</code> work on lists and
+vectors.</p>
+<ul>
+<li><code>lapply()</code> always returns a list</li>
+<li><code>sapply()</code> tries to simplify the result to a vector or
+matrix when possible</li>
+</ul>
+<pre class="r"><code># lapply returns a list
+lapply(mtcars, mean)</code></pre>
 <pre><code>## $mpg
 ## [1] 20.09062
 ## 
@@ -658,95 +695,140 @@ different member of the family.</p>
 ## 
 ## $carb
 ## [1] 2.8125</code></pre>
-<pre class="r"><code>mtcars %&gt;% map_dbl(mean) # gives a numeric vector</code></pre>
+<pre class="r"><code># sapply simplifies to a named vector
+sapply(mtcars, mean)</code></pre>
 <pre><code>##        mpg        cyl       disp         hp       drat         wt       qsec 
 ##  20.090625   6.187500 230.721875 146.687500   3.596563   3.217250  17.848750 
 ##         vs         am       gear       carb 
 ##   0.437500   0.406250   3.687500   2.812500</code></pre>
-<pre class="r"><code>mtcars %&gt;% map_chr(mean) # gives a character vector</code></pre>
-<pre><code>## Warning: Automatic coercion from double to character was
-## deprecated in purrr 1.0.0.
-## ℹ Please use an explicit call to
-##   `as.character()` within `map_chr()` instead.
-## Call `lifecycle::last_lifecycle_warnings()` to
-## see where this warning was generated.</code></pre>
-<pre><code>##          mpg          cyl         disp           hp         drat           wt 
-##  &quot;20.090625&quot;   &quot;6.187500&quot; &quot;230.721875&quot; &quot;146.687500&quot;   &quot;3.596563&quot;   &quot;3.217250&quot; 
-##         qsec           vs           am         gear         carb 
-##  &quot;17.848750&quot;   &quot;0.437500&quot;   &quot;0.406250&quot;   &quot;3.687500&quot;   &quot;2.812500&quot;</code></pre>
 </div>
-<div id="additonal-arguments" class="section level3">
-<h3>Additonal Arguments</h3>
-<p>You can pass additional arguments to functions that you map across
-your data. For example, if you have some NAs in your data, you might
-want to use <code>mean()</code> with <code>na.rm = TRUE</code>.</p>
-<pre class="r"><code>mtcars2 &lt;- mtcars # make a copy of the mtcars dataset
-mtcars2[3,c(1,6,8)] &lt;- NA # make one of the cars have NAs for several columns
-mtcars2</code></pre>
-<pre><code>##                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-## Datsun 710            NA   4 108.0  93 3.85    NA 18.61 NA  1    4    1
-## Hornet 4 Drive      21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-## Hornet Sportabout   18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-## Valiant             18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-## Duster 360          14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-## Merc 240D           24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2
-## Merc 230            22.8   4 140.8  95 3.92 3.150 22.90  1  0    4    2
-## Merc 280            19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-## Merc 280C           17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-## Merc 450SE          16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-## Merc 450SL          17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-## Merc 450SLC         15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-## Cadillac Fleetwood  10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-## Lincoln Continental 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-## Chrysler Imperial   14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-## Fiat 128            32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
-## Honda Civic         30.4   4  75.7  52 4.93 1.615 18.52  1  1    4    2
-## Toyota Corolla      33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1
-## Toyota Corona       21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
-## Dodge Challenger    15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-## AMC Javelin         15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-## Camaro Z28          13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-## Pontiac Firebird    19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-## Fiat X1-9           27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
-## Porsche 914-2       26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-## Lotus Europa        30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-## Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-## Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-## Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-## Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</code></pre>
-<pre class="r"><code>mtcars2 %&gt;% map_dbl(mean) # returns NA for mpg, wt, and vs columns</code></pre>
+<div id="handling-missing-values" class="section level3">
+<h3>Handling Missing Values</h3>
+<p>You can pass additional arguments to functions using the
+<code>apply</code> family, just like with for loops:</p>
+<pre class="r"><code># Create some missing data
+mtcars2 &lt;- mtcars
+mtcars2[3, c(1,6,8)] &lt;- NA
+head(mtcars2)</code></pre>
+<pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
+## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
+## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
+## Datsun 710          NA   4  108  93 3.85    NA 18.61 NA  1    4    1
+## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
+## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
+## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</code></pre>
+<pre class="r"><code># This returns NA for columns with missing values
+sapply(mtcars2, mean)</code></pre>
 <pre><code>##        mpg        cyl       disp         hp       drat         wt       qsec 
 ##         NA   6.187500 230.721875 146.687500   3.596563         NA  17.848750 
 ##         vs         am       gear       carb 
 ##         NA   0.406250   3.687500   2.812500</code></pre>
-<pre class="r"><code>mtcars2 %&gt;% map_dbl(mean, na.rm = TRUE)</code></pre>
+<pre class="r"><code># Use na.rm = TRUE to handle missing values
+sapply(mtcars2, mean, na.rm = TRUE)</code></pre>
 <pre><code>##         mpg         cyl        disp          hp        drat          wt 
 ##  20.0032258   6.1875000 230.7218750 146.6875000   3.5965625   3.2461935 
 ##        qsec          vs          am        gear        carb 
 ##  17.8487500   0.4193548   0.4062500   3.6875000   2.8125000</code></pre>
 </div>
-<div id="map2" class="section level3">
-<h3><code>map2</code></h3>
-<p>You can use the <code>map2</code> series of functions if you need to
-map across two sets of inputs in parallel. Here, we’ll map across both
-the names of cars and their mpg values, using an anonymous function to
-paste the two together into a sentence.</p>
-<p>We’ll use what’s called an “anonymous function”, which is a small
-function we define within the <code>map</code> function call. Our
-function will take 2 arguments, x and y, and paste them together with
-some other text.</p>
-<pre class="r"><code>map2_chr(rownames(mtcars), mtcars$mpg, function(x,y) paste(x, &quot;gets&quot;, y, &quot;miles per gallon&quot;)) %&gt;% 
-  head()</code></pre>
-<pre><code>## [1] &quot;Mazda RX4 gets 21 miles per gallon&quot;          
-## [2] &quot;Mazda RX4 Wag gets 21 miles per gallon&quot;      
-## [3] &quot;Datsun 710 gets 22.8 miles per gallon&quot;       
-## [4] &quot;Hornet 4 Drive gets 21.4 miles per gallon&quot;   
-## [5] &quot;Hornet Sportabout gets 18.7 miles per gallon&quot;
-## [6] &quot;Valiant gets 18.1 miles per gallon&quot;</code></pre>
-<p>You can use the <code>pmap</code> series of functions if you need to
-use more than two input lists.</p>
+<div id="mapply" class="section level3">
+<h3><code>mapply()</code></h3>
+<p><code>mapply()</code> is the multivariate version of
+<code>sapply()</code>. It can apply a function to multiple lists or
+vectors in parallel:</p>
+<pre class="r"><code># Create a sentence using car names and mpg values
+car_sentences &lt;- mapply(function(name, mpg) paste(name, &quot;gets&quot;, mpg, &quot;miles per gallon&quot;), 
+                       rownames(mtcars), mtcars$mpg)
+head(car_sentences)</code></pre>
+<pre><code>##                                      Mazda RX4 
+##           &quot;Mazda RX4 gets 21 miles per gallon&quot; 
+##                                  Mazda RX4 Wag 
+##       &quot;Mazda RX4 Wag gets 21 miles per gallon&quot; 
+##                                     Datsun 710 
+##        &quot;Datsun 710 gets 22.8 miles per gallon&quot; 
+##                                 Hornet 4 Drive 
+##    &quot;Hornet 4 Drive gets 21.4 miles per gallon&quot; 
+##                              Hornet Sportabout 
+## &quot;Hornet Sportabout gets 18.7 miles per gallon&quot; 
+##                                        Valiant 
+##           &quot;Valiant gets 18.1 miles per gallon&quot;</code></pre>
+</div>
+<div id="writing-custom-functions-inside-apply" class="section level3">
+<h3>Writing Custom Functions Inside Apply</h3>
+<p>One of the powerful features of the apply functions is that you can
+write custom functions directly inside the apply call. This is useful
+when you need to do something specific that doesn’t have a pre-existing
+function.</p>
+<pre class="r"><code># Write a custom function inside sapply to calculate coefficient of variation
+sapply(mtcars, function(x) sd(x) / mean(x))</code></pre>
+<pre><code>##       mpg       cyl      disp        hp      drat        wt      qsec        vs 
+## 0.2999881 0.2886338 0.5371779 0.4674077 0.1486638 0.3041285 0.1001159 1.1520369 
+##        am      gear      carb 
+## 1.2282853 0.2000825 0.5742933</code></pre>
+<pre class="r"><code># Write a custom function inside apply to find the range of each column
+apply(mtcars, 2, function(x) max(x) - min(x))</code></pre>
+<pre><code>##     mpg     cyl    disp      hp    drat      wt    qsec      vs      am    gear 
+##  23.500   4.000 400.900 283.000   2.170   3.911   8.400   1.000   1.000   2.000 
+##    carb 
+##   7.000</code></pre>
+<pre class="r"><code># More complex example: standardize each column (subtract mean, divide by sd)
+standardized_data &lt;- apply(mtcars, 2, function(x) (x - mean(x)) / sd(x))
+head(standardized_data)</code></pre>
+<pre><code>##                          mpg        cyl        disp         hp       drat
+## Mazda RX4          0.1508848 -0.1049878 -0.57061982 -0.5350928  0.5675137
+## Mazda RX4 Wag      0.1508848 -0.1049878 -0.57061982 -0.5350928  0.5675137
+## Datsun 710         0.4495434 -1.2248578 -0.99018209 -0.7830405  0.4739996
+## Hornet 4 Drive     0.2172534 -0.1049878  0.22009369 -0.5350928 -0.9661175
+## Hornet Sportabout -0.2307345  1.0148821  1.04308123  0.4129422 -0.8351978
+## Valiant           -0.3302874 -0.1049878 -0.04616698 -0.6080186 -1.5646078
+##                             wt       qsec         vs         am       gear
+## Mazda RX4         -0.610399567 -0.7771651 -0.8680278  1.1899014  0.4235542
+## Mazda RX4 Wag     -0.349785269 -0.4637808 -0.8680278  1.1899014  0.4235542
+## Datsun 710        -0.917004624  0.4260068  1.1160357  1.1899014  0.4235542
+## Hornet 4 Drive    -0.002299538  0.8904872  1.1160357 -0.8141431 -0.9318192
+## Hornet Sportabout  0.227654255 -0.4637808 -0.8680278 -0.8141431 -0.9318192
+## Valiant            0.248094592  1.3269868  1.1160357 -0.8141431 -0.9318192
+##                         carb
+## Mazda RX4          0.7352031
+## Mazda RX4 Wag      0.7352031
+## Datsun 710        -1.1221521
+## Hornet 4 Drive    -1.1221521
+## Hornet Sportabout -0.5030337
+## Valiant           -1.1221521</code></pre>
+<p>You can also write more complex custom functions with multiple
+steps:</p>
+<pre class="r"><code># Custom function that returns summary statistics for each column
+summary_stats &lt;- sapply(mtcars, function(x) {
+  c(mean = mean(x),
+    median = median(x),
+    sd = sd(x),
+    min = min(x),
+    max = max(x))
+})
+
+# This returns a matrix where each column is a variable and each row is a statistic
+summary_stats[, 1:3]  # Show first 3 columns</code></pre>
+<pre><code>##              mpg      cyl     disp
+## mean   20.090625 6.187500 230.7219
+## median 19.200000 6.000000 196.3000
+## sd      6.026948 1.785922 123.9387
+## min    10.400000 4.000000  71.1000
+## max    33.900000 8.000000 472.0000</code></pre>
+</div>
+<div id="when-to-use-each-apply-function" class="section level3">
+<h3>When to Use Each Apply Function</h3>
+<ul>
+<li><code>apply()</code>: For matrices/data frames when you want to
+apply a function to rows or columns</li>
+<li><code>lapply()</code>: For lists/vectors when you want the result as
+a list</li>
+<li><code>sapply()</code>: For lists/vectors when you want simplified
+output (vector/matrix)</li>
+<li><code>mapply()</code>: For applying a function to multiple
+lists/vectors in parallel</li>
+</ul>
+<p>The apply functions are generally faster than for loops and often
+more concise, making them a popular choice for many iteration tasks in
+R.</p>
 </div>
 </div>
 <div id="complete-workflow" class="section level2">
@@ -814,49 +896,60 @@ rescale_0_1(mtcars$mpg) # it works on one of our columns</code></pre>
 ## [22] 0.2170213 0.2042553 0.1234043 0.3744681 0.7191489 0.6638298 0.8510638
 ## [29] 0.2297872 0.3957447 0.1957447 0.4680851</code></pre>
 </div>
-<div id="iterating" class="section level3">
-<h3>Iterating!</h3>
+<div id="iterating-with-apply-functions" class="section level3">
+<h3>Iterating with Apply Functions!</h3>
 <p>Now that we’ve got a function that’ll rescale a vector of values, we
-can use one of the <code>map</code> functions to iterate across all the
-columns in a dataframe, rescaling each one. We’ll use
-<code>map_df</code> since it returns a dataframe, and we’re feeding it a
-dataframe.</p>
-<pre class="r"><code>map_df(mtcars, rescale_0_1)</code></pre>
-<pre><code>## # A tibble: 32 × 12
-##      mpg   cyl   disp     hp  drat    wt  qsec    vs    am  gear  carb wt_scaled
-##    &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-##  1 0.451   0.5 0.222  0.205  0.525 0.283 0.233     0     1   0.5 0.429     0.283
-##  2 0.451   0.5 0.222  0.205  0.525 0.348 0.3       0     1   0.5 0.429     0.348
-##  3 0.528   0   0.0920 0.145  0.502 0.206 0.489     1     1   0.5 0         0.206
-##  4 0.468   0.5 0.466  0.205  0.147 0.435 0.588     1     0   0   0         0.435
-##  5 0.353   1   0.721  0.435  0.180 0.493 0.3       0     0   0   0.143     0.493
-##  6 0.328   0.5 0.384  0.187  0     0.498 0.681     1     0   0   0         0.498
-##  7 0.166   1   0.721  0.682  0.207 0.526 0.160     0     0   0   0.429     0.526
-##  8 0.596   0   0.189  0.0353 0.429 0.429 0.655     1     0   0.5 0.143     0.429
-##  9 0.528   0   0.174  0.152  0.535 0.419 1         1     0   0.5 0.143     0.419
-## 10 0.374   0.5 0.241  0.251  0.535 0.493 0.452     1     0   0.5 0.429     0.493
-## # ℹ 22 more rows</code></pre>
+can use one of the <code>apply</code> functions to iterate across all
+the columns in a dataframe, rescaling each one. We’ll use
+<code>sapply</code> since we want simplified output, and we’re working
+with a dataframe.</p>
+<pre class="r"><code># Apply our rescale function to each column
+rescaled_data &lt;- sapply(mtcars, rescale_0_1)
+head(rescaled_data)</code></pre>
+<pre><code>##            mpg cyl      disp        hp      drat        wt      qsec vs am gear
+## [1,] 0.4510638 0.5 0.2217511 0.2049470 0.5253456 0.2830478 0.2333333  0  1  0.5
+## [2,] 0.4510638 0.5 0.2217511 0.2049470 0.5253456 0.3482485 0.3000000  0  1  0.5
+## [3,] 0.5276596 0.0 0.0920429 0.1448763 0.5023041 0.2063411 0.4892857  1  1  0.5
+## [4,] 0.4680851 0.5 0.4662010 0.2049470 0.1474654 0.4351828 0.5880952  1  0  0.0
+## [5,] 0.3531915 1.0 0.7206286 0.4346290 0.1797235 0.4927129 0.3000000  0  0  0.0
+## [6,] 0.3276596 0.5 0.3838863 0.1872792 0.0000000 0.4978266 0.6809524  1  0  0.0
+##           carb wt_scaled
+## [1,] 0.4285714 0.2830478
+## [2,] 0.4285714 0.3482485
+## [3,] 0.0000000 0.2063411
+## [4,] 0.0000000 0.4351828
+## [5,] 0.1428571 0.4927129
+## [6,] 0.0000000 0.4978266</code></pre>
+<pre class="r"><code># You can also use lapply if you want the result as a list
+rescaled_list &lt;- lapply(mtcars, rescale_0_1)</code></pre>
 <p>There you have it! We went from some code that calculated one value
-to being able to iterate it across any number of columns in a dataframe.
-It can be tempting to jump straight to your final iteration code, but
-it’s often better to start simple and work your way up, verifying that
-things work at each step, especially if you’re trying to do something
-even moderately complex.</p>
+to being able to iterate it across any number of columns in a dataframe
+using base R’s <code>apply</code> functions. It can be tempting to jump
+straight to your final iteration code, but it’s often better to start
+simple and work your way up, verifying that things work at each step,
+especially if you’re trying to do something even moderately complex.</p>
 </div>
 </div>
-<div id="apply-functions" class="section level2">
-<h2><code>apply</code> Functions</h2>
-<p>While we learned the <code>tidyverse</code> series of
-<code>map</code> functions, it’s worth mentioning that there is a
-similar series of packages in base R called the <code>apply</code>
-series of functions. They are very similar to <code>map</code>
-functions, but the syntax is a little different and you have to be a
-little more careful about the data types you put in and get out.</p>
-<p>We’re not going to go into the <code>apply</code> family, but if you
-want to learn more, <a
-href="https://www.guru99.com/r-apply-sapply-tapply.html">here is a good
-tutorial</a>. You might come across the <code>apply</code> functions in
-someone else’s code, so it’s good to know they exist.</p>
+<div id="other-iteration-options-purrr-from-the-tidyverse"
+class="section level2">
+<h2>Other Iteration Options: <code>purrr</code> from the Tidyverse</h2>
+<p>While we’ve focused on base R’s <code>apply</code> functions, it’s
+worth mentioning that there are other approaches to iteration available
+in R. The <code>tidyverse</code> includes a package called
+<code>purrr</code> that provides the <code>map</code> family of
+functions. These functions are very similar to the <code>apply</code>
+functions, but with a more consistent syntax and some additional
+features.</p>
+<p>The <code>purrr</code> functions include <code>map()</code>,
+<code>map_dbl()</code>, <code>map_chr()</code>, and others that
+explicitly specify the output type. For example:</p>
+<pre class="r"><code>library(purrr)
+mtcars %&gt;% map_dbl(mean)  # Returns a numeric vector</code></pre>
+<p>If you want to learn more about <code>purrr</code>, check out <a
+href="https://jennybc.github.io/purrr-tutorial/">Jenny Bryan’s
+tutorial</a>. You might come across <code>purrr</code> functions in
+tidyverse-focused code, but the base R <code>apply</code> functions
+we’ve learned will handle most iteration needs effectively.</p>
 <p>This lesson was contributed by Michael Culshaw-Maurer, with ideas
 from Mike Koontz and Brandon Hurr’s <a
 href="http://d-rug.github.io/blog/2017/Brandon-Hurr-on-using-map-and-walk">D-RUG

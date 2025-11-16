@@ -7,7 +7,7 @@ title: "Iteration, Iteration, Iteration, Iter"
 
 * Understand when and why to iterate code
 * Be able to start with a single use and build up to iteration
-* Use for loops, apply functions, and purrr to iterate
+* Use for loops and apply functions to iterate
 * Be able to write functions to cleanly iterate code
 </div>
 <br>
@@ -15,7 +15,7 @@ title: "Iteration, Iteration, Iteration, Iter"
 ## Videos
 
 - For loops (coming soon)
-- Map functions (coming soon)
+- Apply functions (coming soon)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510683)
 
 ## In Class Coding
@@ -23,7 +23,6 @@ title: "Iteration, Iteration, Iteration, Iter"
 [Submit Week 9 In Class Coding](https://canvas.ucdavis.edu/courses/1019595/assignments/1510297)
 
 ```{r setup, echo=FALSE, purl=FALSE, message=F, results=F}
-library(purrr)
 library(dplyr)
 ```
 
@@ -103,49 +102,119 @@ for (i in seq_along(mtcars$wt)) {
 results
 ```
 
-## `purrr`
+## `apply` Functions
 
-For loops are very handy and important to understand, but they can involve writing a lot of code and can generally look fairly messy.
+For loops are very handy and important to understand, but they can involve writing a lot of code and can generally look fairly messy. Base R includes a family of functions called the `apply` functions that provide a more concise way to iterate operations across data structures.
 
-The `tidyverse` includes another way to iterate, using the `map` family of functions. These functions all do the same basic thing: take a series of values and apply a function to each of them. That function could be a function from a package, or it could be one you write to do something specific. 
+The `apply` family of functions all do the same basic thing: take a data structure and apply a function to parts of it. The different functions in the family are designed for different data structures and different ways of applying functions.
 
-For a wonderful and thorough exploration of the `purrr` package, check out [Jenny Brian's tutorial](https://jennybc.github.io/purrr-tutorial/).
+### `apply()`
 
-### `map`
+The `apply()` function is designed for matrices and data frames. It applies a function over the rows or columns of a matrix or data frame. The basic syntax is:
 
-When using the `map` family of functions, the first argument (as in all tidyverse functions) is the data. One nice feature is that you can specify the format of the output explicitly by using a different member of the family.
+`apply(X, MARGIN, FUN, ...)`
+
+- `X` is the data (matrix or data frame)
+- `MARGIN` tells it whether to apply the function over rows (1) or columns (2) 
+- `FUN` is the function to apply
+- `...` allows you to pass additional arguments to the function
+
+Let's try some examples with the mtcars dataset:
 
 ```{r chunk10}
-mtcars %>% map(mean) # gives a list
-mtcars %>% map_dbl(mean) # gives a numeric vector
-mtcars %>% map_chr(mean) # gives a character vector
+# Apply mean function to each column (MARGIN = 2)
+apply(mtcars, 2, mean)
+
+# Apply mean function to each row (MARGIN = 1) 
+head(apply(mtcars, 1, mean))
+
+# Apply a function with additional arguments
+apply(mtcars, 2, mean, na.rm = TRUE)
 ```
 
-### Additonal Arguments
+### `lapply()` and `sapply()`
 
-You can pass additional arguments to functions that you map across your data. For example, if you have some NAs in your data, you might want to use `mean()` with `na.rm = TRUE`.
+While `apply()` works on matrices and data frames, `lapply()` and `sapply()` work on lists and vectors. 
+
+- `lapply()` always returns a list
+- `sapply()` tries to simplify the result to a vector or matrix when possible
 
 ```{r}
-mtcars2 <- mtcars # make a copy of the mtcars dataset
-mtcars2[3,c(1,6,8)] <- NA # make one of the cars have NAs for several columns
-mtcars2
+# lapply returns a list
+lapply(mtcars, mean)
 
-mtcars2 %>% map_dbl(mean) # returns NA for mpg, wt, and vs columns
-mtcars2 %>% map_dbl(mean, na.rm = TRUE)
+# sapply simplifies to a named vector
+sapply(mtcars, mean)
 ```
 
-### `map2`
+### Handling Missing Values
 
-You can use the `map2` series of functions if you need to map across two sets of inputs in parallel. Here, we'll map across both the names of cars and their mpg values, using an anonymous function to paste the two together into a sentence. 
+You can pass additional arguments to functions using the `apply` family, just like with for loops:
 
-We'll use what's called an "anonymous function", which is a small function we define within the `map` function call. Our function will take 2 arguments, x and y, and paste them together with some other text.
+```{r}
+# Create some missing data
+mtcars2 <- mtcars
+mtcars2[3, c(1,6,8)] <- NA
+head(mtcars2)
 
-```{r map2_example}
-map2_chr(rownames(mtcars), mtcars$mpg, function(x,y) paste(x, "gets", y, "miles per gallon")) %>% 
-  head()
+# This returns NA for columns with missing values
+sapply(mtcars2, mean)
+
+# Use na.rm = TRUE to handle missing values
+sapply(mtcars2, mean, na.rm = TRUE)
 ```
 
-You can use the `pmap` series of functions if you need to use more than two input lists.
+### `mapply()`
+
+`mapply()` is the multivariate version of `sapply()`. It can apply a function to multiple lists or vectors in parallel:
+
+```{r mapply_example}
+# Create a sentence using car names and mpg values
+car_sentences <- mapply(function(name, mpg) paste(name, "gets", mpg, "miles per gallon"), 
+                       rownames(mtcars), mtcars$mpg)
+head(car_sentences)
+```
+
+### Writing Custom Functions Inside Apply
+
+One of the powerful features of the apply functions is that you can write custom functions directly inside the apply call. This is useful when you need to do something specific that doesn't have a pre-existing function.
+
+```{r}
+# Write a custom function inside sapply to calculate coefficient of variation
+sapply(mtcars, function(x) sd(x) / mean(x))
+
+# Write a custom function inside apply to find the range of each column
+apply(mtcars, 2, function(x) max(x) - min(x))
+
+# More complex example: standardize each column (subtract mean, divide by sd)
+standardized_data <- apply(mtcars, 2, function(x) (x - mean(x)) / sd(x))
+head(standardized_data)
+```
+
+You can also write more complex custom functions with multiple steps:
+
+```{r}
+# Custom function that returns summary statistics for each column
+summary_stats <- sapply(mtcars, function(x) {
+  c(mean = mean(x),
+    median = median(x),
+    sd = sd(x),
+    min = min(x),
+    max = max(x))
+})
+
+# This returns a matrix where each column is a variable and each row is a statistic
+summary_stats[, 1:3]  # Show first 3 columns
+```
+
+### When to Use Each Apply Function
+
+- `apply()`: For matrices/data frames when you want to apply a function to rows or columns
+- `lapply()`: For lists/vectors when you want the result as a list
+- `sapply()`: For lists/vectors when you want simplified output (vector/matrix)
+- `mapply()`: For applying a function to multiple lists/vectors in parallel
+
+The apply functions are generally faster than for loops and often more concise, making them a popular choice for many iteration tasks in R.
 
 
 ## Complete Workflow
@@ -196,21 +265,33 @@ rescale_0_1 <- function(x) {
 rescale_0_1(mtcars$mpg) # it works on one of our columns
 ```
 
-### Iterating!
+### Iterating with Apply Functions!
 
-Now that we've got a function that'll rescale a vector of values, we can use one of the `map` functions to iterate across all the columns in a dataframe, rescaling each one. We'll use `map_df` since it returns a dataframe, and we're feeding it a dataframe.
+Now that we've got a function that'll rescale a vector of values, we can use one of the `apply` functions to iterate across all the columns in a dataframe, rescaling each one. We'll use `sapply` since we want simplified output, and we're working with a dataframe.
 
 ```{r}
-map_df(mtcars, rescale_0_1)
+# Apply our rescale function to each column
+rescaled_data <- sapply(mtcars, rescale_0_1)
+head(rescaled_data)
+
+# You can also use lapply if you want the result as a list
+rescaled_list <- lapply(mtcars, rescale_0_1)
 ```
 
-There you have it! We went from some code that calculated one value to being able to iterate it across any number of columns in a dataframe. It can be tempting to jump straight to your final iteration code, but it's often better to start simple and work your way up, verifying that things work at each step, especially if you're trying to do something even moderately complex.
+There you have it! We went from some code that calculated one value to being able to iterate it across any number of columns in a dataframe using base R's `apply` functions. It can be tempting to jump straight to your final iteration code, but it's often better to start simple and work your way up, verifying that things work at each step, especially if you're trying to do something even moderately complex.
 
 
-## `apply` Functions
+## Other Iteration Options: `purrr` from the Tidyverse
 
-While we learned the `tidyverse` series of `map` functions, it's worth mentioning that there is a similar series of packages in base R called the `apply` series of functions. They are very similar to `map` functions, but the syntax is a little different and you have to be a little more careful about the data types you put in and get out.
+While we've focused on base R's `apply` functions, it's worth mentioning that there are other approaches to iteration available in R. The `tidyverse` includes a package called `purrr` that provides the `map` family of functions. These functions are very similar to the `apply` functions, but with a more consistent syntax and some additional features.
 
-We're not going to go into the `apply` family, but if you want to learn more, [here is a good tutorial](https://www.guru99.com/r-apply-sapply-tapply.html). You might come across the `apply` functions in someone else's code, so it's good to know they exist.
+The `purrr` functions include `map()`, `map_dbl()`, `map_chr()`, and others that explicitly specify the output type. For example:
+
+```{r, eval=FALSE}
+library(purrr)
+mtcars %>% map_dbl(mean)  # Returns a numeric vector
+```
+
+If you want to learn more about `purrr`, check out [Jenny Bryan's tutorial](https://jennybc.github.io/purrr-tutorial/). You might come across `purrr` functions in tidyverse-focused code, but the base R `apply` functions we've learned will handle most iteration needs effectively.
 
 This lesson was contributed by Michael Culshaw-Maurer, with ideas from Mike Koontz and Brandon Hurr's [D-RUG presentation](http://d-rug.github.io/blog/2017/Brandon-Hurr-on-using-map-and-walk).
