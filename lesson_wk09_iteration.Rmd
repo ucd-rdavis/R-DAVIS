@@ -14,8 +14,8 @@ title: "Iteration, Iteration, Iteration, Iter"
 
 ## Videos
 
-- For loops (coming soon)
-- Apply functions (coming soon)
+- [For loops](https://video.ucdavis.edu/media/Week9_Iteration_and_Apply/1_0e3vybqf/390286133)
+- [Apply functions](same video)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510683)
 
 ## In Class Coding
