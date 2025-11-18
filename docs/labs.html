@@ -698,7 +698,16 @@ monthly temperature, with points colored by local hour.</p>
 <p>In this assignment, you’ll use the iteration skills we built in the
 course to apply functions to an entire dataset.</p>
 <p>Let’s load the surveys dataset:</p>
-<pre class="r"><code>surveys &lt;- read.csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
+<pre class="r"><code>library(tidyverse)
+surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
+<pre><code>## Rows: 35549 Columns: 13
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (6): species_id, sex, genus, species, taxa, plot_type
+## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <ol style="list-style-type: decimal">
 <li>Using a for loop, print to the console the longest species name of
 each taxon. Hint: the function nchar() gets you the number of characters
@@ -716,8 +725,8 @@ vector.</li>
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <ol start="2" style="list-style-type: decimal">
-<li><p>Use the lapply function to print the max of each of the following
-columns:
+<li><p>Use the <code>apply</code> function to print the max of each of
+the following columns:
 “windDir”,“windSpeed_m_s”,“baro_hPa”,“temp_C_2m”,“temp_C_10m”,“temp_C_towertop”,“rel_humid”,and
 “precip_intens_mm_hr”.</p></li>
 <li><p>Make a function called C_to_F that converts Celsius to
@@ -725,10 +734,12 @@ Fahrenheit. Hint: first you need to multiply the Celsius temperature by
 1.8, then add 32. Make three new columns called “temp_F_2m”,
 “temp_F_10m”, and “temp_F_towertop” by applying this function to columns
 “temp_C_2m”, “temp_C_10m”, and “temp_C_towertop”.</p></li>
-</ol>
-<p>Challenge: Use lapply to create a new column of the
+<li><p>Use the <code>apply</code> function to create a new column of the
 <code>surveys</code> dataframe that includes the genus and species name
-together as one string.</p>
+together as one string. Hint: the function we’ve been using to combine
+strings together has a “collapse” argument. Do some poking around in the
+help file to get started.</p></li>
+</ol>
 </div>
 </div>
 
