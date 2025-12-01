@@ -1,23 +1,26 @@
 ---
-title: "Wk10: Collaborative Github Skills"
+title: "Wk10: Review + Markdown"
 ---
 
 <div class = "blue">
 ### Learning objectives
 
-Content for this lesson will be added later.
+- Be ready to "knit" your markdown final document.
+- Get answers to remaining questions you have about weeks 1-9.
 
 </div>
 <br>
 
-## Videos
+## Tutorials (not video)
 
-- [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510684)
+- [How Markdown Works](https://rmarkdown.rstudio.com/lesson-2.html)
+- [RMarkdown cheatsheet](https://raw.githubusercontent.com/rstudio/cheatsheets/main/rmarkdown.pdf)
+- [Tutorial Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510684)
+
 
 ## In Class Coding
 
 [Submit Week 10 In Class Coding](https://canvas.ucdavis.edu/courses/1019595/assignments/1510297)
 
 <br>
-
-Content for this lecture will be added later.
+This week in class, we will go over R Markdown as a tool for generating reports, data analysis products, and (perhaps) slide decks. Before class, please review the link above (start at [Lesson 2: How Markdown Works](https://rmarkdown.rstudio.com/lesson-2.html) and check out the content below). You will NOT be tested on your knowledge and acumen with Markdown beyond *being able to knit the exam document into a PDF file for submission once you have completed the exam*. So your goal should be that by the end of Week 10's class, you can generate a PDF file from the .Rmd file you are practicing in.
