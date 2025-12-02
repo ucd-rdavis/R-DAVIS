@@ -588,7 +588,7 @@ data using the code below.</p>
 
 gapminder &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/gapminder.csv&quot;) #ONLY change the &quot;data&quot; part of this path if necessary</code></pre>
 <pre><code>## Rows: 1704 Columns: 6
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ────────
 ## Delimiter: &quot;,&quot;
 ## chr (2): country, continent
 ## dbl (4): year, pop, lifeExp, gdpPercap
@@ -616,7 +616,8 @@ out and see what happens with or without particular elements.</p>
     scale_x_log10() +
     geom_smooth(method = &#39;lm&#39;, color = &#39;black&#39;, linetype = &#39;dashed&#39;) +
     theme_bw()</code></pre>
-<pre><code>## `geom_smooth()` using formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## `geom_smooth()` using formula =
+## &#39;y ~ x&#39;</code></pre>
 <p><img src="labs_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Create a boxplot that shows the life expectency for Brazil, China,
@@ -701,7 +702,7 @@ course to apply functions to an entire dataset.</p>
 <pre class="r"><code>library(tidyverse)
 surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 35549 Columns: 13
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -717,7 +718,7 @@ vector.</li>
 <p>Next let’s load the Mauna Loa dataset from last week.</p>
 <pre class="r"><code>mloa &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/mauna_loa_met_2001_minute.csv&quot;)</code></pre>
 <pre><code>## Rows: 459769 Columns: 16
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ────────
 ## Delimiter: &quot;,&quot;
 ## chr  (2): filename, siteID
 ## dbl (14): year, month, day, hour24, min, windDir, windSpeed_m_s, windSteady,...
