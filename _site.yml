@@ -33,8 +33,8 @@ navbar:
       href: lesson_wk08_dates_and_functions.html
     - text: Wk09 Iteration
       href: lesson_wk09_iteration.html
-    - text: Wk10 Collaborative Github Skills
-      href: lesson_wk10_collaborative_github_skills.html
+    - text: Wk10 Review and Markdown
+      href: lesson_wk10_review_and_markdown.html
   - text: Labs
     icon: fa-paperclip fa-1x
     href: labs.html
