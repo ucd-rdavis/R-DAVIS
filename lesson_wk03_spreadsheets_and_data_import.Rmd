@@ -16,8 +16,8 @@ output:
 * Be able to describe what data frames and tibbles are
 * Know how to use `read.csv()` to read a CSV file into R
 * Be able to explore a data frame
-* Be able to use subset a data frame
-* Know the distinctions base R and `tidyverse`
+* Be able to subset a data frame
+* Know the distinctions between base R and `tidyverse`
 
 </div>
 <br>
@@ -203,7 +203,7 @@ Each row holds information for a single animal, and the columns represent:
 | weight           | weight of the animal in grams      |
 | genus            | genus of animal                    |
 | species          | species of animal                  |
-| taxon            | e.g. Rodent, Reptile, Bird, Rabbit |
+| taxa             | e.g. Rodent, Reptile, Bird, Rabbit |
 | plot\_type       | type of plot                       |
 
 ## Loading the Data
@@ -237,7 +237,7 @@ Wow, printing a data frame gives us quite a bit of output. This is a lot more da
 
 Data frames are really just a collection of vectors: every column is a vector with a single data type, and every column is the exact same length. You can make a data frame "by hand", but they're usually created when you import some sort of tabular data into R using a function like `read.csv()`.
 
-[](img/data-frame.svg)
+![](img/data-frame.svg)
 
 ## Inspecting `data.frame` Objects
 
@@ -324,7 +324,7 @@ You can also exclude certain indices of a data frame using the "`-`" sign:
 
 ```{r, purl=FALSE}
 surveys[, -1]          # The whole data frame, except the first column
-surveys[-c(7:34786), ] # Equivalent to head(surveys)
+surveys[-c(7:nrow(surveys)), ] # Equivalent to head(surveys)
 ```
 
 Data frames can be subset by calling indices (as shown previously), but also by calling their column names directly:
@@ -361,7 +361,7 @@ surveys_200 <- surveys[200, ]
 n_rows <- nrow(surveys)
 surveys_last <- surveys[n_rows, ]
 ## 3.
-surveys_middle <- surveys[n_rows / 2, ]
+surveys_middle <- surveys[round(n_rows / 2), ]
 ## 4.
 surveys_head <- surveys[-(7:n_rows), ]
 ```
@@ -387,8 +387,6 @@ For example, using `[]` to subset data and using `read.csv()` are base R ways of
 In R, there are almost always several ways of accomplishing the same task. Showing you every single way of getting a job done seems like a waste of time, but we also don't want you to feel lost when you come across some base R code, so that's why there might be a bit of redundancy.
 
 ## Loading Packages
-
-Almost every time you work in R, you will be using different "packages" to work with data. A package is a collection of functions used for some common purpose; there are packages for manipulating data, plotting, interfacing with other programs, and much much more.
 
 For much of this course, we'll be working with a series of packages collectively referred to as the `tidyverse`. They are packages designed to help you work with data, from cleaning and manipulation to plotting. They are all designed to work together nicely, and share a lot of similar principles. They are increasingly popular, have large user bases, and are generally very well-documented. You can install the core set of `tidyverse` packages with the `install.packages()` function:
 

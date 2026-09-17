@@ -47,7 +47,7 @@ required_packages <- c(
 # Part 1: Date-Times in R
 
 We have learned about different data type classes in previous lessons. Some common data classes we have examined before include character, factor, and numeric. But R also recognizes a data class called "Dates". Having your date data in the "Dates" data class is very useful, as you can then do things like calculate time between two events, transform the dates into different formats, and plot temporal data easily. 
-In this lesson, we are going to introduce how base R deals with dates (`POSIXct` or `POSITlt`), but we are going to spend the majority of our lesson on the package `lubridate`. `lubridate` is a great package that makes it much easier to work with dates and times in R. 
+In this lesson, we are going to introduce how base R deals with dates (`POSIXct` or `POSIXlt`), but we are going to spend the majority of our lesson on the package `lubridate`. `lubridate` is a great package that makes it much easier to work with dates and times in R. 
 
 ## Date-Time Classes in Base R
 
@@ -55,7 +55,7 @@ Importantly, there are **3** basic time classes in R:
 
  - **`Dates`** (just dates, i.e., 2012-02-10)
  - **`POSIXct`** ("**ct**" == calendar time, best class for dates with times)
- - **`POSIXlt`** ("**lt**" == local time, enables easy extraction of specific components of a time, however, remember that POXIXlt objects are lists)
+ - **`POSIXlt`** ("**lt**" == local time, enables easy extraction of specific components of a time, however, remember that POSIXlt objects are lists)
 
 Unfortunately converting dates & times in R into formats that are computer readable can be frustrating, mainly because there is very little consistency. In particular, if you are importing things from Excel, keep in mind dates can get especially weird^1^, depending on the operating system you are working on, the format of your data, etc.
 
@@ -338,7 +338,7 @@ F_to_K(212)
 and returns that temperature in C
    - Hint: To convert from K to C you subtract 273.15
 - Create a new R script, copy `F_to_K` and `K_to_C` in it, and save it as 
-functions.R in the `code` directory of your project.
+functions.R in the `scripts` directory of your project.
 
 <details>
 <summary>ANSWER</summary>
@@ -355,10 +355,10 @@ K_to_C <- function(tempK) {
 
 ## `source()`ing functions
 
-You can load all the functions in your `code/functions.R` script without even opening the file, via the `source` function. This allows you to keep your functions separate from the analyses which use them. 
+You can load all the functions in your `scripts/functions.R` script without even opening the file, via the `source` function. This allows you to keep your functions separate from the analyses which use them. 
 
 ```{r, eval = FALSE}
-source('code/functions.R')
+source('scripts/functions.R')
 ```
 
 
@@ -413,7 +413,7 @@ library(gapminder)
 d <- gapminder::gapminder
 ```
 
-Write a new function that takes two arguments, the gapminder data.frame (`d`) and the name of a country (e.g. `"Afghanistan"`), and plots a time series of the country's population. The return value from the function should be a ggplot object. Note: It is often easier to modify existing code than to start from scratch. To start out with one plot for a particular country, figured out what you need to change for each iteration (these will be your arguments), and then wrap it in a function.  
+Write a new function that takes two arguments, the gapminder data.frame (`d`) and the name of a country (e.g. `"Afghanistan"`), and plots a time series of the country's population. The return value from the function should be a ggplot object. Note: It is often easier to modify existing code than to start from scratch. To start out with one plot for a particular country, figure out what you need to change for each iteration (these will be your arguments), and then wrap it in a function.  
 
 
 

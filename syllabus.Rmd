@@ -46,7 +46,7 @@ To get the most out of in-class time together, R-DAVIS will combine video materi
 
 R-DAVIS is a graded, 3-unit course. The [university's formula](https://registrar.ucdavis.edu/faculty-staff/faculty/courses#:~:text=Academic%20Credit%2C%20Units%2C%20&%20Workload,Committee%20on%20Courses%20of%20Instruction.&text=The%20value%20of%20a%20course,a%20student%2C%20or%20the%20equivalent) for a 3-unit course is that you should expect to spend ~9 hours a week in total on the course. You might spend less time then that, or some weeks you might spend more. Regardless, if you only put in work during the scheduled class time, you are unlikely to meet learning goals for the course.
 
-R-DAVIS only has 10 class sessions (and 10 labs), so missing class means that you are missing a sizable chunk of the course. We expect you to attend class in person, and will not have a hybrid remote option (in our experience, it works really poorly in this instructional context). Becuase we know that things do come up from time to time, we give each student one dropped in-class or lab submission (i.e., you can miss one). 
+R-DAVIS only has 10 class sessions (and 10 labs), so missing class means that you are missing a sizable chunk of the course. We expect you to attend class in person, and will not have a hybrid remote option (in our experience, it works really poorly in this instructional context). Because we know that things do come up from time to time, we give each student one dropped in-class or lab submission (i.e., you can miss one). 
 
 R-DAVIS grades are based on a combination of several tasks and deliverables. Grades are calculated at points_earned/total_available.
 
@@ -76,7 +76,7 @@ These submissions are credit/no-credit, but again will be reviewed for good-fait
 
 We will provide guidance about the format later in the course. 
 
-- Final Exam: In-class (during university-designated examp period), 45 points
+- Final Exam: In-class (during university-designated exam period), 45 points
 
 We will provide guidance about the format later in the course. 
 
@@ -101,11 +101,11 @@ Physical, emotional, psychological, and spiritual trauma are real and have real 
 
 #### Failure is productive
 
-Data science and programming are all about learning from failure--stuff like fixing bugs, troubleshooting messy data, and figuring out why your model blew up. You will learn the most by trying something, having it break, trying to decipher the error message, and iterating until you get it to work. We want to encourage you to take risks, fail repeatedly, and learn volumes in the process. In practice, this means that we would *much* rather have you only get half of a lab done, but really understand that half, instead of borrowing your friends' code that you don't really understand and completing the lab. To put our money where our mouth is: *in-class work and labs is graded on a credit/no-credit basis, but credit is NOT simply conditoinal on completion*. We *will* pay attention to effort and evidence of learning. That means that we want to see your work, your scratch code, and how you got where you got *MUCH* more than we want to see a perfectly rendered AI code block that you made when you couldn't figure it all out and panicked about wanting a completed assignment. In fact, if it becomes clear to us that we are reviewing AI-only output, that work will not receive credit.
+Data science and programming are all about learning from failure--stuff like fixing bugs, troubleshooting messy data, and figuring out why your model blew up. You will learn the most by trying something, having it break, trying to decipher the error message, and iterating until you get it to work. We want to encourage you to take risks, fail repeatedly, and learn volumes in the process. In practice, this means that we would *much* rather have you only get half of a lab done, but really understand that half, instead of borrowing your friends' code that you don't really understand and completing the lab. To put our money where our mouth is: *in-class work and labs is graded on a credit/no-credit basis, but credit is NOT simply conditional on completion*. We *will* pay attention to effort and evidence of learning. That means that we want to see your work, your scratch code, and how you got where you got *MUCH* more than we want to see a perfectly rendered AI code block that you made when you couldn't figure it all out and panicked about wanting a completed assignment. In fact, if it becomes clear to us that we are reviewing AI-only output, that work will not receive credit.
 
 #### Busywork is bad
 
-We want this course to be a "no busy work" space. On a micro-level, if you find an assignment unproductive, feel free to propose an alternate activity that achieves the same/similar aims. On a macro-level, if you find this training unproductive, feel free to propose an alternative curriculum that achieves the same/similar aims (e.g., doing labs in the Python programming language instead of R and duplicating the workflow and version control elements of the course). During the first week of the quarter, you will have an opportunity to develop a customize plan for the quarter (this can just be following the primary course plan, but it doesn't have to be).
+We want this course to be a "no busy work" space. On a micro-level, if you find an assignment unproductive, feel free to propose an alternate activity that achieves the same/similar aims. On a macro-level, if you find this training unproductive, feel free to propose an alternative curriculum that achieves the same/similar aims (e.g., doing labs in the Python programming language instead of R and duplicating the workflow and version control elements of the course). During the first week of the quarter, you will have an opportunity to develop a customized plan for the quarter (this can just be following the primary course plan, but it doesn't have to be).
 
 
 <br>
@@ -115,7 +115,7 @@ We want this course to be a "no busy work" space. On a micro-level, if you find 
 Acknowledging territory shows recognition of and respect for Native Americans. We would like to respectfully acknowledge that the land on which we gather is traditional unceded Patwin territory. This territory acknowledgement is an adaptation of one written by the Canadian Association of University Teachers. For more information, please see their [website](https://www.caut.ca/content/guide-acknowledging-first-peoples-traditional-territory).
 
 ### Academic Integrity
-As a University of California, Davis student, you have agreed to abide by the University's Code of Academic Conduct (http://sja.ucdavis.edu/files/cac.pdfLinks to an external site.).  All academic work must meet these standards. Lack of knowledge of the academic honesty policy is not a reasonable explanation for a violation. Questions related to course assignments and the academic honesty policy should be directed to the instructor.
+As a University of California, Davis student, you have agreed to abide by the University's Code of Academic Conduct (<http://sja.ucdavis.edu/files/cac.pdf>).  All academic work must meet these standards. Lack of knowledge of the academic honesty policy is not a reasonable explanation for a violation. Questions related to course assignments and the academic honesty policy should be directed to the instructor.
 
  
 ### Special Accommodations
@@ -123,7 +123,7 @@ If you have a learning disability, sensory or physical disability or if English 
 
 ### Course Support
 
-This course content integrates and builds on Data Carpentry Ecology lessons. Course support is proviced by the UCD College of Agricultural and Environmental Sciences. 
+This course content integrates and builds on Data Carpentry Ecology lessons. Course support is provided by the UCD College of Agricultural and Environmental Sciences. 
 Advice from Ethan White (University of Florida), Jenny Bryan (University of British Columbia), and Tracy Teal (The Carpentries) was also helpful in guiding the course implementation. The original version of this course at UCD was led by Liza Wood, Christian John, and Tara Pozzi (among others).
 
 <div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">

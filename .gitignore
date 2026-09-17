@@ -7,3 +7,7 @@ data/strava_data/*
 data/strava_data2/*
 *.fit
 *.gz
+/*.wav
+/.quarto/
+labs/*.html
+labs/*_files/

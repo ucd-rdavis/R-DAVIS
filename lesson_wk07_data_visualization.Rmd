@@ -233,7 +233,7 @@ ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
 By adding points to boxplot, we can have a better idea of the number of
 measurements and of their distribution. 
 
-Let's also use the geometry "jitter". `geom_jitter` is almost like `geom_point` but it allows you to visualize how the density of points because it adds a small amount of random variation to the location of each point. 
+Let's also use the geometry "jitter". `geom_jitter` is almost like `geom_point` but it allows you to visualize the density of points because it adds a small amount of random variation to the location of each point. 
 
 ```{r boxplot-with-points, purl=FALSE}
 ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
@@ -295,7 +295,7 @@ surveys_complete %>%
 ## Plotting time series data
 
 Let's calculate number of counts per year for each species. First we need
-to group the data and count records within each group. We can quickly use the dplyr function `count` to do this. `count` is very similar to the function `tally` we have seen before, but it interally calls `group_by` before the function and `ungroup` after. 
+to group the data and count records within each group. We can quickly use the dplyr function `count` to do this. `count` is very similar to the function `tally` we have seen before, but it internally calls `group_by` before the function and `ungroup` after. 
 
 ```{r, purl=FALSE}
 
@@ -389,7 +389,7 @@ ggplot Themes are a great, easy addition that can make all your plots more reada
 In addition to `theme_bw()`, which changes the plot background to white, **`ggplot2`**
 comes with several other themes which can be useful to quickly change the look
 of your visualization. The complete list of themes is available
-at <http://docs.ggplot2.org/current/ggtheme.html>. `theme_minimal()` and
+at <https://ggplot2.tidyverse.org/reference/ggtheme.html>. `theme_minimal()` and
 `theme_light()` are popular, and `theme_void()` can be useful as a starting
 point to create a new hand-crafted theme.
 
@@ -467,7 +467,7 @@ There are many tips and tricks that are available for the multitude of visualiza
  
 Because there are so many options and methods to plot our data in R, we need to think about how we are going to represent the data, how can that data be interpreted visually, and what story it may tell.
 
-A very nice example of this is provided by this animation (created by Darkhorse Analytics, and used in Jenny Bryan's excellent [stat545](http://stat545.com/block015_graph-dos-donts.html) course). It shows how *simplification* can make a big difference in communication. 
+A very nice example of this is provided by this animation (created by Darkhorse Analytics, and used in Jenny Bryan's excellent [stat545](https://stat545.com/effective-graphs.html) course). It shows how *simplification* can make a big difference in communication. 
 
 ![Less is more graphic](img/less-is-more-darkhorse-analytics.gif)
 
@@ -500,11 +500,11 @@ An example:
 
 ![viridis](img/viridis_demo.png)
 
-### Customizing color pallettes in ggplot
+### Customizing color palettes in ggplot
 
-The viridis color pallettes have been built into ggplot so that you can call upon them using the scale_fill_viridis_ or scale_color_viridis_ functions. Note that whether or not you use the fill or color scale function depends on which aesthetic you set in your plot. The functions also have extenstions depending on the kind of variable that you want to color: scale_fill_viridis_*d* is for discrete variables while scale_fill_viridis_*c* is for continous variables. Within the function, you can specify which virids pallette to use: A-D.
+The viridis color palettes have been built into ggplot so that you can call upon them using the scale_fill_viridis_ or scale_color_viridis_ functions. Note that whether or not you use the fill or color scale function depends on which aesthetic you set in your plot. The functions also have extensions depending on the kind of variable that you want to color: scale_fill_viridis_*d* is for discrete variables while scale_fill_viridis_*c* is for continuous variables. Within the function, you can specify which viridis palette to use: A-D.
 
-In this example we fill in our bars with the cut vairable in the diamond dataset, a categorical variable with 5 groups. 
+In this example we fill in our bars with the cut variable in the diamond dataset, a categorical variable with 5 groups. 
 ```{r, echo=T, eval=T}
 library(ggplot2)
 ggplot(diamonds, aes(x = clarity, fill = cut)) + 
@@ -524,7 +524,7 @@ The most basic tip is keep it simple! Stick with a clean and clear message, what
 
  - Label appropriately and legibly, including axes, and use text to highlight important bits
  - Use one color to represent each category, consider colorblind/BW friendly palettes
- - Order datasets using logical heirarchy (Make it easy for reader to compare values)
+ - Order datasets using logical hierarchy (Make it easy for reader to compare values)
  - Use icons when possible to reduce unnecessary labeling
  - Pay attention to scale (e.g., start axis at zero not 2.4 to 3.5)
  - Include your data/outliers where possible
@@ -535,12 +535,12 @@ The most basic tip is keep it simple! Stick with a clean and clear message, what
 A few things to avoid (which basically relates to keeping it simple):
 
  - Don't try to add too much into one plot...**keep it simple**
- - Don't add color uncessarily unless it provides a specific function
+ - Don't add color unnecessarily unless it provides a specific function
  - Avoid high contrast colors (red/green or blue/yellow)
  - Don't use 3D charts. They can make it hard to discern or perceive the actual information.
  - Avoid ornamentation (shadowing, extra illustration, etc)
- - Avoid more than 6 categorical colors in a layout unless you looking at continuous data.
- - Keep fonts simple (avoid uncessary **bold** or *italicization*)
+ - Avoid more than 6 categorical colors in a layout unless you are looking at continuous data.
+ - Keep fonts simple (avoid unnecessary **bold** or *italicization*)
  - Don't try to compare too many categories or data types in one chart
  
 ### Examples
@@ -569,7 +569,7 @@ plot(EuStockMarkets)
 
 suppressPackageStartupMessages(library(tidyverse))
 EuStockMarkets_df <- data.frame(as.matrix(EuStockMarkets), date=as.numeric(time(EuStockMarkets)))
-EuStockMarkets_long <- gather(data = EuStockMarkets_df, key = "Market", value="value", 1:4)
+EuStockMarkets_long <- pivot_longer(EuStockMarkets_df, cols = 1:4, names_to = "Market", values_to = "value")
 ggplot() + geom_line(data=EuStockMarkets_long, aes(x=date, y=value, color=Market))
 
 ```
@@ -580,7 +580,7 @@ Comparing totals across multiple groups. Notice legibility when you stack the ba
 
 ```{r barplots}
 
-# code adpated from https://www.analyticsvidhya.com/blog/2015/07/guide-data-visualization-r/
+# code adapted from https://www.analyticsvidhya.com/blog/2015/07/guide-data-visualization-r/
 suppressPackageStartupMessages(library(viridis))
 barplot(iris$Petal.Length)
 barplot(iris$Sepal.Length,col  = viridis(3, option = "A")) 
@@ -596,8 +596,9 @@ A plot you created with ggplot or another plotting package can be saved as .JPEG
 First, let's create a new folder in this project called `figures`. Let's save all the figures we create to that folder. `ggsave` will default to saving the last plot you created, however, we think it is always a good idea to specify exactly which plot you want saved. To do that, we have to save our plot as an object. 
 
 ```{r, eval = F}
-ggsave("figures/gridplot.png", fixed_gridplot)
+ggsave("figures/surveys_plot.png", surveys_plot)
 ```
+
 #### With `ggsave` you can save images as
 
  - .png, .jpeg, .tiff, .pdf, .bmp, or .svg
@@ -609,7 +610,7 @@ ggsave("figures/gridplot.png", fixed_gridplot)
  - `dpi` can change the quality of the image; for publication graphs we suggest over 700 dpi
 
 ```{r, eval = F}
-ggsave("figures/gridplot.png", fixed_gridplot, width = 6, height = 4, units = "in", dpi = 700)
+ggsave("figures/surveys_plot.png", surveys_plot, width = 6, height = 4, units = "in", dpi = 700)
 ```
 
 <br>
@@ -636,7 +637,7 @@ VI(barplot)
 
 The `sonification` package's `sonify` function can be used to represent data in audio form, where the x-axis can span sound across time, so that the length of time a sound plays follows the data long the x-axis from left to right; the y-axis can be expressed as pitch, so that the pitch of the sound matches to the values of the data (lower value = lower pitch).
 
-```{r, echo = F, eval = T, warning= F, message = F}
+```{r, echo = F, eval = FALSE, warning= F, message = F}
 library(sonify)
 library(seewave)
 sonif <- sonify(iris$Petal.Width)
@@ -649,18 +650,18 @@ plot(iris$Petal.Width)
 ```
 
 Using `sonify` instead of plot, the distribution of iris petal width sounds like this:
-```{r, echo = T, eval = T, warning= F, message = F}
+```{r, echo = T, eval = FALSE, warning= F, message = F}
 #install.packages("sonify")
 library(sonify)
 sonify(iris$Petal.Width)
 ```
-If you try this on your computer it should play autmatically, buy on the website you can listen below: 
+If you try this on your computer it should play automatically, but on the website you can listen below: 
 
 <audio controls>
-  <source src="sw.width.sound.wav" type="audio/wav">
+  <source src="img/sw.width.sound.wav" type="audio/wav">
 </audio>
 
-```{r, echo = F, eval = T, warning= F, message = F}
+```{r, echo = F, eval = FALSE, warning= F, message = F}
 sonif <- sonify(x = iris$Petal.Width, y = iris$Petal.Length)
 savewav(sonif, file = "sw.width.length.sound.wav")
 ```
@@ -670,12 +671,12 @@ plot(x = iris$Petal.Width, y = iris$Petal.Length)
 ```
 
 And using `sonify`, sounds like this:
-```{r, echo=T, eval=T, warning= F, message = F}
+```{r, echo=T, eval=FALSE, warning= F, message = F}
 sonify(x=iris$Petal.Width, y = iris$Petal.Length) 
 ```
 
 <audio controls>
-  <source src="sw.width.length.sound.wav" type="audio/wav">
+  <source src="img/sw.width.length.sound.wav" type="audio/wav">
 </audio>
 
 # BONUS CONTENT #
@@ -686,7 +687,7 @@ This is provided for your reference, but won't be something we cover in class or
 
 A few excellent options exist for creating multi-paneled plots for publications. The first and foremost is a package by Claus Wilke called [`cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html). With `cowplot`, it's possible to quickly combine existing `ggplots`, creating publication quality plots. See the vignette for more options, but here's a quick example from the vignette below:
 
-```{r, echo F, warning = F, message = F}
+```{r, echo=FALSE, warning = F, message = F}
 detach("package:BrailleR", unload=TRUE)
 ```
 

@@ -48,6 +48,7 @@ navbar:
   - icon: fa-github fa-lg
     href: https://github.com/ucd-rdavis/R-DAVIS
 output_dir: docs
+exclude: ["CLAUDE.md"]
 output:
   html_document:
     theme: flatly

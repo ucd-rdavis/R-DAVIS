@@ -57,14 +57,11 @@ There are many resources online and in print. This is by no means a comprehensiv
 This is a list of most of the data sources used in this course.
 
 * From [The Portal Project Teaching Database](https://doi.org/10.6084/m9.figshare.1314459.v6)
-    + [Portal_rodents_19772002_scinameUUIDs.csv](data/Portal_rodents_19772002_scinameUUIDs.csv) [raw trapping data]
     + [species.csv](data/species.csv) [species id metadata]
     + [surveys.csv](data/surveys.csv) [trapping data by record id]
     + [surveys_complete.csv](data_output/surveys_complete.csv) [cleaned trapping data by record id]
     + [combined.csv](data/combined.csv) [trapping data merged with record id metadata]
     + [plots.csv](data/plots.csv) [plot type metadata]
-* From [Data Carpentry: Genomics Lesson](https://jasonjwilliamsny.github.io/tidiness-genomics/)
-    + [sequencing_results_metadata.txt](data/sequencing_results_metadata.txt) [metadata from DNA sequencing]
 * From [Data Carpentry: R for Data Analysis and Visualization of Ecological Data](http://www.datacarpentry.org/R-ecology-lesson/)
     + [survey_data_spreadsheet_messy.xls](data/survey_data_spreadsheet_messy.xls) [example of untidy data]
 * From [Software Carpentry: R for Reproducible Scientific Analysis](http://data-lessons.github.io/gapminder-R/)
@@ -72,8 +69,6 @@ This is a list of most of the data sources used in this course.
     + [wide_eg.csv](data/wide_eg.csv) [blood albumin levels]
     + [stocks.tsv](data/stocks.tsv) [restaurant stock data]
     + [gapminder.csv](data/gapminder.csv) [country characteristics by year]
-* From [ANGUS: Analyzing High Throughput Sequencing Data](http://angus.readthedocs.io/en/2017/rmarkdown_rnaseq.html)
-    + [rnaseq.zip](data/rnaseq.zip) [zipped folder of RNA sequence data]
 * From [Data wRangling for Ecologists](https://gge-ucd.github.io/wRangling-Ecology/)
     + [2001_mauna_loa_met_data.zip](data/2001_mauna_loa_met_data.zip) [raw meteorological station data from Mauna Loa]
     + [2001 Mauna Loa meteorological station data](data/mauna_loa_met_2001_minute.rda) [tidy format of minute-scale meteorological data from Mauna Loa Observatory]
@@ -96,7 +91,7 @@ This is a list of most of the data sources used in this course.
 
 ### Bonus Lectures
 * [Intro to using Github](https://tarapozzi.github.io/github_project_management)
-* [RStudio help file anatomy](d-rug.github.io/help_file_anatomy/)
-* [Debugging in R](d-rug.github.io/debugging_in_R/)
-* [RStudio on CAES Farm](d-rug.github.io/R-Studio-on-Farm/)
-* [Real world function writing](d-rug.github.io/realworld_functions2/)
+* [RStudio help file anatomy](https://d-rug.github.io/help_file_anatomy/)
+* [Debugging in R](https://d-rug.github.io/debugging_in_R/)
+* [RStudio on CAES Farm](https://d-rug.github.io/R-Studio-on-Farm/)
+* [Real world function writing](https://d-rug.github.io/realworld_functions2/)
