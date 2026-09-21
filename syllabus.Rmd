@@ -8,10 +8,9 @@ date: "Updated: `r format(Sys.Date())`"
 
 <br>
 
-
 ### Course Description
 
-Computer literacy is now essential in all aspects of science. Data management skills are needed for entering data without errors, storing it in a usable way, and extracting key aspects of the data for analysis. Basic programming is required for everything from accessing and managing data, data visualization, to statistical analysis, and modeling. This course will provide an introduction to data/project management, manipulation, visualization and analysis, across a broad set of ecological data (spatial, genomic, field, etc). Class will typically consist of short introductions or question & answer sessions, followed by hands on computing exercises. The course will be taught using git/Github, R/RStudio, and RMarkdown, but the concepts learned will easily apply to all programming languages and database management systems. **No background in databases or R/computational experience is required.**
+This course will provide an introduction to data/project management, manipulation, visualization and analysis, across a broad set of scientific data (spatial, genomic, field, etc). Class will typically consist of short introductions or question & answer sessions, followed by hands on computing exercises. The course will be taught using [R](https://cran.r-project.org/)/[RStudio](https://posit.co/products/open-source/rstudio) and [Quarto](https://quarto.org/), but the concepts learned will easily apply to all programming languages and database management systems. **No background in databases or R/computational experience is required.**
 
 ### Prerequisite Knowledge and Skills
 
@@ -40,13 +39,13 @@ Students completing this course should be able to:
 
 ### Course Format  
 
-To get the most out of in-class time together, R-DAVIS will combine video material that you watch outside of class with in-person discussion and hands-on activities that we do together in class. Unless unforeseen circumstances arise, videos will be posted by Monday to the relevant week on the Lectures page. Please come to class having watched the material relevant to that week's lesson, completed the video quiz, and perhaps having taken a cursory attempt at trying out what is covered in the videos. We are organizing the course this way so as to spend less of our time together lecturing, and more time working and learning together.
+To get the most out of in-class time together, R-DAVIS will combine video material that you watch outside of class with in-person discussion and hands-on activities that we do together in class. Unless unforeseen circumstances arise, videos will be posted by Monday evening to the relevant week on the Lectures page. Please come to class having watched the material relevant to that week's lesson, completed the video quiz, and perhaps having taken a cursory attempt at trying out what is covered in the videos. We are organizing the course this way to give you more opportunities to interact with course content--and to do so in different ways.
 
 ### Grading and Class Expectations 
 
 R-DAVIS is a graded, 3-unit course. The [university's formula](https://registrar.ucdavis.edu/faculty-staff/faculty/courses#:~:text=Academic%20Credit%2C%20Units%2C%20&%20Workload,Committee%20on%20Courses%20of%20Instruction.&text=The%20value%20of%20a%20course,a%20student%2C%20or%20the%20equivalent) for a 3-unit course is that you should expect to spend ~9 hours a week in total on the course. You might spend less time then that, or some weeks you might spend more. Regardless, if you only put in work during the scheduled class time, you are unlikely to meet learning goals for the course.
 
-R-DAVIS only has 10 class sessions (and 10 labs), so missing class means that you are missing a sizable chunk of the course. We expect you to attend class in person, and will not have a hybrid remote option (in our experience, it works really poorly in this instructional context). Because we know that things do come up from time to time, we give each student one dropped in-class or lab submission (i.e., you can miss one). 
+R-DAVIS only has 10 class sessions (and 10 labs), so missing class means that you are missing a sizable chunk of the course. We expect you to attend class in person, and will not have a hybrid remote option (in our experience, it works really poorly in this instructional context). Because we know that things do come up from time to time, we give each student one dropped in-class and one dropped lab submission (i.e., you can miss one for any reason). I do not evaluate reasons for absences/non-submissions or classify them as excused or unexcused.
 
 R-DAVIS grades are based on a combination of several tasks and deliverables. Grades are calculated at points_earned/total_available.
 
@@ -66,21 +65,21 @@ Videos will be posted by Monday. By Thursday at 10am before class, you are expec
 
 - Submitting weekly in-class scratch work. 
 
-These submissions are credit/no-credit (but we will pay attention to good faith effort). 9 weeks, 10 points each. (Due at 3:10pm, i.e., 10 minutes after class ends)
+These submissions are credit/no-credit, with credit based on *effort* and NOT *completion*. I.e., this is your scratch sheet from class, whatever that looks like. 10 weeks, 10 points each. (Due at 3:10pm, i.e., 10 minutes after class ends)
 
 - Submitting take-home labs. 
 
-These submissions are credit/no-credit, but again will be reviewed for good-faith effort (primarily, evidence of working and learning). 9 take-home labs, 10 points each. (Due at 1:00pm, on Thursdays, i.e. by start of class)
+These submissions are credit/no-credit, with credit based on *effort* and NOT *completion*. Ideally, you'll be able to work through and complete the lab fully, but I believe you will learn far more from any effort--successful or unsuccessful--you put in than you will from copying and pasting from the key, having Claude solve it, etc. 10 take-home labs, 10 points each. (Due at 1:00pm, on Thursdays, i.e. by start of class, except Lab 10 which is due at the start of the final)
 
 - Midterm Exam: In-class exam, 45 points
 
-We will provide guidance about the format later in the course. 
+We will provide guidance about the format later in the course. Generally, the format will be similar to labs in that you will use R to read in and manipulate a dataset and generate statistical/visual results.
 
 - Final Exam: In-class (during university-designated exam period), 45 points
 
-We will provide guidance about the format later in the course. 
+We will provide guidance about the format later in the course. Generally, the format will be similar to labs in that you will use R to read in and manipulate a dataset and generate statistical/visual results.
 
-We will not take attendance for Tuesday afternoon discussion sections, since not all students are typically there at the same time. But we strongly encourage you to attend. Our experience is that students who engage with R more times during the week have much better learning outcomes. 
+We will not take attendance for Tuesday afternoon discussion sections, since not all students are typically there at the same time. But we strongly encourage you to attend. Our experience is that students who engage--with R, with us, with classmates--more times during the week have much better learning outcomes. 
 
 ### Pedagogy
 
@@ -95,17 +94,17 @@ We are committed to diversity (social/demographic differences such as race, ethn
 Inaccessibility is a choice (and choosing accessibility benefits all). Accessibility is both more necessary and easier than acknowledged. As the case of 
 [curb cuts](https://uxdesign.cc/the-curb-cut-effect-universal-design-b4e3d7da73f5) famously demonstrates, anything that delivers greater accessibility tends to benefit everyone. While digital tools and contexts offer the promise of flexible inclusion in the form of customizable, one-size-fits-one experience, we realize, that many of the tools and practices we use in data science and statistical programming fall short of even modest accessibility goals. With apologies for the extra time and energy it demands, we ask you to let us know as soon as you encounter any part of this course that impedes your participation, so that we can prioritize its immediate correction.
 
+#### Students are people
 
-#### People come first
-Physical, emotional, psychological, and spiritual trauma are real and have real impacts on one's ability to engage in learning. Courses that ignore the inevitable conditions of life undermine learning. Our commitment to your academic journey means that your wellbeing comes first. Whatever difficulties you encounter--jobs, illness, family, the world simply falling apart around us--know that we implicitly trust you to be where you need to be, and do what you need to be doing, for yourself and others. 
+We recognize every student is a human being with relational, physical, spiritual, and psychological factors outside the classroom that can interfere with focus and deadlines. Those factors do not change the baseline course expectations we have for you as an instructional team. Still, we want to know if these life conditions are undermining your learning, both because we care about you as humans, and because there are often ways we can offer support and flexibility while still meeting course standards.
 
 #### Failure is productive
 
-Data science and programming are all about learning from failure--stuff like fixing bugs, troubleshooting messy data, and figuring out why your model blew up. You will learn the most by trying something, having it break, trying to decipher the error message, and iterating until you get it to work. We want to encourage you to take risks, fail repeatedly, and learn volumes in the process. In practice, this means that we would *much* rather have you only get half of a lab done, but really understand that half, instead of borrowing your friends' code that you don't really understand and completing the lab. To put our money where our mouth is: *in-class work and labs is graded on a credit/no-credit basis, but credit is NOT simply conditional on completion*. We *will* pay attention to effort and evidence of learning. That means that we want to see your work, your scratch code, and how you got where you got *MUCH* more than we want to see a perfectly rendered AI code block that you made when you couldn't figure it all out and panicked about wanting a completed assignment. In fact, if it becomes clear to us that we are reviewing AI-only output, that work will not receive credit.
+Data science and programming are all about learning from failure--stuff like fixing bugs, troubleshooting messy data, and figuring out why your model blew up. You will learn the most by trying something, having it break, trying to decipher the error message, and iterating until you get it to work. We want to encourage you to take risks, fail repeatedly, and learn volumes in the process. In practice, this means that we would *much* rather have you only get half of a lab done, but really understand that half, instead of borrowing your friends' code that you don't really understand and completing the lab. To put our money where our mouth is: *in-class work and labs are graded on the basis of participation (please note that this does not say "completion"). We *will* pay attention to effort and evidence of learning. That means that we want to see your work, your scratch code, and how you got where you got *MUCH* more than we want to see a perfectly rendered AI code block that you made when you couldn't figure it all out and panicked about wanting a completed assignment. In fact, if it becomes clear to us that we are reviewing AI-only output, that work will not receive credit.
 
 #### Busywork is bad
 
-We want this course to be a "no busy work" space. On a micro-level, if you find an assignment unproductive, feel free to propose an alternate activity that achieves the same/similar aims. On a macro-level, if you find this training unproductive, feel free to propose an alternative curriculum that achieves the same/similar aims (e.g., doing labs in the Python programming language instead of R and duplicating the workflow and version control elements of the course). During the first week of the quarter, you will have an opportunity to develop a customized plan for the quarter (this can just be following the primary course plan, but it doesn't have to be).
+We want this course to be a "no busy work" space. On a micro-level, if you find an assignment unproductive, feel free to propose an alternate activity that achieves the same/similar aims. On a macro-level, if you find this training unproductive, feel free to propose an alternative curriculum that achieves the same/similar aims (e.g., doing labs in the Python programming language instead of R and duplicating the workflow and version control elements of the course).
 
 
 <br>
@@ -119,12 +118,11 @@ As a University of California, Davis student, you have agreed to abide by the Un
 
  
 ### Special Accommodations
-If you have a learning disability, sensory or physical disability or if English is not your first language and you need special assistance in lecture, reading assignments, or written assignments, please contact the instructor at the beginning of the quarter. While students are welcome to work with us on accommodations without involving UCD's Student Disability Center (SDC), we also recommend that you contact the SDC for additional resources and support. The SDC office at the University of California, Davis is located at 54 Cowell Building, or the SDC can be reached by phone at (530) 752-3184. For more information, please see: https://sdc.ucdavis.edu/.
+If you have a learning disability, sensory or physical disability or if English is not your first language and you need special assistance in lecture, reading assignments, or written assignments, please contact the instructor at the beginning of the quarter and contact the UCD Student Disability Center (SDC). The SDC office at the University of California, Davis is located at 54 Cowell Building, or the SDC can be reached by phone at (530) 752-3184. For more information, please see: https://sdc.ucdavis.edu/.
 
 ### Course Support
 
-This course content integrates and builds on Data Carpentry Ecology lessons. Course support is provided by the UCD College of Agricultural and Environmental Sciences. 
-Advice from Ethan White (University of Florida), Jenny Bryan (University of British Columbia), and Tracy Teal (The Carpentries) was also helpful in guiding the course implementation. The original version of this course at UCD was led by Liza Wood, Christian John, and Tara Pozzi (among others).
+This course content integrates and builds on Data Carpentry Ecology lessons. Course support is provided by the UCD College of Agricultural and Environmental Sciences. The original version of this course at UCD was led by Liza Wood, Christian John, and Tara Pozzi (among others).
 
 <div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
 ![](./img/DC-logo-vision.png)
