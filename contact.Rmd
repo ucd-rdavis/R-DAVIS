@@ -6,20 +6,24 @@ title: "Contact"
 
 ## Instructors
 **Tyler Scott**
-<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tascott@ucdavis.edu)  
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tascott@ucdavis.edu)
 
-**Tara Pozzi**
-<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tbpozzi@ucdavis.edu)
+**Aaron Guerra**
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:ajguerra@ucdavis.edu)
 
 Drop-in working session (in person): Tuesdays
 
 Davis R User's Group: Thursdays 10 - 12 am (Shields 360) 
 
-**Elise Zufall**
-<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:ezufall@ucdavis.edu)  
 
 
 ## Course Creators/Former Instructors  
+
+**Elise Zufall**
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:ezufall@ucdavis.edu)  
+
+**Tara Pozzi**
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tbpozzi@ucdavis.edu)
 
 **Christian John**  
 <i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:cjohn@ucdavis.edu) 

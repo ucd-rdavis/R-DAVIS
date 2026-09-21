@@ -17,11 +17,8 @@ This graduate-level course provides training in data science with R, focusing on
 [**Tyler Scott**](https://environmentalpolicy.ucdavis.edu/people/scott) 
 <i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:tascott@ucdavis.edu)  
 
-[**Sara Ludwick**](https://environmentalpolicy.ucdavis.edu/people/sara-ludwick) 
-<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:scludwick@ucdavis.edu)
-
-[**Elise Zufall**](https://environmentalpolicy.ucdavis.edu/people/elise-zufall) 
-<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:ezufall@ucdavis.edu)
+[**Aaron Guerra**](https://environmentalpolicy.ucdavis.edu/people/aaron-guerra) 
+<i class="fa fa-envelope-square" aria-hidden="true"></i> [email](mailto:ajguerra@ucdavis.edu)
 
 <br>
 
