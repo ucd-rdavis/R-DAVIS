@@ -13,7 +13,7 @@
 
 <title>Wk08: Dates &amp; Times with Lubridate and Creating Functions</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -343,6 +343,13 @@ div.tocify {
     Syllabus
   </a>
 </li>
+<li>
+  <a href="AI.html">
+    <span class="fa fa-robot fa-1x"></span>
+     
+    AI
+  </a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Set Up
@@ -497,7 +504,7 @@ called “Dates”. Having your date data in the “Dates” data class is very
 useful, as you can then do things like calculate time between two
 events, transform the dates into different formats, and plot temporal
 data easily. In this lesson, we are going to introduce how base R deals
-with dates (<code>POSIXct</code> or <code>POSITlt</code>), but we are
+with dates (<code>POSIXct</code> or <code>POSIXlt</code>), but we are
 going to spend the majority of our lesson on the package
 <code>lubridate</code>. <code>lubridate</code> is a great package that
 makes it much easier to work with dates and times in R.</p>
@@ -512,7 +519,7 @@ R:</p>
 calendar time, best class for dates with times)</li>
 <li><strong><code>POSIXlt</code></strong> (“<strong>lt</strong>” ==
 local time, enables easy extraction of specific components of a time,
-however, remember that POXIXlt objects are lists)</li>
+however, remember that POSIXlt objects are lists)</li>
 </ul>
 <p>Unfortunately converting dates &amp; times in R into formats that are
 computer readable can be frustrating, mainly because there is very
@@ -833,7 +840,7 @@ in K and returns that temperature in C
 </ul></li>
 <li>Create a new R script, copy <code>F_to_K</code> and
 <code>K_to_C</code> in it, and save it as functions.R in the
-<code>code</code> directory of your project.</li>
+<code>scripts</code> directory of your project.</li>
 </ul>
 <details>
 <summary>
@@ -849,24 +856,19 @@ ANSWER
 </div>
 <div id="sourceing-functions" class="section level2">
 <h2><code>source()</code>ing functions</h2>
-<p>You can load all the functions in your <code>code/functions.R</code>
-script without even opening the file, via the <code>source</code>
-function. This allows you to keep your functions separate from the
-analyses which use them.</p>
-<pre class="r"><code>source(&#39;code/functions.R&#39;)</code></pre>
+<p>You can load all the functions in your
+<code>scripts/functions.R</code> script without even opening the file,
+via the <code>source</code> function. This allows you to keep your
+functions separate from the analyses which use them.</p>
+<pre class="r"><code>source(&#39;scripts/functions.R&#39;)</code></pre>
 <div id="using-dataframes-in-functions" class="section level3">
 <h3>Using dataframes in functions</h3>
 <p>Let’s write a function to calculate the average GDP in a given
 country, in a given span of years, based on the <code>gapminder</code>
 data. If you were to do this for just one specification, without writing
 a function, it might look something like this:</p>
-<pre class="r"><code>library(gapminder)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;gapminder&#39;</code></pre>
-<pre><code>## The following object is masked _by_ &#39;.GlobalEnv&#39;:
-## 
-##     gapminder</code></pre>
-<pre class="r"><code>library(tidyverse)
+<pre class="r"><code>library(gapminder)
+library(tidyverse)
 
 gapminder %&gt;% 
   filter(country == &quot;Canada&quot;, year %in% c(1950:1970)) %&gt;% 
@@ -916,7 +918,7 @@ data.frame (<code>d</code>) and the name of a country
 country’s population. The return value from the function should be a
 ggplot object. Note: It is often easier to modify existing code than to
 start from scratch. To start out with one plot for a particular country,
-figured out what you need to change for each iteration (these will be
+figure out what you need to change for each iteration (these will be
 your arguments), and then wrap it in a function.</p>
 <details>
 <summary>
@@ -929,7 +931,7 @@ ANSWER
     return(plot)
 }
 plotPopGrowth(&#39;Canada&#39;)</code></pre>
-<img src="lesson_wk08_dates_and_functions_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+<img src="lesson_wk08_dates_and_functions_files/figure-html/unnamed-chunk-21-1.png" alt="" width="672" />
 </details>
 </div>
 <p><br></p>

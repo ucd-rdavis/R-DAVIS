@@ -13,7 +13,7 @@
 
 <title>R-DAVIS Syllabus</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -343,6 +343,13 @@ div.tocify {
     Syllabus
   </a>
 </li>
+<li>
+  <a href="AI.html">
+    <span class="fa fa-robot fa-1x"></span>
+     
+    AI
+  </a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Set Up
@@ -443,7 +450,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">R-DAVIS</h1>
-<h4 class="date">Updated: 2025-12-01</h4>
+<h4 class="date">Updated: 2026-09-21</h4>
 
 </div>
 
@@ -459,18 +466,15 @@ class="unnumbered">(<font color="#DAAA00"><strong>R</strong></font>-<font color=
 <p><br></p>
 <div id="course-description" class="section level3">
 <h3>Course Description</h3>
-<p>Computer literacy is now essential in all aspects of science. Data
-management skills are needed for entering data without errors, storing
-it in a usable way, and extracting key aspects of the data for analysis.
-Basic programming is required for everything from accessing and managing
-data, data visualization, to statistical analysis, and modeling. This
-course will provide an introduction to data/project management,
+<p>This course will provide an introduction to data/project management,
 manipulation, visualization and analysis, across a broad set of
-ecological data (spatial, genomic, field, etc). Class will typically
+scientific data (spatial, genomic, field, etc). Class will typically
 consist of short introductions or question &amp; answer sessions,
 followed by hands on computing exercises. The course will be taught
-using git/Github, R/RStudio, and RMarkdown, but the concepts learned
-will easily apply to all programming languages and database management
+using <a href="https://cran.r-project.org/">R</a>/<a
+href="https://posit.co/products/open-source/rstudio">RStudio</a> and <a
+href="https://quarto.org/">Quarto</a>, but the concepts learned will
+easily apply to all programming languages and database management
 systems. <strong>No background in databases or R/computational
 experience is required.</strong></p>
 </div>
@@ -518,13 +522,13 @@ their computational skills</li>
 <p>To get the most out of in-class time together, R-DAVIS will combine
 video material that you watch outside of class with in-person discussion
 and hands-on activities that we do together in class. Unless unforeseen
-circumstances arise, videos will be posted by Monday to the relevant
-week on the Lectures page. Please come to class having watched the
-material relevant to that week’s lesson, completed the video quiz, and
-perhaps having taken a cursory attempt at trying out what is covered in
-the videos. We are organizing the course this way so as to spend less of
-our time together lecturing, and more time working and learning
-together.</p>
+circumstances arise, videos will be posted by Monday evening to the
+relevant week on the Lectures page. Please come to class having watched
+the material relevant to that week’s lesson, completed the video quiz,
+and perhaps having taken a cursory attempt at trying out what is covered
+in the videos. We are organizing the course this way to give you more
+opportunities to interact with course content–and to do so in different
+ways.</p>
 </div>
 <div id="grading-and-class-expectations" class="section level3">
 <h3>Grading and Class Expectations</h3>
@@ -539,9 +543,10 @@ goals for the course.</p>
 means that you are missing a sizable chunk of the course. We expect you
 to attend class in person, and will not have a hybrid remote option (in
 our experience, it works really poorly in this instructional context).
-Becuase we know that things do come up from time to time, we give each
-student one dropped in-class or lab submission (i.e., you can miss
-one).</p>
+Because we know that things do come up from time to time, we give each
+student one dropped in-class and one dropped lab submission (i.e., you
+can miss one for any reason). I do not evaluate reasons for
+absences/non-submissions or classify them as excused or unexcused.</p>
 <p>R-DAVIS grades are based on a combination of several tasks and
 deliverables. Grades are calculated at
 points_earned/total_available.</p>
@@ -567,30 +572,41 @@ i.e., 3 hours before class starts)</p>
 <ul>
 <li>Submitting weekly in-class scratch work.</li>
 </ul>
-<p>These submissions are credit/no-credit (but we will pay attention to
-good faith effort). 9 weeks, 10 points each. (Due at 3:10pm, i.e., 10
-minutes after class ends)</p>
+<p>These submissions are credit/no-credit, with credit based on
+<em>effort</em> and NOT <em>completion</em>. I.e., this is your scratch
+sheet from class, whatever that looks like. 10 weeks, 10 points each.
+(Due at 3:10pm, i.e., 10 minutes after class ends)</p>
 <ul>
 <li>Submitting take-home labs.</li>
 </ul>
-<p>These submissions are credit/no-credit, but again will be reviewed
-for good-faith effort (primarily, evidence of working and learning). 9
-take-home labs, 10 points each. (Due at 1:00pm, on Thursdays, i.e. by
-start of class)</p>
+<p>These submissions are credit/no-credit, with credit based on
+<em>effort</em> and NOT <em>completion</em>. Ideally, you’ll be able to
+work through and complete the lab fully, but I believe you will learn
+far more from any effort–successful or unsuccessful–you put in than you
+will from copying and pasting from the key, having Claude solve it, etc.
+10 take-home labs, 10 points each. (Due at 1:00pm, on Thursdays, i.e. by
+start of class, except Lab 10 which is due at the start of the
+final)</p>
 <ul>
 <li>Midterm Exam: In-class exam, 45 points</li>
 </ul>
-<p>We will provide guidance about the format later in the course.</p>
+<p>We will provide guidance about the format later in the course.
+Generally, the format will be similar to labs in that you will use R to
+read in and manipulate a dataset and generate statistical/visual
+results.</p>
 <ul>
-<li>Final Exam: In-class (during university-designated examp period), 45
+<li>Final Exam: In-class (during university-designated exam period), 45
 points</li>
 </ul>
-<p>We will provide guidance about the format later in the course.</p>
+<p>We will provide guidance about the format later in the course.
+Generally, the format will be similar to labs in that you will use R to
+read in and manipulate a dataset and generate statistical/visual
+results.</p>
 <p>We will not take attendance for Tuesday afternoon discussion
 sections, since not all students are typically there at the same time.
 But we strongly encourage you to attend. Our experience is that students
-who engage with R more times during the week have much better learning
-outcomes.</p>
+who engage–with R, with us, with classmates–more times during the week
+have much better learning outcomes.</p>
 </div>
 <div id="pedagogy" class="section level3">
 <h3>Pedagogy</h3>
@@ -627,16 +643,16 @@ extra time and energy it demands, we ask you to let us know as soon as
 you encounter any part of this course that impedes your participation,
 so that we can prioritize its immediate correction.</p>
 </div>
-<div id="people-come-first" class="section level4">
-<h4>People come first</h4>
-<p>Physical, emotional, psychological, and spiritual trauma are real and
-have real impacts on one’s ability to engage in learning. Courses that
-ignore the inevitable conditions of life undermine learning. Our
-commitment to your academic journey means that your wellbeing comes
-first. Whatever difficulties you encounter–jobs, illness, family, the
-world simply falling apart around us–know that we implicitly trust you
-to be where you need to be, and do what you need to be doing, for
-yourself and others.</p>
+<div id="students-are-people" class="section level4">
+<h4>Students are people</h4>
+<p>We recognize every student is a human being with relational,
+physical, spiritual, and psychological factors outside the classroom
+that can interfere with focus and deadlines. Those factors do not change
+the baseline course expectations we have for you as an instructional
+team. Still, we want to know if these life conditions are undermining
+your learning, both because we care about you as humans, and because
+there are often ways we can offer support and flexibility while still
+meeting course standards.</p>
 </div>
 <div id="failure-is-productive" class="section level4">
 <h4>Failure is productive</h4>
@@ -649,15 +665,15 @@ repeatedly, and learn volumes in the process. In practice, this means
 that we would <em>much</em> rather have you only get half of a lab done,
 but really understand that half, instead of borrowing your friends’ code
 that you don’t really understand and completing the lab. To put our
-money where our mouth is: <em>in-class work and labs is graded on a
-credit/no-credit basis, but credit is NOT simply conditoinal on
-completion</em>. We <em>will</em> pay attention to effort and evidence
-of learning. That means that we want to see your work, your scratch
-code, and how you got where you got <em>MUCH</em> more than we want to
-see a perfectly rendered AI code block that you made when you couldn’t
-figure it all out and panicked about wanting a completed assignment. In
-fact, if it becomes clear to us that we are reviewing AI-only output,
-that work will not receive credit.</p>
+money where our mouth is: <em>in-class work and labs are graded on the
+basis of participation (please note that this does not say
+“completion”). We </em>will* pay attention to effort and evidence of
+learning. That means that we want to see your work, your scratch code,
+and how you got where you got <em>MUCH</em> more than we want to see a
+perfectly rendered AI code block that you made when you couldn’t figure
+it all out and panicked about wanting a completed assignment. In fact,
+if it becomes clear to us that we are reviewing AI-only output, that
+work will not receive credit.</p>
 </div>
 <div id="busywork-is-bad" class="section level4">
 <h4>Busywork is bad</h4>
@@ -667,10 +683,8 @@ alternate activity that achieves the same/similar aims. On a
 macro-level, if you find this training unproductive, feel free to
 propose an alternative curriculum that achieves the same/similar aims
 (e.g., doing labs in the Python programming language instead of R and
-duplicating the workflow and version control elements of the course).
-During the first week of the quarter, you will have an opportunity to
-develop a customize plan for the quarter (this can just be following the
-primary course plan, but it doesn’t have to be).</p>
+duplicating the workflow and version control elements of the
+course).</p>
 <p><br></p>
 </div>
 </div>
@@ -688,36 +702,31 @@ href="https://www.caut.ca/content/guide-acknowledging-first-peoples-traditional-
 <h3>Academic Integrity</h3>
 <p>As a University of California, Davis student, you have agreed to
 abide by the University’s Code of Academic Conduct (<a
-href="http://sja.ucdavis.edu/files/cac.pdfLinks"
-class="uri">http://sja.ucdavis.edu/files/cac.pdfLinks</a> to an external
-site.). All academic work must meet these standards. Lack of knowledge
-of the academic honesty policy is not a reasonable explanation for a
-violation. Questions related to course assignments and the academic
-honesty policy should be directed to the instructor.</p>
+href="http://sja.ucdavis.edu/files/cac.pdf"
+class="uri">http://sja.ucdavis.edu/files/cac.pdf</a>). All academic work
+must meet these standards. Lack of knowledge of the academic honesty
+policy is not a reasonable explanation for a violation. Questions
+related to course assignments and the academic honesty policy should be
+directed to the instructor.</p>
 </div>
 <div id="special-accommodations" class="section level3">
 <h3>Special Accommodations</h3>
 <p>If you have a learning disability, sensory or physical disability or
 if English is not your first language and you need special assistance in
 lecture, reading assignments, or written assignments, please contact the
-instructor at the beginning of the quarter. While students are welcome
-to work with us on accommodations without involving UCD’s Student
-Disability Center (SDC), we also recommend that you contact the SDC for
-additional resources and support. The SDC office at the University of
-California, Davis is located at 54 Cowell Building, or the SDC can be
-reached by phone at (530) 752-3184. For more information, please see: <a
+instructor at the beginning of the quarter and contact the UCD Student
+Disability Center (SDC). The SDC office at the University of California,
+Davis is located at 54 Cowell Building, or the SDC can be reached by
+phone at (530) 752-3184. For more information, please see: <a
 href="https://sdc.ucdavis.edu/"
 class="uri">https://sdc.ucdavis.edu/</a>.</p>
 </div>
 <div id="course-support" class="section level3">
 <h3>Course Support</h3>
 <p>This course content integrates and builds on Data Carpentry Ecology
-lessons. Course support is proviced by the UCD College of Agricultural
-and Environmental Sciences. Advice from Ethan White (University of
-Florida), Jenny Bryan (University of British Columbia), and Tracy Teal
-(The Carpentries) was also helpful in guiding the course implementation.
-The original version of this course at UCD was led by Liza Wood,
-Christian John, and Tara Pozzi (among others).</p>
+lessons. Course support is provided by the UCD College of Agricultural
+and Environmental Sciences. The original version of this course at UCD
+was led by Liza Wood, Christian John, and Tara Pozzi (among others).</p>
 <div style="text-align: center; margin-top: 30px; margin-bottom: 30px;">
 <p><img src="img/DC-logo-vision.png" /></p>
 </div>

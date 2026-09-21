@@ -13,7 +13,7 @@
 
 <title>Wk02: Project Management in RStudio and How R Thinks About Data</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -343,6 +343,13 @@ div.tocify {
     Syllabus
   </a>
 </li>
+<li>
+  <a href="AI.html">
+    <span class="fa fa-robot fa-1x"></span>
+     
+    AI
+  </a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Set Up
@@ -448,7 +455,7 @@ R Thinks About Data</h1>
 </div>
 
 
-<div id="learning-objectives" class="section level3">
+<div id="learning-objectives" class="section level3 blue">
 <h3>Learning objectives</h3>
 <ul>
 <li>Be able to describe the different data types R uses</li>
@@ -456,13 +463,10 @@ R Thinks About Data</h1>
 vectors</li>
 <li>Understand coercion between data types</li>
 <li>Know how factors work under the hood</li>
-<li>Be able to manipulate factors
-<div>
-
-</div>
-<br></li>
+<li>Be able to manipulate factors</li>
 </ul>
 </div>
+<p><br></p>
 <div id="videos" class="section level2">
 <h2>Videos</h2>
 <ul>
@@ -599,7 +603,7 @@ separate directories for each of the following:</p>
 <li>data: Ideally .csv files as these are flat, transparent, and
 universal. You may have other specialized formats as well. .rda and .rds
 are R-specific data files but you never <em>need</em> to use these.</li>
-<li>code (or script): .R files, perhaps .do files if Stata is your
+<li>scripts (or code): .R files, perhaps .do files if Stata is your
 thing, .py files for Python, etc.</li>
 <li>results: .png or .pdf files for plots; .tex or .txt files for
 tables</li>
@@ -617,14 +621,14 @@ you can think of all the files and sub-directories as belonging to that
 project. We recommend creating a directory and a project file for each
 project you work on. It should look something like this:</p>
 <p><img src="img/working-directory-structure.png" /></p>
-<p>Open the R Project file “R_DAVIS_20XX” you made for this class. You
+<p>Open the R Project file “R_DAVIS_2025” you made for this class. You
 can do this by going to your file explorer (“Finder” on a Mac) and
 double clicking the file. Alternatively, you can open an existing
 project from within RStudio by clicking “File -&gt; Open project…”, or
 by going to the top right with the blue R symbol and clicking your
 project from the drop-down menu.</p>
-<p>Let’s now make a directory structure for your R_DAVIS_20XX project,
-using the structure described above: a folder for each of data, code,
+<p>Let’s now make a directory structure for your R_DAVIS_2025 project,
+using the structure described above: a folder for each of data, scripts,
 results, and papers. You can do this in RStudio by clicking on the “New
 Folder” button in the Files pane, or in your OS by navigating to the
 directory you just created.</p>
@@ -650,7 +654,7 @@ followed by a forward slash (“../”).</li>
 </div>
 <p><br></p>
 <p>Go up to the right hand corner of your screen and click the pull down
-tab that currently says R_DAVIS_20XX. Once you click it, you can toggle
+tab that currently says R_DAVIS_2025. Once you click it, you can toggle
 between multiple projects at once by clicking the white square/arrow
 icon next to the project name. This will allow you to have multiple
 projects open at once. If you want to switch projects completely, just
@@ -660,7 +664,7 @@ can keep consistently (e.g. lastname_week_2.R).</p>
 </div>
 </div>
 </div>
-<div id="how-r-thinks-about-data" class="section level1 blue">
+<div id="how-r-thinks-about-data" class="section level1">
 <h1>How R Thinks About Data</h1>
 <div id="why-learn-this-stuff" class="section level2">
 <h2>Why Learn This Stuff?</h2>
@@ -775,9 +779,19 @@ num_logical &lt;- c(1, 2, 3, TRUE)
 char_logical &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, TRUE)
 tricky &lt;- c(1, 2, 3, &quot;4&quot;)</code></pre>
 <ul>
-<li><p>Why do you think it happens?</p></li>
-<li><p>How many values in <code>combined_logical</code> are
-<code>"TRUE"</code> (as a character) in the following example:</p></li>
+<li>Why do you think it happens?</li>
+</ul>
+<details>
+<summary>
+ANSWER
+</summary>
+Vectors can be of only one data type. R tries to convert (coerce) the
+content of this vector to find a “common denominator” that doesn’t lose
+any information.
+</details>
+<ul>
+<li>How many values in <code>combined_logical</code> are
+<code>"TRUE"</code> (as a character) in the following example:</li>
 </ul>
 <pre class="r"><code>num_logical &lt;- c(1, 2, 3, TRUE)
 char_logical &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, TRUE)
@@ -859,6 +873,14 @@ animals[animals == &quot;cat&quot; | animals == &quot;rat&quot;] # returns both 
 </ul>
 <p>Hint: If you wanted to sort a collection of words, what would you
 hope R would do?</p>
+<details>
+<summary>
+ANSWER
+</summary>
+When using “&gt;” or “&lt;” on strings, R compares their alphabetical
+order. Here “four” comes after “five”, and therefore is “greater than”
+it.
+</details>
 </div>
 <p><br></p>
 <div id="vector-math-and-recycling" class="section level3">
@@ -1120,10 +1142,10 @@ use this same function to rename the levels of treatment to “L”, “M” and
 ANSWER
 </summary>
 <pre class="r"><code>treatment &lt;- factor(c(&quot;high&quot;, &quot;low&quot;, &quot;low&quot;, &quot;medium&quot;, &quot;high&quot;))
-treatment &lt;- factor(treatment, levels = c(&quot;low&quot;, &quot;mediam&quot;, &quot;high&quot;))
+treatment &lt;- factor(treatment, levels = c(&quot;low&quot;, &quot;medium&quot;, &quot;high&quot;))
 levels(treatment) &lt;- c(&quot;L&quot;, &quot;M&quot;, &quot;H&quot;)
 treatment</code></pre>
-<pre><code>## [1] H    L    L    &lt;NA&gt; H   
+<pre><code>## [1] H L L M H
 ## Levels: L M H</code></pre>
 </details>
 </div>

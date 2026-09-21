@@ -13,7 +13,7 @@
 
 <title>Wk03: Spreadsheet Best Practices &amp; Data Import</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -343,6 +343,13 @@ div.tocify {
     Syllabus
   </a>
 </li>
+<li>
+  <a href="AI.html">
+    <span class="fa fa-robot fa-1x"></span>
+     
+    AI
+  </a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Set Up
@@ -461,8 +468,8 @@ R</h3>
 <li>Know how to use <code>read.csv()</code> to read a CSV file into
 R</li>
 <li>Be able to explore a data frame</li>
-<li>Be able to use subset a data frame</li>
-<li>Know the distinctions base R and <code>tidyverse</code></li>
+<li>Be able to subset a data frame</li>
+<li>Know the distinctions between base R and <code>tidyverse</code></li>
 </ul>
 </div>
 <p><br></p>
@@ -831,7 +838,7 @@ the columns represent:</p>
 <td>species of animal</td>
 </tr>
 <tr class="even">
-<td>taxon</td>
+<td>taxa</td>
 <td>e.g. Rodent, Reptile, Bird, Rabbit</td>
 </tr>
 <tr class="odd">
@@ -892,7 +899,7 @@ a vector with a single data type, and every column is the exact same
 length. You can make a data frame “by hand”, but they’re usually created
 when you import some sort of tabular data into R using a function like
 <code>read.csv()</code>.</p>
-<p><a href="img/data-frame.svg"></a></p>
+<p><img src="img/data-frame.svg" /></p>
 </div>
 <div id="inspecting-data.frame-objects" class="section level2">
 <h2>Inspecting <code>data.frame</code> Objects</h2>
@@ -1005,7 +1012,7 @@ surveys[1, 6]   </code></pre>
 surveys[, 1]    </code></pre>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 ## [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 35499 entries ]</code></pre>
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 35499 entries ]</code></pre>
 <pre class="r"><code># first column of the data frame (as a data.frame)
 surveys[1]      </code></pre>
 <pre><code>##    record_id
@@ -1088,7 +1095,7 @@ integers in increasing or decreasing order; try running
 ## 3 merriami Rodent                  Control
 ## 4 merriami Rodent         Rodent Exclosure
 ##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 35545 rows ]</code></pre>
-<pre class="r"><code>surveys[-c(7:34786), ] # Equivalent to head(surveys)</code></pre>
+<pre class="r"><code>surveys[-c(7:nrow(surveys)), ] # Equivalent to head(surveys)</code></pre>
 <pre><code>##   record_id month day year plot_id species_id sex hindfoot_length weight
 ## 1         1     7  16 1977       2         NL   M              32     NA
 ## 2         2     7  16 1977       3         NL   M              33     NA
@@ -1097,7 +1104,7 @@ integers in increasing or decreasing order; try running
 ## 1   Neotoma albigula Rodent                  Control
 ## 2   Neotoma albigula Rodent Long-term Krat Exclosure
 ## 3 Dipodomys merriami Rodent                  Control
-##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 766 rows ]</code></pre>
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 3 rows ]</code></pre>
 <p>Data frames can be subset by calling indices (as shown previously),
 but also by calling their column names directly:</p>
 <pre class="r"><code>surveys[&quot;species_id&quot;]       # Result is a data.frame
@@ -1147,7 +1154,7 @@ surveys_200 &lt;- surveys[200, ]
 n_rows &lt;- nrow(surveys)
 surveys_last &lt;- surveys[n_rows, ]
 ## 3.
-surveys_middle &lt;- surveys[n_rows / 2, ]
+surveys_middle &lt;- surveys[round(n_rows / 2), ]
 ## 4.
 surveys_head &lt;- surveys[-(7:n_rows), ]</code></pre>
 </details>
@@ -1193,10 +1200,6 @@ redundancy.</p>
 </div>
 <div id="loading-packages" class="section level2">
 <h2>Loading Packages</h2>
-<p>Almost every time you work in R, you will be using different
-“packages” to work with data. A package is a collection of functions
-used for some common purpose; there are packages for manipulating data,
-plotting, interfacing with other programs, and much much more.</p>
 <p>For much of this course, we’ll be working with a series of packages
 collectively referred to as the <code>tidyverse</code>. They are
 packages designed to help you work with data, from cleaning and
@@ -1222,7 +1225,7 @@ function for reading a CSV file is <code>read_csv()</code> instead of
 <code>read.csv()</code>. Let’s try it:</p>
 <pre class="r"><code>t_surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 35549 Columns: 13
-## ── Column specification ────────
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -1265,7 +1268,7 @@ sure to check whether you’re getting a tibble or a vector back.</p>
 <pre class="r"><code>surveys[,1] # gives a vector back</code></pre>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
 ## [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
-##  [ reached getOption(&quot;max.print&quot;) -- omitted 35499 entries ]</code></pre>
+##  [ reached &#39;max&#39; / getOption(&quot;max.print&quot;) -- omitted 35499 entries ]</code></pre>
 <pre class="r"><code>t_surveys[,1] # gives a tibble back</code></pre>
 <pre><code>## # A tibble: 35,549 × 1
 ##    record_id
