@@ -77,6 +77,8 @@ Things to know before rendering:
 - `docs/` copies `data/` wholesale, so the repository carries every dataset twice.
   Keep new datasets small (or read them from an external URL) and avoid committing
   anything that isn't needed by a lesson.
+- `render_site()` renders every `.md` at the top level, including this file; the
+  resulting `docs/CLAUDE.html` is gitignored, so ignore it or delete it after a build.
 - GitHub Pages is case-sensitive; macOS is not. Match file-name case exactly in
   `img/` and `data/` references.
 

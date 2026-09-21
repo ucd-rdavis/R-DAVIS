@@ -8,6 +8,9 @@ navbar:
   - text: Syllabus
     href: syllabus.html
     icon: fa-map fa-1x
+  - text: AI
+    href: AI.html
+    icon: fa-robot fa-1x
   - text: Set Up
     menu:
     - text: Computer Setup
@@ -48,7 +51,6 @@ navbar:
   - icon: fa-github fa-lg
     href: https://github.com/ucd-rdavis/R-DAVIS
 output_dir: docs
-exclude: ["CLAUDE.md"]
 output:
   html_document:
     theme: flatly

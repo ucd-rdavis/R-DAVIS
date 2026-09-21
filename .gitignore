@@ -11,3 +11,6 @@ data/strava_data2/*
 /.quarto/
 labs/*.html
 labs/*_files/
+docs/CLAUDE.html
+docs/scratch/
+docs/data/finals_data.csv
