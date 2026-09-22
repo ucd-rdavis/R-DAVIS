@@ -95,6 +95,37 @@ This lab will help you get oriented with R, RStudio, and your first programming 
 
 16. Save your script and make sure you can run the entire script from top to bottom without errors.
 
+<details>
+<summary>ANSWER</summary>
+```{r, eval=FALSE}
+# Part 1
+(15 + 7) * 3       # 1. parentheses force 66
+sqrt(144)          # 2. -> 12
+2^8                # 3. -> 256
+
+# Part 2
+current_year <- 2025
+current_year - 1977  # 5. -> 48
+
+# Part 3
+log(10)            # 6. natural log
+exp(2)             # 7. e^2
+
+# Part 4
+10 == 5 + 5        # 8.  TRUE
+7 > 10             # 9.  FALSE
+15 >= 15           # 10. TRUE
+x <- 25
+x != 30            # 11. TRUE
+
+# Part 5
+?round             # 12. opens help
+round(3.14159, 2)  # 13. -> 3.14
+abs(-15)           # 14. -> 15
+
+# Part 6: 15-16 are commenting (#) and running the whole script top to bottom.
+```
+</details>
 
 
 ### <small>Lab Week 2</small> {#lab-week-2}
