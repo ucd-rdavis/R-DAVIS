@@ -1,0 +1,32 @@
+---
+title: "Lab Week 10"
+format:
+  html:
+    embed-resources: true
+---
+
+This is the Lab Week 10 document for R-DAVIS. Complete the tasks below in this file, then click **Render** and upload the resulting HTML file to Canvas.
+
+In this assignment, you'll use the iteration skills we built in the course to apply functions to an entire dataset.
+
+Let's load the surveys dataset:
+
+```{r wk9a}
+library(tidyverse)
+surveys <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv")
+```
+
+1) Using a for loop, print to the console the longest species name of each taxon. Hint: the function nchar() gets you the number of characters in a string. The function unique() gets you the unique values in a vector.
+
+<!-- INSTRUCTOR TODO (2026 reorg): the Mauna Loa dates lab was archived; "last week" no longer refers to it. -->
+Next let's load the Mauna Loa dataset.
+
+```{r week9b}
+mloa <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/mauna_loa_met_2001_minute.csv")
+```
+
+2) Use the `apply` function to print the max of each of the following columns: "windDir","windSpeed_m_s","baro_hPa","temp_C_2m","temp_C_10m","temp_C_towertop","rel_humid",and "precip_intens_mm_hr". 
+
+3) Make a function called C_to_F that converts Celsius to Fahrenheit. Hint: first you need to multiply the Celsius temperature by 1.8, then add 32. Make three new columns called "temp_F_2m", "temp_F_10m", and "temp_F_towertop" by applying this function to columns "temp_C_2m", "temp_C_10m", and "temp_C_towertop". 
+
+4) Use the `apply` function to create a new column of the `surveys` dataframe that includes the genus and species name together as one string. Hint: the function we've been using to combine strings together has a "collapse" argument. Do some poking around in the help file to get started.

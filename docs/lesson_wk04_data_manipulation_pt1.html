@@ -13,7 +13,7 @@
 
 <title>Wk04: Manipulating and analyzing data in the tidyverse, Part 1</title>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -390,16 +390,16 @@ div.tocify {
       <a href="lesson_wk05_data_manipulation_pt2.html">Wk05 Data Manipulation Pt2</a>
     </li>
     <li>
-      <a href="lesson_wk07_data_visualization.html">Wk07 Data Visualization with ggplot2</a>
+      <a href="lesson_wk07_data_visualization.html">Wk07 Data Visualization I</a>
     </li>
     <li>
-      <a href="lesson_wk08_dates_and_functions.html">Wk08 Dates &amp; Times with Lubridate and Creating Functions</a>
+      <a href="lesson_wk08_data_visualization_pt2.html">Wk08 Data Visualization II</a>
     </li>
     <li>
-      <a href="lesson_wk09_iteration.html">Wk09 Iteration</a>
+      <a href="lesson_wk09_functions.html">Wk09 Functions</a>
     </li>
     <li>
-      <a href="lesson_wk10_review_and_markdown.html">Wk10 Review and Markdown</a>
+      <a href="lesson_wk10_iteration.html">Wk10 Iteration</a>
     </li>
   </ul>
 </li>
@@ -488,14 +488,14 @@ manipulation Part 1a</a></li>
 href="https://video.ucdavis.edu/media/Week+4%3A+Data+Manipulation+Part+2+%28mutate%2C+group_by%2C+and+summarize%29/1_rgmwrirs/390286133">Data
 manipulation Part 1b</a></li>
 <li><a
-href="https://canvas.ucdavis.edu/courses/1098028/assignments/1510679">Video
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714928">Video
 Discussion</a></li>
 </ul>
 </div>
 <div id="in-class-coding" class="section level2">
 <h2>In Class Coding</h2>
 <p><a
-href="https://canvas.ucdavis.edu/courses/1098028/assignments/1509410">Submit
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714937">Submit
 Week 4 In Class Coding</a></p>
 </div>
 <div id="data-manipulation-using-dplyr-and-tidyr"
@@ -575,7 +575,7 @@ data we are going to be using today should already be in your
 R_DAVIS_2025 project in the folder <code>data</code>.</p>
 <pre class="r"><code>surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 35549 Columns: 13
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -887,8 +887,7 @@ run off the screen anymore. It’s one of the advantages of
 ## ℹ Summaries were computed grouped by sex and species_id.
 ## ℹ Output is grouped by sex.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping
-##   (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 93 × 3
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight
@@ -916,8 +915,7 @@ the mean:</p>
 ## ℹ Summaries were computed grouped by sex and species_id.
 ## ℹ Output is grouped by sex.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping
-##   (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 64 × 3
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight
@@ -946,8 +944,7 @@ anymore. If you want to display more data, you can use the
 ## ℹ Summaries were computed grouped by sex and species_id.
 ## ℹ Output is grouped by sex.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping
-##   (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 64 × 3
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight
@@ -981,8 +978,7 @@ species for each sex:</p>
 ## ℹ Summaries were computed grouped by sex and species_id.
 ## ℹ Output is grouped by sex.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping
-##   (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 64 × 4
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight min_weight
