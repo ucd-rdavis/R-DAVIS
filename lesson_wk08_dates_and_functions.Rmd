@@ -21,11 +21,11 @@ minutes: 30
 
 - [Dates with Lubridate](https://video.ucdavis.edu/media/Week8%3A+Dates+and+Times+with+Lubridate/1_dvn2txzq/390286133)
 - [Function-writing](https://video.ucdavis.edu/media/Week8_Part2_WritingFunctions/1_fvrbfw9h/390286133)
-- [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510685)
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1510685)
 
 ## In Class Coding
 
-[Submit Week 8 In Class Coding](https://canvas.ucdavis.edu/courses/1019595/assignments/1509413)
+[Submit Week 8 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1509413)
 
 # Add a package check/install code block after the YAML header.
 

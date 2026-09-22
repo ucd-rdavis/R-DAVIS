@@ -21,11 +21,11 @@ title: 'Wk04: Manipulating and analyzing data in the tidyverse, Part 1'
 
 - [Data manipulation Part 1a](https://video.ucdavis.edu/media/t/1_3i0lfxul/390286133)
 - [Data manipulation Part 1b](https://video.ucdavis.edu/media/Week+4%3A+Data+Manipulation+Part+2+%28mutate%2C+group_by%2C+and+summarize%29/1_rgmwrirs/390286133)
-- [Video Discussion](https://canvas.ucdavis.edu/courses/1019595/assignments/1510679)
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1510679)
 
 ## In Class Coding
 
-[Submit Week 4 In Class Coding](https://canvas.ucdavis.edu/courses/1019595/assignments/1509410)
+[Submit Week 4 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1509410)
 
 ## Data Manipulation using **`dplyr`** and **`tidyr`**
 
