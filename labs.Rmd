@@ -9,9 +9,9 @@ output:
 # List of all required packages across labs
 required_packages <- c(
   "tidyverse",     # Used throughout for data manipulation and plotting
-  "lubridate",     # Lab 8 - date/time handling
+  "lubridate",     # (archived Mauna Loa dates lab)
   "viridis",       # Lab 7 - color scales
-  "purrr",         # Lab 9 - iteration and mapping
+  "purrr",         # Lab 10 - iteration and mapping
   "ggplot2",       # Used throughout for plotting (part of tidyverse but sometimes loaded separately)
   "dplyr",         # Used throughout for data manipulation (part of tidyverse but sometimes loaded separately)
   "readr"          # Used throughout for data import (part of tidyverse but sometimes loaded separately)
@@ -165,14 +165,21 @@ For our week seven lab, we are going to be practicing the skills we learned with
 
 ### <small>Lab Week 8</small> {#lab-week-8}
 
-Let's look at some real data from Mauna Loa to try to format and plot.
+Data Visualization II lab — placeholder; content to be added. (The former Mauna Loa dates lab is in `archive/`.)
 
 <a href="labs/lab_week_08.qmd" download>Download Lab 8 (.qmd)</a>
 
 
 ### <small>Lab Week 9</small> {#lab-week-9}
 
-In this assignment, you'll use the iteration skills we built in the course to apply functions to an entire dataset.
+Functions lab — placeholder; content to be added.
 
 <a href="labs/lab_week_09.qmd" download>Download Lab 9 (.qmd)</a>
+
+
+### <small>Lab Week 10</small> {#lab-week-10}
+
+In this assignment, you'll use the iteration skills we built in the course to apply functions to an entire dataset.
+
+<a href="labs/lab_week_10.qmd" download>Download Lab 10 (.qmd)</a>
 

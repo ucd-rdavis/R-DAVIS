@@ -1,5 +1,5 @@
 ---
-title: 'Wk07: Data Visualization with ggplot2'
+title: 'Wk07: Data Visualization I'
 ---
 
 <div class = "blue">
@@ -8,10 +8,6 @@ title: 'Wk07: Data Visualization with ggplot2'
 * Produce scatter plots, boxplots, and time series plots using ggplot.
 * Describe what faceting is and apply faceting in ggplot.
 * Set universal plot settings.
-* Learn some basic visualization dos and don'ts
-* Learn how to customize color in plots
-* Gain a basic understanding of package `cowplot`
-* Introduction to interactive `plotly` package
 </div>
 <br>
 
@@ -19,9 +15,6 @@ title: 'Wk07: Data Visualization with ggplot2'
 
 - [Data visualization Part 1a](https://video.ucdavis.edu/media/Week+7%3A+Data+Visualization+Part+1a/1_m55wx7pr)
 - [Data visualization Part 1b](https://video.ucdavis.edu/media/Week7_TimeSeries_and_Faceting/1_mcgh2gkw/390286133)
-- [Data visualization Part 2a](https://www.youtube.com/watch?v=aahVpfygvtc)
-- [Data visualization Part 2b](https://www.youtube.com/watch?v=0yTQY9doaZM)
-- [Data visualization Part 2c](https://video.ucdavis.edu/media/Week7_Saving_and_NonVizViz/1_2fzv6mle/390286133)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714926)
 
 ## In Class Coding
@@ -29,24 +22,14 @@ title: 'Wk07: Data Visualization with ggplot2'
 [Submit Week 7 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1714941)
 
 ```{r setup, include=FALSE, echo=FALSE, results='hide'}
-# List of all required packages across assignments
+# Packages used in this lesson
 required_packages <- c(
-  "ggplot2",       # Used throughout for plotting (part of tidyverse but sometimes loaded separately)
-  "cowplot",       # Used throughout for plotting (part of tidyverse but sometimes loaded separately)
-  "plotly",        # Used throughout for plotting (part of tidyverse but sometimes loaded separately)
-  "tidyverse",     # Used throughout for data manipulation and plotting
-  "viridis",       # For colorblind-friendly color palettes
-  "RColorBrewer",  # For additional color palettes
-  "sonify",        # For sound-based data visualization
-  "seewave" ,
-  "BrailleR"       # For sound wave visualization and analysis
+  "tidyverse"      # data manipulation and plotting (includes ggplot2)
 )
 
-# Check if required packages are installed, install if needed
 new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
 if(length(new_packages)) install.packages(new_packages, repos = "http://cran.us.r-project.org")
 
-# Load all required packages
 invisible(lapply(required_packages, library, character.only = TRUE))
 
 library(tidyverse)
@@ -56,9 +39,9 @@ surveys_complete <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_d
 
 <br>
 
-# Part 1: Building Plots with ggplot2
+# Building Plots with ggplot2
 
-This lecture has a somewhat inverted order. We are going to start by teaching you how to make plots in Part 1. Then in Part 2, take a step back and think about the principles and practices of making *good* plots.
+This lesson teaches you how to make plots with ggplot2. Next week (Data Visualization II), we step back and think about the principles and practices of making *good* plots.
 
 We start by loading the required packages. **`ggplot2`** is included in the **`tidyverse`** package.
 
@@ -456,287 +439,6 @@ ggplot(data = yearly_weight, mapping = aes(x=year, y=avg_weight)) +
 </div>
 
 <br>
-
-# Part 2: Data Visualization Best Practices
-
-## Data Visualization in R
-
-There are many tips and tricks that are available for the multitude of visualization packages in R. However, there aren't as many simple rules or suggestions on what actually makes a good visualization. This starts with the "grammar of graphics", which is the fundamental rules or principals which describe an art or science (from Wickham 2010).
-
- > "A good grammar will allow us to gain insight into the composition of complicated graphics, and reveal unexpected connections between seemingly different graphics (Cox 1978)"
- 
-Because there are so many options and methods to plot our data in R, we need to think about how we are going to represent the data, how can that data be interpreted visually, and what story it may tell.
-
-A very nice example of this is provided by this animation (created by Darkhorse Analytics, and used in Jenny Bryan's excellent [stat545](https://stat545.com/effective-graphs.html) course). It shows how *simplification* can make a big difference in communication. 
-
-![Less is more graphic](img/less-is-more-darkhorse-analytics.gif)
-
-### Exploration vs. Communication
-
-One thing to consider is what the objective is when creating a visualization or plot. When we build plots for exploratory purposes, we already know what the variables are we are using, and the objective is more about what sort of patterns the data might show. When communicating, the objective is more about providing a stand-alone snapshot which helps others *understand* what you are trying to convey. We'll cover more on this when we talk about `Rmarkdown`.
-
-    
-## Color
-
-There are so many options in R. It is fun to play around with color, but keep in mind not everyone sees color in the same way, and some folks cannot see certain spectrums of color (i.e., [absence of blue or green receptors is common](https://www.colormatters.com/color-and-vision/what-is-color-blindness)). See below for a example of what colorblindness may do...if you see numbers inside these circles, great, you have some blue/green retinal receptors.
-
-![](https://www.colormatters.com/images/cbtests/plate1.jpg) ![](https://www.colormatters.com/images/cbtests/plate3.jpg)
-
-Having said that, [here's a great cheat sheet of colors in R](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf), it can be handy when trying to find the correct color or name of a color. Check out this recent Nature perspective piece on [The misuse of colour in science communication](https://www.nature.com/articles/s41467-020-19160-7?utm_source=twitter&utm_medium=social&utm_content=organic&utm_campaign=NGMT_USG_JC01_GL_NRJournals).
-
-### Discrete/Categorical:
-
-For a very nice discussion about color palettes, I recommend [this page](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/) from the R cookbook folks. 
-
-Additionally, check out the great [ggthemes](https://cran.r-project.org/web/packages/ggthemes/vignettes/ggthemes.html) package, which has many options. One I find very helpful is using `scale_color_colorblind()`, which if you have 8-9 categories, may be a nice way to display your data.
-
-### Continuous: [`viridis`](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
-
-The `viridis` package is an excellent set of colors that better represent your data, are easier to read for those with colorblindness, and they also tend to print fairly well in grayscale.
-
-Take a look at the [vignette online](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)!
-
-An example:
-
-![viridis](img/viridis_demo.png)
-
-### Customizing color palettes in ggplot
-
-The viridis color palettes have been built into ggplot so that you can call upon them using the scale_fill_viridis_ or scale_color_viridis_ functions. Note that whether or not you use the fill or color scale function depends on which aesthetic you set in your plot. The functions also have extensions depending on the kind of variable that you want to color: scale_fill_viridis_*d* is for discrete variables while scale_fill_viridis_*c* is for continuous variables. Within the function, you can specify which viridis palette to use: A-D.
-
-In this example we fill in our bars with the cut variable in the diamond dataset, a categorical variable with 5 groups. 
-```{r, echo=T, eval=T}
-library(ggplot2)
-ggplot(diamonds, aes(x = clarity, fill = cut)) + 
-  geom_bar() +
-    theme_classic() +
-  theme(axis.text.x = element_text(angle=70, vjust=0.5)) +
-  scale_fill_viridis_d(option = "C") 
-```
-
-## Visualization Tips {.tabset .tabset-fade}
-
-This information isn't meant to be comprehensive, but at minimum, it may provide some guidance when you are creating plots and figures. 
-
-### Visualization Do's
-
-The most basic tip is keep it simple! Stick with a clean and clear message, what is your plot/figure trying to get across? Data visualization is effective when it is simple, and repackages data into a visual story that is easy to understand. 
-
- - Label appropriately and legibly, including axes, and use text to highlight important bits
- - Use one color to represent each category, consider colorblind/BW friendly palettes
- - Order datasets using logical hierarchy (Make it easy for reader to compare values)
- - Use icons when possible to reduce unnecessary labeling
- - Pay attention to scale (e.g., start axis at zero not 2.4 to 3.5)
- - Include your data/outliers where possible
-
-
-### Visualization Don'ts
-
-A few things to avoid (which basically relates to keeping it simple):
-
- - Don't try to add too much into one plot...**keep it simple**
- - Don't add color unnecessarily unless it provides a specific function
- - Avoid high contrast colors (red/green or blue/yellow)
- - Don't use 3D charts. They can make it hard to discern or perceive the actual information.
- - Avoid ornamentation (shadowing, extra illustration, etc)
- - Avoid more than 6 categorical colors in a layout unless you are looking at continuous data.
- - Keep fonts simple (avoid unnecessary **bold** or *italicization*)
- - Don't try to compare too many categories or data types in one chart
- 
-### Examples
-
-#### Scatterplots
-
-One of the best simple plots for examining patterns in data, but very effective. Also used when adding model trend lines.
-
-```{r scatterplots}
-
-suppressPackageStartupMessages(library(ggplot2))
-plot(x=iris$Petal.Width) # single variable
-plot(x=iris$Petal.Width, y=iris$Petal.Length) # multiple variables
-ggplot() + geom_point(data=iris, aes(x=Petal.Width, y=Petal.Length))
-ggplot() + geom_point(data=iris, aes(x=Petal.Width, y=Petal.Length, fill=Species), pch=21, size=3, alpha=0.5)
-
-```
-
-
-#### Lineplots
-
-Comparing relative change in quantities across a variable like time. Note the change when we avoid facetting each line independently.
-
-```{r lineplots}
-plot(EuStockMarkets)
-
-suppressPackageStartupMessages(library(tidyverse))
-EuStockMarkets_df <- data.frame(as.matrix(EuStockMarkets), date=as.numeric(time(EuStockMarkets)))
-EuStockMarkets_long <- pivot_longer(EuStockMarkets_df, cols = 1:4, names_to = "Market", values_to = "value")
-ggplot() + geom_line(data=EuStockMarkets_long, aes(x=date, y=value, color=Market))
-
-```
-
-#### Barplots
-
-Comparing totals across multiple groups. Notice legibility when you stack the bars.
-
-```{r barplots}
-
-# code adapted from https://www.analyticsvidhya.com/blog/2015/07/guide-data-visualization-r/
-suppressPackageStartupMessages(library(viridis))
-barplot(iris$Petal.Length)
-barplot(iris$Sepal.Length,col  = viridis(3, option = "A")) 
-barplot(table(iris$Species,iris$Sepal.Length),col  = viridis(3, option = "A")) 
-```
-
-<br>
-
-## Saving Figures and Plots 
-
-A plot you created with ggplot or another plotting package can be saved as .JPEGS (or .tiff, .img, etc) onto you. For any ggplot objects, we recommend using `ggsave`. 
-
-First, let's create a new folder in this project called `figures`. Let's save all the figures we create to that folder. `ggsave` will default to saving the last plot you created, however, we think it is always a good idea to specify exactly which plot you want saved. To do that, we have to save our plot as an object. 
-
-```{r, eval = F}
-ggsave("figures/surveys_plot.png", surveys_plot)
-```
-
-#### With `ggsave` you can save images as
-
- - .png, .jpeg, .tiff, .pdf, .bmp, or .svg
-
-#### Other arguments of `ggsave`
-
- - `scale` can scale the image (multiplicative scaling factor)
- - `width` and `height` let you specify the size of the image in `units` that you specify
- - `dpi` can change the quality of the image; for publication graphs we suggest over 700 dpi
-
-```{r, eval = F}
-ggsave("figures/surveys_plot.png", surveys_plot, width = 6, height = 4, units = "in", dpi = 700)
-```
-
-<br>
-
-## Non-visual data interaction  
-
-
-Discussions of visualization so far have taken for granted that visualization is accessible to everyone, but researchers and audiences alike are not all sighted. RStudio is behind on blind accessibility, but some packages can provide text descriptions and sonification/audification of plots to improve accessibility for non-visual data interaction.  
-
-The `BrailleR` package ([read more here](https://r-resources.massey.ac.nz/BrailleRInAction/)), has a `VI()` function that wraps around plots and provides a text-description output. We can use the VI wrapper to interact with our plots from a textual perspective and identify what information is missing. Such text can also be used as alt-text when publishing this material. What could we do to our plot to improve the text description?
-
-```{r, echo=T, eval=T, warning= F, message = F}
-#install.packages("BrailleR")
-library(BrailleR)
-
-barplot <- ggplot(diamonds, aes(x = clarity, fill = cut)) + 
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=70, vjust=0.5)) +
-  scale_fill_viridis_d(option = "C") +
-  theme_classic()
-
-VI(barplot)
-```
-
-The `sonification` package's `sonify` function can be used to represent data in audio form, where the x-axis can span sound across time, so that the length of time a sound plays follows the data long the x-axis from left to right; the y-axis can be expressed as pitch, so that the pitch of the sound matches to the values of the data (lower value = lower pitch).
-
-```{r, echo = F, eval = FALSE, warning= F, message = F}
-library(sonify)
-library(seewave)
-sonif <- sonify(iris$Petal.Width)
-savewav(sonif, file = "sw.width.sound.wav")
-```
-
-One variable can be used as an input to hear the distribution. For instance this univariate plot of iris petal width visually looks like this:
-```{r, echo=T, eval=T, warning= F, message = F}
-plot(iris$Petal.Width)
-```
-
-Using `sonify` instead of plot, the distribution of iris petal width sounds like this:
-```{r, echo = T, eval = FALSE, warning= F, message = F}
-#install.packages("sonify")
-library(sonify)
-sonify(iris$Petal.Width)
-```
-If you try this on your computer it should play automatically, but on the website you can listen below: 
-
-<audio controls>
-  <source src="img/sw.width.sound.wav" type="audio/wav">
-</audio>
-
-```{r, echo = F, eval = FALSE, warning= F, message = F}
-sonif <- sonify(x = iris$Petal.Width, y = iris$Petal.Length)
-savewav(sonif, file = "sw.width.length.sound.wav")
-```
-Two variables can be used as input to hear the relationship between continuous variables. For instance this bivariate plot of iris petal length and petal width visually looks like this:
-```{r, echo=T, eval=T, warning= F, message = F}
-plot(x = iris$Petal.Width, y = iris$Petal.Length)
-```
-
-And using `sonify`, sounds like this:
-```{r, echo=T, eval=FALSE, warning= F, message = F}
-sonify(x=iris$Petal.Width, y = iris$Petal.Length) 
-```
-
-<audio controls>
-  <source src="img/sw.width.length.sound.wav" type="audio/wav">
-</audio>
-
-# BONUS CONTENT #
-
-This is provided for your reference, but won't be something we cover in class or address on the exam.
-
-## Publishing Plots: `cowplot`
-
-A few excellent options exist for creating multi-paneled plots for publications. The first and foremost is a package by Claus Wilke called [`cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html). With `cowplot`, it's possible to quickly combine existing `ggplots`, creating publication quality plots. See the vignette for more options, but here's a quick example from the vignette below:
-
-```{r, echo=FALSE, warning = F, message = F}
-detach("package:BrailleR", unload=TRUE)
-```
-
-
-```{r cowplot, echo=T, eval=T}
-library(cowplot)
-
-# make a few plots:
-plot.diamonds <- ggplot(diamonds, aes(clarity, fill = cut)) + 
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=70, vjust=0.5))
-#plot.diamonds
-
-plot.cars <- ggplot(mpg, aes(x = cty, y = hwy, colour = factor(cyl))) + 
-   geom_point(size = 2.5)
-#plot.cars
-
-plot.iris <- ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Length, fill=Species)) +
-  geom_point(size=3, alpha=0.7, shape=21)
-#plot.iris
-
-# use plot_grid
-panel_plot <- plot_grid(plot.cars, plot.iris, plot.diamonds, labels=c("A", "B", "C"), ncol=2, nrow = 2)
-
-panel_plot
-
-# fix the sizes draw_plot
-fixed_gridplot <- ggdraw() + draw_plot(plot.iris, x = 0, y = 0, width = 1, height = 0.5) +
-           draw_plot(plot.cars, x=0, y=.5, width=0.5, height = 0.5) +
-           draw_plot(plot.diamonds, x=0.5, y=0.5, width=0.5, height = 0.5) + 
-  draw_plot_label(label = c("A","B","C"), x = c(0, 0.5, 0), y = c(1, 1, 0.5))
-
-fixed_gridplot
-```
-
-## The package `plotly`
-
-The package `plotly` is an excellent, easy to use resource that allows you to quickly create interactive, web-based figures. We have used plotly to illustrate patterns in data to collaborators, to visualize patterns in our data during the pre-analysis stage, and even impress with "fancy" graphics during a conference talk! 
-
-Let's try plotly together using some of the `iris` data: 
-
-```{r, warning = F, message =F}
-library(plotly)
-
-plot.iris <- ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Length, fill=Species)) +
-  geom_point(size=3, alpha=0.7, shape=21)
-
-plotly::ggplotly(plot.iris) #it's as simple as that! 
-```
 
 This lesson was contributed by [Martha Zillig](https://github.com/MarthaWohlfeil).
 
