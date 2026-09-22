@@ -13,7 +13,7 @@
 
 <title>Wk05: Manipulating and analyzing data in the tidyverse, Part 2</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -343,6 +343,13 @@ div.tocify {
     Syllabus
   </a>
 </li>
+<li>
+  <a href="AI.html">
+    <span class="fa fa-robot fa-1x"></span>
+     
+    AI
+  </a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Set Up
@@ -483,7 +490,7 @@ Discussion</a></li>
 <div id="conditional-statements" class="section level2">
 <h2>Conditional Statements</h2>
 <p>When working with your data, you may want to create a new variable in
-a data frame, but only if a certain conditions are true. Conditional
+a data frame, but only if certain conditions are true. Conditional
 statements are a series of logical conditions that can help you
 manipulate your data to create new variables.</p>
 <p>We’ll begin again with our surveys data, and remember to load in the
@@ -497,7 +504,7 @@ length in our data. Using the summary function below, we see that the
 mean hindfoot length is 29.29, so let’s split the data at the mean using
 a conditional statement.</p>
 <pre class="r"><code>summary(surveys$hindfoot_length)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##    2.00   21.00   32.00   29.29   36.00   70.00    4111</code></pre>
 <div id="ifelse-function" class="section level3">
 <h3>ifelse() function</h3>
@@ -587,10 +594,10 @@ have to deal with them here.</p>
 <summary>
 ANSWER
 </summary>
-<pre class="r"><code>iris$petal.length.cat &lt;- ifelse(iris$Petal.Length &lt;= 1.6, &quot;low&quot;, 
-                          ifelse(iris$Petal.Length &gt; 1.6 &amp; 
+<pre class="r"><code>iris$petal.length.cat &lt;- ifelse(iris$Petal.Length &lt;= 1.6, &quot;small&quot;,
+                          ifelse(iris$Petal.Length &gt; 1.6 &amp;
                                    iris$Petal.Length &lt; 5.1, &quot;medium&quot;,
-                           &quot;high&quot;))
+                           &quot;large&quot;))
 
 iris %&gt;% 
   mutate(
@@ -639,7 +646,7 @@ shared columns between the two data frames. Let’s see what the
 ##   ..   record_id = col_double(),
 ##   ..   tail_length = col_double()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x98b3711a0&gt;</code></pre>
 <p>Looks like we have a data frame with 34,786 rows and two columns:
 <code>record_id</code> and <code>tail_length</code>. Luckily, both our
 <code>surveys</code> and <code>tail</code> data frames have the column
@@ -711,7 +718,7 @@ Let’s take a look at our new <code>surveys_joined</code> data frame:</p>
 ##   ..   taxa = col_character(),
 ##   ..   plot_type = col_character()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x98b3717a0&gt;</code></pre>
 <p>We now have a new data frame called <code>surveys_joined</code> which
 has all of the information from our original <code>surveys</code> data
 frame, plus the new <code>tail_length</code> column that we added when
@@ -768,9 +775,9 @@ the values of variables associated with each record (the unit), values
 such the weight or sex of each animal associated with each record. What
 if instead of comparing records, we wanted to compare the different mean
 weight of each species between plots?</p>
-<p>We’d need to create a new table where each row (the unit) is comprise
-of values of variables associated with each plot. In practical terms
-this means the values of the species in <code>species</code> would
+<p>We’d need to create a new table where each row (the unit) is
+comprised of values of variables associated with each plot. In practical
+terms this means the values of the species in <code>species</code> would
 become the names of column variables and the cells would contain the
 values of the mean weight observed on each plot.</p>
 <p>Having created a new table, it is therefore straightforward to
@@ -805,10 +812,12 @@ plot:</p>
   filter(!is.na(weight)) %&gt;% 
   group_by(species_id, plot_id) %&gt;% 
   summarize(mean_weight = mean(weight)) </code></pre>
-<pre><code>## `summarise()` has grouped
-## output by &#39;species_id&#39;. You can
-## override using the `.groups`
-## argument.</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by species_id and plot_id.
+## ℹ Output is grouped by species_id.
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(species_id, plot_id))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre class="r"><code>str(surveys_mz) #let&#39;s take a look at the data</code></pre>
 <pre><code>## gropd_df [382 × 3] (S3: grouped_df/tbl_df/tbl/data.frame)
 ##  $ species_id : chr [1:382] &quot;BA&quot; &quot;BA&quot; &quot;BA&quot; &quot;BA&quot; ...
@@ -973,9 +982,8 @@ new blog posts detailing all their abilities. If you’d like to read more
 about this group of functions, check out these links:</p>
 <ul>
 <li><a href="https://brodrigues.co/posts/2019-03-20-pivot.html">Blog
-post by Burno Rodrigues</a></li>
-<li><a
-href="https://tidyr.tidyverse.org/dev/articles/pivot.html">tidyr’s
+post by Bruno Rodrigues</a></li>
+<li><a href="https://tidyr.tidyverse.org/articles/pivot.html">tidyr’s
 vignette</a></li>
 <li><a
 href="https://speakerdeck.com/yutannihilation/a-graphical-introduction-to-tidyrs-pivot-star?slide=1">Hiroaki
@@ -1015,7 +1023,7 @@ ANSWER
 <pre class="r"><code>## Answer 1
 surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 35549 Columns: 13
-## ── Column specification ────────
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -1026,10 +1034,12 @@ surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_da
   group_by(plot_id, year) %&gt;%
   summarize(n_genera = n_distinct(genus)) %&gt;%
   pivot_wider(names_from = &quot;year&quot;, values_from = &quot;n_genera&quot;)</code></pre>
-<pre><code>## `summarise()` has grouped
-## output by &#39;plot_id&#39;. You can
-## override using the `.groups`
-## argument.</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by plot_id and year.
+## ℹ Output is grouped by plot_id.
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(plot_id, year))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre class="r"><code>head(q1)</code></pre>
 <pre><code>## # A tibble: 6 × 27
 ## # Groups:   plot_id [6]
@@ -1057,10 +1067,12 @@ q2b &lt;- q2a %&gt;%
   group_by(measurement_type, plot_type) %&gt;% 
   summarize(mean_value = mean(value, na.rm=TRUE)) %&gt;% 
   pivot_wider(names_from = &quot;measurement_type&quot;, values_from = &quot;mean_value&quot;)</code></pre>
-<pre><code>## `summarise()` has grouped
-## output by &#39;measurement_type&#39;.
-## You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by measurement_type and plot_type.
+## ℹ Output is grouped by measurement_type.
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(measurement_type, plot_type))` for per-operation
+##   grouping (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre class="r"><code>head(q2b)</code></pre>
 <pre><code>## # A tibble: 5 × 3
 ##   plot_type                 hindfoot_length weight

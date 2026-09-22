@@ -1,0 +1,36 @@
+---
+title: "Lab Week 2"
+format:
+  html:
+    embed-resources: true
+---
+
+This is the Lab Week 2 document for R-DAVIS. Complete the tasks below in this file, then click **Render** and upload the resulting HTML file to Canvas.
+
+
+In this lab we are going to practice subsetting and manipulating vectors.  
+
+First, open a new script in your workgin directory and save it to your `scripts` folder. Call this new script `lastname_week_2_lab` (with your last name). 
+
+Copy and paste the chunk of code below into your new `lastname_week_2_lab` script and run it. This chunk of code will create the vector you will use in your lab today. Check in your environment to see what it looks like. What do you think each line of code is doing? 
+
+```{r}
+set.seed(15)
+hw2 <- runif(50, 4, 50)
+hw2 <- replace(hw2, c(4,12,22,27), NA)
+hw2
+```
+
+
+1. Take your `hw2` vector and removed all the NAs then select all the numbers between 14 and 38 inclusive, call this vector `prob1`. 
+
+2. Multiply each number in the `prob1` vector by 3 to create a new vector called `times3`. Then add 10 to each number in your `times3` vector to create a new vector called `plus10`. 
+
+3. Select every other number in your `plus10` vector by selecting the first number, not the second, the third, not the fourth, etc. If you've worked through these three problems in order, you should now have a vector that is 12 numbers long that looks **exactly** like this one:
+
+```
+##  [1] 105.09174  57.04763  92.25447  83.74723 100.07297  87.73902  57.43049
+##  [8]  92.76726  93.19901  85.12543  69.44137  67.57845
+```
+
+Finally, save your script and upload your file to Canvas.

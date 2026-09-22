@@ -1,0 +1,24 @@
+---
+pagetitle: "AI, R-DAVIS, and you"
+title: "AI"
+date: "Updated: `r format(Sys.Date())`"
+---
+
+## (<font color="#DAAA00">**R**</font>-<font color="#DAAA00">**D**</font>ata <font color="#DAAA00">**A**</font>nalysis & <font color="#DAAA00">**V**</font>isualization <font color="#DAAA00">**I**</font>n <font color="#DAAA00">**S**</font>cience) {-}
+
+<br>
+
+### AI 
+
+We--instructors and students--come to this course with a wide range of beliefs and convictions about large language models (LLMs) like `Claude`, `ChatGPT`, `Gemini`, etc. Putting aside concerns about the future of humanity, here's where we are at in Fall 2026 for R-DAVIS: Despite all that these tools remain bad (or let's face it, just not yet good) at, the fact is that they can *easily* handle the level of basic coding expected by R-DAVIS with a little bit of context and prompt engineering (and an AI agent could *definitely* complete this course and earn an A). So what's the point of this class? 
+
+The point of this class is *only sort of* to learn to implement specific functions and techniques in R. The downside of AI's coding upside is that nobody is going to hire you because you know entry level programming anyways. Rather, the point of this class is to *learn how to think about and solve data-driven problems*. R, and other object oriented-programming languages like `Python`, `Java`, `Ruby`, or `C++`, represent a completely different way of thinking and organizing your work. Whether you end up in a role where you do not, or cannot, use AI for coding, you go on to rely heavily on AI for coding in the future, or you *never code again*, we *firmly* believe that gaining facility with thinking in an object-oriented programming language will make you better at your work. But that requires practicing the thinking part. To that end, we believe it is a waste of your time, and our time, to turn in AI-generated deliverables in R-DAVIS.
+
+To some extent, AI use is unavoidable. A core R-DAVIS mantra is "Google it!", which now produces AI-generated results at the top. But `Claude Code` or `Copilot`-type situations, or uploading the assignment into  `chatGPT`, will not help you learn (and hinders our ability as instructors since we have no way to tell how things are going for you). Whether the AI generated products are right or wrong doesn't really matter; programming might *feel* fact-based, as if what you need to do is memorize a set of commands or functions. But it is not. Programming is practice-based--you learn by doing, not observing. So having AI handle the programming works for *learning* about as well as when I try to learn to jump my bike by watching `YouTube` videos.
+
+Finally, separate from the instrumental value of `R` and object-oriented programming in general, we encourage you to think about this as an opportunity to practice learning, or to "learn how to learn." Being a graduate student at UC Davis likely means you have been good at achievement for a long time; you have no doubt honed your skills. But it might have been a long time since you tried to learn something from scratch, and started from a place of true confusion and suckitude. Learning to program will make you feel stupid (at times) and perhaps seed doubt ("I'm just not someone who can do this."). You aren't (stupid) and you are (someone who can do this). We will help you get there. *And* we believe that this experience will pay immense dividends for learning other things here in graduate school or in your next job. 
+
+Finally, the warning: if in reviewing a submission we believe we are reviewing AI-generated work, we'll ask to have a chat with you and see what's up and how we can better help you. If submitted deliverables exhibit hallmarks of outsourced work and one-click "prompt-download-submit" behavior, we will deal with that as an academic code of conduct issue (misrepresenting others' work as your own). 
+
+
+

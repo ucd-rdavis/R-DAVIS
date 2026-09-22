@@ -13,7 +13,7 @@
 
 <title>Wk04: Manipulating and analyzing data in the tidyverse, Part 1</title>
 
-<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -343,6 +343,13 @@ div.tocify {
     Syllabus
   </a>
 </li>
+<li>
+  <a href="AI.html">
+    <span class="fa fa-robot fa-1x"></span>
+     
+    AI
+  </a>
+</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Set Up
@@ -517,11 +524,15 @@ analysis which work together well such as
 <strong><code>ggplot2</code></strong>,
 <strong><code>tibble</code></strong>, etc.</p>
 <p>The <strong><code>tidyverse</code></strong> package tries to address
-3 major problems with some of base R functions: 1. The results from a
-base R function sometimes depend on the type of data. 2. Using R
-expressions in a non standard way, which can be confusing for new
-learners. 3. Hidden arguments, having default operations that new
-learners are not aware of.</p>
+3 major problems with some of base R functions:</p>
+<ol style="list-style-type: decimal">
+<li>The results from a base R function sometimes depend on the type of
+data.</li>
+<li>Using R expressions in a non standard way, which can be confusing
+for new learners.</li>
+<li>Hidden arguments, having default operations that new learners are
+not aware of.</li>
+</ol>
 <p>To load the package type:</p>
 <pre class="r"><code>library(&quot;tidyverse&quot;)    ## load the tidyverse packages, incl. dplyr</code></pre>
 <div id="what-are-dplyr-and-tidyr" class="section level3">
@@ -561,10 +572,10 @@ about <strong><code>tidyr</code></strong></a>.</p>
 from the tidyverse package <strong><code>readr</code></strong>, instead
 of <code>read.csv()</code>, the base function for reading in data. The
 data we are going to be using today should already be in your
-R_DAVIS_2022 project in the folder <code>data</code>.</p>
+R_DAVIS_2025 project in the folder <code>data</code>.</p>
 <pre class="r"><code>surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 35549 Columns: 13
-## ── Column specification ────────
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -592,10 +603,10 @@ converted into factors.</li>
 <p>We’re going to learn some of the most common
 <strong><code>dplyr</code></strong> functions: <code>select()</code>,
 <code>filter()</code>, <code>mutate()</code>, <code>group_by()</code>,
-<code>summarize()</code>, and <code>join</code>. To select columns of a
-data frame, use <code>select()</code>. The first argument to this
-function is the data frame (<code>surveys</code>), and the subsequent
-arguments are the <strong>columns</strong> to keep.</p>
+and <code>summarize()</code>. To select columns of a data frame, use
+<code>select()</code>. The first argument to this function is the data
+frame (<code>surveys</code>), and the subsequent arguments are the
+<strong>columns</strong> to keep.</p>
 <pre class="r"><code>select(surveys, plot_id, species_id, weight)</code></pre>
 <p>To choose <strong>rows</strong> based on a specific criteria, use
 <code>filter()</code>:</p>
@@ -872,10 +883,12 @@ run off the screen anymore. It’s one of the advantages of
 <pre class="r"><code>surveys %&gt;%
   group_by(sex, species_id) %&gt;%
   summarize(mean_weight = mean(weight, na.rm = TRUE))</code></pre>
-<pre><code>## `summarise()` has grouped
-## output by &#39;sex&#39;. You can
-## override using the `.groups`
-## argument.</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by sex and species_id.
+## ℹ Output is grouped by sex.
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 93 × 3
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight
@@ -891,23 +904,20 @@ run off the screen anymore. It’s one of the advantages of
 ##  9 F     PB               30.2 
 ## 10 F     PE               22.8 
 ## # ℹ 83 more rows</code></pre>
-<p>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD We can also remove the missing
-values for weight before we attempt to calculate the summary statistics
-on weight. Because the missing values are removed first, we can omit
-<code>na.rm = TRUE</code> when computing the mean: ======= We can also
-remove the missing values for weight before we attempt to calculate the
-summary statistics on weight. Because the missing values are removed
-first, we can omit <code>na.rm = TRUE</code> when computing the mean:
-&gt;&gt;&gt;&gt;&gt;&gt;&gt;
-83bf97577a6ea82d792b524ae8c1ca8fac23c1e6</p>
+<p>We can also remove the missing values for weight before we attempt to
+calculate the summary statistics on weight. Because the missing values
+are removed first, we can omit <code>na.rm = TRUE</code> when computing
+the mean:</p>
 <pre class="r"><code>surveys %&gt;%
   filter(!is.na(weight)) %&gt;%
   group_by(sex, species_id) %&gt;%
   summarize(mean_weight = mean(weight))</code></pre>
-<pre><code>## `summarise()` has grouped
-## output by &#39;sex&#39;. You can
-## override using the `.groups`
-## argument.</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by sex and species_id.
+## ℹ Output is grouped by sex.
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 64 × 3
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight
@@ -932,10 +942,12 @@ anymore. If you want to display more data, you can use the
   group_by(sex, species_id) %&gt;%
   summarize(mean_weight = mean(weight)) %&gt;%
   print(n = 15)</code></pre>
-<pre><code>## `summarise()` has grouped
-## output by &#39;sex&#39;. You can
-## override using the `.groups`
-## argument.</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by sex and species_id.
+## ℹ Output is grouped by sex.
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 64 × 3
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight
@@ -965,10 +977,12 @@ species for each sex:</p>
   group_by(sex, species_id) %&gt;%
   summarize(mean_weight = mean(weight),
             min_weight = min(weight))</code></pre>
-<pre><code>## `summarise()` has grouped
-## output by &#39;sex&#39;. You can
-## override using the `.groups`
-## argument.</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by sex and species_id.
+## ℹ Output is grouped by sex.
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 64 × 4
 ## # Groups:   sex [3]
 ##    sex   species_id mean_weight min_weight

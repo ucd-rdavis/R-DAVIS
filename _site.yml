@@ -8,6 +8,9 @@ navbar:
   - text: Syllabus
     href: syllabus.html
     icon: fa-map fa-1x
+  - text: AI
+    href: AI.html
+    icon: fa-robot fa-1x
   - text: Set Up
     menu:
     - text: Computer Setup

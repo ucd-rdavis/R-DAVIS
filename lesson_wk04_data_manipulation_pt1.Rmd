@@ -27,15 +27,6 @@ title: 'Wk04: Manipulating and analyzing data in the tidyverse, Part 1'
 
 [Submit Week 4 In Class Coding](https://canvas.ucdavis.edu/courses/1019595/assignments/1509410)
 
-```{r, echo=FALSE, purl=FALSE, message = FALSE}
-#source("setup.R")
-surveys <- read.csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv")
-suppressWarnings(surveys$date <- lubridate::ymd(paste(surveys$year,
-                                                      surveys$month,
-                                                      surveys$day,
-                                                      sep = "-")))
-```
-
 ## Data Manipulation using **`dplyr`** and **`tidyr`**
 
 Bracket subsetting is handy, but it can be cumbersome and difficult to read,
@@ -52,6 +43,7 @@ already have installed the **`tidyverse`** package. This is an
 work together well such as **`tidyr`**, **`dplyr`**, **`ggplot2`**, **`tibble`**, etc.
 
 The **`tidyverse`** package tries to address 3 major problems with some of base R functions:
+
 1. The results from a base R function sometimes depend on the type of data.
 2. Using R expressions in a non standard way, which can be confusing for new learners.
 3. Hidden arguments, having default operations that new learners are not aware of.
@@ -84,7 +76,7 @@ The package **`tidyr`** addresses the common problem of wanting to reshape your 
 To learn more about **`dplyr`** and **`tidyr`** after the workshop, you may want to check out this
 [handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf) and this [one about **`tidyr`**](https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf).
 
-We'll read in our data using the `read_csv()` function, from the tidyverse package **`readr`**, instead of `read.csv()`, the base function for reading in data. The data we are going to be using today should already be in your R_DAVIS_2022 project in the folder `data`. 
+We'll read in our data using the `read_csv()` function, from the tidyverse package **`readr`**, instead of `read.csv()`, the base function for reading in data. The data we are going to be using today should already be in your R_DAVIS_2025 project in the folder `data`. 
 
 ```{r,results = 'hide', purl = FALSE}
 surveys <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv")
@@ -105,7 +97,7 @@ on one screen.
 ## Selecting columns and filtering rows
 
 We're going to learn some of the most common **`dplyr`** functions: `select()`,
-`filter()`, `mutate()`, `group_by()`, `summarize()`, and `join`. To select columns of a
+`filter()`, `mutate()`, `group_by()`, and `summarize()`. To select columns of a
 data frame, use `select()`. The first argument to this function is the data
 frame (`surveys`), and the subsequent arguments are the **columns** to keep.
 
@@ -299,13 +291,7 @@ surveys %>%
   summarize(mean_weight = mean(weight, na.rm = TRUE))
 ```
 
-<<<<<<< HEAD
-We can also remove the missing values for weight before we
-attempt to calculate the summary statistics on weight. Because the missing
-values are removed first, we can omit `na.rm = TRUE` when computing the mean:
-=======
 We can also remove the missing values for weight before we attempt to calculate the summary statistics on weight. Because the missing values are removed first, we can omit `na.rm = TRUE` when computing the mean:
->>>>>>> 83bf97577a6ea82d792b524ae8c1ca8fac23c1e6
 
 ```{r, purl = FALSE}
 surveys %>%
@@ -343,8 +329,7 @@ surveys %>%
 ### Challenge
 
 1. What was the weight of the heaviest animal measured in each year? Return a table with three columns: year, weight of the heaviest animal in grams, and weight in kilograms, arranged (`arrange()`) in descending order, from heaviest to lightest.  (This table should have 26 rows, one for each year)  
-2. Try out a new function, `count()`. Group the data by `sex` and pipe the grouped data into the `count()` function. How could you get the same result
-using `group_by()` and `summarize()`? Hint: see `?n`.
+2. Try out a new function, `count()`. Group the data by `sex` and pipe the grouped data into the `count()` function. How could you get the same result using `group_by()` and `summarize()`? Hint: see `?n`.
 
 <details>
 <summary>ANSWER</summary>

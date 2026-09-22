@@ -24,7 +24,7 @@ title: 'Wk05: Manipulating and analyzing data in the tidyverse, Part 2'
 
 ## Conditional Statements  
 
-When working with your data, you may want to create a new variable in a data frame, but only if a certain conditions are true. Conditional statements are a series of logical conditions that can help you manipulate your data to create new variables.
+When working with your data, you may want to create a new variable in a data frame, but only if certain conditions are true. Conditional statements are a series of logical conditions that can help you manipulate your data to create new variables.
 
 We'll begin again with our surveys data, and remember to load in the tidyverse
 
@@ -91,10 +91,10 @@ Hint: Explore the iris data using `summary(iris$Petal.Length)`, to see the petal
 <summary>ANSWER</summary>
 ```{r challenge1, purl=FALSE}
 
-iris$petal.length.cat <- ifelse(iris$Petal.Length <= 1.6, "low", 
-                          ifelse(iris$Petal.Length > 1.6 & 
+iris$petal.length.cat <- ifelse(iris$Petal.Length <= 1.6, "small",
+                          ifelse(iris$Petal.Length > 1.6 &
                                    iris$Petal.Length < 5.1, "medium",
-                           "high"))
+                           "large"))
 
 iris %>% 
   mutate(
@@ -202,7 +202,7 @@ with each record (the unit), values such the weight or sex of each animal
 associated with each record. What if instead of comparing records, we 
 wanted to compare the different mean weight of each species between plots? 
 
-We'd need to create a new table where each row (the unit) is comprise of values of variables associated with each plot. In practical terms this means the values
+We'd need to create a new table where each row (the unit) is comprised of values of variables associated with each plot. In practical terms this means the values
 of the species in `species` would become the names of column variables and the cells would contain the values of the mean weight observed on each plot.
 
 Having created a new table, it is therefore straightforward to explore the 
@@ -295,8 +295,8 @@ surveys_long <- surveys_long %>%
 
 `pivot_wider` and `pivot_longer` are both new additions to the `tidyverse` which means there are some cool new blog posts detailing all their abilities. If you'd like to read more about this group of functions, check out these links:
 
-- [Blog post by Burno Rodrigues](https://brodrigues.co/posts/2019-03-20-pivot.html)
-- [tidyr's vignette](https://tidyr.tidyverse.org/dev/articles/pivot.html)
+- [Blog post by Bruno Rodrigues](https://brodrigues.co/posts/2019-03-20-pivot.html)
+- [tidyr's vignette](https://tidyr.tidyverse.org/articles/pivot.html)
 - [Hiroaki Yutani's slides](https://speakerdeck.com/yutannihilation/a-graphical-introduction-to-tidyrs-pivot-star?slide=1)
 
 <div class = "blue">
