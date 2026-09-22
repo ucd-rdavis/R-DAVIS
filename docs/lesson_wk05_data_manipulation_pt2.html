@@ -13,7 +13,7 @@
 
 <title>Wk05: Manipulating and analyzing data in the tidyverse, Part 2</title>
 
-<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
@@ -390,16 +390,16 @@ div.tocify {
       <a href="lesson_wk05_data_manipulation_pt2.html">Wk05 Data Manipulation Pt2</a>
     </li>
     <li>
-      <a href="lesson_wk07_data_visualization.html">Wk07 Data Visualization with ggplot2</a>
+      <a href="lesson_wk07_data_visualization.html">Wk07 Data Visualization I</a>
     </li>
     <li>
-      <a href="lesson_wk08_dates_and_functions.html">Wk08 Dates &amp; Times with Lubridate and Creating Functions</a>
+      <a href="lesson_wk08_data_visualization_pt2.html">Wk08 Data Visualization II</a>
     </li>
     <li>
-      <a href="lesson_wk09_iteration.html">Wk09 Iteration</a>
+      <a href="lesson_wk09_functions.html">Wk09 Functions</a>
     </li>
     <li>
-      <a href="lesson_wk10_review_and_markdown.html">Wk10 Review and Markdown</a>
+      <a href="lesson_wk10_iteration.html">Wk10 Iteration</a>
     </li>
   </ul>
 </li>
@@ -482,7 +482,7 @@ manipulation Part 2b: Joins</a></li>
 href="https://video.ucdavis.edu/media/Week+5%3A+Pivots+and+exporting+data/1_6dvv5g9q">Data
 manipulation Part 2c: Pivots and Exporting Data</a></li>
 <li><a
-href="https://canvas.ucdavis.edu/courses/1098028/assignments/1510680">Video
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714927">Video
 Discussion</a></li>
 </ul>
 <p><br></p>
@@ -504,7 +504,7 @@ length in our data. Using the summary function below, we see that the
 mean hindfoot length is 29.29, so let’s split the data at the mean using
 a conditional statement.</p>
 <pre class="r"><code>summary(surveys$hindfoot_length)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
 ##    2.00   21.00   32.00   29.29   36.00   70.00    4111</code></pre>
 <div id="ifelse-function" class="section level3">
 <h3>ifelse() function</h3>
@@ -646,7 +646,7 @@ shared columns between the two data frames. Let’s see what the
 ##   ..   record_id = col_double(),
 ##   ..   tail_length = col_double()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x98b3711a0&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
 <p>Looks like we have a data frame with 34,786 rows and two columns:
 <code>record_id</code> and <code>tail_length</code>. Luckily, both our
 <code>surveys</code> and <code>tail</code> data frames have the column
@@ -718,7 +718,7 @@ Let’s take a look at our new <code>surveys_joined</code> data frame:</p>
 ##   ..   taxa = col_character(),
 ##   ..   plot_type = col_character()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x98b3717a0&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
 <p>We now have a new data frame called <code>surveys_joined</code> which
 has all of the information from our original <code>surveys</code> data
 frame, plus the new <code>tail_length</code> column that we added when
@@ -816,8 +816,7 @@ plot:</p>
 ## ℹ Summaries were computed grouped by species_id and plot_id.
 ## ℹ Output is grouped by species_id.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(species_id, plot_id))` for per-operation grouping
-##   (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(species_id, plot_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre class="r"><code>str(surveys_mz) #let&#39;s take a look at the data</code></pre>
 <pre><code>## gropd_df [382 × 3] (S3: grouped_df/tbl_df/tbl/data.frame)
 ##  $ species_id : chr [1:382] &quot;BA&quot; &quot;BA&quot; &quot;BA&quot; &quot;BA&quot; ...
@@ -1023,7 +1022,7 @@ ANSWER
 <pre class="r"><code>## Answer 1
 surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 35549 Columns: 13
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
@@ -1038,8 +1037,7 @@ surveys &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_da
 ## ℹ Summaries were computed grouped by plot_id and year.
 ## ℹ Output is grouped by plot_id.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(plot_id, year))` for per-operation grouping
-##   (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(plot_id, year))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre class="r"><code>head(q1)</code></pre>
 <pre><code>## # A tibble: 6 × 27
 ## # Groups:   plot_id [6]
@@ -1071,8 +1069,8 @@ q2b &lt;- q2a %&gt;%
 ## ℹ Summaries were computed grouped by measurement_type and plot_type.
 ## ℹ Output is grouped by measurement_type.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(measurement_type, plot_type))` for per-operation
-##   grouping (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(measurement_type, plot_type))` for per-operation grouping (`?dplyr::dplyr_by`)
+##   instead.</code></pre>
 <pre class="r"><code>head(q2b)</code></pre>
 <pre><code>## # A tibble: 5 × 3
 ##   plot_type                 hindfoot_length weight
