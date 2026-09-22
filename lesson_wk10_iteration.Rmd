@@ -16,11 +16,11 @@ title: "Iteration, Iteration, Iteration, Iter"
 
 - [For loops](https://video.ucdavis.edu/media/Week9_Iteration_and_Apply/1_0e3vybqf/390286133)
 - Apply functions (part of same video above)
-- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1510683)
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714924)
 
 ## In Class Coding
 
-[Submit Week 9 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1510297)
+[Submit Week 10 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1714939)
 
 ```{r setup, echo=FALSE, purl=FALSE, message=F, results=F}
 library(dplyr)
