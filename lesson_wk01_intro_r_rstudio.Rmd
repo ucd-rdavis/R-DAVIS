@@ -17,9 +17,12 @@ title: 'Wk01: Orientation to programming, R, and RStudio'
 
 ## Videos
 
+----- VIDEOS FROM LAST YEAR ------
 - [Why programming and Intro to R (part 1)](https://video.ucdavis.edu/media/Orientation+to+programming+R+and+RStudio/1_74skxlby/390286133)
 - [Intro to R (part 2)](https://video.ucdavis.edu/media/Introduction+to+R/1_lc6zsh8j/390286133)
-- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714931)
+
+------ NO VIDEO DISCUSSION THIS WEEK ------
+- [Video Discussion]()
 
 ## In Class Coding
 
@@ -29,7 +32,7 @@ title: 'Wk01: Orientation to programming, R, and RStudio'
 
 # Why programming?
 
-Programming can make your science even better than it already is.
+Programming can make your work better than it already is.
 
 The basis of programming is that we write down instructions for the computer to
 follow, and then we tell the computer to follow those instructions. We write, or

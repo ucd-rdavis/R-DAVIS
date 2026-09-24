@@ -1,14 +1,7 @@
 ---
 pagetitle: "AI, R-DAVIS, and you"
 title: "AI"
-date: "Updated: `r format(Sys.Date())`"
 ---
-
-## (<font color="#DAAA00">**R**</font>-<font color="#DAAA00">**D**</font>ata <font color="#DAAA00">**A**</font>nalysis & <font color="#DAAA00">**V**</font>isualization <font color="#DAAA00">**I**</font>n <font color="#DAAA00">**S**</font>cience) {-}
-
-<br>
-
-### AI 
 
 We--instructors and students--come to this course with a wide range of beliefs and convictions about large language models (LLMs) like `Claude`, `ChatGPT`, `Gemini`, etc. Putting aside concerns about the future of humanity, here's where we are at in Fall 2026 for R-DAVIS: Despite all that these tools remain bad (or let's face it, just not yet good) at, the fact is that they can *easily* handle the level of basic coding expected by R-DAVIS with a little bit of context and prompt engineering (and an AI agent could *definitely* complete this course and earn an A). So what's the point of this class? 
 

@@ -455,721 +455,902 @@ R Thinks About Data</h1>
 </div>
 
 
-<div id="learning-objectives" class="section level3 blue">
-<h3>Learning objectives</h3>
-<ul>
-<li>Be able to describe the different data types R uses</li>
-<li>Use c(), str(), class(), and typeof() to make and investigate
-vectors</li>
-<li>Understand coercion between data types</li>
-<li>Know how factors work under the hood</li>
-<li>Be able to manipulate factors</li>
-</ul>
+<div id="under-revision" class="section level3 blue">
+<h3>Under revision</h3>
+<p>This lecture is being updated for the current quarter — check back
+soon.</p>
 </div>
-<p><br></p>
-<div id="videos" class="section level2">
-<h2>Videos</h2>
-<ul>
-<li><a
-href="https://video.ucdavis.edu/media/t/1_c5vl44hi/390286133">Project
-Management in RStudio</a></li>
-<li><a
-href="https://video.ucdavis.edu/media/Week2_HowRThinksData_1/1_k1x0v34a/390286133">How
-R thinks about data (vectors)</a></li>
-<li><a
-href="https://video.ucdavis.edu/media/Week2_HowRThinksData_2/1_t2wv5qr1/390286133">How
-R thinks about data (subsetting)</a></li>
-<li><a
-href="https://video.ucdavis.edu/media/Week2_HowRThinksData_3/1_w17p1iyl/390286133">How
-R thinks about data (vector math)</a></li>
-<li><a
-href="https://video.ucdavis.edu/media/Week2_HowRThinksData_4/1_4yudpeyo">How
-R thinks about data (missing values)</a></li>
-<li><a
-href="https://video.ucdavis.edu/media/Week2_HowRThinksData_5.mp4/1_iu848ida/390286133">How
-R thinks about data (not-vectors)</a></li>
-<li><a
-href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714930">Video
-Discussion</a></li>
-</ul>
+<!--
+
+<div class = "blue">
+
+### Learning objectives
+
+* Be able to describe the different data types R uses
+* Use c(), str(), class(), and typeof() to make and investigate vectors
+* Understand coercion between data types
+* Know how factors work under the hood
+* Be able to manipulate factors
+
 </div>
-<div id="in-class-coding" class="section level2">
-<h2>In Class Coding</h2>
-<p><a
-href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714935">Submit
-Week 2 In Class Coding</a></p>
-<p><br></p>
-</div>
-<div id="project-management-in-rstudio" class="section level1">
-<h1>Project Management in RStudio</h1>
-<p><br> <code>HOME</code> is where I want to be<br> But I guess I’m
-already there<br> I come home, a clean directory<br> I guess this must
-be the place</p>
-<p><img src="img/david_byrne_big_suit.gif" width="250" /></p>
 <br>
-<div id="learning-objectives-1" class="section level2 blue">
-<h2>Learning objectives</h2>
-<ul>
-<li>Understand motivation for code and data management</li>
-<li>Know how to organize code, data, and results</li>
-<li>Know the basics of file paths and directory structures</li>
-<li>Be able to create and use an RStudio project</li>
-</ul>
-</div>
-<p><br></p>
-<div id="working-directory-and-file-paths" class="section level2">
-<h2>Working Directory and File Paths</h2>
-<p>Any time you’re working in R, R needs to know where you are within
-your computer, which is referred to as the <em>working directory</em>.
-The working directory could be something like
-<code>"YourUsername/Documents"</code>, or it could be something more
-specific like <code>"YourUsername/Documents/GradSchool/Chapter1"</code>.
-Either way, R will think of everything in your computer as located
-relative to your working directory. One of the nicest parts of using R
-Projects is that they automatically set the working directory to the
-folder containing the .RProject file. You can see your current working
-directory by running the function <code>getwd()</code>, and you can set
-it using <code>setwd()</code>, but if you’re using an R Project, you
-generally shouldn’t mess with this too much.</p>
-<p>All directories and files in R (and most computer languages) are
-located using <em>file paths</em>. The two working directory examples we
-just used are written as file paths, with <code>/</code> put between
-different levels. Within <code>YourUsername</code> there is a folder
-called <code>Documents</code>, and within that there is a folder called
-<code>GradSchool</code>, and so on. In R, file paths are always wrapped
-in quotes. There are 2 basic kinds of file paths: <em>absolute</em> and
-<em>relative</em>. Absolute paths list out the full file path, usually
-starting with your username, which you can also refer to using the
-shortcut <code>~</code>. So instead of
-<code>YourUsername/Documents</code>, you can type
-<code>~/Documents</code>. However, if you’ve got folders within folders
-within folders, typing out absolute paths can get really tedious.
-<em>Relative</em> paths are <em>relative</em> to your working directory.
-So if R thinks we’re in that <code>Chapter1</code> folder, and we want
-to access a folder inside it called <code>data</code>, we can just type
-<code>data</code> instead of
-<code>"YourUsername/Documents/GradSchool/Chapter1/data"</code>. What
-happens if we need to go up a level, into <code>GradSchool</code>? Well
-we can type <code>..</code> to go up a level. So if we need to grab
-something from our <code>Chapter2</code> folder, but our working
-directory is <code>Chapter1</code>, we would type
-<code>../Chapter2/FileWeWant</code>.</p>
-</div>
-<div id="code-data-organization" class="section level2">
-<h2>Code &amp; Data Organization</h2>
-<p>The scientific process is naturally incremental, and many projects
-start life as random notes, some code, then a manuscript, and eventually
-everything is a bit mixed together.</p>
-<blockquote>
-<p>“Your greatest enemy is yourself four months ago” -Every grad student
-ever</p>
-</blockquote>
-<p>A good project layout will ultimately make your life easier:</p>
-<ul>
-<li>It makes it easier to understand the pipeline from source data to
-final product</li>
-<li>It helps ensure the integrity of your data</li>
-<li>It makes it simpler to share your code with someone else</li>
-<li>It allows you to easily upload your code with your manuscript
-submission</li>
-<li>It makes it easier to pick the project back up after a break</li>
-</ul>
-<div id="best-practices-for-project-organization"
-class="section level3">
-<h3>Best practices for project organization</h3>
-<p>Although there is no “best” way to lay out a project, there are some
-general principles to adhere to that will make project management
-easier:</p>
-<div id="treat-raw-data-as-read-only" class="section level4">
-<h4>Treat raw data as read only</h4>
-<p>This is probably the most important goal of setting up a project. Raw
-data should never be edited, because you can never be sure that you will
-want to keep any edit you make, and you want to have a record of any
-changes you make to data. Therefore, treat your raw data as “read only”,
-perhaps even making a <code>raw_data</code> directory that is never
-modified. If you do some data cleaning or modification, save the
-modified file separate from the raw data, and ideally keep all the
-modifying actions in a script so that you can review and revise them as
-needed in the future.</p>
-</div>
-<div id="treat-generated-output-as-disposable" class="section level4">
-<h4>Treat generated output as disposable</h4>
-<p>Anything generated by your scripts should be treated as disposable:
-it should all be able to be regenerated from your scripts. There are
-lots of different ways to manage this output, and what’s best may depend
-on the particular kind of project. At a minimum, it’s useful to have
-separate directories for each of the following:</p>
-<ul>
-<li>data: Ideally .csv files as these are flat, transparent, and
-universal. You may have other specialized formats as well. .rda and .rds
-are R-specific data files but you never <em>need</em> to use these.</li>
-<li>scripts (or code): .R files, perhaps .do files if Stata is your
-thing, .py files for Python, etc.</li>
-<li>results: .png or .pdf files for plots; .tex or .txt files for
-tables</li>
-<li>papers: .tex if you write in LaTeX, .doc for Word, .Rmd for
-RMarkdown, and .pdf or .html rendered documents.</li>
-</ul>
-</div>
-<div id="rstudio-projects" class="section level4">
-<h4>RStudio Projects</h4>
-<p>As we learned last week, RStudio has a feature to help keep
-everything organized in a self-contained, reproducible package, called a
-“project”.</p>
-<p>A project is a small file with a <code>.Rproj</code> extension, but
-you can think of all the files and sub-directories as belonging to that
-project. We recommend creating a directory and a project file for each
-project you work on. It should look something like this:</p>
-<p><img src="img/working-directory-structure.png" /></p>
-<p>Open the R Project file “R_DAVIS_2025” you made for this class. You
-can do this by going to your file explorer (“Finder” on a Mac) and
-double clicking the file. Alternatively, you can open an existing
-project from within RStudio by clicking “File -&gt; Open project…”, or
-by going to the top right with the blue R symbol and clicking your
-project from the drop-down menu.</p>
-<p>Let’s now make a directory structure for your R_DAVIS_2025 project,
-using the structure described above: a folder for each of data, scripts,
-results, and papers. You can do this in RStudio by clicking on the “New
-Folder” button in the Files pane, or in your OS by navigating to the
-directory you just created.</p>
+
+## Videos
+- [Project Management in RStudio](https://video.ucdavis.edu/media/t/1_c5vl44hi/390286133)
+- [How R thinks about data (vectors)](https://video.ucdavis.edu/media/Week2_HowRThinksData_1/1_k1x0v34a/390286133)
+- [How R thinks about data (subsetting)](https://video.ucdavis.edu/media/Week2_HowRThinksData_2/1_t2wv5qr1/390286133)
+- [How R thinks about data (vector math)](https://video.ucdavis.edu/media/Week2_HowRThinksData_3/1_w17p1iyl/390286133)
+- [How R thinks about data (missing values)](https://video.ucdavis.edu/media/Week2_HowRThinksData_4/1_4yudpeyo)
+- [How R thinks about data (not-vectors)](https://video.ucdavis.edu/media/Week2_HowRThinksData_5.mp4/1_iu848ida/390286133)
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714930)
+
+## In Class Coding
+
+[Submit Week 2 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1714935)
+
 <br>
+
+
+# Project Management in RStudio
+
+<br>
+`HOME` is where I want to be<br>
+But I guess I'm already there<br>
+I come home, a clean directory<br>
+I guess this must be the place
+
+![](img/david_byrne_big_suit.gif){width=250px}
+
+<br>
+<div class = "blue">
+## Learning objectives
+
+* Understand motivation for code and data management
+* Know how to organize code, data, and results
+* Know the basics of file paths and directory structures
+* Be able to create and use an RStudio project
 </div>
-<div id="challenge---file-navigation" class="section level4 blue">
-<h4>Challenge - File Navigation</h4>
-<ul>
-<li>Open up a new R script (File &gt; New File &gt; R Script) and save
-it in your scripts folder as test_script.R”. In this script, check out
-your working directory with the <code>getwd()</code> function. Your
-working directory should be your new project.
-<ul>
-<li>In your test script, type quotation marks and navigate through your
-file paths to find this “test_script.R” file. (Hint: Use tab to show you
-were you are in your file path.)</li>
-<li>Play around with navigating your file paths by experimenting with
-the following symbols inside the quotation marks: a tilde with a forward
-slash (“~/”), forward slashes on their own (“/”), and two periods
-followed by a forward slash (“../”).</li>
-</ul></li>
-</ul>
+
+<br>
+
+## Working Directory and File Paths
+
+Any time you're working in R, R needs to know where you are within your computer, which is referred to as the *working directory*. The working directory could be something like `"YourUsername/Documents"`, or it could be something more specific like `"YourUsername/Documents/GradSchool/Chapter1"`. Either way, R will think of everything in your computer as located relative to your working directory. One of the nicest parts of using R Projects is that they automatically set the working directory to the folder containing the .RProject file. You can see your current working directory by running the function `getwd()`, and you can set it using `setwd()`, but if you're using an R Project, you generally shouldn't mess with this too much.
+
+All directories and files in R (and most computer languages) are located using *file paths*. The two working directory examples we just used are written as file paths, with `/` put between different levels. Within `YourUsername` there is a folder called `Documents`, and within that there is a folder called `GradSchool`, and so on. In R, file paths are always wrapped in quotes. There are 2 basic kinds of file paths: *absolute* and *relative*. Absolute paths list out the full file path, usually starting with your username, which you can also refer to using the shortcut `~`. So instead of `YourUsername/Documents`, you can type `~/Documents`. However, if you've got folders within folders within folders, typing out absolute paths can get really tedious. *Relative* paths are *relative* to your working directory. So if R thinks we're in that `Chapter1` folder, and we want to access a folder inside it called `data`, we can just type `data` instead of `"YourUsername/Documents/GradSchool/Chapter1/data"`. What happens if we need to go up a level, into `GradSchool`? Well we can type `..` to go up a level. So if we need to grab something from our `Chapter2` folder, but our working directory is `Chapter1`, we would type `../Chapter2/FileWeWant`.
+
+## Code & Data Organization
+
+The scientific process is naturally incremental, and many projects
+start life as random notes, some code, then a manuscript, and
+eventually everything is a bit mixed together.
+
+> "Your greatest enemy is yourself four months ago" -Every grad student ever
+
+A good project layout will ultimately make your life easier:
+
+* It makes it easier to understand the pipeline from source data to final product
+* It helps ensure the integrity of your data
+* It makes it simpler to share your code with someone else
+* It allows you to easily upload your code with your manuscript submission
+* It makes it easier to pick the project back up after a break
+
+### Best practices for project organization
+
+Although there is no "best" way to lay out a project, there are some general
+principles to adhere to that will make project management easier:
+
+#### Treat raw data as read only
+
+This is probably the most important goal of setting up a project. Raw data should never be edited, because you can never be sure that you will want to keep any edit you make, and you want to have a record of any changes you make to data. Therefore, treat your raw data as "read only", perhaps even making a `raw_data` directory that is never modified. If you do some data cleaning or modification, save the modified file separate from the raw data, and ideally keep all the modifying actions in a script so that you can review and revise them as needed in the future.
+
+#### Treat generated output as disposable
+
+Anything generated by your scripts should be treated as disposable: it should
+all be able to be regenerated from your scripts. There are lots of different ways
+to manage this output, and what's best may depend on the particular kind of project.
+At a minimum, it's useful to have separate directories for each of the following:
+
+- data: Ideally .csv files as these are flat, transparent, and universal. You may have other specialized formats as well. .rda and .rds are R-specific data files but you never *need* to use these.
+- scripts (or code): .R files, perhaps .do files if Stata is your thing, .py files for Python, etc.
+- results: .png or .pdf files for plots; .tex or .txt files for tables
+- papers: .tex if you write in LaTeX, .doc for Word, .Rmd for RMarkdown, and .pdf or .html rendered documents.
+
+#### RStudio Projects
+
+As we learned last week, RStudio has a feature to help keep everything organized in a self-contained, 
+reproducible package, called a "project".
+
+A project is a small file with a `.Rproj` extension, but you can think of all 
+the files and sub-directories as belonging to that project. We recommend 
+creating a directory and a project file for each project you work on. It should 
+look something like this:
+
+![](img/working-directory-structure.png)
+
+Open the R Project file "R_DAVIS_2025" you made for this class. You can do this by going to your file explorer ("Finder" on a Mac) and double clicking the file. Alternatively, you can open an existing project from within RStudio by clicking "File -> Open project...", or by going to the top right with the blue R symbol and clicking your project from the drop-down menu.
+
+Let's now make a directory structure for your R_DAVIS_2025 project, using the structure
+described above: a folder for each of data, scripts, results, and papers. You can 
+do this in RStudio by clicking on the "New Folder" button in the Files pane, or 
+in your OS by navigating to the directory you just created. 
+
+<br>
+<div class = "blue">
+
+#### Challenge - File Navigation
+- Open up a new R script (File > New File > R Script) and save it in your scripts folder as test_script.R". In this script, check out your working directory with the `getwd()` function. Your working directory should be your new project.
+  - In your test script, type quotation marks and navigate through your file paths to find this "test_script.R" file. (Hint: Use tab to show you were you are in your file path.)
+  - Play around with navigating your file paths by experimenting with the following symbols inside the quotation marks: a tilde with a forward slash ("~/"), forward slashes on their own ("/"), and two periods followed by a forward slash ("../").
 </div>
-<p><br></p>
-<p>Go up to the right hand corner of your screen and click the pull down
-tab that currently says R_DAVIS_2025. Once you click it, you can toggle
-between multiple projects at once by clicking the white square/arrow
-icon next to the project name. This will allow you to have multiple
-projects open at once. If you want to switch projects completely, just
-click the project name (not the white square/arrow icon).</p>
-<p>It is good to come up with some kind of naming convention that you
-can keep consistently (e.g. lastname_week_2.R).</p>
-</div>
-</div>
-</div>
-<div id="how-r-thinks-about-data" class="section level1">
-<h1>How R Thinks About Data</h1>
-<div id="why-learn-this-stuff" class="section level2">
-<h2>Why Learn This Stuff?</h2>
-<p>It can be helpful to think of R, and your computer in general, as a
-collaborator who speaks a different language from you and is remarkably
-pedantic, but remarkably skilled as well. Learning a new language is
-difficult, and learning to speak it to an extremely literal and pedantic
-collaborator can make it even more frustrating. In such a collaboration,
-it might be useful to spend a little time learning the fundamentals of
-the language, understanding how you might interpret things differently,
-and not just rushing to “data data data!”</p>
-<p>While this stuff might not be the most exciting material, or even
-feel useful right now, it is remarkably important in laying the
-groundwork for a fruitful collaboration with R. Skipping past this stuff
-and rushing to the finish line can leave you with a) error messages that
-don’t make sense to you, b) problems that are difficult to Google
-solutions to, and c) problems that R never even warns you about, because
-R didn’t think there was anything wrong!</p>
-<p>All that being said, building a solid understanding of these
-fundamental ideas will save you headaches in the future, and leave you
-more well equipped to deal with new projects and concepts.</p>
-</div>
-<div id="vectors-and-data-types" class="section level2">
-<h2>Vectors and data types</h2>
-<p>Vectors are the most basic way that R deals with data. A vector is
-made up of a series of values, which could be numbers or characters.
-Remember when we learned how to assign values to objects, like
-<code>x &lt;- 5</code>? Once we do that, x is a vector with a length of
-1. Basically everything in R will be a vector or a bunch of vectors
-bound together in some way, so knowing how vectors work is crucial to
-working with more complex data structures.</p>
-<p>We can bind together a series of values into a vector using the
-<code>c()</code> function. For example we can create a vector of animal
-weights and assign it to a new object <code>weight_g</code>:</p>
-<pre class="r"><code>weight_g &lt;- c(50, 60, 65, 82)
-weight_g</code></pre>
-<pre><code>## [1] 50 60 65 82</code></pre>
-<p>A vector can also contain characters:</p>
-<pre class="r"><code>animals &lt;- c(&quot;mouse&quot;, &quot;rat&quot;, &quot;dog&quot;)
-animals</code></pre>
-<pre><code>## [1] &quot;mouse&quot; &quot;rat&quot;   &quot;dog&quot;</code></pre>
-<p>The quotes around “mouse”, “rat”, etc. are essential here. Without
-the quotes R will assume there are objects called <code>mouse</code>,
-<code>rat</code> and <code>dog</code>. As these objects don’t exist in
-R’s memory, there will be an error message. You can use either single
-<code>'</code> or double <code>"</code> quotes for characters.</p>
-<p>There are many functions that allow you to inspect the content of a
-vector. <code>length()</code> tells you how many elements are in a
-particular vector:</p>
-<pre class="r"><code>length(weight_g)</code></pre>
-<pre><code>## [1] 4</code></pre>
-<pre class="r"><code>length(animals)</code></pre>
-<pre><code>## [1] 3</code></pre>
-<p>An important feature of a vector is that all of the elements are the
-same type of data. The function <code>class()</code> indicates the class
-(the type of element) of an object:</p>
-<pre class="r"><code>class(weight_g)</code></pre>
-<pre><code>## [1] &quot;numeric&quot;</code></pre>
-<pre class="r"><code>class(animals)</code></pre>
-<pre><code>## [1] &quot;character&quot;</code></pre>
-<p>The function <code>str()</code> provides an overview of the structure
-of an object and its elements. It is a useful function when working with
-large and complex objects.</p>
-<pre class="r"><code>str(weight_g)</code></pre>
-<pre><code>##  num [1:4] 50 60 65 82</code></pre>
-<pre class="r"><code>str(animals)</code></pre>
-<pre><code>##  chr [1:3] &quot;mouse&quot; &quot;rat&quot; &quot;dog&quot;</code></pre>
-<p>A vector can be modified, adding values to the start or end of it.
-You can use the <code>c()</code> function to add other elements to your
-vector:</p>
-<pre class="r"><code>weight_g &lt;- c(weight_g, 90) # add to the end of the vector
-weight_g &lt;- c(30, weight_g) # add to the beginning of the vector
-weight_g</code></pre>
-<pre><code>## [1] 30 50 60 65 82 90</code></pre>
-<p>In the first line, we take the original vector <code>weight_g</code>,
-add the value <code>90</code> to the end of it, and save the result back
-into <code>weight_g</code>. Then we add the value <code>30</code> to the
-beginning, again saving the result back into <code>weight_g</code>.</p>
-<p>An <strong>atomic vector</strong> is the simplest R <strong>data
-structure</strong> and is a linear vector of a single type. Above, we
-saw 2 of the main <strong>atomic vector</strong> types that R uses:
-<code>"character"</code> and <code>"numeric"</code> (or
-<code>"double"</code>), which are numbers that can include decimals.
-These are the basic building blocks that all R objects are built from.
-There are 2 other <strong>atomic vector</strong> types that you’ll often
-encounter:</p>
-<ul>
-<li><code>"logical"</code> for <code>TRUE</code> and <code>FALSE</code>
-(the boolean data type)</li>
-<li><code>"integer"</code> for integer numbers (e.g., <code>2L</code>,
-the <code>L</code> indicates to R that it’s an integer)</li>
-</ul>
-<p>There are some other types, like <code>complex</code> and
-<code>raw</code> but you’ll rarely, if ever, encounter them, so we won’t
-go into them further.</p>
-<p>You can check the type of your vector using the <code>typeof()</code>
-function and inputting your vector as the argument.
-<code>typeof()</code> is similar to <code>class()</code>, but it digs
-even deeper down to the bare bones of how R thinks about data. The
-difference is less important now, but we’ll come back around to it.</p>
-<div id="challenge" class="section level3 blue">
-<h3>Challenge</h3>
-<ul>
-<li><p>We’ve seen that atomic vectors can be of type character, numeric
-(or double), integer, and logical. But what happens if we try to mix
-these types in a single vector?</p></li>
-<li><p>What will happen in each of these examples? (hint: use
-<code>class()</code> to check the data type of your objects):</p></li>
-</ul>
-<pre class="r"><code>num_char &lt;- c(1, 2, 3, &quot;a&quot;)
-num_logical &lt;- c(1, 2, 3, TRUE)
-char_logical &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, TRUE)
-tricky &lt;- c(1, 2, 3, &quot;4&quot;)</code></pre>
-<ul>
-<li>Why do you think it happens?</li>
-</ul>
+
+<br>
+
+Go up to the right hand corner of your screen and click the pull down tab that currently says R_DAVIS_2025. Once you click it, you can toggle between multiple projects at once by clicking the white square/arrow icon next to the project name. This will allow you to have multiple projects open at once. If you want to switch projects completely, just click the project name (not the white square/arrow icon). 
+
+It is good to come up with some kind of naming convention that you can keep consistently (e.g. lastname_week_2.R).
+
+# How R Thinks About Data
+
+## Why Learn This Stuff?
+
+It can be helpful to think of R, and your computer in general, as a collaborator who speaks a different language from you and is remarkably pedantic, but remarkably skilled as well. Learning a new language is difficult, and learning to speak it to an extremely literal and pedantic collaborator can make it even more frustrating. In such a collaboration, it might be useful to spend a little time learning the fundamentals of the language, understanding how you might interpret things differently, and not just rushing to "data data data!"
+
+While this stuff might not be the most exciting material, or even feel useful right now, it is remarkably important in laying the groundwork for a fruitful collaboration with R. Skipping past this stuff and rushing to the finish line can leave you with a) error messages that don't make sense to you, b) problems that are difficult to Google solutions to, and c) problems that R never even warns you about, because R didn't think there was anything wrong!
+
+All that being said, building a solid understanding of these fundamental ideas will save you headaches in the future, and leave you more well equipped to deal with new projects and concepts.
+
+## Vectors and data types
+
+
+
+Vectors are the most basic way that R deals with data. A vector is made up of a series of values, which could be numbers or characters. Remember when we learned how to assign values to objects, like `x <- 5`? Once we do that, x is a vector with a length of 1. Basically everything in R will be a vector or a bunch of vectors bound together in some way, so knowing how vectors work is crucial to working with more complex data structures.
+
+We can bind together a series of values into a vector using
+the `c()` function. For example we can create a vector of animal weights and assign
+it to a new object `weight_g`:
+
+
+``` r
+weight_g <- c(50, 60, 65, 82)
+weight_g
+```
+
+```
+## [1] 50 60 65 82
+```
+
+A vector can also contain characters:
+
+
+``` r
+animals <- c("mouse", "rat", "dog")
+animals
+```
+
+```
+## [1] "mouse" "rat"   "dog"
+```
+
+The quotes around "mouse", "rat", etc. are essential here. Without the quotes R
+will assume there are objects called `mouse`, `rat` and `dog`. As these objects
+don't exist in R's memory, there will be an error message. You can use either single `'` or double `"` quotes for characters.
+
+There are many functions that allow you to inspect the content of a
+vector. `length()` tells you how many elements are in a particular vector:
+
+
+``` r
+length(weight_g)
+```
+
+```
+## [1] 4
+```
+
+``` r
+length(animals)
+```
+
+```
+## [1] 3
+```
+
+An important feature of a vector is that all of the elements are the same type of data.
+The function `class()` indicates the class (the type of element) of an object:
+
+
+``` r
+class(weight_g)
+```
+
+```
+## [1] "numeric"
+```
+
+``` r
+class(animals)
+```
+
+```
+## [1] "character"
+```
+
+The function `str()` provides an overview of the structure of an object and its
+elements. It is a useful function when working with large and complex
+objects.
+
+
+``` r
+str(weight_g)
+```
+
+```
+##  num [1:4] 50 60 65 82
+```
+
+``` r
+str(animals)
+```
+
+```
+##  chr [1:3] "mouse" "rat" "dog"
+```
+
+A vector can be modified, adding values to the start or end of it. You can use the `c()` function to add other elements to your vector:
+
+``` r
+weight_g <- c(weight_g, 90) # add to the end of the vector
+weight_g <- c(30, weight_g) # add to the beginning of the vector
+weight_g
+```
+
+```
+## [1] 30 50 60 65 82 90
+```
+
+In the first line, we take the original vector `weight_g`,
+add the value `90` to the end of it, and save the result back into
+`weight_g`. Then we add the value `30` to the beginning, again saving the result
+back into `weight_g`.
+
+An **atomic vector** is the simplest R **data structure** and is a linear vector of a single type. Above, we saw 
+2 of the main **atomic vector** types  that R
+uses: `"character"` and `"numeric"` (or `"double"`), which are numbers that can include decimals. These are the basic building blocks that all R objects are built from. There are 2 other **atomic vector** types that you'll often encounter:
+
+* `"logical"` for `TRUE` and `FALSE` (the boolean data type)
+* `"integer"` for integer numbers (e.g., `2L`, the `L` indicates to R that it's an integer)
+
+There are some other types, like `complex` and `raw` but you'll rarely, if ever, encounter them, so we won't go into them further.
+
+You can check the type of your vector using the `typeof()` function and inputting your vector as the argument. `typeof()` is similar to `class()`, but it digs even deeper down to the bare bones of how R thinks about data. The difference is less important now, but we'll come back around to it.
+
+<div class = "blue">
+### Challenge
+
+* We've seen that atomic vectors can be of type character,
+  numeric (or double), integer, and logical. But what happens if we try to mix these types in
+  a single vector?
+
+* What will happen in each of these examples? (hint: use `class()`
+  to check the data type of your objects):
+
+
+``` r
+num_char <- c(1, 2, 3, "a")
+num_logical <- c(1, 2, 3, TRUE)
+char_logical <- c("a", "b", "c", TRUE)
+tricky <- c(1, 2, 3, "4")
+```
+
+* Why do you think it happens?
+
 <details>
-<summary>
-ANSWER
-</summary>
-Vectors can be of only one data type. R tries to convert (coerce) the
-content of this vector to find a “common denominator” that doesn’t lose
-any information.
+<summary>ANSWER</summary>
+Vectors can be of only one data type. R tries to
+convert (coerce) the content of this vector to find a "common
+denominator" that doesn't lose any information.
 </details>
-<ul>
-<li>How many values in <code>combined_logical</code> are
-<code>"TRUE"</code> (as a character) in the following example:</li>
-</ul>
-<pre class="r"><code>num_logical &lt;- c(1, 2, 3, TRUE)
-char_logical &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, TRUE)
-combined_logical &lt;- c(num_logical, char_logical)</code></pre>
-<ul>
-<li>You’ve probably noticed that objects of different types get
-converted into a single, shared type within a vector. In R, we call
-converting objects from one class into another class <em>coercion</em>.
-These conversions happen according to a hierarchy, whereby some types
-get preferentially coerced into other types. Can you draw a diagram that
-represents the hierarchy of how these data types are coerced?</li>
-</ul>
+
+* How many values in `combined_logical` are `"TRUE"` (as a character) in the
+  following example:
+
+``` r
+num_logical <- c(1, 2, 3, TRUE)
+char_logical <- c("a", "b", "c", TRUE)
+combined_logical <- c(num_logical, char_logical)
+```
+
+
+* You've probably noticed that objects of different types get
+  converted into a single, shared type within a vector. In R, we
+  call converting objects from one class into another class
+  _coercion_. These conversions happen according to a hierarchy,
+  whereby some types get preferentially coerced into other
+  types. Can you draw a diagram that represents the hierarchy of how
+  these data types are coerced?
+
 </div>
-</div>
-<div id="subsetting-vectors" class="section level2">
-<h2>Subsetting vectors</h2>
-<p>If we want to extract one or several values from a vector, we must
-provide one or several indices in square brackets.</p>
-<pre class="r"><code>animals &lt;- c(&quot;mouse&quot;, &quot;rat&quot;, &quot;dog&quot;, &quot;cat&quot;)
-animals[2] # could be read as &quot;return the second value in animals&quot;</code></pre>
-<pre><code>## [1] &quot;rat&quot;</code></pre>
-<pre class="r"><code>animals[c(3, 2)] # could be read as &quot;return the third and second values in animals&quot;</code></pre>
-<pre><code>## [1] &quot;dog&quot; &quot;rat&quot;</code></pre>
-<p>We can also repeat the indices to create an object with more elements
-than the original one:</p>
-<pre class="r"><code>animals[c(1, 2, 3, 2, 1, 4)]</code></pre>
-<pre><code>## [1] &quot;mouse&quot; &quot;rat&quot;   &quot;dog&quot;   &quot;rat&quot;   &quot;mouse&quot; &quot;cat&quot;</code></pre>
-<p>R indices start at 1. Programming languages like Fortran, MATLAB,
-Julia, and R start counting at 1, because that’s what human beings
-typically do. Languages in the C family (including C++, Java, Perl, and
-Python) count from 0 because that’s simpler for computers to do.</p>
-<div id="conditional-subsetting" class="section level3">
-<h3>Conditional subsetting</h3>
-<p>Another common way of subsetting is by using a logical vector.
-<code>TRUE</code> will select the element with the same index, while
-<code>FALSE</code> will not:</p>
-<pre class="r"><code>weight_g &lt;- c(21, 34, 39, 54, 55)
-weight_g[c(TRUE, FALSE, TRUE, TRUE, FALSE)] # could be read as &quot;give me the first value, not the second value, etc.&quot;</code></pre>
-<pre><code>## [1] 21 39 54</code></pre>
-<p>Typically, these logical vectors are not typed by hand, but are the
-output of other functions or logical tests. For instance, if you wanted
-to select only the values above 50:</p>
-<pre class="r"><code>weight_g &gt; 50    # will return logicals with TRUE for the indices that meet the condition</code></pre>
-<pre><code>## [1] FALSE FALSE FALSE  TRUE  TRUE</code></pre>
-<pre class="r"><code>## so we can use this to select only the values above 50
-weight_g[weight_g &gt; 50]</code></pre>
-<pre><code>## [1] 54 55</code></pre>
-<p>You can combine multiple tests using <code>&amp;</code> (both
-conditions are true, AND) or <code>|</code> (at least one of the
-conditions is true, OR):</p>
-<pre class="r"><code>weight_g[weight_g &lt; 30 | weight_g &gt; 50]</code></pre>
-<pre><code>## [1] 21 54 55</code></pre>
-<pre class="r"><code>weight_g[weight_g &gt;= 30 &amp; weight_g == 21]</code></pre>
-<pre><code>## numeric(0)</code></pre>
-<p>Here, <code>&lt;</code> stands for “less than”, <code>&gt;</code> for
-“greater than”, <code>&gt;=</code> for “greater than or equal to”, and
-<code>==</code> for “equal to”. The double equal sign <code>==</code> is
-a test for numerical equality between the left and right hand sides, and
-should not be confused with the single <code>=</code> sign, which
-performs variable assignment (similar to <code>&lt;-</code>).</p>
-<p>A common task is to search for certain strings in a vector. One could
-use the “or” operator <code>|</code> to test for equality to multiple
-values, but this can quickly become tedious. The function
-<code>%in%</code> allows you to test if any of the elements of a search
-vector are found:</p>
-<pre class="r"><code>animals &lt;- c(&quot;mouse&quot;, &quot;rat&quot;, &quot;dog&quot;, &quot;cat&quot;)
-animals[animals == &quot;cat&quot; | animals == &quot;rat&quot;] # returns both rat and cat</code></pre>
-<pre><code>## [1] &quot;rat&quot; &quot;cat&quot;</code></pre>
-<pre class="r"><code>animals %in% c(&quot;rat&quot;, &quot;cat&quot;, &quot;dog&quot;, &quot;duck&quot;, &quot;goat&quot;)</code></pre>
-<pre><code>## [1] FALSE  TRUE  TRUE  TRUE</code></pre>
-<pre class="r"><code>animals[animals %in% c(&quot;rat&quot;, &quot;cat&quot;, &quot;dog&quot;, &quot;duck&quot;, &quot;goat&quot;)]</code></pre>
-<pre><code>## [1] &quot;rat&quot; &quot;dog&quot; &quot;cat&quot;</code></pre>
-</div>
-<div id="challenge-1" class="section level3 blue">
-<h3>Challenge</h3>
-<ul>
-<li>Can you figure out why <code>"four" &gt; "five"</code> returns
-<code>TRUE</code>?</li>
-</ul>
-<p>Hint: If you wanted to sort a collection of words, what would you
-hope R would do?</p>
+
+## Subsetting vectors
+
+If we want to extract one or several values from a vector, we must provide one
+or several indices in square brackets.
+
+
+``` r
+animals <- c("mouse", "rat", "dog", "cat")
+animals[2] # could be read as "return the second value in animals"
+```
+
+```
+## [1] "rat"
+```
+
+``` r
+animals[c(3, 2)] # could be read as "return the third and second values in animals"
+```
+
+```
+## [1] "dog" "rat"
+```
+
+We can also repeat the indices to create an object with more elements than the
+original one:
+
+
+``` r
+animals[c(1, 2, 3, 2, 1, 4)]
+```
+
+```
+## [1] "mouse" "rat"   "dog"   "rat"   "mouse" "cat"
+```
+
+R indices start at 1. Programming languages like Fortran, MATLAB, Julia, and R start
+counting at 1, because that's what human beings typically do. Languages in the C
+family (including C++, Java, Perl, and Python) count from 0 because that's
+simpler for computers to do.
+
+### Conditional subsetting
+
+Another common way of subsetting is by using a logical vector. `TRUE` will
+select the element with the same index, while `FALSE` will not:
+
+
+``` r
+weight_g <- c(21, 34, 39, 54, 55)
+weight_g[c(TRUE, FALSE, TRUE, TRUE, FALSE)] # could be read as "give me the first value, not the second value, etc."
+```
+
+```
+## [1] 21 39 54
+```
+
+Typically, these logical vectors are not typed by hand, but are the output of
+other functions or logical tests. For instance, if you wanted to select only the
+values above 50:
+
+
+``` r
+weight_g > 50    # will return logicals with TRUE for the indices that meet the condition
+```
+
+```
+## [1] FALSE FALSE FALSE  TRUE  TRUE
+```
+
+``` r
+## so we can use this to select only the values above 50
+weight_g[weight_g > 50]
+```
+
+```
+## [1] 54 55
+```
+
+You can combine multiple tests using `&` (both conditions are true, AND) or `|`
+(at least one of the conditions is true, OR):
+
+
+``` r
+weight_g[weight_g < 30 | weight_g > 50]
+```
+
+```
+## [1] 21 54 55
+```
+
+``` r
+weight_g[weight_g >= 30 & weight_g == 21]
+```
+
+```
+## numeric(0)
+```
+
+Here, `<` stands for "less than", `>` for "greater than", `>=` for "greater than
+or equal to", and `==` for "equal to". The double equal sign `==` is a test for
+numerical equality between the left and right hand sides, and should not be
+confused with the single `=` sign, which performs variable assignment (similar
+to `<-`).
+
+A common task is to search for certain strings in a vector.  One could use the
+"or" operator `|` to test for equality to multiple values, but this can quickly
+become tedious. The function `%in%` allows you to test if any of the elements of
+a search vector are found:
+
+
+``` r
+animals <- c("mouse", "rat", "dog", "cat")
+animals[animals == "cat" | animals == "rat"] # returns both rat and cat
+```
+
+```
+## [1] "rat" "cat"
+```
+
+``` r
+animals %in% c("rat", "cat", "dog", "duck", "goat")
+```
+
+```
+## [1] FALSE  TRUE  TRUE  TRUE
+```
+
+``` r
+animals[animals %in% c("rat", "cat", "dog", "duck", "goat")]
+```
+
+```
+## [1] "rat" "dog" "cat"
+```
+
+<div class = "blue">
+### Challenge
+
+* Can you figure out why `"four" > "five"` returns `TRUE`?
+
+Hint: If you wanted to sort a collection of words, what would you hope R would do?
+
 <details>
-<summary>
-ANSWER
-</summary>
-When using “&gt;” or “&lt;” on strings, R compares their alphabetical
-order. Here “four” comes after “five”, and therefore is “greater than”
-it.
-</details>
-</div>
-<p><br></p>
-<div id="vector-math-and-recycling" class="section level3">
-<h3>Vector Math and Recycling</h3>
-<p>You can do basic mathematical operations with vectors in R. We won’t
-get into this too deeply, but you should be aware of how R approaches
-these operations.</p>
-<p>You can add a number to a vector of numbers like this:</p>
-<pre class="r"><code>x &lt;- 1:10
-
-x + 3</code></pre>
-<pre><code>##  [1]  4  5  6  7  8  9 10 11 12 13</code></pre>
-<p>Or multiply all the values in a vector by a number:</p>
-<pre class="r"><code>x * 10</code></pre>
-<pre><code>##  [1]  10  20  30  40  50  60  70  80  90 100</code></pre>
-<p>By default, R will do value-by-value math. So if you add together two
-vectors of equal length, R will return a vector of the 1st value of each
-added together, then the 2nd value of each added together, etc. Let’s
-take a look here:</p>
-<pre class="r"><code>y &lt;- 100:109
-
-x + y</code></pre>
-<pre><code>##  [1] 101 103 105 107 109 111 113 115 117 119</code></pre>
-<p>As you can see, the first entry we get back is 1 + 100, the second is
-2 + 101, and so on. What happens if we try to add two vectors that
-aren’t the same length?</p>
-<pre class="r"><code>z &lt;- 1:2
-
-x + z</code></pre>
-<pre><code>##  [1]  2  4  4  6  6  8  8 10 10 12</code></pre>
-<p>Whoa… what happened here? R does something called
-<strong>recycling</strong>. It adds together the first values of each
-vector, then the second values, but then it runs out of values in vector
-z. It then <strong>recycles</strong> the values of z, so it will add the
-3rd value of x to the 1st value of z, then the 4th value of x to the 2nd
-value of z, and so on. Essentially, it recycles z from <code>1,2</code>
-into <code>1,2,1,2,1,2,1,2,1,2</code>, then does the addition.</p>
-<p>We actually already saw this behavior: when we added 3 to x, 3 gets
-recycled into a vector of 3s that is the same length as x.</p>
-<p>Since the length of x is 10, it is a multiple of the length of z,
-which is 2. What happens if the longer vector isn’t a multiple of the
-shorter one?</p>
-<pre class="r"><code>z &lt;- 1:3
-
-x + z</code></pre>
-<pre><code>## Warning in x + z: longer object length is not a multiple of shorter object
-## length</code></pre>
-<pre><code>##  [1]  2  4  6  5  7  9  8 10 12 11</code></pre>
-<pre class="r"><code>a &lt;- x + z</code></pre>
-<pre><code>## Warning in x + z: longer object length is not a multiple of shorter object
-## length</code></pre>
-<p>R warns us about this! However, if you try to assign this result to
-an object, we get the warning, but the assignment works. z will get
-recycled until it reaches the length of x. So z gets recycled from being
-<code>1,2,3</code> to being <code>1,2,3,1,2,3,1,2,3,1</code>, then gets
-added to x. This can give you unexpected results if you’re doing math
-with vectors and you’re not paying attention to what’s going on.</p>
-<p>Recycling also happens with logical vectors:</p>
-<pre class="r"><code>x[c(TRUE, FALSE)]</code></pre>
-<pre><code>## [1] 1 3 5 7 9</code></pre>
-<pre class="r"><code>x[c(TRUE, FALSE, FALSE)]</code></pre>
-<pre><code>## [1]  1  4  7 10</code></pre>
-<p>As mentioned earlier, logical vectors are often generated as
-intermediate steps when we’re subsetting. If you’re not careful about
-the lengths of these intermediate logical vectors, you can get some
-funky results without even noticing how they happened.</p>
-</div>
-</div>
-<div id="missing-data" class="section level2">
-<h2>Missing data</h2>
-<p>As R was designed to analyze datasets, it includes the concept of
-missing data (which is uncommon in other programming languages). Missing
-data are represented in vectors as <code>NA</code>.</p>
-<p>When doing operations on numbers, most functions will return
-<code>NA</code> if the data you are working with include missing values.
-This feature makes it harder to overlook the cases where you are dealing
-with missing data. You can add the argument <code>na.rm=TRUE</code> to
-calculate the result while ignoring the missing values.</p>
-<pre class="r"><code>heights &lt;- c(2, 4, 4, NA, 6)
-mean(heights)</code></pre>
-<pre><code>## [1] NA</code></pre>
-<pre class="r"><code>max(heights)</code></pre>
-<pre><code>## [1] NA</code></pre>
-<pre class="r"><code>mean(heights, na.rm = TRUE)</code></pre>
-<pre><code>## [1] 4</code></pre>
-<pre class="r"><code>max(heights, na.rm = TRUE)</code></pre>
-<pre><code>## [1] 6</code></pre>
-<p>If your data include missing values, you may want to become familiar
-with the functions <code>is.na()</code>, <code>na.omit()</code>, and
-<code>complete.cases()</code>. See below for examples.</p>
-<pre class="r"><code>## Extract those elements which are not missing values.
-
-is.na(heights) # this returns a logical vector with TRUE where there is an NA</code></pre>
-<pre><code>## [1] FALSE FALSE FALSE  TRUE FALSE</code></pre>
-<pre class="r"><code>!is.na(heights) # the ! means &quot;is not&quot;, so now we get a logical vector with FALSE for NAs</code></pre>
-<pre><code>## [1]  TRUE  TRUE  TRUE FALSE  TRUE</code></pre>
-<pre class="r"><code>heights[!is.na(heights)] # now we put that logical vector in, and it will NOT return the entries with NA</code></pre>
-<pre><code>## [1] 2 4 4 6</code></pre>
-<pre class="r"><code>## Extract those elements which are complete cases. The returned object is an atomic vector of type `&quot;numeric&quot;` (or `&quot;double&quot;`).
-heights[complete.cases(heights)]</code></pre>
-<pre><code>## [1] 2 4 4 6</code></pre>
-<p>Recall that you can use the <code>typeof()</code> function to find
-the type of your atomic vector.</p>
-<div id="challenge-2" class="section level3 blue">
-<h3>Challenge</h3>
-<ol style="list-style-type: decimal">
-<li>Using this vector of heights in inches, create a new vector with the
-NAs removed.</li>
-</ol>
-<pre class="r"><code>heights &lt;- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)</code></pre>
-<ol start="2" style="list-style-type: decimal">
-<li>Use the function <code>median()</code> to calculate the median of
-the <code>heights</code> vector.</li>
-<li>Use R to figure out how many people in the set are taller than 67
-inches.</li>
-</ol>
-</div>
-</div>
-<div id="other-data-structures" class="section level2">
-<h2>Other Data Structures</h2>
-<p>Vectors are one of the many <strong>data structures</strong> that R
-uses. Other important ones are lists (<code>list</code>), data frames
-(<code>data.frame</code>), matrices (<code>matrix</code>), arrays
-(<code>array</code>), and factors (<code>factor</code>). These are all
-built from combinations of vectors, so much of what you learned about
-vectors will be important when working with these data structures.</p>
-<div id="lists" class="section level3">
-<h3>Lists</h3>
-<p>Lists are the most fundamental way that R works with multiple
-vectors. A list is simply a bunch of vectors put together. The vectors
-can be different data types, so a list could hold a character vector
-with the names of your sampling sites as well as a numeric vector with
-their percent tree cover.</p>
-<p>Lists are extremely flexible, and you’ll come across them a lot in
-various shapes and sizes. We’ll talk about them a bit more in later
-lessons.</p>
-</div>
-<div id="data-frames" class="section level3">
-<h3>Data Frames</h3>
-<p>Data frames are the most common way we work with tabular data in R.
-Data frames at their core are just picky lists. A data frame is a list
-where every vector has to be the same length, which is akin to every
-column having the same number of rows. This means a data frame is
-rectangular, which is why it matches up with tabular data we’re used to
-working with. A list could have one vector that has 5 values and one
-vector that has a thousand.</p>
-</div>
-<div id="matrices-and-arrays" class="section level3">
-<h3>Matrices and Arrays</h3>
-<p>Matrices (2D) and Arrays (3D or more) are similar to dataframes and
-lists, but they are a little more barebones. Matrices and arrays must be
-made of a single type of data, no mixing types across different columns
-like in a dataframe. We won’t work with these much, but you might
-encounter them if you do something like population modeling in R. If you
-remember your basics of vectors, you should be pretty well equipped to
-tackle matrices and arrays.</p>
-</div>
-<div id="factors" class="section level3">
-<h3>Factors</h3>
-<p>Factors are a bit funky, and they can be equally useful and
-frustrating. Factors look a lot like 1-dimensional character vectors,
-but they behave a bit differently.</p>
-<p>Factors are used to represent categorical data. Let’s make one to
-play around with:</p>
-<pre class="r"><code>sex &lt;- factor(c(&quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;))
-class(sex)</code></pre>
-<pre><code>## [1] &quot;factor&quot;</code></pre>
-<p>If we ask for the class of sex, we see that it’s a factor. Let’s try
-using <code>typeof()</code>, which goes a little deeper:</p>
-<pre class="r"><code>typeof(sex)</code></pre>
-<pre><code>## [1] &quot;integer&quot;</code></pre>
-<p>An integer???</p>
-<p>Factors are really just integer vectors with character labels
-attached to them.</p>
-<p>Once created, factors can only contain a pre-defined set of values,
-known as <em>levels</em>. By default, R always sorts levels in
-alphabetical order. For instance, in our <code>sex</code> factor, R will
-assign the integer <code>1</code> to the level <code>"female"</code> and
-<code>2</code> to the level <code>"male"</code> (because<code>f</code>
-comes before <code>m</code>, even though the first value in
-<code>sex</code> is <code>"male"</code>). You can see this by using the
-function <code>levels()</code> and you can find thenumber of levels
-using <code>nlevels()</code>:</p>
-<pre class="r"><code>levels(sex)</code></pre>
-<pre><code>## [1] &quot;female&quot; &quot;male&quot;</code></pre>
-<pre class="r"><code>nlevels(sex)</code></pre>
-<pre><code>## [1] 2</code></pre>
-<p>Sometimes, the order of the factors does not matter, other times you
-might want to specify the order because it is meaningful (e.g., “low”,
-“medium”, “high”), it improves your visualization, or it is required by
-a particular type of analysis. Here, one way to reorder our levels in
-the <code>sex</code> vector would be:</p>
-<pre class="r"><code>sex # current order</code></pre>
-<pre><code>## [1] male   female female male  
-## Levels: female male</code></pre>
-<pre class="r"><code>sex &lt;- factor(sex, levels = c(&quot;male&quot;, &quot;female&quot;))
-sex # after re-ordering</code></pre>
-<pre><code>## [1] male   female female male  
-## Levels: male female</code></pre>
-<p>In R’s memory, these factors are represented by integers (1, 2, 3),
-but are more informative than integers because factors are self
-describing: <code>"female"</code>, <code>"male"</code> is more
-descriptive than <code>1</code>, <code>2</code>. Which one is “male”?
-You wouldn’t be able to tell just from the integer data. Factors, on the
-other hand, have this information built in. It is particularly helpful
-when there are many levels (like the species names in our example
-dataset).</p>
-<div id="converting-factors" class="section level4">
-<h4>Converting factors</h4>
-<p>If you need to convert a factor to a character vector, you use
-<code>as.character(x)</code>.</p>
-<pre class="r"><code>as.character(sex)</code></pre>
-<pre><code>## [1] &quot;male&quot;   &quot;female&quot; &quot;female&quot; &quot;male&quot;</code></pre>
-<p>Converting factors where the levels appear as numbers (such as
-concentration levels, or years) to a numeric vector is a little
-trickier. The <code>as.numeric()</code> function returns the index
-values of the factor, not its levels, so it will result in an entirely
-new (and unwanted in this case) set of numbers. One method to avoid this
-is to convert factors to characters, and then to numbers.</p>
-<pre class="r"><code>year_fct &lt;- factor(c(1990, 1983, 1977, 1998, 1990))
-as.numeric(year_fct)               # Wrong! And there is no warning...</code></pre>
-<pre><code>## [1] 3 2 1 4 3</code></pre>
-<pre class="r"><code>as.numeric(as.character(year_fct)) # This does the trick</code></pre>
-<pre><code>## [1] 1990 1983 1977 1998 1990</code></pre>
-</div>
-<div id="renaming-factors" class="section level4">
-<h4>Renaming factors</h4>
-<p>You can rename the levels using the <code>levels()</code>
-function</p>
-<pre class="r"><code>levels(sex)</code></pre>
-<pre><code>## [1] &quot;male&quot;   &quot;female&quot;</code></pre>
-<pre class="r"><code>levels(sex)[1]</code></pre>
-<pre><code>## [1] &quot;male&quot;</code></pre>
-<pre class="r"><code>levels(sex)[1] &lt;- &quot;MALE&quot;
-sex</code></pre>
-<pre><code>## [1] MALE   female female MALE  
-## Levels: MALE female</code></pre>
-<pre class="r"><code>levels(sex) &lt;- c(&quot;MALE&quot;, &quot;FEMALE&quot;)
-sex</code></pre>
-<pre><code>## [1] MALE   FEMALE FEMALE MALE  
-## Levels: MALE FEMALE</code></pre>
-</div>
-</div>
-<div id="challenge-3" class="section level3 blue">
-<h3>Challenge</h3>
-<ul>
-<li>Copy, paste and run the code below in your R script:<br />
-<code>treatment &lt;- factor(c("high", "low", "low", "medium", "high"))</code></li>
-<li>First, re-order the levels of <code>treatment</code> so that “low”
-is first, “medium” is second, and “high” is third. Hint: Use the
-<code>factor()</code> function again, but with an additional
-<code>levels</code> argument.</li>
-<li>Next, check the names with the <code>levels()</code> function, then
-use this same function to rename the levels of treatment to “L”, “M” and
-“H”</li>
-</ul>
-<details>
-<summary>
-ANSWER
-</summary>
-<pre class="r"><code>treatment &lt;- factor(c(&quot;high&quot;, &quot;low&quot;, &quot;low&quot;, &quot;medium&quot;, &quot;high&quot;))
-treatment &lt;- factor(treatment, levels = c(&quot;low&quot;, &quot;medium&quot;, &quot;high&quot;))
-levels(treatment) &lt;- c(&quot;L&quot;, &quot;M&quot;, &quot;H&quot;)
-treatment</code></pre>
-<pre><code>## [1] H L L M H
-## Levels: L M H</code></pre>
+<summary>ANSWER</summary>
+When using ">" or "<" on strings, R compares their alphabetical order.
+Here "four" comes after "five", and therefore is "greater than" it.
 </details>
 </div>
-<p><br></p>
-<div id="why-factors" class="section level4">
-<h4>Why Factors?</h4>
-<p>Factors can be convenient at times, and they will pop up pretty
-frequently, but in most circumstances, character strings will give you
-fewer hassles. It’s usually best to start with character vectors, and
-convert them explicitly to factors if you need to.</p>
-<p>Some functions in R will automatically convert character strings to
-factors. For instance, <code>read.csv()</code> run in older versions R
-will turn any character data into factors, while in newer versions this
-has been changed to keep them as characters. If you aren’t sure, you can
-use the argument <code>stringsAsFactors=FALSE</code> in
-<code>read.csv()</code> to make sure your character strings as character
-strings.</p>
-<hr />
-<p>This lesson is adapted from <a
-href="https://datacarpentry.org/R-ecology-lesson/01-intro-to-r.html">Data
-Carpentry’s Ecology Workshop Introduction to R</a></p>
+<br>
+
+### Vector Math and Recycling
+
+You can do basic mathematical operations with vectors in R. We won't get into this too deeply, but you should be aware of how R approaches these operations.
+
+You can add a number to a vector of numbers like this:
+
+``` r
+x <- 1:10
+
+x + 3
+```
+
+```
+##  [1]  4  5  6  7  8  9 10 11 12 13
+```
+
+
+Or multiply all the values in a vector by a number:
+
+
+``` r
+x * 10
+```
+
+```
+##  [1]  10  20  30  40  50  60  70  80  90 100
+```
+
+
+By default, R will do value-by-value math. So if you add together two vectors of equal length, R will return a vector of the 1st value of each added together, then the 2nd value of each added together, etc. Let's take a look here:
+
+
+``` r
+y <- 100:109
+
+x + y
+```
+
+```
+##  [1] 101 103 105 107 109 111 113 115 117 119
+```
+
+As you can see, the first entry we get back is 1 + 100, the second is 2 + 101, and so on. What happens if we try to add two vectors that aren't the same length?
+
+
+``` r
+z <- 1:2
+
+x + z
+```
+
+```
+##  [1]  2  4  4  6  6  8  8 10 10 12
+```
+
+Whoa... what happened here? R does something called **recycling**. It adds together the first values of each vector, then the second values, but then it runs out of values in vector z. It then **recycles** the values of z, so it will add the 3rd value of x to the 1st value of z, then the 4th value of x to the 2nd value of z, and so on. Essentially, it recycles z from `1,2` into `1,2,1,2,1,2,1,2,1,2`, then does the addition.
+
+We actually already saw this behavior: when we added 3 to x, 3 gets recycled into a vector of 3s that is the same length as x.
+
+Since the length of x is 10, it is a multiple of the length of z, which is 2. What happens if the longer vector isn't a multiple of the shorter one?
+
+
+``` r
+z <- 1:3
+
+x + z
+```
+
+```
+## Warning in x + z: longer object length is not a multiple of shorter object
+## length
+```
+
+```
+##  [1]  2  4  6  5  7  9  8 10 12 11
+```
+
+``` r
+a <- x + z
+```
+
+```
+## Warning in x + z: longer object length is not a multiple of shorter object
+## length
+```
+
+R warns us about this! However, if you try to assign this result to an object, we get the warning, but the assignment works. z will get recycled until it reaches the length of x. So z gets recycled from being `1,2,3` to being `1,2,3,1,2,3,1,2,3,1`, then gets added to x. This can give you unexpected results if you're doing math with vectors and you're not paying attention to what's going on.
+
+Recycling also happens with logical vectors:
+
+
+``` r
+x[c(TRUE, FALSE)]
+```
+
+```
+## [1] 1 3 5 7 9
+```
+
+``` r
+x[c(TRUE, FALSE, FALSE)]
+```
+
+```
+## [1]  1  4  7 10
+```
+
+As mentioned earlier, logical vectors are often generated as intermediate steps when we're subsetting. If you're not careful about the lengths of these intermediate logical vectors, you can get some funky results without even noticing how they happened.
+
+## Missing data
+
+As R was designed to analyze datasets, it includes the concept of missing data
+(which is uncommon in other programming languages). Missing data are represented
+in vectors as `NA`.
+
+When doing operations on numbers, most functions will return `NA` if the data
+you are working with include missing values. This feature
+makes it harder to overlook the cases where you are dealing with missing data.
+You can add the argument `na.rm=TRUE` to calculate the result while ignoring
+the missing values.
+
+
+``` r
+heights <- c(2, 4, 4, NA, 6)
+mean(heights)
+```
+
+```
+## [1] NA
+```
+
+``` r
+max(heights)
+```
+
+```
+## [1] NA
+```
+
+``` r
+mean(heights, na.rm = TRUE)
+```
+
+```
+## [1] 4
+```
+
+``` r
+max(heights, na.rm = TRUE)
+```
+
+```
+## [1] 6
+```
+
+If your data include missing values, you may want to become familiar with the
+functions `is.na()`, `na.omit()`, and `complete.cases()`. See below for
+examples.
+
+
+
+``` r
+## Extract those elements which are not missing values.
+
+is.na(heights) # this returns a logical vector with TRUE where there is an NA
+```
+
+```
+## [1] FALSE FALSE FALSE  TRUE FALSE
+```
+
+``` r
+!is.na(heights) # the ! means "is not", so now we get a logical vector with FALSE for NAs
+```
+
+```
+## [1]  TRUE  TRUE  TRUE FALSE  TRUE
+```
+
+``` r
+heights[!is.na(heights)] # now we put that logical vector in, and it will NOT return the entries with NA
+```
+
+```
+## [1] 2 4 4 6
+```
+
+``` r
+## Extract those elements which are complete cases. The returned object is an atomic vector of type `"numeric"` (or `"double"`).
+heights[complete.cases(heights)]
+```
+
+```
+## [1] 2 4 4 6
+```
+Recall that you can use the `typeof()` function to find the type of your atomic vector.
+
+<div class = "blue">
+### Challenge
+
+1. Using this vector of heights in inches, create a new vector with the NAs removed.
+
+
+``` r
+heights <- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)
+```
+
+2. Use the function `median()` to calculate the median of the `heights` vector.
+3. Use R to figure out how many people in the set are taller than 67 inches.
+
 </div>
+
+## Other Data Structures
+
+Vectors are one of the many **data structures** that R uses. Other important
+ones are lists (`list`), data frames (`data.frame`), matrices (`matrix`), arrays (`array`), and 
+factors (`factor`). These are all built from combinations of vectors, so much of what you learned about vectors will be important when working with these data structures.
+
+### Lists
+
+Lists are the most fundamental way that R works with multiple vectors. A list is simply a bunch of vectors put together. The vectors can be different data types, so a list could hold a character vector with the names of your sampling sites as well as a numeric vector with their percent tree cover.
+
+Lists are extremely flexible, and you'll come across them a lot in various shapes and sizes. We'll talk about them a bit more in later lessons.
+
+### Data Frames
+
+Data frames are the most common way we work with tabular data in R. Data frames at their core are just picky lists. A data frame is a list where every vector has to be the same length, which is akin to every column having the same number of rows. This means a data frame is rectangular, which is why it matches up with tabular data we're used to working with. A list could have one vector that has 5 values and one vector that has a thousand.
+
+### Matrices and Arrays
+
+Matrices (2D) and Arrays (3D or more) are similar to dataframes and lists, but they are a little more barebones. Matrices and arrays must be made of a single type of data, no mixing types across different columns like in a dataframe. We won't work with these much, but you might encounter them if you do something like population modeling in R. If you remember your basics of vectors, you should be pretty well equipped to tackle matrices and arrays.
+
+### Factors
+
+Factors are a bit funky, and they can be equally useful and frustrating. Factors look a lot like 1-dimensional character vectors, but they behave a bit differently.
+
+Factors are used to represent categorical data. Let's make one to play around with:
+
+
+``` r
+sex <- factor(c("male", "female", "female", "male"))
+class(sex)
+```
+
+```
+## [1] "factor"
+```
+
+If we ask for the class of sex, we see that it's a factor. Let's try using `typeof()`, which goes a little deeper:
+
+
+``` r
+typeof(sex)
+```
+
+```
+## [1] "integer"
+```
+
+An integer???
+
+Factors are really just integer vectors with character labels attached to them. 
+
+Once created, factors can only contain a pre-defined set of values, known as *levels*. By default, R always sorts levels in alphabetical order. For instance, in our `sex` factor, R will assign the integer `1` to the level `"female"` and `2` to the level `"male"` (because`f` comes before `m`, even though the first value in `sex` is `"male"`). You can see this by using the function `levels()` and you can find thenumber of levels using `nlevels()`:
+
+
+``` r
+levels(sex)
+```
+
+```
+## [1] "female" "male"
+```
+
+``` r
+nlevels(sex)
+```
+
+```
+## [1] 2
+```
+
+Sometimes, the order of the factors does not matter, other times you might want
+to specify the order because it is meaningful (e.g., "low", "medium", "high"),
+it improves your visualization, or it is required by a particular type of
+analysis. Here, one way to reorder our levels in the `sex` vector would be:
+
+
+``` r
+sex # current order
+```
+
+```
+## [1] male   female female male  
+## Levels: female male
+```
+
+``` r
+sex <- factor(sex, levels = c("male", "female"))
+sex # after re-ordering
+```
+
+```
+## [1] male   female female male  
+## Levels: male female
+```
+
+In R's memory, these factors are represented by integers (1, 2, 3), but are more
+informative than integers because factors are self describing: `"female"`,
+`"male"` is more descriptive than `1`, `2`. Which one is "male"?  You wouldn't
+be able to tell just from the integer data. Factors, on the other hand, have
+this information built in. It is particularly helpful when there are many levels
+(like the species names in our example dataset).
+
+#### Converting factors
+
+If you need to convert a factor to a character vector, you use
+`as.character(x)`.
+
+
+``` r
+as.character(sex)
+```
+
+```
+## [1] "male"   "female" "female" "male"
+```
+
+Converting factors where the levels appear as numbers (such as concentration
+levels, or years) to a numeric vector is a little trickier. The `as.numeric()` 
+function returns the index values of the factor, not its levels, so it will 
+result in an entirely new (and unwanted in this case) set of numbers. 
+One method to avoid this is to convert factors to characters, and then to numbers.  
+
+
+``` r
+year_fct <- factor(c(1990, 1983, 1977, 1998, 1990))
+as.numeric(year_fct)               # Wrong! And there is no warning...
+```
+
+```
+## [1] 3 2 1 4 3
+```
+
+``` r
+as.numeric(as.character(year_fct)) # This does the trick
+```
+
+```
+## [1] 1990 1983 1977 1998 1990
+```
+
+#### Renaming factors
+
+You can rename the levels using the `levels()` function
+
+
+``` r
+levels(sex)
+```
+
+```
+## [1] "male"   "female"
+```
+
+``` r
+levels(sex)[1]
+```
+
+```
+## [1] "male"
+```
+
+``` r
+levels(sex)[1] <- "MALE"
+sex
+```
+
+```
+## [1] MALE   female female MALE  
+## Levels: MALE female
+```
+
+``` r
+levels(sex) <- c("MALE", "FEMALE")
+sex
+```
+
+```
+## [1] MALE   FEMALE FEMALE MALE  
+## Levels: MALE FEMALE
+```
+
+<div class = "blue">
+### Challenge
+
+* Copy, paste and run the code below in your R script:  
+    `treatment <- factor(c("high", "low", "low", "medium", "high"))`
+* First, re-order the levels of `treatment` so that "low" is first, "medium" is second, and "high" is third. Hint: Use the `factor()` function again, but with an additional `levels` argument.
+* Next, check the names with the `levels()` function, then use this same function to rename the levels of treatment to "L", "M" and "H"
+
+
+<details>
+<summary>ANSWER</summary>
+
+``` r
+treatment <- factor(c("high", "low", "low", "medium", "high"))
+treatment <- factor(treatment, levels = c("low", "medium", "high"))
+levels(treatment) <- c("L", "M", "H")
+treatment
+```
+
+```
+## [1] H L L M H
+## Levels: L M H
+```
+</details>
 </div>
-</div>
+<br>
+
+#### Why Factors?
+
+Factors can be convenient at times, and they will pop up pretty frequently, but in most circumstances, character strings will give you fewer hassles. It's usually best to start with character vectors, and convert them explicitly to factors if you need to.
+
+Some functions in R will automatically convert character strings to factors. For instance, `read.csv()` run in older versions R will turn any character data into factors, while in newer versions this has been changed to keep them as characters. If you aren't sure, you can use the argument `stringsAsFactors=FALSE` in `read.csv()` to make sure your character strings as character strings.
+
+***
+
+This lesson is adapted from [Data Carpentry's Ecology Workshop Introduction to R](https://datacarpentry.org/R-ecology-lesson/01-intro-to-r.html)
+-->
 
 
 

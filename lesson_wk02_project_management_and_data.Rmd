@@ -7,6 +7,16 @@ output:
 
 <div class = "blue">
 
+### Under revision
+
+This lecture is being updated for the current quarter — check back soon.
+
+</div>
+
+<!--
+
+<div class = "blue">
+
 ### Learning objectives
 
 * Be able to describe the different data types R uses
@@ -591,3 +601,4 @@ Some functions in R will automatically convert character strings to factors. For
 ***
 
 This lesson is adapted from [Data Carpentry's Ecology Workshop Introduction to R](https://datacarpentry.org/R-ecology-lesson/01-intro-to-r.html)
+-->

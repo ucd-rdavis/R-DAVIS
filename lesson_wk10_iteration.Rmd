@@ -3,6 +3,16 @@ title: "Iteration, Iteration, Iteration, Iter"
 ---
 
 <div class = "blue">
+
+### Under revision
+
+This lecture is being updated for the current quarter — check back soon.
+
+</div>
+
+<!--
+
+<div class = "blue">
 ### Learning objectives
 
 * Understand when and why to iterate code
@@ -295,3 +305,5 @@ mtcars %>% map_dbl(mean)  # Returns a numeric vector
 If you want to learn more about `purrr`, check out [Jenny Bryan's tutorial](https://jennybc.github.io/purrr-tutorial/). You might come across `purrr` functions in tidyverse-focused code, but the base R `apply` functions we've learned will handle most iteration needs effectively.
 
 This lesson was contributed by Michael Culshaw-Maurer, with ideas from Mike Koontz and Brandon Hurr's [D-RUG presentation](http://d-rug.github.io/blog/2017/Brandon-Hurr-on-using-map-and-walk).
+
+-->

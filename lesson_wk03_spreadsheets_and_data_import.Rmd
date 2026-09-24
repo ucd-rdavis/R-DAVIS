@@ -7,6 +7,16 @@ output:
 ---
 
 <div class = "blue">
+
+### Under revision
+
+This lecture is being updated for the current quarter — check back soon.
+
+</div>
+
+<!--
+
+<div class = "blue">
 ### Learning objectives
 
 * Understand how to format raw data to be "tidy"
@@ -428,3 +438,4 @@ t_surveys[,1] # gives a tibble back
 
 This lesson is adapted from the Data Carpentry: R for Data Analysis and Visualization of Ecological Data 
 [Starting With Data materials](https://datacarpentry.org/R-ecology-lesson/02-starting-with-data.html).
+-->

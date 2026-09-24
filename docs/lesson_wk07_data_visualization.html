@@ -454,462 +454,562 @@ div.tocify {
 </div>
 
 
-<div id="learning-objectives" class="section level3 blue">
-<h3>Learning Objectives</h3>
-<ul>
-<li>Produce scatter plots, boxplots, and time series plots using
-ggplot.</li>
-<li>Describe what faceting is and apply faceting in ggplot.</li>
-<li>Set universal plot settings.</li>
-</ul>
+<div id="under-revision" class="section level3 blue">
+<h3>Under revision</h3>
+<p>This lecture is being updated for the current quarter — check back
+soon.</p>
 </div>
-<p><br></p>
-<div id="videos" class="section level2">
-<h2>Videos</h2>
-<ul>
-<li><a
-href="https://video.ucdavis.edu/media/Week+7%3A+Data+Visualization+Part+1a/1_m55wx7pr">Data
-visualization Part 1a</a></li>
-<li><a
-href="https://video.ucdavis.edu/media/Week7_TimeSeries_and_Faceting/1_mcgh2gkw/390286133">Data
-visualization Part 1b</a></li>
-<li><a
-href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714926">Video
-Discussion</a></li>
-</ul>
+<!--
+
+<div class = "blue">
+### Learning Objectives
+
+* Produce scatter plots, boxplots, and time series plots using ggplot.
+* Describe what faceting is and apply faceting in ggplot.
+* Set universal plot settings.
 </div>
-<div id="in-class-coding" class="section level2">
-<h2>In Class Coding</h2>
-<p><a
-href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714941">Submit
-Week 7 In Class Coding</a></p>
-<p><br></p>
-</div>
-<div id="building-plots-with-ggplot2" class="section level1">
-<h1>Building Plots with ggplot2</h1>
-<p>This lesson teaches you how to make plots with ggplot2. Next week
-(Data Visualization II), we step back and think about the principles and
-practices of making <em>good</em> plots.</p>
-<p>We start by loading the required packages.
-<strong><code>ggplot2</code></strong> is included in the
-<strong><code>tidyverse</code></strong> package.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<p>Remember the challenge from last week, where we merged in some extra
-variables to the survey data? This week we did it for you, since we’re
-going to need those variables. We’ll read in that merged datafile, but
-filter it to only get back rows where ALL the data are present, also
-known as “complete cases”. We’re also showing you a new little trick:
-using a period with a pipe. Normally, a pipe just sends the stuff on the
-left into the FIRST argument position in the function on the right.
-However, sometimes we want that stuff to get sent to a slightly
-different place in the righthand function. In this case, we want to send
-it into the <code>complete.cases()</code> function, so that function
-will run on the whole dataset. In order to specifically tell the pipe to
-send the lefthand side into this function, we put a period there. You
-can think of this as the target for the pipe.</p>
-<pre class="r"><code>surveys_complete &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv&quot;) %&gt;% 
-  filter(complete.cases(.))</code></pre>
-<div id="plotting-with-ggplot2" class="section level2">
-<h2>Plotting with <strong><code>ggplot2</code></strong></h2>
-<p><strong><code>ggplot2</code></strong> is a plotting package that
-makes it simple to create complex plots from data in a data frame. It
-provides a more programmatic interface for specifying what variables to
-plot, how they are displayed, and general visual properties. Therefore,
-we only need minimal changes if the underlying data change or if we
-decide to change from a bar plot to a scatterplot. This helps in
-creating publication quality plots with minimal amounts of adjustments
-and tweaking.</p>
-<p><strong><code>ggplot2</code></strong> functions like data in the
-‘long’ format, i.e., a column for every dimension, and a row for every
-observation. Well-structured data will save you lots of time when making
-figures with <strong><code>ggplot2</code></strong></p>
-<p>ggplot graphics are built step by step by adding new elements. Adding
-layers in this fashion allows for extensive flexibility and
-customization of plots.</p>
-<p>To build a ggplot, we will use the following basic template that can
-be used for different types of plots:</p>
-<pre><code>ggplot(data = &lt;DATA&gt;, mapping = aes(&lt;MAPPINGS&gt;)) +  &lt;GEOM_FUNCTION&gt;()</code></pre>
-<ul>
-<li>use the <code>ggplot()</code> function and bind the plot to a
-specific data frame using the <code>data</code> argument</li>
-</ul>
-<pre class="r"><code>ggplot(data = surveys_complete)</code></pre>
-<ul>
-<li>define a mapping (using the aesthetic (<code>aes</code>) function),
-by selecting the variables to be plotted and specifying how to present
-them in the graph, e.g. as x/y positions or characteristics such as
-size, shape, color, etc.</li>
-</ul>
-<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length))</code></pre>
-<ul>
-<li><p>add ‘geoms’ – graphical representations of the data in the plot
-(points, lines, bars). <strong><code>ggplot2</code></strong> offers many
-different geoms; we will use some common ones today, including:</p>
-<pre><code>* `geom_point()` for scatter plots, dot plots, etc.
-* `geom_boxplot()` for, well, boxplots!
-* `geom_line()` for trend lines, time series, etc.  </code></pre></li>
-</ul>
-<p>To add a geom to the plot use the <code>+</code> operator. Because we
-have two continuous variables, let’s use <code>geom_point()</code>
-first:</p>
-<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-  geom_point()</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/first-ggplot-1.png" alt="" width="672" /></p>
-<p>The <code>+</code> in the <strong><code>ggplot2</code></strong>
-package is particularly useful because it allows you to modify existing
-<code>ggplot</code> objects. This means you can easily set up plot
-templates and conveniently explore different types of plots, so the
-above plot can also be generated with code like this:</p>
-<pre class="r"><code># Assign plot to a variable
-surveys_plot &lt;- ggplot(data = surveys_complete, 
+<br>
+
+## Videos
+
+- [Data visualization Part 1a](https://video.ucdavis.edu/media/Week+7%3A+Data+Visualization+Part+1a/1_m55wx7pr)
+- [Data visualization Part 1b](https://video.ucdavis.edu/media/Week7_TimeSeries_and_Faceting/1_mcgh2gkw/390286133)
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714926)
+
+## In Class Coding
+
+[Submit Week 7 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1714941)
+
+
+
+<br>
+
+# Building Plots with ggplot2
+
+This lesson teaches you how to make plots with ggplot2. Next week (Data Visualization II), we step back and think about the principles and practices of making *good* plots.
+
+We start by loading the required packages. **`ggplot2`** is included in the **`tidyverse`** package.
+
+
+``` r
+library(tidyverse)
+```
+
+Remember the challenge from last week, where we merged in some extra variables to the survey data? This week we did it for you, since we're going to need those variables. We'll read in that merged datafile, but filter it to only get back rows where ALL the data are present, also known as "complete cases". We're also showing you a new little trick: using a period with a pipe. Normally, a pipe just sends the stuff on the left into the FIRST argument position in the function on the right. However, sometimes we want that stuff to get sent to a slightly different place in the righthand function. In this case, we want to send it into the `complete.cases()` function, so that function will run on the whole dataset. In order to specifically tell the pipe to send the lefthand side into this function, we put a period there. You can think of this as the target for the pipe.
+
+
+``` r
+surveys_complete <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv") %>% 
+  filter(complete.cases(.))
+```
+
+## Plotting with **`ggplot2`**
+
+**`ggplot2`** is a plotting package that makes it simple to create complex plots
+from data in a data frame. It provides a more programmatic interface for
+specifying what variables to plot, how they are displayed, and general visual
+properties. Therefore, we only need minimal changes if the underlying data change
+or if we decide to change from a bar plot to a scatterplot. This helps in creating
+publication quality plots with minimal amounts of adjustments and tweaking.
+
+**`ggplot2`** functions like data in the 'long' format, i.e., a column for every dimension,
+and a row for every observation. Well-structured data will save you lots of time
+when making figures with **`ggplot2`**
+
+ggplot graphics are built step by step by adding new elements. Adding layers in
+this fashion allows for extensive flexibility and customization of plots.
+
+To build a ggplot, we will use the following basic template that can be used for different types of plots:
+
+```
+ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +  <GEOM_FUNCTION>()
+```
+
+- use the `ggplot()` function and bind the plot to a specific data frame using the
+      `data` argument
+
+
+``` r
+ggplot(data = surveys_complete)
+```
+
+- define a mapping (using the aesthetic (`aes`) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g. as x/y positions or characteristics such as size, shape, color, etc.
+
+
+``` r
+ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length))
+```
+
+- add 'geoms' – graphical representations of the data in the plot (points,
+  lines, bars). **`ggplot2`** offers many different geoms; we will use some 
+  common ones today, including:
+  
+      * `geom_point()` for scatter plots, dot plots, etc.
+      * `geom_boxplot()` for, well, boxplots!
+      * `geom_line()` for trend lines, time series, etc.  
+
+To add a geom to the plot use the `+` operator. Because we have two continuous variables,
+let's use `geom_point()` first:
+
+
+``` r
+ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+  geom_point()
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/first-ggplot-1.png" alt="" width="672" />
+
+The `+` in the **`ggplot2`** package is particularly useful because it allows you
+to modify existing `ggplot` objects. This means you can easily set up plot
+templates and conveniently explore different types of plots, so the above
+plot can also be generated with code like this:
+
+
+``` r
+# Assign plot to a variable
+surveys_plot <- ggplot(data = surveys_complete, 
                        mapping = aes(x = weight, y = hindfoot_length))
 
 # Draw the plot
 surveys_plot + 
-    geom_point()</code></pre>
-<p><strong>Notes</strong></p>
-<ul>
-<li>Anything you put in the <code>ggplot()</code> function can be seen
-by any geom layers that you add (i.e., these are universal plot
-settings). This includes the x- and y-axis mapping you set up in
-<code>aes()</code>.</li>
-<li>You can also specify mappings for a given geom independently of the
-mappings defined globally in the <code>ggplot()</code> function.</li>
-<li>The <code>+</code> sign used to add new layers must be placed at the
-end of the line containing the <em>previous</em> layer. If, instead, the
-<code>+</code> sign is added at the beginning of the line containing the
-new layer, <strong><code>ggplot2</code></strong> will not add the new
-layer and will return an error message.</li>
-</ul>
-<pre class="r"><code># This is the correct syntax for adding layers
+    geom_point()
+```
+
+**Notes**
+
+- Anything you put in the `ggplot()` function can be seen by any geom layers
+  that you add (i.e., these are universal plot settings). This includes the x- and
+  y-axis mapping you set up in `aes()`.
+- You can also specify mappings for a given geom independently of the
+  mappings defined globally in the `ggplot()` function.
+- The `+` sign used to add new layers must be placed at the end of the line containing
+the *previous* layer. If, instead, the `+` sign is added at the beginning of the line
+containing the new layer, **`ggplot2`** will not add the new layer and will return an 
+error message.
+
+
+``` r
+# This is the correct syntax for adding layers
 surveys_plot +
   geom_point()
 
 # This will not add the new layer and will return an error message
 surveys_plot
-  + geom_point()</code></pre>
-</div>
-<div id="building-your-plots-iteratively" class="section level2">
-<h2>Building your plots iteratively</h2>
-<p>Building plots with <strong><code>ggplot2</code></strong> is
-typically an iterative process. We start by defining the dataset we’ll
-use, lay out the axes, and choose a geom:</p>
-<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point()</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/create-ggplot-object-1.png" alt="" width="672" /></p>
-<p>Then, we start modifying this plot to extract more information from
-it. For instance, we can add transparency (<code>alpha</code>) to avoid
-overplotting:</p>
-<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1)</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/adding-transparency-1.png" alt="" width="672" /></p>
-<p>We can also add colors for all the points:</p>
-<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1, color = &quot;blue&quot;)</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/adding-colors-1.png" alt="" width="672" /></p>
-<p>Or to color each species in the plot differently, you could use a
-vector as an input to the argument <strong>color</strong>.
-<strong><code>ggplot2</code></strong> will provide a different color
-corresponding to different values in the vector. Here is an example
-where we color with <strong><code>species_id</code></strong>:</p>
-<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1, aes(color = species_id))</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/color-by-species-1.png" alt="" width="672" /></p>
-<p>We can also specify the colors directly inside the mapping provided
-in the <code>ggplot()</code> function. This will be seen by all geom
-layers and the mapping will be determined by the x- and y-axis set up in
-<code>aes()</code>.</p>
-<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length, color = species_id)) +
-    geom_point(alpha = 0.1)</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/color-by-species2-1.png" alt="" width="672" /></p>
-<p>Notice that we can change the geom layer and colors will be still
-determined by <strong><code>species_id</code></strong></p>
-<div id="challenge" class="section level3 blue">
-<h3>Challenge</h3>
-<p>Use <code>ggplot()</code> to create a scatter plot of
-<code>weight</code> and <code>species_id</code> with weight on the
-Y-axis, and species_id on the X-axis. Have the colors be coded by
-<code>plot_type</code>. Is this a good way to show this type of data?
-What might be a better graph?</p>
+  + geom_point()
+```
+
+## Building your plots iteratively
+
+Building plots with **`ggplot2`** is typically an iterative process. We start by
+defining the dataset we'll use, lay out the axes, and choose a geom:
+
+
+``` r
+ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+    geom_point()
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/create-ggplot-object-1.png" alt="" width="672" />
+
+Then, we start modifying this plot to extract more information from it. For
+instance, we can add transparency (`alpha`) to avoid overplotting:
+
+
+``` r
+ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1)
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/adding-transparency-1.png" alt="" width="672" />
+
+We can also add colors for all the points:
+
+
+``` r
+ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1, color = "blue")
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/adding-colors-1.png" alt="" width="672" />
+
+Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`species_id`**:
+
+
+
+``` r
+ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
+    geom_point(alpha = 0.1, aes(color = species_id))
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/color-by-species-1.png" alt="" width="672" />
+
+We can also specify the colors directly inside the mapping provided in the `ggplot()` function. This will be seen by all geom layers and the mapping will be determined by the x- and y-axis set up in `aes()`.
+
+
+``` r
+ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length, color = species_id)) +
+    geom_point(alpha = 0.1)
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/color-by-species2-1.png" alt="" width="672" />
+
+Notice that we can change the geom layer and colors will be still determined by **`species_id`**
+
+
+<div class = "blue">
+### Challenge
+
+Use `ggplot()` to create a scatter plot of `weight` and
+`species_id` with weight on the Y-axis, and species_id on the X-axis. Have the colors be coded by `plot_type`. Is this a good way to show this type of data? What might be a better graph? 
+
 <details>
-<summary>
-ANSWER
-</summary>
-<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
-   geom_point(aes(color = plot_type))</code></pre>
+<summary>ANSWER</summary>
+
+``` r
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+   geom_point(aes(color = plot_type))
+```
+
 <img src="lesson_wk07_data_visualization_files/figure-html/scatter-challenge-1.png" alt="" width="672" />
 </details>
 </div>
-<p><br></p>
-</div>
-<div id="boxplot" class="section level2">
-<h2>Boxplot</h2>
-<p>We can use boxplots to visualize the distribution of weight within
-each species:</p>
-<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
-    geom_boxplot()</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-1.png" alt="" width="672" /></p>
-<p>By adding points to boxplot, we can have a better idea of the number
-of measurements and of their distribution.</p>
-<p>Let’s also use the geometry “jitter”. <code>geom_jitter</code> is
-almost like <code>geom_point</code> but it allows you to visualize the
-density of points because it adds a small amount of random variation to
-the location of each point.</p>
-<pre class="r"><code>ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+
+<br>
+
+## Boxplot
+
+We can use boxplots to visualize the distribution of weight within each species:
+
+
+``` r
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+    geom_boxplot()
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/boxplot-1.png" alt="" width="672" />
+
+By adding points to boxplot, we can have a better idea of the number of
+measurements and of their distribution. 
+
+Let's also use the geometry "jitter". `geom_jitter` is almost like `geom_point` but it allows you to visualize the density of points because it adds a small amount of random variation to the location of each point. 
+
+
+``` r
+ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
     geom_boxplot(alpha = 0) +
-    geom_jitter(alpha = 0.3, color = &quot;tomato&quot;) #notice our color needs to be in quotations </code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-with-points-1.png" alt="" width="672" /></p>
-<p>Notice how the boxplot layer is behind the jitter layer? What do you
-need to change in the code to put the boxplot in front of the points
-such that it’s not hidden?</p>
-<div id="challenges" class="section level3 blue">
-<h3>Challenges</h3>
-<ol style="list-style-type: decimal">
-<li>Boxplots are useful summaries, but hide the <em>shape</em> of the
-distribution. For example, if the distribution is bimodal, we would not
-see it in a boxplot. An alternative to the boxplot is the violin plot,
-where the shape (of the density of points) is drawn.</li>
-</ol>
-<ul>
-<li>Replace the box plot code from above with a violin plot; see
-<code>geom_violin()</code>.</li>
-</ul>
-<ol start="2" style="list-style-type: decimal">
-<li>In many types of data, it is important to consider the
-<em>scale</em> of the observations. For example, it may be worth
-changing the scale of the axis to better distribute the observations in
-the space of the plot. Changing the scale of the axes is done similarly
-to adding/modifying other components (i.e., by incrementally adding
-commands). Try making these modifications:</li>
-</ol>
-<ul>
-<li>Use the violin plot you made in Q1 and adjust the weight to be on
-the log<sub>10</sub> scale; see <code>scale_y_log10()</code>.</li>
-</ul>
-<ol start="3" style="list-style-type: decimal">
-<li>Make a new plot to explore the distribution of
-<code>hindfoot_length</code> just for species NL and PF using
-<code>geom_boxplot()</code>. Overlay a jitter/scatter plot of the
-hindfoot lengths of the two species behind the boxplots. Then, add an
-<code>aes()</code> argument to color the datapoints (but not the
-boxplots) according to the plot from which the sample was taken.</li>
-</ol>
-<p><em>Hint:</em> Check the class for <code>plot_id</code>. Consider
-changing the class of <code>plot_id</code> from integer to factor. Why
-does this change how R makes the graph?</p>
+    geom_jitter(alpha = 0.3, color = "tomato") #notice our color needs to be in quotations 
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/boxplot-with-points-1.png" alt="" width="672" />
+
+Notice how the boxplot layer is behind the jitter layer? What do you need to
+change in the code to put the boxplot in front of the points such that it's not
+hidden?
+
+<div class = "blue">
+
+### Challenges
+
+1. Boxplots are useful summaries, but hide the *shape* of the distribution. For
+example, if the distribution is bimodal, we would not see it in a
+boxplot. An alternative to the boxplot is the violin plot, where the shape 
+(of the density of points) is drawn.
+
+- Replace the box plot code from above with a violin plot; see `geom_violin()`.
+
+2. In many types of data, it is important to consider the *scale* of the
+observations.  For example, it may be worth changing the scale of the axis to
+better distribute the observations in the space of the plot.  Changing the scale
+of the axes is done similarly to adding/modifying other components (i.e., by
+incrementally adding commands). Try making these modifications:
+
+- Use the violin plot you made in Q1 and adjust the weight to be on the log~10~ scale; see `scale_y_log10()`.
+
+3. Make a new plot to explore the distribution of `hindfoot_length` just for species NL and PF using `geom_boxplot()`. Overlay a jitter/scatter plot of the hindfoot lengths of the two species behind the boxplots. Then, add an `aes()` argument to color the datapoints (but not the boxplots) according to the plot from which the sample was taken.  
+
+*Hint:* Check the class for `plot_id`. Consider changing the class of `plot_id` from integer to factor. Why does this change how R makes the graph?
+
 <details>
-<summary>
-ANSWER
-</summary>
-<pre class="r"><code>#1 + 2
+<summary>ANSWER</summary>  
+
+``` r
+#1 + 2
 
 ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
-    geom_jitter(alpha = 0.3, color = &quot;tomato&quot;) +
+    geom_jitter(alpha = 0.3, color = "tomato") +
     geom_violin(alpha = 0) + 
-    scale_y_log10()</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
-<pre class="r"><code>#3
-surveys_complete %&gt;% 
-  filter(species_id == &quot;NL&quot; | species_id == &quot;PF&quot;) %&gt;% 
+    scale_y_log10()
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" />
+
+``` r
+#3
+surveys_complete %>% 
+  filter(species_id == "NL" | species_id == "PF") %>% 
  ggplot(mapping = aes(x= species_id, y = hindfoot_length)) + 
   geom_jitter(alpha = 0.3, aes(color = as.factor(plot_id))) +
-  geom_boxplot()</code></pre>
+  geom_boxplot()
+```
+
 <img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-3-2.png" alt="" width="672" />
 </details>
 </div>
-<p><br></p>
-</div>
-<div id="plotting-time-series-data" class="section level2">
-<h2>Plotting time series data</h2>
-<p>Let’s calculate number of counts per year for each species. First we
-need to group the data and count records within each group. We can
-quickly use the dplyr function <code>count</code> to do this.
-<code>count</code> is very similar to the function <code>tally</code> we
-have seen before, but it internally calls <code>group_by</code> before
-the function and <code>ungroup</code> after.</p>
-<pre class="r"><code>yearly_counts &lt;- surveys_complete %&gt;%
-                 count(year, species_id) </code></pre>
-<p>Time series data can be visualized as a line plot with years on the x
-axis and counts on the y axis:</p>
-<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
-     geom_line()</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/first-time-series-1.png" alt="" width="672" /></p>
-<p>Unfortunately, this does not work because we plotted data for all the
-species together. We need to tell ggplot to draw a line for each species
-by modifying the aesthetic function to include
-<code>group = species_id</code>:</p>
-<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = year, y = n, group = species_id)) +
-    geom_line()</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/time-series-by-species-1.png" alt="" width="672" /></p>
-<p>We will be able to distinguish species in the plot if we add colors
-(using <code>color</code> also automatically groups the data):</p>
-<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = year, y = n, color = species_id)) +
-    geom_line()</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/time-series-with-colors-1.png" alt="" width="672" /></p>
-</div>
-<div id="faceting" class="section level2">
-<h2>Faceting</h2>
-<p><strong><code>ggplot2</code></strong> has a special technique called
-<em>faceting</em> that allows the user to split one plot into multiple
-plots based on a factor included in the dataset. We will use it to make
-a time series plot for each species:</p>
-<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
+<br>
+
+## Plotting time series data
+
+Let's calculate number of counts per year for each species. First we need
+to group the data and count records within each group. We can quickly use the dplyr function `count` to do this. `count` is very similar to the function `tally` we have seen before, but it internally calls `group_by` before the function and `ungroup` after. 
+
+
+``` r
+yearly_counts <- surveys_complete %>%
+                 count(year, species_id) 
+```
+
+Time series data can be visualized as a line plot with years on the x axis and counts
+on the y axis:
+
+
+``` r
+ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
+     geom_line()
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/first-time-series-1.png" alt="" width="672" />
+
+Unfortunately, this does not work because we plotted data for all the species
+together. We need to tell ggplot to draw a line for each species by modifying
+the aesthetic function to include `group = species_id`:
+
+
+``` r
+ggplot(data = yearly_counts, mapping = aes(x = year, y = n, group = species_id)) +
+    geom_line()
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/time-series-by-species-1.png" alt="" width="672" />
+
+We will be able to distinguish species in the plot if we add colors (using `color` also automatically groups the data):
+
+
+``` r
+ggplot(data = yearly_counts, mapping = aes(x = year, y = n, color = species_id)) +
+    geom_line()
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/time-series-with-colors-1.png" alt="" width="672" />
+
+## Faceting
+
+**`ggplot2`** has a special technique called *faceting* that allows the user to split one
+plot into multiple plots based on a factor included in the dataset. We will use it to
+make a time series plot for each species:
+
+
+``` r
+ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
     geom_line() +
-    facet_wrap(~ species_id)</code></pre>
-<pre><code>## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/first-facet-1.png" alt="" width="672" /></p>
-<div id="challenge-1" class="section level3 blue">
-<h3>Challenge</h3>
-<p>You are looking at a new dataset shared with you by a collaborator.
-You received the dataset shortly after the vernal equinox. Your
-collaborator didn’t really give you any context on what the data
-represent, and you need to do some preliminary visualizations before you
-can really even formulate a question for them. Import the mystery
-dataset using:</p>
-<pre class="r"><code>mystery &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/mysteryData.csv&quot;)</code></pre>
-<pre><code>## Rows: 91325 Columns: 3
+    facet_wrap(~ species_id)
+```
+
+```
+## `geom_line()`: Each group consists of only one observation.
+## ℹ Do you need to adjust the group aesthetic?
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/first-facet-1.png" alt="" width="672" />
+
+
+<div class = "blue">
+### Challenge
+
+You are looking at a new dataset shared with you by a collaborator. You received the dataset shortly after the vernal equinox. Your collaborator didn't really give you any context on what the data represent, and you need to do some preliminary visualizations before you can really even formulate a question for them. Import the mystery dataset using:
+
+
+``` r
+mystery <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/mysteryData.csv")
+```
+
+```
+## Rows: 91325 Columns: 3
 ## ── Column specification ────────────────────────────────────────────────────────────────────────────────────────
-## Delimiter: &quot;,&quot;
+## Delimiter: ","
 ## chr (1): Group
 ## dbl (2): x, y
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<p>Can you figure out what this dataset represents?</p>
-<p><em>Hint</em> Use your new knowledge of faceting to break up the data
-into groups, and consider changing the size and transparency of your
-<code>geom_</code>’s to get a better look!</p>
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+Can you figure out what this dataset represents? 
+
+*Hint* Use your new knowledge of faceting to break up the data into groups, and consider changing the size and transparency of your `geom_`'s to get a better look!
+
 <details>
-<summary>
-ANSWER
-</summary>
-<pre class="r"><code># Preview the data
-mystery %&gt;%
-  head(5)</code></pre>
-<pre><code>## # A tibble: 5 × 3
+<summary>ANSWER</summary>
+
+``` r
+# Preview the data
+mystery %>%
+  head(5)
+```
+
+```
+## # A tibble: 5 × 3
 ##       x     y Group
-##   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;
+##   <dbl> <dbl> <chr>
 ## 1 414.   282. A    
 ## 2 412.   281. A    
 ## 3 414.   281. A    
 ## 4  26.2  275. A    
-## 5  33.9  275. A</code></pre>
-<pre class="r"><code># Plot the data
+## 5  33.9  275. A
+```
+
+``` r
+# Plot the data
 ggplot(data = mystery, mapping = aes(x = x, y = y)) +
      facet_wrap(~ Group) +
-     geom_point(size = 0.1, alpha = 0.01) </code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" /></p>
-<p>If all went well, and you faceted by group, set points to be very
-small, and transparency to be very high (i.e., a low <code>alpha</code>
-setting), you should discover that each group is the outline of a
-different animal! You may notice that there is some distortion going on,
-and our foxy friend in Group B appears to have some thick thighs. Try
-equalizing the coordinate space in the x- and y-axes by adding a
-<code>coord_equal()</code> to your <code>ggplot()</code> call:</p>
-<pre class="r"><code>## Equalize coordinate mapping
+     geom_point(size = 0.1, alpha = 0.01) 
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" />
+
+If all went well, and you faceted by group, set points to be very small, and transparency to be very high (i.e., a low `alpha` setting), you should discover that each group is the outline of a different animal! You may notice that there is some distortion going on, and our foxy friend in Group B appears to have some thick thighs. Try equalizing the coordinate space in the x- and y-axes by adding a `coord_equal()` to your `ggplot()` call:
+
+
+``` r
+## Equalize coordinate mapping
 ggplot(data = mystery, mapping = aes(x = x, y = y)) +
   facet_wrap(~ Group) +
   geom_point(size = 0.1, alpha = 0.01) +
-  coord_equal()</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" /></p>
-<p>This challenge was inspired by Trevor Branch’s <a
-href="https://twitter.com/TrevorABranch/status/1227493205337182209">Coelocanth
-post on Twitter</a> and adapted by <a
-href="https://jepsonnomad.github.io/">Christian John</a>.</p>
+  coord_equal()
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" />
+
+This challenge was inspired by Trevor Branch's [Coelocanth post on Twitter](https://twitter.com/TrevorABranch/status/1227493205337182209) and adapted by [Christian John](https://jepsonnomad.github.io/).
+
 </details>
 </div>
-<p><br></p>
-</div>
-<div id="ggplot2-themes" class="section level2">
-<h2><strong><code>ggplot2</code></strong> themes</h2>
-<p>ggplot Themes are a great, easy addition that can make all your plots
-more readable (and a lot more pretty!)</p>
-<p>In addition to <code>theme_bw()</code>, which changes the plot
-background to white, <strong><code>ggplot2</code></strong> comes with
-several other themes which can be useful to quickly change the look of
-your visualization. The complete list of themes is available at <a
-href="https://ggplot2.tidyverse.org/reference/ggtheme.html"
-class="uri">https://ggplot2.tidyverse.org/reference/ggtheme.html</a>.
-<code>theme_minimal()</code> and <code>theme_light()</code> are popular,
-and <code>theme_void()</code> can be useful as a starting point to
-create a new hand-crafted theme.</p>
-<p>Usually plots with white background look more readable when printed.
-We can set the background to white using the function
-<code>theme_bw()</code>. Additionally, you can remove the grid:</p>
-<pre class="r"><code> ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
+
+<br>
+
+## **`ggplot2`** themes
+
+ggplot Themes are a great, easy addition that can make all your plots more readable (and a lot more pretty!)
+
+In addition to `theme_bw()`, which changes the plot background to white, **`ggplot2`**
+comes with several other themes which can be useful to quickly change the look
+of your visualization. The complete list of themes is available
+at <https://ggplot2.tidyverse.org/reference/ggtheme.html>. `theme_minimal()` and
+`theme_light()` are popular, and `theme_void()` can be useful as a starting
+point to create a new hand-crafted theme.
+
+
+Usually plots with white background look more readable when printed.  We can set
+the background to white using the function `theme_bw()`. Additionally, you can remove
+the grid:
+
+
+``` r
+ ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
      geom_line() +
      facet_wrap(~ species_id) +
      theme_bw() +
-     theme(panel.grid = element_blank())</code></pre>
-<pre><code>## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?</code></pre>
-<p><img src="lesson_wk07_data_visualization_files/figure-html/facet-by-species-and-sex-white-bg-1.png" alt="" width="672" /></p>
-<div id="challenge-1-1" class="section level3 blue">
-<h3>Challenge 1</h3>
-<p>Let’s make one final change to our facet wrapped plot of our yearly
-count data. What if we wanted to split the counts of species up by sex
-where the lines for each sex are different colors? Make sure you have a
-nice theme on your graph too!</p>
-<p><em>Hint</em> Make a new dataframe using the <code>count</code>
-function we learned earlier!</p>
+     theme(panel.grid = element_blank())
+```
+
+```
+## `geom_line()`: Each group consists of only one observation.
+## ℹ Do you need to adjust the group aesthetic?
+```
+
+<img src="lesson_wk07_data_visualization_files/figure-html/facet-by-species-and-sex-white-bg-1.png" alt="" width="672" />
+
+<div class = "blue">
+### Challenge 1 
+
+Let's make one final change to our facet wrapped plot of our yearly count data. What if we wanted to split the counts of species up by sex where the lines for each sex are different colors? Make sure you have a nice theme on your graph too! 
+
+*Hint* Make a new dataframe using the `count` function we learned earlier! 
+
 <details>
-<summary>
-ANSWER
-</summary>
-<pre class="r"><code>#new data frame counting the number of each sex of each species 
- yearly_sex_counts &lt;- surveys_complete %&gt;%
+<summary>ANSWER</summary>
+
+``` r
+#new data frame counting the number of each sex of each species 
+ yearly_sex_counts <- surveys_complete %>%
                       count(year, species_id, sex)
 
 #plot code 
  ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
      geom_line() +
      facet_wrap(~ species_id) +
-     theme_bw()</code></pre>
-<pre><code>## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?</code></pre>
+     theme_bw()
+```
+
+```
+## `geom_line()`: Each group consists of only one observation.
+## ℹ Do you need to adjust the group aesthetic?
+```
+
 <img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" />
 </details>
 </div>
-<p><br></p>
-<div id="challenge-2" class="section level3 blue">
-<h3>Challenge 2</h3>
-<p>Use what you just learned to create a plot that depicts how the
-average weight of each species changes through the years.</p>
+
+<br>
+
+<div class = "blue">
+### Challenge 2
+
+Use what you just learned to create a plot that depicts how the average weight
+of each species changes through the years.
+
 <details>
-<summary>
-ANSWER
-</summary>
-<pre class="r"><code>#create a new dataframe 
-yearly_weight &lt;- surveys_complete %&gt;%
-                 group_by(year, species_id) %&gt;%
-                 summarize(avg_weight = mean(weight))</code></pre>
-<pre><code>## `summarise()` has regrouped the output.
+<summary>ANSWER</summary>
+
+``` r
+#create a new dataframe 
+yearly_weight <- surveys_complete %>%
+                 group_by(year, species_id) %>%
+                 summarize(avg_weight = mean(weight))
+```
+
+```
+## `summarise()` has regrouped the output.
 ## ℹ Summaries were computed grouped by year and species_id.
 ## ℹ Output is grouped by year.
-## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(year, species_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.</code></pre>
-<pre class="r"><code>ggplot(data = yearly_weight, mapping = aes(x=year, y=avg_weight)) +
+## ℹ Use `summarise(.groups = "drop_last")` to silence this message.
+## ℹ Use `summarise(.by = c(year, species_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.
+```
+
+``` r
+ggplot(data = yearly_weight, mapping = aes(x=year, y=avg_weight)) +
   geom_line() +
   facet_wrap(~ species_id) +
-  theme_bw()</code></pre>
-<pre><code>## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?</code></pre>
+  theme_bw()
+```
+
+```
+## `geom_line()`: Each group consists of only one observation.
+## ℹ Do you need to adjust the group aesthetic?
+```
+
 <img src="lesson_wk07_data_visualization_files/figure-html/average-weight-time-series-1.png" alt="" width="672" />
 </details>
 </div>
-<p><br></p>
-<p>This lesson was contributed by <a
-href="https://github.com/MarthaWohlfeil">Martha Zillig</a>.</p>
-<p>This lesson is adapted from the Software Carpentry: R for
-Reproducible Scientific Analysis <a
-href="http://data-lessons.github.io/gapminder-R/03-data-types-subsetting.html">Vectors
-and Data Frames materials</a> and the Data Carpentry: R for Data
-Analysis and Visualization of Ecological Data <a
-href="http://www.datacarpentry.org/R-ecology-lesson/03-dplyr.html">Exporting
-Data materials</a>.</p>
-</div>
-</div>
+
+<br>
+
+This lesson was contributed by [Martha Zillig](https://github.com/MarthaWohlfeil).
+
+This lesson is adapted from the Software Carpentry: R for Reproducible 
+Scientific Analysis [Vectors and Data Frames materials](http://data-lessons.github.io/gapminder-R/03-data-types-subsetting.html)
+and the Data Carpentry: R for Data Analysis and Visualization of Ecological Data 
+[Exporting Data materials](http://www.datacarpentry.org/R-ecology-lesson/03-dplyr.html).
+-->
 
 
 
