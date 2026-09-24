@@ -4,6 +4,16 @@ subtitle: Writing your own functions
 ---
 
 <div class = "blue">
+
+### Under revision
+
+This lecture is being updated for the current quarter — check back soon.
+
+</div>
+
+<!--
+
+<div class = "blue">
 ### Learning Objectives
 
 * Define a function that takes arguments.
@@ -212,3 +222,4 @@ plotPopGrowth('Canada')
 This lesson was contributed by [Ryan Peek](https://ryanpeek.github.io/) and [Martha Zillig](https://github.com/MarthaWohlfeil).
 
 This lesson is adapted from the Software Carpentry: R for Reproducible Scientific Analysis [Creating Functions materials](http://data-lessons.github.io/gapminder-R/07-functions.html).
+-->

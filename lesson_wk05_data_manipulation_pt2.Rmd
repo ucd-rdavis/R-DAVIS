@@ -3,6 +3,16 @@ title: 'Wk05: Manipulating and analyzing data in the tidyverse, Part 2'
 ---
 
 <div class = "blue">
+
+### Under revision
+
+This lecture is being updated for the current quarter — check back soon.
+
+</div>
+
+<!--
+
+<div class = "blue">
 ### Learning objectives
 
 * Use conditional statements to create new variables in a dataframe
@@ -369,3 +379,5 @@ re-generate them.
 
  - Type in `write_` and hit TAB. Scroll down and take a look at the many options that exist for writing out data in R. Use the F1 key on any of these options to read more about how to use it.
  
+
+-->

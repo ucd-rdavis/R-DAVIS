@@ -3,6 +3,16 @@ title: 'Wk08: Data Visualization II'
 ---
 
 <div class = "blue">
+
+### Under revision
+
+This lecture is being updated for the current quarter — check back soon.
+
+</div>
+
+<!--
+
+<div class = "blue">
 ### Learning Objectives
 
 * Learn some basic visualization dos and don'ts
@@ -332,3 +342,4 @@ This lesson is adapted from the Software Carpentry: R for Reproducible
 Scientific Analysis [Vectors and Data Frames materials](http://data-lessons.github.io/gapminder-R/03-data-types-subsetting.html)
 and the Data Carpentry: R for Data Analysis and Visualization of Ecological Data 
 [Exporting Data materials](http://www.datacarpentry.org/R-ecology-lesson/03-dplyr.html).
+-->

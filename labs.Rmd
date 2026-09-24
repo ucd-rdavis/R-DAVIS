@@ -139,47 +139,47 @@ In this lab we are going to practice subsetting and manipulating vectors.
 
 Lab this week will be playing with the `surveys` data we worked on in class.
 
-<a href="labs/lab_week_03.qmd" download>Download Lab 3 (.qmd)</a>
+*This lab is being updated — check back soon.*
 
 
 ### <small>Lab Week 4</small> {#lab-week-4}
 
 This week the lab will review data manipulation in the tidyverse.
 
-<a href="labs/lab_week_04.qmd" download>Download Lab 4 (.qmd)</a>
+*This lab is being updated — check back soon.*
 
 
 ### <small>Lab Week 5</small> {#lab-week-5}
 
 This week's questions will have us practicing pivots and conditional statements.
 
-<a href="labs/lab_week_05.qmd" download>Download Lab 5 (.qmd)</a>
+*This lab is being updated — check back soon.*
 
 
 ### <small>Lab Week 7</small> {#lab-week-7}
 
 For our week seven lab, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`.
 
-<a href="labs/lab_week_07.qmd" download>Download Lab 7 (.qmd)</a>
+*This lab is being updated — check back soon.*
 
 
 ### <small>Lab Week 8</small> {#lab-week-8}
 
 Data Visualization II lab — placeholder; content to be added. (The former Mauna Loa dates lab is in `archive/`.)
 
-<a href="labs/lab_week_08.qmd" download>Download Lab 8 (.qmd)</a>
+*This lab is being updated — check back soon.*
 
 
 ### <small>Lab Week 9</small> {#lab-week-9}
 
 Functions lab — placeholder; content to be added.
 
-<a href="labs/lab_week_09.qmd" download>Download Lab 9 (.qmd)</a>
+*This lab is being updated — check back soon.*
 
 
 ### <small>Lab Week 10</small> {#lab-week-10}
 
 In this assignment, you'll use the iteration skills we built in the course to apply functions to an entire dataset.
 
-<a href="labs/lab_week_10.qmd" download>Download Lab 10 (.qmd)</a>
+*This lab is being updated — check back soon.*
 
