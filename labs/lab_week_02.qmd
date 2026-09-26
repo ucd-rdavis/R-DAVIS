@@ -10,8 +10,6 @@ This is the Lab Week 2 document for R-DAVIS. Complete the tasks below in this fi
 
 In this lab we are going to practice subsetting and manipulating vectors.  
 
-First, open a new script in your workgin directory and save it to your `scripts` folder. Call this new script `lastname_week_2_lab` (with your last name). 
-
 Copy and paste the chunk of code below into your new `lastname_week_2_lab` script and run it. This chunk of code will create the vector you will use in your lab today. Check in your environment to see what it looks like. What do you think each line of code is doing? 
 
 ```{r}

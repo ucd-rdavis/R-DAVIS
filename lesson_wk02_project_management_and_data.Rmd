@@ -7,16 +7,6 @@ output:
 
 <div class = "blue">
 
-### Under revision
-
-This lecture is being updated for the current quarter — check back soon.
-
-</div>
-
-<!--
-
-<div class = "blue">
-
 ### Learning objectives
 
 * Be able to describe the different data types R uses
@@ -30,6 +20,7 @@ This lecture is being updated for the current quarter — check back soon.
 
 ## Videos
 - [Project Management in RStudio](https://video.ucdavis.edu/media/t/1_c5vl44hi/390286133)
+- Reproducible Documents with Quarto (video coming soon)
 - [How R thinks about data (vectors)](https://video.ucdavis.edu/media/Week2_HowRThinksData_1/1_k1x0v34a/390286133)
 - [How R thinks about data (subsetting)](https://video.ucdavis.edu/media/Week2_HowRThinksData_2/1_t2wv5qr1/390286133)
 - [How R thinks about data (vector math)](https://video.ucdavis.edu/media/Week2_HowRThinksData_3/1_w17p1iyl/390286133)
@@ -107,12 +98,11 @@ At a minimum, it's useful to have separate directories for each of the following
 - data: Ideally .csv files as these are flat, transparent, and universal. You may have other specialized formats as well. .rda and .rds are R-specific data files but you never *need* to use these.
 - scripts (or code): .R files, perhaps .do files if Stata is your thing, .py files for Python, etc.
 - results: .png or .pdf files for plots; .tex or .txt files for tables
-- papers: .tex if you write in LaTeX, .doc for Word, .Rmd for RMarkdown, and .pdf or .html rendered documents.
+- papers: .tex if you write in LaTeX, .doc for Word, .qmd for Quarto, and .pdf or .html rendered documents.
 
 #### RStudio Projects
 
-As we learned last week, RStudio has a feature to help keep everything organized in a self-contained, 
-reproducible package, called a "project".
+As we learned last week, RStudio has a feature to help keep everything organized in a self-contained, reproducible package, called a "project".
 
 A project is a small file with a `.Rproj` extension, but you can think of all 
 the files and sub-directories as belonging to that project. We recommend 
@@ -121,9 +111,9 @@ look something like this:
 
 ![](img/working-directory-structure.png)
 
-Open the R Project file "R_DAVIS_2025" you made for this class. You can do this by going to your file explorer ("Finder" on a Mac) and double clicking the file. Alternatively, you can open an existing project from within RStudio by clicking "File -> Open project...", or by going to the top right with the blue R symbol and clicking your project from the drop-down menu.
+Open the R Project file "R_DAVIS_2026" you made for this class. You can do this by going to your file explorer ("Finder" on a Mac) and double clicking the file. Alternatively, you can open an existing project from within RStudio by clicking "File -> Open project...", or by going to the top right with the blue R symbol and clicking your project from the drop-down menu.
 
-Let's now make a directory structure for your R_DAVIS_2025 project, using the structure
+Let's now make a directory structure for your R_DAVIS_2026 project, using the structure
 described above: a folder for each of data, scripts, results, and papers. You can 
 do this in RStudio by clicking on the "New Folder" button in the Files pane, or 
 in your OS by navigating to the directory you just created. 
@@ -139,9 +129,70 @@ in your OS by navigating to the directory you just created.
 
 <br>
 
-Go up to the right hand corner of your screen and click the pull down tab that currently says R_DAVIS_2025. Once you click it, you can toggle between multiple projects at once by clicking the white square/arrow icon next to the project name. This will allow you to have multiple projects open at once. If you want to switch projects completely, just click the project name (not the white square/arrow icon). 
+Go up to the right hand corner of your screen and click the pull down tab that currently says R_DAVIS_2026. Once you click it, you can toggle between multiple projects at once by clicking the white square/arrow icon next to the project name. This will allow you to have multiple projects open at once. If you want to switch projects completely, just click the project name (not the white square/arrow icon). 
 
 It is good to come up with some kind of naming convention that you can keep consistently (e.g. lastname_week_2.R).
+
+# Reproducible Documents with Quarto
+
+<br>
+
+## What is Quarto?
+
+You're now familiar with using R in the *script* and in the *console*, but over the last decade a new paradigm has become common in data science work, which is using R in *notebooks*. In brief, notebooks let you combine code, text, figures, tables, references, and more all in the same document. This is all rendered into an tidy final report, which is typically a PDF, an HTML page, or a Word document. 
+
+Most of us have spent a lot of time in word documents (or LaTex files) getting a figure positioned *just* right, only to realize that this is an outdated version of the figure. Once we've found the new figure, saved it, dragged it in, re-oriented it, we then realize that our figure and our table are reporting different numbers, and we're not sure which is correct. *Sigh. Guess I'm not getting any actual writing done today.*  Quarto makes this process less painful.
+
+Quarto files end in `.qmd`. Quarto comes bundled with RStudio, so you already have it. (You may also run into R Markdown files, which end in `.Rmd`. R Markdown is Quarto's predecessor and works almost the same way. This course website is actually built with it!) From here on out, Eeery lab in this course is a `.qmd` file that you'll download, fill in, render, and upload to Canvas.
+
+## Anatomy of a Quarto document
+
+Since Quarto is still pretty new, when you open a new Quarto file you get some nice instructions:
+
+````{verbatim}
+
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
+````
+
+There are three sections to every Quarto file.
+### The YAML header
+
+The YAML header is surrounded on the top and bottom by `---` lines at the very top. It holds settings for the whole document: the title, the author, the output format, and so on. These settings are stored in `key:value` pairs, which can be a little tricky - you need to know both the option you are trying to change (the key) and what you want to change it *to* (the value). Think of this like variable assignment in R `key <- value`! There are lots of options you can set, but for this course, we will only be working with a few. 
+
+`title:` and `name:` are pretty self explanatory, just make sure to put quotes around your title like in the example! `format:` specifies what type of document you want to render to. There are many available, but in this class we will use `html`. The details of HTML are beyond the scope of this course, but long story short, HTML files look nice and are a little bit more error-proof.
+
+### Writing text in Markdown
+
+### Code Chunks
+
+## Rendering
+
+### Challenge
 
 # How R Thinks About Data
 
@@ -572,6 +623,7 @@ sex
 ```
 
 <div class = "blue">
+
 ### Challenge
 
 * Copy, paste and run the code below in your R script:  
@@ -601,4 +653,3 @@ Some functions in R will automatically convert character strings to factors. For
 ***
 
 This lesson is adapted from [Data Carpentry's Ecology Workshop Introduction to R](https://datacarpentry.org/R-ecology-lesson/01-intro-to-r.html)
--->
