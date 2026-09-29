@@ -31,4 +31,4 @@ hw2
 ##  [8]  92.76726  93.19901  85.12543  69.44137  67.57845
 ```
 
-Finally, save your script and upload your file to Canvas.
+Finally, save your .qmd and upload your file to Canvas.
