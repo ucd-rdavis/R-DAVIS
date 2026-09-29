@@ -815,7 +815,8 @@ ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
 ```
 
 ```
-## `geom_line()`: Each group consists of only one observation.
+## `geom_line()`: Each group consists of only one
+## observation.
 ## ℹ Do you need to adjust the group aesthetic?
 ```
 
@@ -834,7 +835,7 @@ mystery <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/mysteryData.csv")
 
 ```
 ## Rows: 91325 Columns: 3
-## ── Column specification ──────────────────────────────────────────────────────────────────────────────
+## ── Column specification ────────────────────────────────
 ## Delimiter: ","
 ## chr (1): Group
 ## dbl (2): x, y
@@ -922,7 +923,8 @@ the grid:
 ```
 
 ```
-## `geom_line()`: Each group consists of only one observation.
+## `geom_line()`: Each group consists of only one
+## observation.
 ## ℹ Do you need to adjust the group aesthetic?
 ```
 
@@ -951,7 +953,8 @@ Let's make one final change to our facet wrapped plot of our yearly count data. 
 ```
 
 ```
-## `geom_line()`: Each group consists of only one observation.
+## `geom_line()`: Each group consists of only one
+## observation.
 ## ℹ Do you need to adjust the group aesthetic?
 ```
 
@@ -979,10 +982,13 @@ yearly_weight <- surveys_complete %>%
 
 ```
 ## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by year and species_id.
+## ℹ Summaries were computed grouped by year and
+##   species_id.
 ## ℹ Output is grouped by year.
-## ℹ Use `summarise(.groups = "drop_last")` to silence this message.
-## ℹ Use `summarise(.by = c(year, species_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.
+## ℹ Use `summarise(.groups = "drop_last")` to silence
+##   this message.
+## ℹ Use `summarise(.by = c(year, species_id))` for
+##   per-operation grouping (`?dplyr::dplyr_by`) instead.
 ```
 
 ``` r
@@ -993,7 +999,8 @@ ggplot(data = yearly_weight, mapping = aes(x=year, y=avg_weight)) +
 ```
 
 ```
-## `geom_line()`: Each group consists of only one observation.
+## `geom_line()`: Each group consists of only one
+## observation.
 ## ℹ Do you need to adjust the group aesthetic?
 ```
 
