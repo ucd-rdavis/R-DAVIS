@@ -19,10 +19,8 @@ output:
 <br>
 
 ## Videos
-- [Project Management in RStudio](https://video.ucdavis.edu/media/t/1_c5vl44hi/390286133)
-- Reproducible Documents with Quarto (video coming soon)
-- [How R thinks about data (vectors)](https://video.ucdavis.edu/media/Week2_HowRThinksData_1/1_k1x0v34a/390286133)
-- [How R thinks about data (subsetting)](https://video.ucdavis.edu/media/Week2_HowRThinksData_2/1_t2wv5qr1/390286133)
+- [Project Management and Quarto](https://video.ucdavis.edu/media/Week+2+-+Project+Management+and+Quarto/1_31gtno82)
+- [How R thinks about data (vectors + subsetting)](https://video.ucdavis.edu/media/Week+2+-+Vectors+and+Subsetting+Vectors/1_gokm4gll)
 - [How R thinks about data (vector math)](https://video.ucdavis.edu/media/Week2_HowRThinksData_3/1_w17p1iyl/390286133)
 - [How R thinks about data (missing values)](https://video.ucdavis.edu/media/Week2_HowRThinksData_4/1_4yudpeyo)
 - [How R thinks about data (not-vectors)](https://video.ucdavis.edu/media/Week2_HowRThinksData_5.mp4/1_iu848ida/390286133)
@@ -183,6 +181,7 @@ The `echo: false` option disables the printing of code (only output is displayed
 ````
 
 There are three sections to every Quarto file.
+
 ### The YAML header
 
 The YAML header is surrounded on the top and bottom by `---` lines at the very top. It holds settings for the whole document: the title, the author, the output format, and so on. These settings are stored in `key:value` pairs, which can be a little tricky - you need to know both the option you are trying to change (the key) and what you want to change it *to* (the value). Think of this like variable assignment in R `key <- value`! There are lots of options you can set, but for this course, we will only be working with a few. 
