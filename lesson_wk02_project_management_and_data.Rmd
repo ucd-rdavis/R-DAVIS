@@ -35,15 +35,6 @@ output:
 
 # Project Management in RStudio
 
-<br>
-`HOME` is where I want to be<br>
-But I guess I'm already there<br>
-I come home, a clean directory<br>
-I guess this must be the place
-
-![](img/david_byrne_big_suit.gif){width=250px}
-
-<br>
 <div class = "blue">
 
 ## Learning objectives
