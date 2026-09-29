@@ -1,0 +1,1431 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Wk02: Project Management in RStudio and How R Thinks About Data</title>
+
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="site_libs_extra/academicons-1.8.0/css/academicons.css"/>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="outline.html">
+    <span class="fa fa-calendar fa-1x"></span>
+     
+    Outline
+  </a>
+</li>
+<li>
+  <a href="syllabus.html">
+    <span class="fa fa-map fa-1x"></span>
+     
+    Syllabus
+  </a>
+</li>
+<li>
+  <a href="AI.html">
+    <span class="fa fa-robot fa-1x"></span>
+     
+    AI
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Set Up
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="computer_setup.html">Computer Setup</a>
+    </li>
+    <li>
+      <a href="setting_up_git.html">Setting up Git Repository</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book  fa-1x"></span>
+     
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lesson_wk01_intro_r_rstudio.html">Wk01 Intro to Programming, R, &amp; RStudio</a>
+    </li>
+    <li>
+      <a href="lesson_wk02_project_management_and_data.html">Wk02 Project Management &amp; How R Thinks About Data</a>
+    </li>
+    <li>
+      <a href="lesson_wk03_spreadsheets_and_data_import.html">Wk03 Spreadsheet Best Practices &amp; Data Import</a>
+    </li>
+    <li>
+      <a href="lesson_wk04_data_manipulation_pt1.html">Wk04 Data Manipulation Pt1</a>
+    </li>
+    <li>
+      <a href="lesson_wk05_data_manipulation_pt2.html">Wk05 Data Manipulation Pt2</a>
+    </li>
+    <li>
+      <a href="lesson_wk07_data_visualization.html">Wk07 Data Visualization I</a>
+    </li>
+    <li>
+      <a href="lesson_wk08_data_visualization_pt2.html">Wk08 Data Visualization II</a>
+    </li>
+    <li>
+      <a href="lesson_wk09_functions.html">Wk09 Functions</a>
+    </li>
+    <li>
+      <a href="lesson_wk10_iteration.html">Wk10 Iteration</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="labs.html">
+    <span class="fa fa-paperclip fa-1x"></span>
+     
+    Labs
+  </a>
+</li>
+<li>
+  <a href="resources.html">
+    <span class="fa fa-list"></span>
+     
+    Resources
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="contact.html">
+    <span class="fa fa-hand-spock-o"></span>
+     
+    Contact
+  </a>
+</li>
+<li>
+  <a href="https://github.com/ucd-rdavis/R-DAVIS">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Wk02: Project Management in RStudio and How
+R Thinks About Data</h1>
+
+</div>
+
+
+<div id="learning-objectives" class="section level3 blue">
+<h3>Learning objectives</h3>
+<ul>
+<li>Be able to describe the different data types R uses</li>
+<li>Use c(), str(), class(), and typeof() to make and investigate
+vectors</li>
+<li>Understand coercion between data types</li>
+<li>Know how factors work under the hood</li>
+<li>Be able to manipulate factors</li>
+</ul>
+</div>
+<p><br></p>
+<div id="videos" class="section level2">
+<h2>Videos</h2>
+<ul>
+<li><a
+href="https://video.ucdavis.edu/media/Week+2+-+Project+Management+and+Quarto/1_31gtno82">Project
+Management and Quarto</a></li>
+<li><a
+href="https://video.ucdavis.edu/media/Week+2+-+Vectors+and+Subsetting+Vectors/1_gokm4gll">How
+R thinks about data (vectors + subsetting)</a></li>
+<li><a
+href="https://video.ucdavis.edu/media/Week2_HowRThinksData_3/1_w17p1iyl/390286133">How
+R thinks about data (vector math)</a></li>
+<li><a href="">How R thinks about data (missing values)</a></li>
+<li><a
+href="https://video.ucdavis.edu/media/ENVECL224_Wk2_OtherDataTypesInR/1_tvixxkcc/420714533">How
+R thinks about data (not-vectors)</a></li>
+<li><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714930">Video
+Discussion</a></li>
+</ul>
+</div>
+<div id="in-class-coding" class="section level2">
+<h2>In Class Coding</h2>
+<p><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714935">Submit
+Week 2 In Class Coding</a></p>
+<p><br></p>
+</div>
+<div id="project-management-in-rstudio" class="section level1">
+<h1>Project Management in RStudio</h1>
+<p><br> <code>HOME</code> is where I want to be<br> But I guess I’m
+already there<br> I come home, a clean directory<br> I guess this must
+be the place</p>
+<p><img src="img/david_byrne_big_suit.gif" width="250" /></p>
+<br>
+<div id="learning-objectives-1" class="section level2 blue">
+<h2>Learning objectives</h2>
+<ul>
+<li>Understand motivation for code and data management</li>
+<li>Know how to organize code, data, and results</li>
+<li>Know the basics of file paths and directory structures</li>
+<li>Be able to create and use an RStudio project</li>
+</ul>
+</div>
+<p><br></p>
+<div id="working-directory-and-file-paths" class="section level2">
+<h2>Working Directory and File Paths</h2>
+<p>Any time you’re working in R, R needs to know where you are within
+your computer, which is referred to as the <em>working directory</em>.
+The working directory could be something like
+<code>"YourUsername/Documents"</code>, or it could be something more
+specific like <code>"YourUsername/Documents/GradSchool/Chapter1"</code>.
+Either way, R will think of everything in your computer as located
+relative to your working directory. One of the nicest parts of using R
+Projects is that they automatically set the working directory to the
+folder containing the .RProject file. You can see your current working
+directory by running the function <code>getwd()</code>, and you can set
+it using <code>setwd()</code>, but if you’re using an R Project, you
+generally shouldn’t mess with this too much.</p>
+<p>All directories and files in R (and most computer languages) are
+located using <em>file paths</em>. The two working directory examples we
+just used are written as file paths, with <code>/</code> put between
+different levels. Within <code>YourUsername</code> there is a folder
+called <code>Documents</code>, and within that there is a folder called
+<code>GradSchool</code>, and so on. In R, file paths are always wrapped
+in quotes. There are 2 basic kinds of file paths: <em>absolute</em> and
+<em>relative</em>. Absolute paths list out the full file path, usually
+starting with your username, which you can also refer to using the
+shortcut <code>~</code>. So instead of
+<code>YourUsername/Documents</code>, you can type
+<code>~/Documents</code>. However, if you’ve got folders within folders
+within folders, typing out absolute paths can get really tedious.
+<em>Relative</em> paths are <em>relative</em> to your working directory.
+So if R thinks we’re in that <code>Chapter1</code> folder, and we want
+to access a folder inside it called <code>data</code>, we can just type
+<code>data</code> instead of
+<code>"YourUsername/Documents/GradSchool/Chapter1/data"</code>. What
+happens if we need to go up a level, into <code>GradSchool</code>? Well
+we can type <code>..</code> to go up a level. So if we need to grab
+something from our <code>Chapter2</code> folder, but our working
+directory is <code>Chapter1</code>, we would type
+<code>../Chapter2/FileWeWant</code>.</p>
+</div>
+<div id="code-data-organization" class="section level2">
+<h2>Code &amp; Data Organization</h2>
+<p>The scientific process is naturally incremental, and many projects
+start life as random notes, some code, then a manuscript, and eventually
+everything is a bit mixed together.</p>
+<blockquote>
+<p>“Your greatest enemy is yourself four months ago” -Every grad student
+ever</p>
+</blockquote>
+<p>A good project layout will ultimately make your life easier:</p>
+<ul>
+<li>It makes it easier to understand the pipeline from source data to
+final product</li>
+<li>It helps ensure the integrity of your data</li>
+<li>It makes it simpler to share your code with someone else</li>
+<li>It allows you to easily upload your code with your manuscript
+submission</li>
+<li>It makes it easier to pick the project back up after a break</li>
+</ul>
+<div id="best-practices-for-project-organization"
+class="section level3">
+<h3>Best practices for project organization</h3>
+<p>Although there is no “best” way to lay out a project, there are some
+general principles to adhere to that will make project management
+easier:</p>
+<div id="treat-raw-data-as-read-only" class="section level4">
+<h4>Treat raw data as read only</h4>
+<p>This is probably the most important goal of setting up a project. Raw
+data should never be edited, because you can never be sure that you will
+want to keep any edit you make, and you want to have a record of any
+changes you make to data. Therefore, treat your raw data as “read only”,
+perhaps even making a <code>raw_data</code> directory that is never
+modified. If you do some data cleaning or modification, save the
+modified file separate from the raw data, and ideally keep all the
+modifying actions in a script so that you can review and revise them as
+needed in the future.</p>
+</div>
+<div id="treat-generated-output-as-disposable" class="section level4">
+<h4>Treat generated output as disposable</h4>
+<p>Anything generated by your scripts should be treated as disposable:
+it should all be able to be regenerated from your scripts. There are
+lots of different ways to manage this output, and what’s best may depend
+on the particular kind of project. At a minimum, it’s useful to have
+separate directories for each of the following:</p>
+<ul>
+<li>data: Ideally .csv files as these are flat, transparent, and
+universal. You may have other specialized formats as well. .rda and .rds
+are R-specific data files but you never <em>need</em> to use these.</li>
+<li>scripts (or code): .R files, perhaps .do files if Stata is your
+thing, .py files for Python, etc.</li>
+<li>results: .png or .pdf files for plots; .tex or .txt files for
+tables</li>
+<li>papers: .tex if you write in LaTeX, .doc for Word, .qmd for Quarto,
+and .pdf or .html rendered documents.</li>
+</ul>
+</div>
+<div id="rstudio-projects" class="section level4">
+<h4>RStudio Projects</h4>
+<p>As we learned last week, RStudio has a feature to help keep
+everything organized in a self-contained, reproducible package, called a
+“project”.</p>
+<p>A project is a small file with a <code>.Rproj</code> extension, but
+you can think of all the files and sub-directories as belonging to that
+project. We recommend creating a directory and a project file for each
+project you work on. It should look something like this:</p>
+<p><img src="img/working-directory-structure.png" /></p>
+<p>Open the R Project file “R_DAVIS_2026” you made for this class. You
+can do this by going to your file explorer (“Finder” on a Mac) and
+double clicking the file. Alternatively, you can open an existing
+project from within RStudio by clicking “File -&gt; Open project…”, or
+by going to the top right with the blue R symbol and clicking your
+project from the drop-down menu.</p>
+<p>Let’s now make a directory structure for your R_DAVIS_2026 project,
+using the structure described above: a folder for each of data, scripts,
+results, and papers. You can do this in RStudio by clicking on the “New
+Folder” button in the Files pane, or in your OS by navigating to the
+directory you just created.</p>
+<br>
+</div>
+<div id="challenge---file-navigation" class="section level4 blue">
+<h4>Challenge - File Navigation</h4>
+<ul>
+<li>Open up a new R script (File &gt; New File &gt; R Script) and save
+it in your scripts folder as test_script.R”. In this script, check out
+your working directory with the <code>getwd()</code> function. Your
+working directory should be your new project.
+<ul>
+<li>In your test script, type quotation marks and navigate through your
+file paths to find this “test_script.R” file. (Hint: Use tab to show you
+were you are in your file path.)</li>
+<li>Play around with navigating your file paths by experimenting with
+the following symbols inside the quotation marks: a tilde with a forward
+slash (“~/”), forward slashes on their own (“/”), and two periods
+followed by a forward slash (“../”).</li>
+</ul></li>
+</ul>
+</div>
+<p><br></p>
+<p>Go up to the right hand corner of your screen and click the pull down
+tab that currently says R_DAVIS_2026. Once you click it, you can toggle
+between multiple projects at once by clicking the white square/arrow
+icon next to the project name. This will allow you to have multiple
+projects open at once. If you want to switch projects completely, just
+click the project name (not the white square/arrow icon).</p>
+<p>It is good to come up with some kind of naming convention that you
+can keep consistently (e.g. lastname_week_2.R).</p>
+</div>
+</div>
+</div>
+<div id="reproducible-documents-with-quarto" class="section level1">
+<h1>Reproducible Documents with Quarto</h1>
+<p><br></p>
+<div id="what-is-quarto" class="section level2">
+<h2>What is Quarto?</h2>
+<p>You’re now familiar with using R in the <em>script</em> and in the
+<em>console</em>, but over the last decade a new paradigm has become
+common in data science work, which is using R in <em>notebooks</em>. In
+brief, notebooks let you combine code, text, figures, tables,
+references, and more all in the same document. This is all rendered into
+an tidy final report, which is typically a PDF, an HTML page, or a Word
+document.</p>
+<p>Most of us have spent a lot of time in word documents (or LaTex
+files) getting a figure positioned <em>just</em> right, only to realize
+that this is an outdated version of the figure. Once we’ve found the new
+figure, saved it, dragged it in, re-oriented it, we then realize that
+our figure and our table are reporting different numbers, and we’re not
+sure which is correct. <em>Sigh. Guess I’m not getting any actual
+writing done today.</em> Quarto makes this process less painful.</p>
+<p>Quarto files end in <code>.qmd</code>. Quarto comes bundled with
+RStudio, so you already have it. (You may also run into R Markdown
+files, which end in <code>.Rmd</code>. R Markdown is Quarto’s
+predecessor and works almost the same way. This course website is
+actually built with it!) From here on out, Eeery lab in this course is a
+<code>.qmd</code> file that you’ll download, fill in, render, and upload
+to Canvas.</p>
+<p>Quarto has a lot of built in features that can help with your
+workflow, such as cross-referencing, citations, making presentations,
+and more. You can read about it all at the <a
+href="https://quarto.org/docs/guide/">Quarto Guide</a>.</p>
+</div>
+<div id="anatomy-of-a-quarto-document" class="section level2">
+<h2>Anatomy of a Quarto document</h2>
+<p>Since Quarto is still pretty new, when you open a new Quarto file you
+get some nice instructions:</p>
+<pre class="default"><code>
+---
+title: &quot;Untitled&quot;
+format: html
+editor: visual
+---
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see &lt;https://quarto.org&gt;.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).</code></pre>
+<p>There are three sections to every Quarto file.</p>
+<div id="the-yaml-header" class="section level3">
+<h3>The YAML header</h3>
+<p>The YAML header is surrounded on the top and bottom by
+<code>---</code> lines at the very top. It holds settings for the whole
+document: the title, the author, the output format, and so on. These
+settings are stored in <code>key:value</code> pairs, which can be a
+little tricky - you need to know both the option you are trying to
+change (the key) and what you want to change it <em>to</em> (the value).
+Think of this like variable assignment in R
+<code>key &lt;- value</code>! There are lots of options you can set, but
+for this course, we will only be working with a few.</p>
+<p><code>title:</code> and <code>name:</code> are pretty self
+explanatory, just make sure to put quotes around your title like in the
+example! <code>format:</code> specifies what type of document you want
+to render to. There are many available, but in this class we will use
+<code>html</code>. The details of HTML are beyond the scope of this
+course, but long story short, HTML files look nice and are a little bit
+more error-proof.</p>
+</div>
+<div id="writing-text-in-markdown" class="section level3">
+<h3>Writing text in Markdown</h3>
+<p>When you are not writing within a code chunk, you are writing in
+<em>Markdown</em>, which is similar to word processing software. You can
+format text into headings, <strong>bold</strong>, <em>italics</em>,
+<code>codeface</code>, and lists using the syntax below.</p>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>You type</th>
+<th>You get</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code># Heading 1</code>, <code>## Heading 2</code>,
+<code>### Heading 3</code></td>
+<td>Headings of decreasing size</td>
+</tr>
+<tr class="even">
+<td><code>**bold**</code></td>
+<td><strong>bold</strong></td>
+</tr>
+<tr class="odd">
+<td><code>*italic*</code></td>
+<td><em>italic</em></td>
+</tr>
+<tr class="even">
+<td><code>`code`</code></td>
+<td><code>code</code></td>
+</tr>
+<tr class="odd">
+<td><code>- item</code> (one per line)</td>
+<td>a bulleted list</td>
+</tr>
+<tr class="even">
+<td><code>1. item</code> (one per line)</td>
+<td>a numbered list</td>
+</tr>
+</tbody>
+</table>
+<p>Leave a blank line between paragraphs, and before and after headings
+and lists. Markdown can get confused without them.</p>
+</div>
+<div id="code-chunks" class="section level3">
+<h3>Code Chunks</h3>
+<p>There are three ways to add a code chunk:</p>
+<ul>
+<li>Click the green <strong>+C</strong> button (Insert Code Chunk) at
+the top of the editor</li>
+<li>Use the keyboard shortcut <strong>Cmd + Option + I</strong> (Mac) or
+<strong>Ctrl + Alt + I</strong> (Windows)</li>
+<li>Type it out yourself: three backticks and <code>{r}</code> on one
+line, your code, then three backticks to close</li>
+</ul>
+<p>You can run code in a chunk just like in a script: put your cursor on
+a line and press <strong>Cmd/Ctrl + Enter</strong>, or click the green
+play arrow in the top right of the chunk to run the whole thing.</p>
+</div>
+</div>
+<div id="rendering" class="section level2">
+<h2>Rendering</h2>
+<p>When you render a Quarto file, it is run in an isolated R session.
+This means that anything not contained in the .qmd file (Usually, this
+is code you ran in the console or in a different .R file) won’t show up!
+This is a <em>reproducibility</em> feature, and helps you keep your work
+accountable and reproducible.</p>
+<p>To render, click the <strong>Render</strong> button (the blue arrow)
+at the top of the editor, or press <strong>Cmd/Ctrl + Shift +
+K</strong>. Quarto runs every chunk, stitches the text and output
+together, and shows a preview. The finished file (e.g.,
+<code>my_document.html</code>) is saved in the same folder as your
+<code>.qmd</code>.</p>
+<br>
+<div id="challenge---your-first-quarto-document"
+class="section level3 blue">
+<h3>Challenge - Your First Quarto Document</h3>
+<ol style="list-style-type: decimal">
+<li>Create a new Quarto document and save it in your
+<code>scripts</code> folder as
+<code>lastname_week_2_quarto.qmd</code>.</li>
+<li>Edit the YAML header so it has a title, your name as the author, and
+<code>format: html</code>.</li>
+<li>Add a <code>##</code> heading and a sentence describing your
+research interests, with at least one word in
+<strong>bold</strong>.</li>
+<li>Add a code chunk that results in something! You might add numbers,
+or do a logical comparison, or use a function we have learned`.</li>
+<li>Render it to HTML and open the result.</li>
+</ol>
+</div>
+<p><br></p>
+</div>
+</div>
+<div id="how-r-thinks-about-data" class="section level1">
+<h1>How R Thinks About Data</h1>
+<div id="why-learn-this-stuff" class="section level2">
+<h2>Why Learn This Stuff?</h2>
+<p>It can be helpful to think of R, and your computer in general, as a
+collaborator who speaks a different language from you and is remarkably
+pedantic, but remarkably skilled as well. Learning a new language is
+difficult, and learning to speak it to an extremely literal and pedantic
+collaborator can make it even more frustrating. In such a collaboration,
+it might be useful to spend a little time learning the fundamentals of
+the language, understanding how you might interpret things differently,
+and not just rushing to “data data data!”</p>
+<p>While this stuff might not be the most exciting material, or even
+feel useful right now, it is remarkably important in laying the
+groundwork for a fruitful collaboration with R. Skipping past this stuff
+and rushing to the finish line can leave you with a) error messages that
+don’t make sense to you, b) problems that are difficult to Google
+solutions to, and c) problems that R never even warns you about, because
+R didn’t think there was anything wrong!</p>
+<p>All that being said, building a solid understanding of these
+fundamental ideas will save you headaches in the future, and leave you
+more well equipped to deal with new projects and concepts.</p>
+</div>
+<div id="vectors-and-data-types" class="section level2">
+<h2>Vectors and data types</h2>
+<p>Vectors are the most basic way that R deals with data. A vector is
+made up of a series of values, which could be numbers or characters.
+Remember when we learned how to assign values to objects, like
+<code>x &lt;- 5</code>? Once we do that, x is a vector with a length of
+1. Basically everything in R will be a vector or a bunch of vectors
+bound together in some way, so knowing how vectors work is crucial to
+working with more complex data structures.</p>
+<p>We can bind together a series of values into a vector using the
+<code>c()</code> function. For example we can create a vector of animal
+weights and assign it to a new object <code>weight_g</code>:</p>
+<pre class="r"><code>weight_g &lt;- c(50, 60, 65, 82)
+weight_g</code></pre>
+<pre><code>## [1] 50 60 65 82</code></pre>
+<p>A vector can also contain characters:</p>
+<pre class="r"><code>animals &lt;- c(&quot;mouse&quot;, &quot;rat&quot;, &quot;dog&quot;)
+animals</code></pre>
+<pre><code>## [1] &quot;mouse&quot; &quot;rat&quot;   &quot;dog&quot;</code></pre>
+<p>The quotes around “mouse”, “rat”, etc. are essential here. Without
+the quotes R will assume there are objects called <code>mouse</code>,
+<code>rat</code> and <code>dog</code>. As these objects don’t exist in
+R’s memory, there will be an error message. You can use either single
+<code>'</code> or double <code>"</code> quotes for characters.</p>
+<p>There are many functions that allow you to inspect the content of a
+vector. <code>length()</code> tells you how many elements are in a
+particular vector:</p>
+<pre class="r"><code>length(weight_g)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>length(animals)</code></pre>
+<pre><code>## [1] 3</code></pre>
+<p>An important feature of a vector is that all of the elements are the
+same type of data. The function <code>class()</code> indicates the class
+(the type of element) of an object:</p>
+<pre class="r"><code>class(weight_g)</code></pre>
+<pre><code>## [1] &quot;numeric&quot;</code></pre>
+<pre class="r"><code>class(animals)</code></pre>
+<pre><code>## [1] &quot;character&quot;</code></pre>
+<p>The function <code>str()</code> provides an overview of the structure
+of an object and its elements. It is a useful function when working with
+large and complex objects.</p>
+<pre class="r"><code>str(weight_g)</code></pre>
+<pre><code>##  num [1:4] 50 60 65 82</code></pre>
+<pre class="r"><code>str(animals)</code></pre>
+<pre><code>##  chr [1:3] &quot;mouse&quot; &quot;rat&quot; &quot;dog&quot;</code></pre>
+<p>A vector can be modified, adding values to the start or end of it.
+You can use the <code>c()</code> function to add other elements to your
+vector:</p>
+<pre class="r"><code>weight_g &lt;- c(weight_g, 90) # add to the end of the vector
+weight_g &lt;- c(30, weight_g) # add to the beginning of the vector
+weight_g</code></pre>
+<pre><code>## [1] 30 50 60 65 82 90</code></pre>
+<p>In the first line, we take the original vector <code>weight_g</code>,
+add the value <code>90</code> to the end of it, and save the result back
+into <code>weight_g</code>. Then we add the value <code>30</code> to the
+beginning, again saving the result back into <code>weight_g</code>.</p>
+<p>An <strong>atomic vector</strong> is the simplest R <strong>data
+structure</strong> and is a linear vector of a single type. Above, we
+saw 2 of the main <strong>atomic vector</strong> types that R uses:
+<code>"character"</code> and <code>"numeric"</code> (or
+<code>"double"</code>), which are numbers that can include decimals.
+These are the basic building blocks that all R objects are built from.
+There are 2 other <strong>atomic vector</strong> types that you’ll often
+encounter:</p>
+<ul>
+<li><code>"logical"</code> for <code>TRUE</code> and <code>FALSE</code>
+(the boolean data type)</li>
+<li><code>"integer"</code> for integer numbers (e.g., <code>2L</code>,
+the <code>L</code> indicates to R that it’s an integer)</li>
+</ul>
+<p>There are some other types, like <code>complex</code> and
+<code>raw</code> but you’ll rarely, if ever, encounter them, so we won’t
+go into them further.</p>
+<p>You can check the type of your vector using the <code>typeof()</code>
+function and inputting your vector as the argument.
+<code>typeof()</code> is similar to <code>class()</code>, but it digs
+even deeper down to the bare bones of how R thinks about data. The
+difference is less important now, but we’ll come back around to it.</p>
+<div id="challenge" class="section level3 blue">
+<h3>Challenge</h3>
+<ul>
+<li><p>We’ve seen that atomic vectors can be of type character, numeric
+(or double), integer, and logical. But what happens if we try to mix
+these types in a single vector?</p></li>
+<li><p>What will happen in each of these examples? (hint: use
+<code>class()</code> to check the data type of your objects):</p></li>
+</ul>
+<pre class="r"><code>num_char &lt;- c(1, 2, 3, &quot;a&quot;)
+num_logical &lt;- c(1, 2, 3, TRUE)
+char_logical &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, TRUE)
+tricky &lt;- c(1, 2, 3, &quot;4&quot;)</code></pre>
+<ul>
+<li>Why do you think it happens?</li>
+</ul>
+<details>
+<summary>
+ANSWER
+</summary>
+Vectors can be of only one data type. R tries to convert (coerce) the
+content of this vector to find a “common denominator” that doesn’t lose
+any information.
+</details>
+<ul>
+<li>How many values in <code>combined_logical</code> are
+<code>"TRUE"</code> (as a character) in the following example:</li>
+</ul>
+<pre class="r"><code>num_logical &lt;- c(1, 2, 3, TRUE)
+char_logical &lt;- c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, TRUE)
+combined_logical &lt;- c(num_logical, char_logical)</code></pre>
+<ul>
+<li>You’ve probably noticed that objects of different types get
+converted into a single, shared type within a vector. In R, we call
+converting objects from one class into another class <em>coercion</em>.
+These conversions happen according to a hierarchy, whereby some types
+get preferentially coerced into other types. Can you draw a diagram that
+represents the hierarchy of how these data types are coerced?</li>
+</ul>
+</div>
+</div>
+<div id="subsetting-vectors" class="section level2">
+<h2>Subsetting vectors</h2>
+<p>If we want to extract one or several values from a vector, we must
+provide one or several indices in square brackets.</p>
+<pre class="r"><code>animals &lt;- c(&quot;mouse&quot;, &quot;rat&quot;, &quot;dog&quot;, &quot;cat&quot;)
+animals[2] # could be read as &quot;return the second value in animals&quot;</code></pre>
+<pre><code>## [1] &quot;rat&quot;</code></pre>
+<pre class="r"><code>animals[c(3, 2)] # could be read as &quot;return the third and second values in animals&quot;</code></pre>
+<pre><code>## [1] &quot;dog&quot; &quot;rat&quot;</code></pre>
+<p>We can also repeat the indices to create an object with more elements
+than the original one:</p>
+<pre class="r"><code>animals[c(1, 2, 3, 2, 1, 4)]</code></pre>
+<pre><code>## [1] &quot;mouse&quot; &quot;rat&quot;   &quot;dog&quot;   &quot;rat&quot;   &quot;mouse&quot; &quot;cat&quot;</code></pre>
+<p>R indices start at 1. Programming languages like Fortran, MATLAB,
+Julia, and R start counting at 1, because that’s what human beings
+typically do. Languages in the C family (including C++, Java, Perl, and
+Python) count from 0 because that’s simpler for computers to do.</p>
+<div id="conditional-subsetting" class="section level3">
+<h3>Conditional subsetting</h3>
+<p>Another common way of subsetting is by using a logical vector.
+<code>TRUE</code> will select the element with the same index, while
+<code>FALSE</code> will not:</p>
+<pre class="r"><code>weight_g &lt;- c(21, 34, 39, 54, 55)
+weight_g[c(TRUE, FALSE, TRUE, TRUE, FALSE)] # could be read as &quot;give me the first value, not the second value, etc.&quot;</code></pre>
+<pre><code>## [1] 21 39 54</code></pre>
+<p>Typically, these logical vectors are not typed by hand, but are the
+output of other functions or logical tests. For instance, if you wanted
+to select only the values above 50:</p>
+<pre class="r"><code>weight_g &gt; 50    # will return logicals with TRUE for the indices that meet the condition</code></pre>
+<pre><code>## [1] FALSE FALSE FALSE  TRUE  TRUE</code></pre>
+<pre class="r"><code>## so we can use this to select only the values above 50
+weight_g[weight_g &gt; 50]</code></pre>
+<pre><code>## [1] 54 55</code></pre>
+<p>You can combine multiple tests using <code>&amp;</code> (both
+conditions are true, AND) or <code>|</code> (at least one of the
+conditions is true, OR):</p>
+<pre class="r"><code>weight_g[weight_g &lt; 30 | weight_g &gt; 50]</code></pre>
+<pre><code>## [1] 21 54 55</code></pre>
+<pre class="r"><code>weight_g[weight_g &gt;= 30 &amp; weight_g == 21]</code></pre>
+<pre><code>## numeric(0)</code></pre>
+<p>Here, <code>&lt;</code> stands for “less than”, <code>&gt;</code> for
+“greater than”, <code>&gt;=</code> for “greater than or equal to”, and
+<code>==</code> for “equal to”. The double equal sign <code>==</code> is
+a test for numerical equality between the left and right hand sides, and
+should not be confused with the single <code>=</code> sign, which
+performs variable assignment (similar to <code>&lt;-</code>).</p>
+<p>A common task is to search for certain strings in a vector. One could
+use the “or” operator <code>|</code> to test for equality to multiple
+values, but this can quickly become tedious. The function
+<code>%in%</code> allows you to test if any of the elements of a search
+vector are found:</p>
+<pre class="r"><code>animals &lt;- c(&quot;mouse&quot;, &quot;rat&quot;, &quot;dog&quot;, &quot;cat&quot;)
+animals[animals == &quot;cat&quot; | animals == &quot;rat&quot;] # returns both rat and cat</code></pre>
+<pre><code>## [1] &quot;rat&quot; &quot;cat&quot;</code></pre>
+<pre class="r"><code>animals %in% c(&quot;rat&quot;, &quot;cat&quot;, &quot;dog&quot;, &quot;duck&quot;, &quot;goat&quot;)</code></pre>
+<pre><code>## [1] FALSE  TRUE  TRUE  TRUE</code></pre>
+<pre class="r"><code>animals[animals %in% c(&quot;rat&quot;, &quot;cat&quot;, &quot;dog&quot;, &quot;duck&quot;, &quot;goat&quot;)]</code></pre>
+<pre><code>## [1] &quot;rat&quot; &quot;dog&quot; &quot;cat&quot;</code></pre>
+</div>
+<div id="challenge-1" class="section level3 blue">
+<h3>Challenge</h3>
+<ul>
+<li>Can you figure out why <code>"four" &gt; "five"</code> returns
+<code>TRUE</code>?</li>
+</ul>
+<p>Hint: If you wanted to sort a collection of words, what would you
+hope R would do?</p>
+<details>
+<summary>
+ANSWER
+</summary>
+When using “&gt;” or “&lt;” on strings, R compares their alphabetical
+order. Here “four” comes after “five”, and therefore is “greater than”
+it.
+</details>
+</div>
+<p><br></p>
+<div id="vector-math-and-recycling" class="section level3">
+<h3>Vector Math and Recycling</h3>
+<p>You can do basic mathematical operations with vectors in R. We won’t
+get into this too deeply, but you should be aware of how R approaches
+these operations.</p>
+<p>You can add a number to a vector of numbers like this:</p>
+<pre class="r"><code>x &lt;- 1:10
+
+x + 3</code></pre>
+<pre><code>##  [1]  4  5  6  7  8  9 10 11 12 13</code></pre>
+<p>Or multiply all the values in a vector by a number:</p>
+<pre class="r"><code>x * 10</code></pre>
+<pre><code>##  [1]  10  20  30  40  50  60  70  80  90 100</code></pre>
+<p>By default, R will do value-by-value math. So if you add together two
+vectors of equal length, R will return a vector of the 1st value of each
+added together, then the 2nd value of each added together, etc. Let’s
+take a look here:</p>
+<pre class="r"><code>y &lt;- 100:109
+
+x + y</code></pre>
+<pre><code>##  [1] 101 103 105 107 109 111 113 115 117 119</code></pre>
+<p>As you can see, the first entry we get back is 1 + 100, the second is
+2 + 101, and so on. What happens if we try to add two vectors that
+aren’t the same length?</p>
+<pre class="r"><code>z &lt;- 1:2
+
+x + z</code></pre>
+<pre><code>##  [1]  2  4  4  6  6  8  8 10 10 12</code></pre>
+<p>Whoa… what happened here? R does something called
+<strong>recycling</strong>. It adds together the first values of each
+vector, then the second values, but then it runs out of values in vector
+z. It then <strong>recycles</strong> the values of z, so it will add the
+3rd value of x to the 1st value of z, then the 4th value of x to the 2nd
+value of z, and so on. Essentially, it recycles z from <code>1,2</code>
+into <code>1,2,1,2,1,2,1,2,1,2</code>, then does the addition.</p>
+<p>We actually already saw this behavior: when we added 3 to x, 3 gets
+recycled into a vector of 3s that is the same length as x.</p>
+<p>Since the length of x is 10, it is a multiple of the length of z,
+which is 2. What happens if the longer vector isn’t a multiple of the
+shorter one?</p>
+<pre class="r"><code>z &lt;- 1:3
+
+x + z</code></pre>
+<pre><code>## Warning in x + z: longer object length is not a multiple of shorter object
+## length</code></pre>
+<pre><code>##  [1]  2  4  6  5  7  9  8 10 12 11</code></pre>
+<pre class="r"><code>a &lt;- x + z</code></pre>
+<pre><code>## Warning in x + z: longer object length is not a multiple of shorter object
+## length</code></pre>
+<p>R warns us about this! However, if you try to assign this result to
+an object, we get the warning, but the assignment works. z will get
+recycled until it reaches the length of x. So z gets recycled from being
+<code>1,2,3</code> to being <code>1,2,3,1,2,3,1,2,3,1</code>, then gets
+added to x. This can give you unexpected results if you’re doing math
+with vectors and you’re not paying attention to what’s going on.</p>
+<p>Recycling also happens with logical vectors:</p>
+<pre class="r"><code>x[c(TRUE, FALSE)]</code></pre>
+<pre><code>## [1] 1 3 5 7 9</code></pre>
+<pre class="r"><code>x[c(TRUE, FALSE, FALSE)]</code></pre>
+<pre><code>## [1]  1  4  7 10</code></pre>
+<p>As mentioned earlier, logical vectors are often generated as
+intermediate steps when we’re subsetting. If you’re not careful about
+the lengths of these intermediate logical vectors, you can get some
+funky results without even noticing how they happened.</p>
+</div>
+</div>
+<div id="missing-data" class="section level2">
+<h2>Missing data</h2>
+<p>As R was designed to analyze datasets, it includes the concept of
+missing data (which is uncommon in other programming languages). Missing
+data are represented in vectors as <code>NA</code>.</p>
+<p>When doing operations on numbers, most functions will return
+<code>NA</code> if the data you are working with include missing values.
+This feature makes it harder to overlook the cases where you are dealing
+with missing data. You can add the argument <code>na.rm=TRUE</code> to
+calculate the result while ignoring the missing values.</p>
+<pre class="r"><code>heights &lt;- c(2, 4, 4, NA, 6)
+mean(heights)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>max(heights)</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>mean(heights, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>max(heights, na.rm = TRUE)</code></pre>
+<pre><code>## [1] 6</code></pre>
+<p>If your data include missing values, you may want to become familiar
+with the functions <code>is.na()</code>, <code>na.omit()</code>, and
+<code>complete.cases()</code>. See below for examples.</p>
+<pre class="r"><code>## Extract those elements which are not missing values.
+
+is.na(heights) # this returns a logical vector with TRUE where there is an NA</code></pre>
+<pre><code>## [1] FALSE FALSE FALSE  TRUE FALSE</code></pre>
+<pre class="r"><code>!is.na(heights) # the ! means &quot;is not&quot;, so now we get a logical vector with FALSE for NAs</code></pre>
+<pre><code>## [1]  TRUE  TRUE  TRUE FALSE  TRUE</code></pre>
+<pre class="r"><code>heights[!is.na(heights)] # now we put that logical vector in, and it will NOT return the entries with NA</code></pre>
+<pre><code>## [1] 2 4 4 6</code></pre>
+<pre class="r"><code>## Extract those elements which are complete cases. The returned object is an atomic vector of type `&quot;numeric&quot;` (or `&quot;double&quot;`).
+heights[complete.cases(heights)]</code></pre>
+<pre><code>## [1] 2 4 4 6</code></pre>
+<p>Recall that you can use the <code>typeof()</code> function to find
+the type of your atomic vector.</p>
+<div id="challenge-2" class="section level3 blue">
+<h3>Challenge</h3>
+<ol style="list-style-type: decimal">
+<li>Using this vector of heights in inches, create a new vector with the
+NAs removed.</li>
+</ol>
+<pre class="r"><code>heights &lt;- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Use the function <code>median()</code> to calculate the median of
+the <code>heights</code> vector.</li>
+<li>Use R to figure out how many people in the set are taller than 67
+inches.</li>
+</ol>
+</div>
+</div>
+<div id="other-data-structures" class="section level2">
+<h2>Other Data Structures</h2>
+<p>Vectors are one of the many <strong>data structures</strong> that R
+uses. Other important ones are lists (<code>list</code>), data frames
+(<code>data.frame</code>), matrices (<code>matrix</code>), arrays
+(<code>array</code>), and factors (<code>factor</code>). These are all
+built from combinations of vectors, so much of what you learned about
+vectors will be important when working with these data structures.</p>
+<div id="lists" class="section level3">
+<h3>Lists</h3>
+<p>Lists are the most fundamental way that R works with multiple
+vectors. A list is simply a bunch of vectors put together. The vectors
+can be different data types, so a list could hold a character vector
+with the names of your sampling sites as well as a numeric vector with
+their percent tree cover.</p>
+<p>Lists are extremely flexible, and you’ll come across them a lot in
+various shapes and sizes. We’ll talk about them a bit more in later
+lessons.</p>
+</div>
+<div id="data-frames" class="section level3">
+<h3>Data Frames</h3>
+<p>Data frames are the most common way we work with tabular data in R.
+Data frames at their core are just picky lists. A data frame is a list
+where every vector has to be the same length, which is akin to every
+column having the same number of rows. This means a data frame is
+rectangular, which is why it matches up with tabular data we’re used to
+working with. A list could have one vector that has 5 values and one
+vector that has a thousand.</p>
+</div>
+<div id="matrices-and-arrays" class="section level3">
+<h3>Matrices and Arrays</h3>
+<p>Matrices (2D) and Arrays (3D or more) are similar to dataframes and
+lists, but they are a little more barebones. Matrices and arrays must be
+made of a single type of data, no mixing types across different columns
+like in a dataframe. We won’t work with these much, but you might
+encounter them if you do something like population modeling in R. If you
+remember your basics of vectors, you should be pretty well equipped to
+tackle matrices and arrays.</p>
+</div>
+<div id="factors" class="section level3">
+<h3>Factors</h3>
+<p>Factors are a bit funky, and they can be equally useful and
+frustrating. Factors look a lot like 1-dimensional character vectors,
+but they behave a bit differently.</p>
+<p>Factors are used to represent categorical data. Let’s make one to
+play around with:</p>
+<pre class="r"><code>sex &lt;- factor(c(&quot;male&quot;, &quot;female&quot;, &quot;female&quot;, &quot;male&quot;))
+class(sex)</code></pre>
+<pre><code>## [1] &quot;factor&quot;</code></pre>
+<p>If we ask for the class of sex, we see that it’s a factor. Let’s try
+using <code>typeof()</code>, which goes a little deeper:</p>
+<pre class="r"><code>typeof(sex)</code></pre>
+<pre><code>## [1] &quot;integer&quot;</code></pre>
+<p>An integer???</p>
+<p>Factors are really just integer vectors with character labels
+attached to them.</p>
+<p>Once created, factors can only contain a pre-defined set of values,
+known as <em>levels</em>. By default, R always sorts levels in
+alphabetical order. For instance, in our <code>sex</code> factor, R will
+assign the integer <code>1</code> to the level <code>"female"</code> and
+<code>2</code> to the level <code>"male"</code> (because<code>f</code>
+comes before <code>m</code>, even though the first value in
+<code>sex</code> is <code>"male"</code>). You can see this by using the
+function <code>levels()</code> and you can find thenumber of levels
+using <code>nlevels()</code>:</p>
+<pre class="r"><code>levels(sex)</code></pre>
+<pre><code>## [1] &quot;female&quot; &quot;male&quot;</code></pre>
+<pre class="r"><code>nlevels(sex)</code></pre>
+<pre><code>## [1] 2</code></pre>
+<p>Sometimes, the order of the factors does not matter, other times you
+might want to specify the order because it is meaningful (e.g., “low”,
+“medium”, “high”), it improves your visualization, or it is required by
+a particular type of analysis. Here, one way to reorder our levels in
+the <code>sex</code> vector would be:</p>
+<pre class="r"><code>sex # current order</code></pre>
+<pre><code>## [1] male   female female male  
+## Levels: female male</code></pre>
+<pre class="r"><code>sex &lt;- factor(sex, levels = c(&quot;male&quot;, &quot;female&quot;))
+sex # after re-ordering</code></pre>
+<pre><code>## [1] male   female female male  
+## Levels: male female</code></pre>
+<p>In R’s memory, these factors are represented by integers (1, 2, 3),
+but are more informative than integers because factors are self
+describing: <code>"female"</code>, <code>"male"</code> is more
+descriptive than <code>1</code>, <code>2</code>. Which one is “male”?
+You wouldn’t be able to tell just from the integer data. Factors, on the
+other hand, have this information built in. It is particularly helpful
+when there are many levels (like the species names in our example
+dataset).</p>
+<div id="converting-factors" class="section level4">
+<h4>Converting factors</h4>
+<p>If you need to convert a factor to a character vector, you use
+<code>as.character(x)</code>.</p>
+<pre class="r"><code>as.character(sex)</code></pre>
+<pre><code>## [1] &quot;male&quot;   &quot;female&quot; &quot;female&quot; &quot;male&quot;</code></pre>
+<p>Converting factors where the levels appear as numbers (such as
+concentration levels, or years) to a numeric vector is a little
+trickier. The <code>as.numeric()</code> function returns the index
+values of the factor, not its levels, so it will result in an entirely
+new (and unwanted in this case) set of numbers. One method to avoid this
+is to convert factors to characters, and then to numbers.</p>
+<pre class="r"><code>year_fct &lt;- factor(c(1990, 1983, 1977, 1998, 1990))
+as.numeric(year_fct)               # Wrong! And there is no warning...</code></pre>
+<pre><code>## [1] 3 2 1 4 3</code></pre>
+<pre class="r"><code>as.numeric(as.character(year_fct)) # This does the trick</code></pre>
+<pre><code>## [1] 1990 1983 1977 1998 1990</code></pre>
+</div>
+<div id="renaming-factors" class="section level4">
+<h4>Renaming factors</h4>
+<p>You can rename the levels using the <code>levels()</code>
+function</p>
+<pre class="r"><code>levels(sex)</code></pre>
+<pre><code>## [1] &quot;male&quot;   &quot;female&quot;</code></pre>
+<pre class="r"><code>levels(sex)[1]</code></pre>
+<pre><code>## [1] &quot;male&quot;</code></pre>
+<pre class="r"><code>levels(sex)[1] &lt;- &quot;MALE&quot;
+sex</code></pre>
+<pre><code>## [1] MALE   female female MALE  
+## Levels: MALE female</code></pre>
+<pre class="r"><code>levels(sex) &lt;- c(&quot;MALE&quot;, &quot;FEMALE&quot;)
+sex</code></pre>
+<pre><code>## [1] MALE   FEMALE FEMALE MALE  
+## Levels: MALE FEMALE</code></pre>
+</div>
+</div>
+<div id="challenge-3" class="section level3 blue">
+<h3>Challenge</h3>
+<ul>
+<li>Copy, paste and run the code below in your R script:<br />
+<code>treatment &lt;- factor(c("high", "low", "low", "medium", "high"))</code></li>
+<li>First, re-order the levels of <code>treatment</code> so that “low”
+is first, “medium” is second, and “high” is third. Hint: Use the
+<code>factor()</code> function again, but with an additional
+<code>levels</code> argument.</li>
+<li>Next, check the names with the <code>levels()</code> function, then
+use this same function to rename the levels of treatment to “L”, “M” and
+“H”</li>
+</ul>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>treatment &lt;- factor(c(&quot;high&quot;, &quot;low&quot;, &quot;low&quot;, &quot;medium&quot;, &quot;high&quot;))
+treatment &lt;- factor(treatment, levels = c(&quot;low&quot;, &quot;medium&quot;, &quot;high&quot;))
+levels(treatment) &lt;- c(&quot;L&quot;, &quot;M&quot;, &quot;H&quot;)
+treatment</code></pre>
+<pre><code>## [1] H L L M H
+## Levels: L M H</code></pre>
+</details>
+</div>
+<p><br></p>
+<div id="why-factors" class="section level4">
+<h4>Why Factors?</h4>
+<p>Factors can be convenient at times, and they will pop up pretty
+frequently, but in most circumstances, character strings will give you
+fewer hassles. It’s usually best to start with character vectors, and
+convert them explicitly to factors if you need to.</p>
+<p>Some functions in R will automatically convert character strings to
+factors. For instance, <code>read.csv()</code> run in older versions R
+will turn any character data into factors, while in newer versions this
+has been changed to keep them as characters. If you aren’t sure, you can
+use the argument <code>stringsAsFactors=FALSE</code> in
+<code>read.csv()</code> to make sure your character strings as character
+strings.</p>
+<hr />
+<p>This lesson is adapted from <a
+href="https://datacarpentry.org/R-ecology-lesson/01-intro-to-r.html">Data
+Carpentry’s Ecology Workshop Introduction to R</a></p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

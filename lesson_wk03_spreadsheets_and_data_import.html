@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Wk03: Spreadsheet Best Practices &amp; Data Import</title>
+
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="site_libs_extra/academicons-1.8.0/css/academicons.css"/>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="outline.html">
+    <span class="fa fa-calendar fa-1x"></span>
+     
+    Outline
+  </a>
+</li>
+<li>
+  <a href="syllabus.html">
+    <span class="fa fa-map fa-1x"></span>
+     
+    Syllabus
+  </a>
+</li>
+<li>
+  <a href="AI.html">
+    <span class="fa fa-robot fa-1x"></span>
+     
+    AI
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Set Up
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="computer_setup.html">Computer Setup</a>
+    </li>
+    <li>
+      <a href="setting_up_git.html">Setting up Git Repository</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book  fa-1x"></span>
+     
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lesson_wk01_intro_r_rstudio.html">Wk01 Intro to Programming, R, &amp; RStudio</a>
+    </li>
+    <li>
+      <a href="lesson_wk02_project_management_and_data.html">Wk02 Project Management &amp; How R Thinks About Data</a>
+    </li>
+    <li>
+      <a href="lesson_wk03_spreadsheets_and_data_import.html">Wk03 Spreadsheet Best Practices &amp; Data Import</a>
+    </li>
+    <li>
+      <a href="lesson_wk04_data_manipulation_pt1.html">Wk04 Data Manipulation Pt1</a>
+    </li>
+    <li>
+      <a href="lesson_wk05_data_manipulation_pt2.html">Wk05 Data Manipulation Pt2</a>
+    </li>
+    <li>
+      <a href="lesson_wk07_data_visualization.html">Wk07 Data Visualization I</a>
+    </li>
+    <li>
+      <a href="lesson_wk08_data_visualization_pt2.html">Wk08 Data Visualization II</a>
+    </li>
+    <li>
+      <a href="lesson_wk09_functions.html">Wk09 Functions</a>
+    </li>
+    <li>
+      <a href="lesson_wk10_iteration.html">Wk10 Iteration</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="labs.html">
+    <span class="fa fa-paperclip fa-1x"></span>
+     
+    Labs
+  </a>
+</li>
+<li>
+  <a href="resources.html">
+    <span class="fa fa-list"></span>
+     
+    Resources
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="contact.html">
+    <span class="fa fa-hand-spock-o"></span>
+     
+    Contact
+  </a>
+</li>
+<li>
+  <a href="https://github.com/ucd-rdavis/R-DAVIS">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Wk03: Spreadsheet Best Practices &amp; Data
+Import</h1>
+<h3 class="subtitle">Or, How I Learned to Stop Worrying and Think Like
+R</h3>
+
+</div>
+
+
+<div id="under-revision" class="section level3 blue">
+<h3>Under revision</h3>
+<p>This lecture is being updated for the current quarter — check back
+soon.</p>
+</div>
+<!--
+
+<div class = "blue">
+### Learning objectives
+
+* Understand how to format raw data to be "tidy"
+* Know common data formatting/data entry mistakes to avoid
+* Introduction to dates as data
+* Know how to load a package
+* Be able to describe what data frames and tibbles are
+* Know how to use `read.csv()` to read a CSV file into R
+* Be able to explore a data frame
+* Be able to subset a data frame
+* Know the distinctions between base R and `tidyverse`
+
+</div>
+<br>
+
+## Videos
+
+- [Accessing spreadsheets](https://video.ucdavis.edu/media/Week+3+Part+1%3A+Spreadsheet+Best+Practices/1_z9i2s55k/390286133)
+- [Data Import](https://video.ucdavis.edu/media/Week+3%2C+Part+2%3A+Starting+with+Spreadsheets+in+R/1_e9mv3mvt/390286133)
+- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714929)
+
+## In Class Coding
+
+[Submit Week 3 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1714936)
+
+<br>
+
+
+
+# Part 1: Best Practices for Spreadsheets
+
+This lesson is adapted from [Data Carpentry's Data Organization in Spreadsheets for Ecologists](https://datacarpentry.org/spreadsheet-ecology-lesson/).
+
+## Formatting
+- Never modify your raw data. Always make a copy before making any changes.  
+- Keep track of all of the steps you take to clean your data in a plain text file.
+  
+![spreadsheet setup](figures/spreadsheet_fig/spreadsheet-setup-updated.png)
+
+- Organize your data according to [tidy data principles](https://www.jstatsoft.org/article/view/v059i10).
+  - Each column is a variable like "weight" or "site_ID"
+  - Each row is a single observation
+  - Don't combine pieces of information in a single cell
+  
+This is bad:
+
+![multiple-info example](figures/spreadsheet_fig/multiple-info.png)
+
+Why? Species and sex should be split into separate columns.
+
+## Avoiding Common Mistakes
+- Avoid using multiple tables within one spreadsheet.
+- Avoid spreading data across multiple tabs.
+  - Programs other than Excel will have a tough time seeing tabs
+  - Instead of adding a new tab, keep adding rows, and maybe use a new column for the info you'd be splitting across tabs. For example, use a column for Year instead of a new tab for a new year.
+  - If your table gets big, [freeze your column headers](https://support.office.com/en-ca/article/Freeze-column-headings-for-easy-scrolling-57ccce0c-cf85-4725-9579-c5d13106ca6a) to make them easier to see while you scroll.
+- Record zeros as zeros.
+  - Zeros are data! Don't use blanks, and don't use zeros as null values
+- Use an appropriate null value to record missing data.
+  - There's a broader discussion of this in [White et al 2013](https://peerj.com/preprints/7/), but here's a quick look at their recommendations:
+  
+  ![White et al.](figures/spreadsheet_fig/3_white_table_1.jpg)
+
+
+- Don't use formatting to convey information or to make your spreadsheet look pretty.
+  - R won't see cell colors or bold fonts
+  - Keep data as characters or numbers 
+- Place comments in a separate column.
+  - Don't use Excel's "comments" functionality, other programs don't recognize these
+  - Just use a separate text column
+- Record units in column headers.
+  - Don't put units in your data cells!
+  - 10cm will be read as characters, not numbers
+- Include only one piece of information in a cell.
+- Avoid spaces, numbers and special characters in column headers.
+<table align = "center" style = "width =80%; border: 1px solid black;">
+<tr>
+    <td> <b>Good Name</b></td> <br />
+    <td> <b>Good Alternative </b> </td><br />
+    <td> <b>Avoid </b></td><br />
+</tr>
+<tr>
+    <td> Max_temp_C</td>
+    <td> MaxTemp </td>
+    <td> Maximum Temp (°C) </td>
+</tr>
+<tr>
+    <td> Precipitation_mm</td>
+    <td> Precipitation</td>
+    <td> precmm </td>
+</tr>   
+<tr>
+    <td> Mean_year_growth</td>
+    <td> MeanYearGrowth </td>
+    <td> Mean growth/year</td>  
+</tr>   
+<tr>
+    <td> sex </td>
+    <td> sex </td>  
+    <td> M/F </td>
+</tr>
+<tr>    
+    <td> weight </td>
+    <td> weight </td>   
+    <td> w.</td>    
+</tr>
+<tr>    
+    <td> cell_type </td>
+    <td> CellType </td>
+    <td> Cell Type </td>
+</tr>
+<tr>
+    <td> Observation_01 </td>
+    <td> first_observation</td>
+    <td> 1st Obs</td>
+</tr>
+</table>
+
+<br/><br/>
+
+- Avoid special characters in your data.
+  - Copy-pasting text into cells (ex. from Word) can do weird stuff
+- Record metadata in a separate plain text file.
+  - When in doubt, use a README
+  - Put metadata in same directory as the data file itself, with an appropriate name
+
+## Dates as Data
+- Excel was apparently created by people who hate time
+- Excel stores dates in several different ways
+  - For Windows, it stores dates as **number of days since Jan 1 1900**
+  - For Mac, it stores dates as **number of days since Jan 1 1904**
+    - Check for dates that are ~4 years off
+  - Excel's base is to store dates as numbers, but it dresses them up in different ways, like 9/1/2018 or Sept-1-2018
+- Excel will often take one entry (Jul-10 for the 10th of July) and interpret it as another (1-July-2010)
+  - It will even coerce data that aren't dates into dates
+  - You have to be very careful, because Excel won't tell you when it does things like this
+- Treating dates as multiple pieces of data rather than one makes them easier to handle.
+  - Use separate columns for year, month, and day
+  - You can also use columns for year and day-of-year (1 to 365)
+- Ultimately, avoid letting Excel handle dates, it's hard to know what it will do
+
+## Quality Control
+- Always copy your original spreadsheet file and work with a copy so you don't affect the raw data.
+  - It can be helpful to have separate "Raw" and "Clean" data folders
+- Use data validation to prevent accidentally entering invalid data--this can be especially useful if you have others entering data for you. 
+  1. Select the cells or column you want to validate
+  2. On the `Data` tab select `Data Validation`
+  3. In the `Allow` box select the kind of data that should be in the
+   column. Options include whole numbers, decimals, lists of items, dates, and
+   other values.
+  4. You can then give a range of values or enter a comma-separated list of allowable values in the `Source` box
+  5. You can use the `Input Message` tab to customize the error message given when an incorrect value is entered
+    - "Sorry faithful undergraduate field assistant, we only have plots 1-10"
+    - You can make incorrect values throw warnings instead of errors using the `Style` option on the `Error Alert` tab
+- Use sorting to check for invalid data.
+- Use conditional formatting (cautiously) to check for invalid data.
+  - Conditional formatting can color cells based on their value
+  - You can then visually scan for strange values
+  - Can be useful, but definitely not foolproof
+
+## Exporting Data
+- Data stored in common spreadsheet formats will often not be read correctly into data analysis software, introducing errors into your data.
+  - try not to use .xls or .xlxs or .xxlsxlsxlllslxlsllaslxl or whatever
+- Exporting data from spreadsheets to formats like CSV or TSV puts it in a format that can be used consistently by most programs.
+  - Not only will this be easier for R to read, but it is widely recognized and will likely be around for a long time
+  - CSV and TSV are, ultimately, plain-text files, which are simple and classy and timeless
+
+# Part 2: Starting with Spreadsheets in R
+
+Now that we've learned a bit about how R is thinking about data under the hood, using different types of vectors to build more complicated data structures, let's actually look at some data.
+
+## Presentation of the Survey Data
+
+
+
+We are studying the species repartition and weight of animals caught in plots in our study
+area. The dataset is stored as a comma separated value (CSV) file.
+Each row holds information for a single animal, and the columns represent:
+
+| Column           | Description                        |
+|------------------|------------------------------------|
+| record\_id       | Unique id for the observation      |
+| month            | month of observation               |
+| day              | day of observation                 |
+| year             | year of observation                |
+| plot\_id         | ID of a particular plot            |
+| species\_id      | 2-letter code                      |
+| sex              | sex of animal ("M", "F")           |
+| hindfoot\_length | length of the hindfoot in mm       |
+| weight           | weight of the animal in grams      |
+| genus            | genus of animal                    |
+| species          | species of animal                  |
+| taxa             | e.g. Rodent, Reptile, Bird, Rabbit |
+| plot\_type       | type of plot                       |
+
+## Loading the Data
+
+Your current R project should already have a `data` folder with the surveys data CSV file in it. We can read it into R and assign it to an object by using the `read.csv()` function. The first argument to `read.csv()` is the path of the file you want to read, in quotes. This path will be relative to your current **working directory**, which in our case is the R Project folder. So from there, we want to access the "data" folder, and then the name of the CSV file. `read.csv()` also works with urls (if you have an internet connection, of course). The url below links to a csv stored on the course github page. You can call `read.csv()` directly on the url: 
+
+
+``` r
+surveys_url <- 'https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv'
+surveys <- read.csv(surveys_url)
+```
+
+or you can download the file and then load from your local computer. Note that the `destfile` is a relative location, it assumes there is a subdirectry called `data` in your working directory, and then saves a file called `portal_data_joined.csv` in that subdirectory.
+
+``` r
+download.file(url = surveys_url, destfile = 'data/portal_data_joined.csv')
+```
+
+
+``` r
+surveys <- read.csv('data/portal_data_joined.csv')
+```
+
+* Hint: tab-completion works with file paths too. Type the pair of quotes, and with your cursor between them, hit tab to bring up the files in your working directory.
+
+Take a look at your Environment pane and you should see an object called "surveys". We can print out the object to take a look at it by just running the name of the object. We can also check to see what class it is.
+
+
+``` r
+surveys
+```
+
+```
+##   record_id month day year plot_id species_id sex hindfoot_length weight
+## 1         1     7  16 1977       2         NL   M              32     NA
+## 2         2     7  16 1977       3         NL   M              33     NA
+## 3         3     7  16 1977       2         DM   F              37     NA
+##       genus  species   taxa                plot_type
+## 1   Neotoma albigula Rodent                  Control
+## 2   Neotoma albigula Rodent Long-term Krat Exclosure
+## 3 Dipodomys merriami Rodent                  Control
+##  [ reached 'max' / getOption("max.print") -- omitted 35546 rows ]
+```
+
+``` r
+class(surveys)
+```
+
+```
+## [1] "data.frame"
+```
+
+Wow, printing a data frame gives us quite a bit of output. This is a lot more data than the small vectors we worked with last lesson, but the basic principles remain the same.
+
+Data frames are really just a collection of vectors: every column is a vector with a single data type, and every column is the exact same length. You can make a data frame "by hand", but they're usually created when you import some sort of tabular data into R using a function like `read.csv()`.
+
+![](img/data-frame.svg)
+
+## Inspecting `data.frame` Objects
+
+When working with a large data frame, it's usually impractical to try to look at it all at once, so we'll need to arm ourselves with a series of tools for inspecting them. Here is a non-exhaustive list of some common functions to do this:
+
+* Size:
+    * `nrow(surveys)` - returns the number of rows
+    * `ncol(surveys)` - returns the number of columns
+
+* Content:
+    * `head(surveys)` - shows the first 6 rows
+    * `tail(surveys)` - shows the last 6 rows
+    * `View(surveys)` - opens a new tab in RStudio that shows the entire data frame. Useful at times, but you shouldn't become overly reliant on checking data frames by eye, it's easy to make mistakes
+
+* Names:
+    * `colnames(surveys)` - returns the column names
+    * `rownames(surveys)` - returns the row names
+
+* Summary:
+    * `str(surveys)` - structure of the object and information about the class, length and
+       content of  each column
+    * `summary(surveys)` - summary statistics for each column
+
+Note: most of these functions are "generic", they can be used on other types of
+objects besides `data.frame`.
+
+<div class = "blue">
+### Challenge
+
+Based on the output of `str(surveys)`, can you answer the following questions?    
+
+* What is the class of the object `surveys`?   
+* How many rows and how many columns are in this object?   
+* How are our character data represented in this data frame?   
+* How many species have been recorded during these surveys? (This may take more than just the `str()` function. Try Googling around how to count the unique observations in a character string in R)   
+
+<details>
+<summary>ANSWER</summary>
+
+``` r
+str(surveys)
+```
+
+```
+## 'data.frame':    35549 obs. of  13 variables:
+##  $ record_id      : int  1 2 3 4 5 6 7 8 9 10 ...
+##  $ month          : int  7 7 7 7 7 7 7 7 7 7 ...
+##  $ day            : int  16 16 16 16 16 16 16 16 16 16 ...
+##  $ year           : int  1977 1977 1977 1977 1977 1977 1977 1977 1977 1977 ...
+##  $ plot_id        : int  2 3 2 7 3 1 2 1 1 6 ...
+##  $ species_id     : chr  "NL" "NL" "DM" "DM" ...
+##  $ sex            : chr  "M" "M" "F" "M" ...
+##  $ hindfoot_length: int  32 33 37 36 35 14 NA 37 34 20 ...
+##  $ weight         : int  NA NA NA NA NA NA NA NA NA NA ...
+##  $ genus          : chr  "Neotoma" "Neotoma" "Dipodomys" "Dipodomys" ...
+##  $ species        : chr  "albigula" "albigula" "merriami" "merriami" ...
+##  $ taxa           : chr  "Rodent" "Rodent" "Rodent" "Rodent" ...
+##  $ plot_type      : chr  "Control" "Long-term Krat Exclosure" "Control" "Rodent Exclosure" ...
+```
+
+``` r
+## * class: data frame
+## * how many rows: 35549,  how many columns: 13
+## * the character data are characters if you have R Version 4.0.0 of later, factors for older versions
+length(unique(surveys$species_id))
+```
+
+```
+## [1] 49
+```
+
+``` r
+table(surveys$species_id)
+```
+
+```
+## 
+##          AB    AH    AS    BA    CB    CM    CQ    CS    CT    CU    CV    DM 
+##   763   303   437     2    46    50    13    16     1     1     1     1 10596 
+##    DO    DS    DX    NL    OL    OT    OX    PB    PC    PE    PF    PG    PH 
+##  3027  2504    40  1252  1006  2249    12  2891    39  1299  1597     8    32 
+##    PI    PL    PM    PP    PU    PX    RF    RM    RO    RX    SA    SC    SF 
+##     9    36   899  3123     5     6    75  2609     8     2    75     1    43 
+##    SH    SO    SS    ST    SU    UL    UP    UR    US    ZL 
+##   147    43   248     1     5     4     8    10     4     2
+```
+
+``` r
+## * how many species: 48 (well, 49, but the 49th value is "", i.e., blank)
+```
+</details>
+</div>
+<br>
+
+## Indexing and subsetting data frames
+
+
+
+When we wanted to extract particular values from a vector, we used square brackets and put index values in them. Since data frames are made out of vectors, we can use the square brackets again, but with one change. Data frames are 2-dimensional, so we need to specify **row** and **column** indices. Row numbers come first, then a comma, then column numbers. Leaving the row number blank will return **all** rows, and the same thing applies to column numbers.
+
+One thing to note is that the different ways you write out these indices can give you back either a data frame or a vector.
+
+
+``` r
+# first element in the first column of the data frame (as a vector)
+surveys[1, 1]   
+```
+
+```
+## [1] 1
+```
+
+``` r
+# first element in the 6th column (as a vector)
+surveys[1, 6]   
+```
+
+```
+## [1] "NL"
+```
+
+``` r
+# first column of the data frame (as a vector)
+surveys[, 1]    
+```
+
+```
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+## [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+##  [ reached 'max' / getOption("max.print") -- omitted 35499 entries ]
+```
+
+``` r
+# first column of the data frame (as a data.frame)
+surveys[1]      
+```
+
+```
+##    record_id
+## 1          1
+## 2          2
+## 3          3
+## 4          4
+## 5          5
+## 6          6
+## 7          7
+## 8          8
+## 9          9
+## 10        10
+## 11        11
+## 12        12
+## 13        13
+## 14        14
+## 15        15
+## 16        16
+## 17        17
+## 18        18
+## 19        19
+## 20        20
+## 21        21
+## 22        22
+## 23        23
+## 24        24
+## 25        25
+## 26        26
+## 27        27
+## 28        28
+## 29        29
+## 30        30
+## 31        31
+## 32        32
+## 33        33
+## 34        34
+## 35        35
+## 36        36
+## 37        37
+## 38        38
+## 39        39
+## 40        40
+## 41        41
+## 42        42
+## 43        43
+## 44        44
+## 45        45
+## 46        46
+## 47        47
+## 48        48
+## 49        49
+## 50        50
+##  [ reached 'max' / getOption("max.print") -- omitted 35499 rows ]
+```
+
+``` r
+# first three elements in the 7th column (as a vector)
+surveys[1:3, 7] 
+```
+
+```
+## [1] "M" "M" "F"
+```
+
+``` r
+# the 3rd row of the data frame (as a data.frame)
+surveys[3, ]    
+```
+
+```
+##   record_id month day year plot_id species_id sex hindfoot_length weight
+## 3         3     7  16 1977       2         DM   F              37     NA
+##       genus  species   taxa plot_type
+## 3 Dipodomys merriami Rodent   Control
+```
+
+``` r
+# equivalent to head_surveys <- head(surveys)
+head_surveys <- surveys[1:6, ] 
+```
+
+`:` is a special function that creates numeric vectors of integers in increasing
+or decreasing order; try running `1:10` and `10:1` to check this out.
+
+You can also exclude certain indices of a data frame using the "`-`" sign:
+
+
+``` r
+surveys[, -1]          # The whole data frame, except the first column
+```
+
+```
+##   month day year plot_id species_id sex hindfoot_length weight     genus
+## 1     7  16 1977       2         NL   M              32     NA   Neotoma
+## 2     7  16 1977       3         NL   M              33     NA   Neotoma
+## 3     7  16 1977       2         DM   F              37     NA Dipodomys
+## 4     7  16 1977       7         DM   M              36     NA Dipodomys
+##    species   taxa                plot_type
+## 1 albigula Rodent                  Control
+## 2 albigula Rodent Long-term Krat Exclosure
+## 3 merriami Rodent                  Control
+## 4 merriami Rodent         Rodent Exclosure
+##  [ reached 'max' / getOption("max.print") -- omitted 35545 rows ]
+```
+
+``` r
+surveys[-c(7:nrow(surveys)), ] # Equivalent to head(surveys)
+```
+
+```
+##   record_id month day year plot_id species_id sex hindfoot_length weight
+## 1         1     7  16 1977       2         NL   M              32     NA
+## 2         2     7  16 1977       3         NL   M              33     NA
+## 3         3     7  16 1977       2         DM   F              37     NA
+##       genus  species   taxa                plot_type
+## 1   Neotoma albigula Rodent                  Control
+## 2   Neotoma albigula Rodent Long-term Krat Exclosure
+## 3 Dipodomys merriami Rodent                  Control
+##  [ reached 'max' / getOption("max.print") -- omitted 3 rows ]
+```
+
+Data frames can be subset by calling indices (as shown previously), but also by calling their column names directly:
+
+
+``` r
+surveys["species_id"]       # Result is a data.frame
+surveys[, "species_id"]     # Result is a vector
+surveys[["species_id"]]     # Result is a vector
+surveys$species_id          # Result is a vector
+```
+
+In general, when you're working with data frames, you should make sure you know whether your code returns a data frame or a vector, as we see that different methods yield different results. Sometimes you get a data frame with one column, sometimes you get one vector.
+
+You will probably end up using the `$` subsetting quite a bit. What's nice about it is that it supports tab-completion! Type out your data frame name, then a dollar sign, then hit tab to get a list of the column names that you can scroll through.
+
+<div class = "blue">
+### Challenge
+We are going to create a few new data frames using our subsetting skills.
+
+1. Create a new data frame called `surveys_200` containing row 200 of the `surveys` dataset.
+2. Create a new data frame called `surveys_last`, which extracts only the last row in of `surveys`.
+     * Hint: Remember that `nrow()` gives you the number of rows in a data frame
+     * Compare your `surveys_last` data frame with what you see as the last row using `tail()` with the `surveys` data frame to make sure it's meeting expectations.
+3. Use `nrow()` to identify the row that is in the middle of `surveys`. Subset this row and store it in a new data frame called `surveys_middle`.
+4. Reproduce the output of the `head()` function by using the `-` notation (e.g. removal) and the `nrow()` function, keeping just the first through 6th rows of the `surveys` dataset.
+
+<details>
+<summary>ANSWER</summary>
+
+``` r
+## 1.
+surveys_200 <- surveys[200, ]
+## 2.
+# Saving `n_rows` to improve readability and reduce duplication
+n_rows <- nrow(surveys)
+surveys_last <- surveys[n_rows, ]
+## 3.
+surveys_middle <- surveys[round(n_rows / 2), ]
+## 4.
+surveys_head <- surveys[-(7:n_rows), ]
+```
+</details>
+</div>
+<br>
+
+## Base R vs. `tidyverse`
+
+Almost every time you work in R, you will be using different "packages" to work with data. A package is a collection of functions used for some common purpose; there are packages for manipulating data, plotting, interfacing with other programs, and much much more.
+
+All of the stuff we've covered so far has been using R's "base" functionality, the built in functions and techniques that come with R by default. There is a new-ish set of packages called the `tidyverse` which does a lot of the same stuff as base R, plus much much more. The `tidyverse` is what we will focus on primarily from here on out, as it is a very powerful set of tools with a philosophy that focuses on being readable and intuitive when working with data. There are a few reasons we've taught you a bunch of base R stuff so far:
+
+1. Base R can be quick and useful in a lot of ways
+1. The `tidyverse` still works with the same building blocks as base R: vectors!
+1. Some packages you need to use will only work with base R
+1. You will someday use Google and find a perfect solution to your problem, using base R
+1. You will probably have a collaborator at some point who uses base R
+1. The `tidyverse` is constantly evolving, which can be good (new features!) and bad (really old `tidyverse` code may behave differently when you update)
+
+For example, using `[]` to subset data and using `read.csv()` are base R ways of doing things, but we'll show you `tidyverse` ways of doing them as well.
+
+In R, there are almost always several ways of accomplishing the same task. Showing you every single way of getting a job done seems like a waste of time, but we also don't want you to feel lost when you come across some base R code, so that's why there might be a bit of redundancy.
+
+## Loading Packages
+
+For much of this course, we'll be working with a series of packages collectively referred to as the `tidyverse`. They are packages designed to help you work with data, from cleaning and manipulation to plotting. They are all designed to work together nicely, and share a lot of similar principles. They are increasingly popular, have large user bases, and are generally very well-documented. You can install the core set of `tidyverse` packages with the `install.packages()` function:
+
+
+``` r
+install.packages("tidyverse")
+```
+
+It is usually recommended that you do **NOT** write this code into a script, or the package will be reinstalled every time you run the script. Instead, just run it once in your console, and it will be permanently installed so you can use it any time.
+
+Once a package has been installed on your computer, you can load it in order to use it:
+
+
+``` r
+library(tidyverse)
+```
+
+Loading the `tidyverse` package actually loads a whole bunch of commonly used tidyverse packages at once, which is pretty convenient.
+
+A common feature of `tidyverse` functions is that they use underscores in the name. For example, the `tidyverse` function for reading a CSV file is `read_csv()` instead of `read.csv()`. Let's try it:
+
+
+``` r
+t_surveys <- read_csv("data/portal_data_joined.csv")
+```
+
+```
+## Rows: 35549 Columns: 13
+## ── Column specification ──────────────────────────────────────
+## Delimiter: ","
+## chr (6): species_id, sex, genus, species, taxa, plot_type
+## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+Now let's take a look at how  prints and check the class:
+
+
+``` r
+t_surveys
+```
+
+```
+## # A tibble: 35,549 × 13
+##    record_id month   day  year plot_id species_id sex   hindfoot_length weight
+##        <dbl> <dbl> <dbl> <dbl>   <dbl> <chr>      <chr>           <dbl>  <dbl>
+##  1         1     7    16  1977       2 NL         M                  32     NA
+##  2         2     7    16  1977       3 NL         M                  33     NA
+##  3         3     7    16  1977       2 DM         F                  37     NA
+##  4         4     7    16  1977       7 DM         M                  36     NA
+##  5         5     7    16  1977       3 DM         M                  35     NA
+##  6         6     7    16  1977       1 PF         M                  14     NA
+##  7         7     7    16  1977       2 PE         F                  NA     NA
+##  8         8     7    16  1977       1 DM         M                  37     NA
+##  9         9     7    16  1977       1 DM         F                  34     NA
+## 10        10     7    16  1977       6 PF         F                  20     NA
+## # ℹ 35,539 more rows
+## # ℹ 4 more variables: genus <chr>, species <chr>, taxa <chr>, plot_type <chr>
+```
+
+``` r
+class(t_surveys)
+```
+
+```
+## [1] "spec_tbl_df" "tbl_df"      "tbl"         "data.frame"
+```
+
+Ooh, doesn't that print out nicely? It only prints 10 rows by default, NAs are now colored red, and under the name of each column is the type of data! One important thing to notice is that the column types are only `double` and `character`, no factors here. By default, `read_csv()` keeps character data as `character` columns, which would be like setting `stringsAsFactors=FALSE` in `read.csv()`.
+
+Also, `class()` returned multiple things! You'll notice one of them is `data.frame`, but there are things like `tbl_df` as well. The `tidyverse` has a special type of `data.frame` called a "tibble". Tibbles are the same as data frames, but they print nicely as we just saw, and they usually return a tibble when you're using bracket subsetting. As always, just be sure to check whether you're getting a tibble or a vector back.
+
+
+``` r
+surveys[,1] # gives a vector back
+```
+
+```
+##  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+## [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+##  [ reached 'max' / getOption("max.print") -- omitted 35499 entries ]
+```
+
+``` r
+t_surveys[,1] # gives a tibble back
+```
+
+```
+## # A tibble: 35,549 × 1
+##    record_id
+##        <dbl>
+##  1         1
+##  2         2
+##  3         3
+##  4         4
+##  5         5
+##  6         6
+##  7         7
+##  8         8
+##  9         9
+## 10        10
+## # ℹ 35,539 more rows
+```
+
+This lesson is adapted from the Data Carpentry: R for Data Analysis and Visualization of Ecological Data 
+[Starting With Data materials](https://datacarpentry.org/R-ecology-lesson/02-starting-with-data.html).
+-->
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
