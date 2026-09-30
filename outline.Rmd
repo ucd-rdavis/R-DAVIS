@@ -19,4 +19,4 @@ title: "Course Outline"
 | **Week 9 (11/17-19)** | Workshop | [Functions](lesson_wk09_functions.html)<br>[(submit videos)](https://canvas.ucdavis.edu/courses/1098028/assignments/1714925)<br>[(submit in-class)](https://canvas.ucdavis.edu/courses/1098028/assignments/1714938) | [Lab 9](https://ucd-rdavis.github.io/R-DAVIS/labs.html#lab-week-9)<br>[(submit lab 9)](https://canvas.ucdavis.edu/courses/1098028/assignments/1714950) |
 | **NO CLASS (11/24-26)** | ---- | Thanksgiving Break | ---- |
 | **Week 10 (12/1-3)** | Workshop | [Iteration](lesson_wk10_iteration.html)<br>[(submit videos)](https://canvas.ucdavis.edu/courses/1098028/assignments/1714924)<br>[(submit in-class)](https://canvas.ucdavis.edu/courses/1098028/assignments/1714939) | [Lab 10](https://ucd-rdavis.github.io/R-DAVIS/labs.html#lab-week-10)<br>[(submit lab 10)](https://canvas.ucdavis.edu/courses/1098028/assignments/1715201) |
-| **Final Exam** | ---- | **TBD** |  |
+| **Final Exam (12/11)** | ---- | **December 11, 6-8pm** | (still in Walker 1320) |
