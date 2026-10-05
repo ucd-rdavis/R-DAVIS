@@ -25,7 +25,9 @@ output:
 ## Videos
 
 - [Accessing spreadsheets](https://video.ucdavis.edu/media/1_46g1yj1h)
-- [Data Import](https://video.ucdavis.edu/media/Week+3%2C+Part+2%3A+Starting+with+Spreadsheets+in+R/1_e9mv3mvt/390286133)
+- [Data Import](https://video.ucdavis.edu/media/Wk3_DataFrames/1_ph9x1ot3/420714533)
+- [Tidyverse and tibbles](https://video.ucdavis.edu/media/Wk3_Tidyverse_Tibbles/1_mp3wk3bh/420714533)
+- 
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714929)
 
 ## In Class Coding

@@ -479,8 +479,12 @@ R</li>
 <li><a href="https://video.ucdavis.edu/media/1_46g1yj1h">Accessing
 spreadsheets</a></li>
 <li><a
-href="https://video.ucdavis.edu/media/Week+3%2C+Part+2%3A+Starting+with+Spreadsheets+in+R/1_e9mv3mvt/390286133">Data
+href="https://video.ucdavis.edu/media/Wk3_DataFrames/1_ph9x1ot3/420714533">Data
 Import</a></li>
+<li><a
+href="https://video.ucdavis.edu/media/Wk3_Tidyverse_Tibbles/1_mp3wk3bh/420714533">Tidyverse
+and tibbles</a></li>
+<li></li>
 <li><a
 href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714929">Video
 Discussion</a></li>
@@ -1215,16 +1219,6 @@ be permanently installed so you can use it any time.</p>
 <p>Once a package has been installed on your computer, you can load it
 in order to use it:</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-## ✔ dplyr     1.2.1     ✔ readr     2.2.0
-## ✔ forcats   1.0.1     ✔ stringr   1.6.0
-## ✔ ggplot2   4.0.3     ✔ tibble    3.3.1
-## ✔ lubridate 1.9.5     ✔ tidyr     1.3.2
-## ✔ purrr     1.2.2     
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
-## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <p>Loading the <code>tidyverse</code> package actually loads a whole
 bunch of commonly used tidyverse packages at once, which is pretty
 convenient.</p>
@@ -1234,7 +1228,7 @@ function for reading a CSV file is <code>read_csv()</code> instead of
 <code>read.csv()</code>. Let’s try it:</p>
 <pre class="r"><code>t_surveys &lt;- read_csv(&quot;data/portal_data_joined.csv&quot;)</code></pre>
 <pre><code>## Rows: 35549 Columns: 13
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ──────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): species_id, sex, genus, species, taxa, plot_type
 ## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
