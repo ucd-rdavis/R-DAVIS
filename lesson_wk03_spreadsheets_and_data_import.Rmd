@@ -26,8 +26,7 @@ output:
 
 - [Accessing spreadsheets](https://video.ucdavis.edu/media/1_46g1yj1h)
 - [Data Import](https://video.ucdavis.edu/media/Wk3_DataFrames/1_ph9x1ot3/420714533)
-- [Tidyverse and tibbles](https://video.ucdavis.edu/media/Wk3_Tidyverse_Tibbles/1_mp3wk3bh/420714533)
-- 
+- [Tidyverse and tibbles](https://video.ucdavis.edu/media/Wk3_Tibbles/1_64wwvm5g/420714533)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714929)
 
 ## In Class Coding
