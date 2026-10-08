@@ -139,7 +139,7 @@ In this lab we are going to practice subsetting and manipulating vectors.
 
 Lab this week will be playing with the `surveys` data we worked on in class.
 
-*This lab is being updated — check back soon.*
+<a href="labs/lab_week_03.qmd" download>Download Lab 3 (.qmd)</a>
 
 
 ### <small>Lab Week 4</small> {#lab-week-4}
