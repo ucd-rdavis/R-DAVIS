@@ -31,7 +31,7 @@ Missing values (`NA`) are left in on purpose. They are real gaps in the record a
 | `year_signed` | integer | Year the agreement was concluded (signed or adopted). `NA` if unknown (130). |
 | `year_in_force` | integer | Year the agreement entered into force. `NA` if it never did or the date is unknown (1,495, mostly bilateral agreements). |
 | `terminated` | logical | `TRUE` if the agreement has since been terminated or replaced. `NA` for one agreement with a malformed date. |
-| `n_members` | integer | Number of countries (or other parties) for which the agreement has ever entered into force, counted from `iea_memberships`. `NA` when the IEADB has no entry-into-force records for it (1,556). |
+| `n_members` | integer | Number of countries (or other parties) for which the agreement has ever entered into force, counted from `iea_memberships`. `NA` when the IEADB has no entry-into-force records for it (1,556). A few bilateral agreements have 1 or 3 members, as recorded in the source data. |
 
 ## `iea_memberships.csv`
 
@@ -41,7 +41,7 @@ Each country's action history on an agreement (signature, ratification, accessio
 |---|---|---|
 | `iea_id` | integer | Agreement number; matches `iea_agreements$iea_id`. |
 | `country` | character | Party name as recorded in the IEADB. Includes historical states (e.g., `Yugoslavia`, `Prussia`), sub-national units (e.g., `Germany (Bavaria)`), and the `European Union`. These 96 names (1,366 rows) have **no match** in `iea_countries`. |
-| `year_signed` | integer | First year the country signed. Mostly `NA`, because signatures are recorded for relatively few agreements. |
+| `year_country_signed` | integer | First year the country signed. Named differently from `iea_agreements$year_signed` (the year the agreement itself was concluded) so the two tables join cleanly. Mostly `NA`, because signatures are recorded for relatively few agreements. |
 | `year_joined` | integer | First year the agreement entered into force for that country, i.e., it became a member. `NA` if it signed but never joined (or the year is unknown). |
 | `year_left` | integer | First year the country withdrew or denounced the agreement. `NA` for nearly all rows, because most countries never leave. |
 

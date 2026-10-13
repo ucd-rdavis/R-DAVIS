@@ -54,7 +54,7 @@ head(agreements$size_cat)
 
 ### case_when() function
 
-The tidyverse provides a way to integrate conditional statements by combining `mutate()` with the conditional function: `case_when()`. This function uses a series of two-sided formulas where the left-hand side determines describes the condition, and the right supplies the result. The final condition should always be TRUE, meaning that when the previous conditions have not been met, assign the last value. Using this function we can re-write the `size_cat` variable using the tidyverse.
+The tidyverse provides a way to integrate conditional statements by combining `mutate()` with the conditional function: `case_when()`. This function uses a series of two-sided formulas where the left-hand side describes the condition, and the right supplies the result. The final condition should always be TRUE, meaning that when the previous conditions have not been met, assign the last value. Using this function we can re-write the `size_cat` variable using the tidyverse.
 
 A note: Always be cautious about what might be left out when naming the conditions. In the previous `ifelse()` example we saw that NAs in the data remained NAs in the new variable construction. However, this is not so when using `case_when()`. Instead, this function takes the last argument to mean "anything that is left" rather than n_members > 20.33 == F. So when we run the equivalent conditions in this function, it assigns "small" where `n_members` is NA.
 
@@ -286,7 +286,7 @@ agreements_wide <- agreements_decade %>%
 
 agreements_wide
 ```
-Reading across a row shows the history of one issue. Pollution agreements took off in the 1990s and have kept coming, and trade-and-environment agreements barely existed before 1990. Notice the `NA`s, too: no trade-and-environment agreements were signed in the 1950s–1980s, so `count()` never made a row for those combinations, and `pivot_wider` has nothing to put in those cells. Here the honest value is 0, and you could fill it in with `pivot_wider(..., values_fill = 0)`. Think about whether a missing combination means "zero" or "unknown" before you fill it.
+Reading across a row shows the history of one issue. Pollution agreements took off in the 1990s and have kept coming, and trade-and-environment agreements first appear in the 1990s. Notice the `NA`s, too: no trade-and-environment agreements were signed in the 1950s–1980s, so `count()` never made a row for those combinations, and `pivot_wider` has nothing to put in those cells. Here the honest value is 0, and you could fill it in with `pivot_wider(..., values_fill = 0)`. Think about whether a missing combination means "zero" or "unknown" before you fill it.
 
 ### `pivot_longer`
 
