@@ -1,4 +1,4 @@
-iea_id,country,year_signed,year_joined,year_left
+iea_id,country,year_country_signed,year_joined,year_left
 1,Austria,1858,1859,NA
 1,Germany (Bavaria),1858,1859,NA
 2,France,1859,1860,NA

@@ -455,691 +455,685 @@ the tidyverse, Part 1</h1>
 </div>
 
 
-<div id="under-revision" class="section level3 blue">
-<h3>Under revision</h3>
-<p>This lecture is being updated for the current quarter — check back
-soon.</p>
+<div id="learning-objectives" class="section level3 blue">
+<h3>Learning Objectives</h3>
+<ul>
+<li>Describe the purpose of the <strong><code>dplyr</code></strong> and
+<strong><code>tidyr</code></strong> packages.</li>
+<li>Select certain columns in a data frame with the
+<strong><code>dplyr</code></strong> function <code>select</code>.</li>
+<li>Select certain rows in a data frame according to filtering
+conditions with the <strong><code>dplyr</code></strong> function
+<code>filter</code>.</li>
+<li>Link the output of one <strong><code>dplyr</code></strong> function
+to the input of another function with the ‘pipe’ operator
+<code>%&gt;%</code>.</li>
+<li>Add new columns to a data frame that are functions of existing
+columns with <code>mutate</code>.</li>
+<li>Use the split-apply-combine concept for data analysis.</li>
+<li>Use <code>summarize</code>, <code>group_by</code>, and
+<code>count</code> to split a data frame into groups of observations,
+apply a summary statistics for each group, and then combine the
+results.</li>
+</ul>
 </div>
-<!--
-
-<div class = "blue">
-
-### Learning Objectives
-
-* Describe the purpose of the **`dplyr`** and **`tidyr`** packages.
-* Select certain columns in a data frame with the **`dplyr`** function `select`.
-* Select certain rows in a data frame according to filtering conditions with the **`dplyr`** function `filter`.
-* Link the output of one **`dplyr`** function to the input of another function with the 'pipe' operator `%>%`.
-* Add new columns to a data frame that are functions of existing columns with `mutate`.
-* Use the split-apply-combine concept for data analysis.
-* Use `summarize`, `group_by`, and `tally` to split a data frame into groups of observations, apply a summary statistics for each group, and then combine the results.
-
+<p><br></p>
+<div id="videos" class="section level2">
+<h2>Videos</h2>
+<ul>
+<li><em>New videos for this week are coming soon.</em></li>
+<li><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714928">Video
+Discussion</a></li>
+</ul>
 </div>
-<br>
-
-## Videos
-
-- [Data manipulation Part 1a](https://video.ucdavis.edu/media/t/1_3i0lfxul/390286133)
-- [Data manipulation Part 1b](https://video.ucdavis.edu/media/Week+4%3A+Data+Manipulation+Part+2+%28mutate%2C+group_by%2C+and+summarize%29/1_rgmwrirs/390286133)
-- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714928)
-
-## In Class Coding
-
-[Submit Week 4 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1714937)
-
-## Data Manipulation using **`dplyr`** and **`tidyr`**
-
-Bracket subsetting is handy, but it can be cumbersome and difficult to read,
-especially for complicated operations. Enter **`dplyr`**. **`dplyr`** is a package for
-making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
-
-Packages in R are basically sets of additional functions that let you do more
-stuff. The functions we've been using so far, like `str()` or `data.frame()`,
-come built into R; packages give you access to more of them. Before you use a
-package for the first time you need to install it on your machine, and then you
-should import it in every subsequent R session when you need it. You should
-already have installed the **`tidyverse`** package. This is an
-"umbrella-package" that installs several packages useful for data analysis which
-work together well such as **`tidyr`**, **`dplyr`**, **`ggplot2`**, **`tibble`**, etc.
-
-The **`tidyverse`** package tries to address 3 major problems with some of base R functions:
-
-1. The results from a base R function sometimes depend on the type of data.
-2. Using R expressions in a non standard way, which can be confusing for new learners.
-3. Hidden arguments, having default operations that new learners are not aware of.
-
-To load the package type:
-
-
-
-``` r
-library("tidyverse")    ## load the tidyverse packages, incl. dplyr
-```
-
-### What are **`dplyr`** and **`tidyr`**?
-
-The package **`dplyr`** provides easy tools for the most common data manipulation
-tasks. It is built to work directly with data frames, with many common tasks
-optimized by being written in a compiled language (C++). An additional feature is the
-ability to work directly with data stored in an external database. The benefits of
-doing this are that the data can be managed natively in a relational database,
-queries can be conducted on that database, and only the results of the query are
-returned.
-
-This addresses a common problem with R in that all operations are conducted
-in-memory and thus the amount of data you can work with is limited by available
-memory. The database connections essentially remove that limitation in that you
-can connect to a database of many hundreds of GB, conduct queries on it directly, and pull
-back into R only what you need for analysis.
-
-The package **`tidyr`** addresses the common problem of wanting to reshape your data for plotting and use by different R functions. Sometimes we want data sets where we have one row per measurement. Sometimes we want a data frame where each measurement type has its own column, and rows are instead more aggregated groups - like plots or aquaria. Moving back and forth between these formats is nontrivial, and **`tidyr`** gives you tools for this and more sophisticated  data manipulation.
-
-To learn more about **`dplyr`** and **`tidyr`** after the workshop, you may want to check out this
-[handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf) and this [one about **`tidyr`**](https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf).
-
-We'll read in our data using the `read_csv()` function, from the tidyverse package **`readr`**, instead of `read.csv()`, the base function for reading in data. The data we are going to be using today should already be in your R_DAVIS_2025 project in the folder `data`. 
-
-
-``` r
-surveys <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv")
-```
-
-```
-## Rows: 35549 Columns: 13
-## ── Column specification ──────────────────────────────────────────────────────────────────────────────
-## Delimiter: ","
-## chr (6): species_id, sex, genus, species, taxa, plot_type
-## dbl (7): record_id, month, day, year, plot_id, hindfoot_length, weight
+<div id="in-class-coding" class="section level2">
+<h2>In Class Coding</h2>
+<p><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714937">Submit
+Week 4 In Class Coding</a></p>
+</div>
+<div id="data-manipulation-using-dplyr-and-tidyr"
+class="section level2">
+<h2>Data Manipulation using <strong><code>dplyr</code></strong> and
+<strong><code>tidyr</code></strong></h2>
+<p>Bracket subsetting is handy, but it can be cumbersome and difficult
+to read, especially for complicated operations. Enter
+<strong><code>dplyr</code></strong>. <strong><code>dplyr</code></strong>
+is a package for making tabular data manipulation easier. It pairs
+nicely with <strong><code>tidyr</code></strong> which enables you to
+swiftly convert between different data formats for plotting and
+analysis.</p>
+<p>Packages in R are basically sets of additional functions that let you
+do more stuff. The functions we’ve been using so far, like
+<code>str()</code> or <code>data.frame()</code>, come built into R;
+packages give you access to more of them. Before you use a package for
+the first time you need to install it on your machine, and then you
+should import it in every subsequent R session when you need it. You
+should already have installed the
+<strong><code>tidyverse</code></strong> package. This is an
+“umbrella-package” that installs several packages useful for data
+analysis which work together well such as
+<strong><code>tidyr</code></strong>,
+<strong><code>dplyr</code></strong>,
+<strong><code>ggplot2</code></strong>,
+<strong><code>tibble</code></strong>, etc.</p>
+<p>The <strong><code>tidyverse</code></strong> package tries to address
+3 major problems with some of base R functions:</p>
+<ol style="list-style-type: decimal">
+<li>The results from a base R function sometimes depend on the type of
+data.</li>
+<li>Using R expressions in a non standard way, which can be confusing
+for new learners.</li>
+<li>Hidden arguments, having default operations that new learners are
+not aware of.</li>
+</ol>
+<p>To load the package type:</p>
+<pre class="r"><code>library(&quot;tidyverse&quot;)    ## load the tidyverse packages, incl. dplyr</code></pre>
+<div id="what-are-dplyr-and-tidyr" class="section level3">
+<h3>What are <strong><code>dplyr</code></strong> and
+<strong><code>tidyr</code></strong>?</h3>
+<p>The package <strong><code>dplyr</code></strong> provides easy tools
+for the most common data manipulation tasks. It is built to work
+directly with data frames, with many common tasks optimized by being
+written in a compiled language (C++). An additional feature is the
+ability to work directly with data stored in an external database. The
+benefits of doing this are that the data can be managed natively in a
+relational database, queries can be conducted on that database, and only
+the results of the query are returned.</p>
+<p>This addresses a common problem with R in that all operations are
+conducted in-memory and thus the amount of data you can work with is
+limited by available memory. The database connections essentially remove
+that limitation in that you can connect to a database of many hundreds
+of GB, conduct queries on it directly, and pull back into R only what
+you need for analysis.</p>
+<p>The package <strong><code>tidyr</code></strong> addresses the common
+problem of wanting to reshape your data for plotting and use by
+different R functions. Sometimes we want data sets where we have one row
+per measurement. Sometimes we want a data frame where each measurement
+type has its own column, and rows are instead more aggregated groups -
+like countries or decades. Moving back and forth between these formats
+is nontrivial, and <strong><code>tidyr</code></strong> gives you tools
+for this and more sophisticated data manipulation.</p>
+<p>To learn more about <strong><code>dplyr</code></strong> and
+<strong><code>tidyr</code></strong> after the workshop, you may want to
+check out this <a
+href="https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf">handy
+data transformation with <strong><code>dplyr</code></strong>
+cheatsheet</a> and this <a
+href="https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf">one
+about <strong><code>tidyr</code></strong></a>.</p>
+</div>
+</div>
+<div id="our-data-international-environmental-agreements"
+class="section level2">
+<h2>Our data: international environmental agreements</h2>
+<p>For the next two weeks we’ll work with a new dataset: the <a
+href="https://www.iea.ulaval.ca">International Environmental Agreements
+(IEA) Database</a>, which tracks every treaty, protocol, and amendment
+that countries have signed to manage the environment, from 19th-century
+agreements about fishing on border rivers to the Montreal Protocol and
+the UN climate convention. The database was built by political scientist
+Ronald Mitchell at the University of Oregon and is now hosted by
+Université Laval. We’ll use a simplified subset of it, frozen as of
+October 2026 and trimmed to a handful of columns for teaching. It comes
+as three linked tables:</p>
+<ul>
+<li><code>iea_agreements.csv</code>: one row per agreement (this
+week)</li>
+<li><code>iea_memberships.csv</code>: one row per country per agreement
+it has signed or joined (next week)</li>
+<li><code>iea_countries.csv</code>: one row per country (next week)</li>
+</ul>
+<p>The <a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/iea_codebook.md">codebook</a>
+describes every column. Missing values (<code>NA</code>) are left in on
+purpose: real data have gaps, and part of the job is figuring out where
+they are.</p>
+<p>We’ll read in our data using the <code>read_csv()</code> function,
+from the tidyverse package <strong><code>readr</code></strong>, instead
+of <code>read.csv()</code>, the base function for reading in data. We’ll
+read it straight from the course website, but you can also download it
+into the <code>data</code> folder of your R_DAVIS_2026 project.</p>
+<pre class="r"><code>agreements &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/iea_agreements.csv&quot;)</code></pre>
+<pre><code>## Rows: 5016 Columns: 10
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (5): agreement_name, scope, instrument, subject, lineage
+## dbl (4): iea_id, year_signed, year_in_force, n_members
+## lgl (1): terminated
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>## inspect the data
+str(agreements)</code></pre>
+<p>Notice that the class of the data is now <code>tbl_df</code> This is
+referred to as a “tibble”. Tibbles are almost identical to R’s standard
+data frames, but they tweak some of the old behaviors of data frames.
+For our purposes the only differences between data frames and tibbles
+are that:</p>
+<ol style="list-style-type: decimal">
+<li>When you print a tibble, R displays the data type of each column
+under its name; it prints only the first few rows of data and only as
+many columns as fit on one screen.</li>
+<li>Columns of class <code>character</code> are never automatically
+converted into factors.</li>
+</ol>
+<p>Each of the 5,016 rows is one agreement. A few columns we’ll lean
+on:</p>
+<ul>
+<li><code>scope</code>: <code>Bilateral</code> (between two countries),
+<code>Multilateral</code> (three or more), or <code>Other</code></li>
+<li><code>subject</code>: the issue area, like
+<code>Fish and fisheries</code> or <code>Pollution</code></li>
+<li><code>year_signed</code> and <code>year_in_force</code>: when the
+agreement was signed, and when it took effect (enough countries had
+ratified it)</li>
+<li><code>n_members</code>: the number of countries the agreement has
+entered into force for</li>
+</ul>
+</div>
+<div id="selecting-columns-and-filtering-rows" class="section level2">
+<h2>Selecting columns and filtering rows</h2>
+<p>We’re going to learn some of the most common
+<strong><code>dplyr</code></strong> functions: <code>select()</code>,
+<code>filter()</code>, <code>mutate()</code>, <code>group_by()</code>,
+and <code>summarize()</code>. To select columns of a data frame, use
+<code>select()</code>. The first argument to this function is the data
+frame (<code>agreements</code>), and the subsequent arguments are the
+<strong>columns</strong> to keep.</p>
+<pre class="r"><code>select(agreements, agreement_name, year_signed, n_members)</code></pre>
+<p>To choose <strong>rows</strong> based on a specific criteria, use
+<code>filter()</code>. Here are all the agreements signed in 1992, the
+year of the Rio Earth Summit:</p>
+<pre class="r"><code>filter(agreements, year_signed == 1992)</code></pre>
+<pre><code>## # A tibble: 140 × 10
+##    iea_id agreement_name            scope instrument subject lineage year_signed
+##     &lt;dbl&gt; &lt;chr&gt;                     &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt;
+##  1    818 Agreement Between The Go… Bila… Agreement  Fish a… Not Ye…        1992
+##  2    819 Agreement Between The Go… Bila… Agreement  Genera… Not Ye…        1992
+##  3    820 Treaty On Development An… Bila… Agreement  Freshw… Not Ye…        1992
+##  4    821 Agreement Between The Re… Bila… Agreement  Genera… Not Ye…        1992
+##  5    822 Agreement Between The Re… Bila… Agreement  Genera… Not Ye…        1992
+##  6    823 Agreement Between The Re… Bila… Agreement  Genera… Not Ye…        1992
+##  7    824 Agreement Between The Go… Bila… Agreement  Genera… Not Ye…        1992
+##  8    825 Environmental Cooperatio… Bila… Agreement  Genera… Not Ye…        1992
+##  9    826 Agreement Between The Fe… Bila… Agreement  Freshw… Not Ye…        1992
+## 10    827 Agreement Between The Fe… Bila… Agreement  Genera… Not Ye…        1992
+## # ℹ 130 more rows
+## # ℹ 3 more variables: year_in_force &lt;dbl&gt;, terminated &lt;lgl&gt;, n_members &lt;dbl&gt;</code></pre>
+<p><code>filter</code> is used for <strong>rows</strong> and
+<code>select</code> is used for <strong>columns</strong>.</p>
+</div>
+<div id="pipes" class="section level2">
+<h2>Pipes</h2>
+<p>What if you want to select and filter at the same time? There are
+three ways to do this: use intermediate steps, nested functions, or
+pipes.</p>
+<p>With intermediate steps, you create a temporary data frame and use
+that as input to the next function, like this:</p>
+<pre class="r"><code>agreements2 &lt;- filter(agreements, n_members &gt; 150)
+agreements_big &lt;- select(agreements2, agreement_name, year_signed, n_members)</code></pre>
+<p>This is readable, but can clutter up your workspace with lots of
+objects that you have to name individually. With multiple steps, that
+can be hard to keep track of.</p>
+<p>You can also nest functions (i.e. one function inside of another),
+like this:</p>
+<pre class="r"><code>agreements_big &lt;- select(filter(agreements, n_members &gt; 150), agreement_name, year_signed, n_members)</code></pre>
+<p>This is handy, but can be difficult to read if too many functions are
+nested, as R evaluates the expression from the inside out (in this case,
+filtering, then selecting).</p>
+<p>The last option is <strong><code>pipes</code></strong>. Pipes let you
+take the output of one function and send it directly to the next, which
+is useful when you need to do many things to the same dataset. Pipes in
+R look like <code>%&gt;%</code> and are made available via the
+<strong><code>magrittr</code></strong> package, installed automatically
+with <strong><code>dplyr</code></strong>. If you use RStudio, you can
+type the pipe with <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> if
+you have a PC or <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> if you
+have a Mac.</p>
+<pre class="r"><code>agreements %&gt;%
+  filter(n_members &gt; 150) %&gt;%
+  select(agreement_name, year_signed, n_members)</code></pre>
+<pre><code>## # A tibble: 188 × 3
+##    agreement_name                                          year_signed n_members
+##    &lt;chr&gt;                                                         &lt;dbl&gt;     &lt;dbl&gt;
+##  1 International Agreement For The Creation Of An Interna…        1924       185
+##  2 Constitution Of The Food And Agriculture Organization …        1945       197
+##  3 Convention On Wetlands Of International Importance Esp…        1971       174
+##  4 Convention On The Prohibition Of The Development, Prod…        1972       166
+##  5 Convention For The Protection Of The World Cultural An…        1972       197
+##  6 Convention On International Trade In Endangered Specie…        1973       185
+##  7 Amendments To Appendices I and II To The Convention On…        1976       183
+##  8 Protocol To The International Convention for the Preve…        1978       159
+##  9 International Convention On Standards Of Training, Cer…        1978       167
+## 10 Amendments To Appendices I and II To The Convention On…        1979       183
+## # ℹ 178 more rows</code></pre>
+<p>In the above code, we use the pipe to send the
+<code>agreements</code> dataset first through <code>filter()</code> to
+keep rows where <code>n_members</code> is greater than 150, then through
+<code>select()</code> to keep only the <code>agreement_name</code>,
+<code>year_signed</code>, and <code>n_members</code> columns. Since
+<code>%&gt;%</code> takes the object on its left and passes it as the
+first argument to the function on its right, we don’t need to explicitly
+include the data frame as an argument to the <code>filter()</code> and
+<code>select()</code> functions any more.</p>
+<p>Some may find it helpful to read the pipe like the word “then”. For
+instance, in the above example, we took the data frame
+<code>agreements</code>, <em>then</em> we <code>filter</code>ed for rows
+with <code>n_members &gt; 150</code>, <em>then</em> we
+<code>select</code>ed columns <code>agreement_name</code>,
+<code>year_signed</code>, and <code>n_members</code>. The
+<strong><code>dplyr</code></strong> functions by themselves are somewhat
+simple, but by combining them into linear workflows with the pipe, we
+can accomplish more complex manipulations of data frames.</p>
+<p>If we want to create a new object with this smaller version of the
+data, we can assign it a new name. Let’s also sort it with
+<code>arrange()</code>, putting the agreements with the most members
+first:</p>
+<pre class="r"><code>agreements_big &lt;- agreements %&gt;%
+  filter(n_members &gt; 150) %&gt;%
+  select(agreement_name, year_signed, n_members) %&gt;%
+  arrange(desc(n_members))
 
-``` r
-## inspect the data
-str(surveys)
-```
-
-Notice that the class of the data is now `tbl_df`
-This is referred to as a "tibble".
-Tibbles are almost identical to R's standard data frames, but they tweak some of the old behaviors of data frames. For our purposes the only differences between data frames
-and tibbles are that:
-
-1. When you print a tibble, R displays the data type of each column under its name; it prints only the first few rows of data and only as many columns as fit
-on one screen.
-2. Columns of class `character` are never automatically converted into factors.
-
-## Selecting columns and filtering rows
-
-We're going to learn some of the most common **`dplyr`** functions: `select()`,
-`filter()`, `mutate()`, `group_by()`, and `summarize()`. To select columns of a
-data frame, use `select()`. The first argument to this function is the data
-frame (`surveys`), and the subsequent arguments are the **columns** to keep.
-
-
-``` r
-select(surveys, plot_id, species_id, weight)
-```
-
-To choose **rows** based on a specific criteria, use `filter()`:
-
-
-``` r
-filter(surveys, year == 1995)
-```
-
-```
-## # A tibble: 1,222 × 13
-##    record_id month   day  year plot_id species_id sex   hindfoot_length weight
-##        <dbl> <dbl> <dbl> <dbl>   <dbl> <chr>      <chr>           <dbl>  <dbl>
-##  1     21993     1    11  1995      18 PF         F                  16      7
-##  2     21994     1    11  1995      12 DO         M                  36     47
-##  3     21995     1    11  1995       2 DO         M                  36     51
-##  4     21996     1    11  1995      21 PF         F                  14      7
-##  5     21997     1    11  1995      24 RM         M                  15     10
-##  6     21998     1    11  1995       1 DM         M                  38     46
-##  7     21999     1    11  1995      19 PF         F                  15      8
-##  8     22000     1    11  1995       1 DM         F                  37     45
-##  9     22001     1    11  1995       2 DO         M                  36     41
-## 10     22002     1    11  1995      18 PF         F                  16      8
-## # ℹ 1,212 more rows
-## # ℹ 4 more variables: genus <chr>, species <chr>, taxa <chr>, plot_type <chr>
-```
-
-`filter` is used for **rows** and `select` is used for **columns**.
-
-## Pipes
-
-What if you want to select and filter at the same time? There are three
-ways to do this: use intermediate steps, nested functions, or pipes.
-
-With intermediate steps, you create a temporary data frame and use
-that as input to the next function, like this:
-
-
-``` r
-surveys2 <- filter(surveys, weight < 5)
-surveys_sml <- select(surveys2, species_id, sex, weight)
-```
-
-This is readable, but can clutter up your workspace with lots of objects that you have to name individually. With multiple steps, that can be hard to keep track of.
-
-You can also nest functions (i.e. one function inside of another), like this:
-
-
-``` r
-surveys_sml <- select(filter(surveys, weight < 5), species_id, sex, weight)
-```
-
-This is handy, but can be difficult to read if too many functions are nested, as
-R evaluates the expression from the inside out (in this case, filtering, then selecting).
-
-The last option is **`pipes`**. Pipes let you take
-the output of one function and send it directly to the next, which is useful
-when you need to do many things to the same dataset.  Pipes in R look like
-`%>%` and are made available via the **`magrittr`** package, installed automatically
-with **`dplyr`**. If you use RStudio, you can type the pipe with <kbd>Ctrl</kbd>
-+ <kbd>Shift</kbd> + <kbd>M</kbd> if you have a PC or <kbd>Cmd</kbd> + 
-<kbd>Shift</kbd> + <kbd>M</kbd> if you have a Mac.
-
-
-``` r
-surveys %>%
-  filter(weight < 5) %>%
-  select(species_id, sex, weight)
-```
-
-```
-## # A tibble: 17 × 3
-##    species_id sex   weight
-##    <chr>      <chr>  <dbl>
-##  1 PF         M          4
-##  2 PF         F          4
-##  3 PF         <NA>       4
-##  4 PF         F          4
-##  5 PF         F          4
-##  6 RM         M          4
-##  7 RM         F          4
-##  8 RM         M          4
-##  9 RM         M          4
-## 10 RM         M          4
-## 11 RM         M          4
-## 12 RM         F          4
-## 13 RM         M          4
-## 14 RM         M          4
-## 15 RM         M          4
-## 16 PF         M          4
-## 17 PP         M          4
-```
-
-In the above code, we use the pipe to send the `surveys` dataset first through
-`filter()` to keep rows where `weight` is less than 5, then through `select()`
-to keep only the `species_id`, `sex`, and `weight` columns. Since `%>%` takes
-the object on its left and passes it as the first argument to the function on
-its right, we don't need to explicitly include the data frame as an argument
-to the `filter()` and `select()` functions any more.
-
-Some may find it helpful to read the pipe like the word "then". For instance,
-in the above example, we took the data frame `surveys`, *then* we `filter`ed
-for rows with `weight < 5`, *then* we `select`ed columns `species_id`, `sex`,
-and `weight`. The **`dplyr`** functions by themselves are somewhat simple,
-but by combining them into linear workflows with the pipe, we can accomplish
-more complex manipulations of data frames.
-
-If we want to create a new object with this smaller version of the data, we
-can assign it a new name:
-
-
-``` r
-surveys_sml <- surveys %>%
-  filter(weight < 5) %>%
-  select(species_id, sex, weight)
-
-surveys_sml
-```
-
-```
-## # A tibble: 17 × 3
-##    species_id sex   weight
-##    <chr>      <chr>  <dbl>
-##  1 PF         M          4
-##  2 PF         F          4
-##  3 PF         <NA>       4
-##  4 PF         F          4
-##  5 PF         F          4
-##  6 RM         M          4
-##  7 RM         F          4
-##  8 RM         M          4
-##  9 RM         M          4
-## 10 RM         M          4
-## 11 RM         M          4
-## 12 RM         F          4
-## 13 RM         M          4
-## 14 RM         M          4
-## 15 RM         M          4
-## 16 PF         M          4
-## 17 PP         M          4
-```
-
-Note that the final data frame is the leftmost part of this expression.
-
-<div class = "blue">
-### Challenge 
-Using pipes, subset the `surveys` data to include individuals collected before
-1995 and retain only the columns `year`, `sex`, and `weight`. Name this dataframe `surveys_challenge`
-
+agreements_big</code></pre>
+<pre><code>## # A tibble: 188 × 3
+##    agreement_name                                          year_signed n_members
+##    &lt;chr&gt;                                                         &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Convention To Combat Desertification In Those Countrie…        1994       200
+##  2 Amendment Adding Annex V to the Convention To Combat D…        2000       199
+##  3 Convention For The Protection Of The Ozone Layer               1985       198
+##  4 Montreal Protocol On Substances That Deplete The Ozone…        1987       198
+##  5 United Nations Framework Convention On Climate Change          1992       198
+##  6 Adjustments to the Montreal Protocol on Substances tha…        2018       198
+##  7 Constitution Of The Food And Agriculture Organization …        1945       197
+##  8 Convention For The Protection Of The World Cultural An…        1972       197
+##  9 Amendment To The Montreal Protocol On Substances That …        1990       197
+## 10 Amendment To The Montreal Protocol On Substances That …        1992       197
+## # ℹ 178 more rows</code></pre>
+<p>Note that the final data frame is the leftmost part of this
+expression. The most widely joined agreements are about desertification,
+the ozone layer, and climate change.</p>
+<div id="challenge" class="section level3 blue">
+<h3>Challenge</h3>
+<p>Using pipes, subset the <code>agreements</code> data to include
+agreements signed before 1950 and retain only the columns
+<code>year_signed</code>, <code>scope</code>, and <code>subject</code>.
+Name this dataframe <code>agreements_challenge</code></p>
 <details>
-<summary>ANSWER</summary>
-
-``` r
-surveys_challenge <- surveys %>%
-    filter(year < 1995) %>%
-    select(year, sex, weight)
-```
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>agreements_challenge &lt;- agreements %&gt;%
+    filter(year_signed &lt; 1950) %&gt;%
+    select(year_signed, scope, subject)</code></pre>
 </details>
 </div>
-<br>
-
-## Mutate
-
-Frequently you'll want to create new columns based on the values in existing
-columns, for example to do unit conversions, or to find the ratio of values in two
-columns. For this we'll use `mutate()`.
-
-To create a new column of weight in kg:
-
-
-``` r
-surveys %>%
-  mutate(weight_kg = weight / 1000)
-```
-
-```
-## # A tibble: 35,549 × 14
-##    record_id month   day  year plot_id species_id sex   hindfoot_length weight
-##        <dbl> <dbl> <dbl> <dbl>   <dbl> <chr>      <chr>           <dbl>  <dbl>
-##  1         1     7    16  1977       2 NL         M                  32     NA
-##  2         2     7    16  1977       3 NL         M                  33     NA
-##  3         3     7    16  1977       2 DM         F                  37     NA
-##  4         4     7    16  1977       7 DM         M                  36     NA
-##  5         5     7    16  1977       3 DM         M                  35     NA
-##  6         6     7    16  1977       1 PF         M                  14     NA
-##  7         7     7    16  1977       2 PE         F                  NA     NA
-##  8         8     7    16  1977       1 DM         M                  37     NA
-##  9         9     7    16  1977       1 DM         F                  34     NA
-## 10        10     7    16  1977       6 PF         F                  20     NA
-## # ℹ 35,539 more rows
-## # ℹ 5 more variables: genus <chr>, species <chr>, taxa <chr>, plot_type <chr>,
-## #   weight_kg <dbl>
-```
-
-You can also create a second new column based on the first new column within the same call of `mutate()`:
-
-
-``` r
-surveys %>%
-  mutate(weight_kg = weight / 1000,
-         weight_kg2 = weight_kg * 2)
-```
-
-```
-## # A tibble: 35,549 × 15
-##    record_id month   day  year plot_id species_id sex   hindfoot_length weight
-##        <dbl> <dbl> <dbl> <dbl>   <dbl> <chr>      <chr>           <dbl>  <dbl>
-##  1         1     7    16  1977       2 NL         M                  32     NA
-##  2         2     7    16  1977       3 NL         M                  33     NA
-##  3         3     7    16  1977       2 DM         F                  37     NA
-##  4         4     7    16  1977       7 DM         M                  36     NA
-##  5         5     7    16  1977       3 DM         M                  35     NA
-##  6         6     7    16  1977       1 PF         M                  14     NA
-##  7         7     7    16  1977       2 PE         F                  NA     NA
-##  8         8     7    16  1977       1 DM         M                  37     NA
-##  9         9     7    16  1977       1 DM         F                  34     NA
-## 10        10     7    16  1977       6 PF         F                  20     NA
-## # ℹ 35,539 more rows
-## # ℹ 6 more variables: genus <chr>, species <chr>, taxa <chr>, plot_type <chr>,
-## #   weight_kg <dbl>, weight_kg2 <dbl>
-```
-
-If this runs off your screen and you just want to see the first few rows, you
-can use a pipe to view the `head()` of the data. (Pipes work with non-**`dplyr`**
-functions, too, as long as the **`dplyr`** or `magrittr` package is loaded).
-
-
-``` r
-surveys %>%
-  mutate(weight_kg = weight / 1000) %>%
-  head()
-```
-
-```
-## # A tibble: 6 × 14
-##   record_id month   day  year plot_id species_id sex   hindfoot_length weight
-##       <dbl> <dbl> <dbl> <dbl>   <dbl> <chr>      <chr>           <dbl>  <dbl>
-## 1         1     7    16  1977       2 NL         M                  32     NA
-## 2         2     7    16  1977       3 NL         M                  33     NA
-## 3         3     7    16  1977       2 DM         F                  37     NA
-## 4         4     7    16  1977       7 DM         M                  36     NA
-## 5         5     7    16  1977       3 DM         M                  35     NA
-## 6         6     7    16  1977       1 PF         M                  14     NA
-## # ℹ 5 more variables: genus <chr>, species <chr>, taxa <chr>, plot_type <chr>,
-## #   weight_kg <dbl>
-```
-
-The first few rows of the output are full of `NA`s, so if we wanted to remove
-those we could insert a `filter()` in the chain:
-
-
-``` r
-surveys %>%
-  filter(!is.na(weight)) %>%
-  mutate(weight_kg = weight / 1000) %>%
-  head()
-```
-
-```
-## # A tibble: 6 × 14
-##   record_id month   day  year plot_id species_id sex   hindfoot_length weight
-##       <dbl> <dbl> <dbl> <dbl>   <dbl> <chr>      <chr>           <dbl>  <dbl>
-## 1        63     8    19  1977       3 DM         M                  35     40
-## 2        64     8    19  1977       7 DM         M                  37     48
-## 3        65     8    19  1977       4 DM         F                  34     29
-## 4        66     8    19  1977       4 DM         F                  35     46
-## 5        67     8    19  1977       7 DM         M                  35     36
-## 6        68     8    19  1977       8 DO         F                  32     52
-## # ℹ 5 more variables: genus <chr>, species <chr>, taxa <chr>, plot_type <chr>,
-## #   weight_kg <dbl>
-```
-
-`is.na()` is a function that determines whether something is an `NA`. The `!`
-symbol negates the result, so we're asking for every row where weight *is not* an `NA`.
-
-<div class = "blue">
-### Challenge
-
-Create a new data frame from the `surveys` data that meets the following
-criteria: contains only the `species_id` column and a new column called
-`hindfoot_half` containing values that are half the `hindfoot_length` values.
-In this `hindfoot_half` column, there are no `NA`s and all values are less
-than 30. Name this data frame `surveys_hindfoot_half`.
-
-**Hint**: think about how the commands should be ordered to produce this data frame!
-
+<p><br></p>
+</div>
+<div id="mutate" class="section level2">
+<h2>Mutate</h2>
+<p>Frequently you’ll want to create new columns based on the values in
+existing columns, for example to do unit conversions, or to find the
+difference between values in two columns. For this we’ll use
+<code>mutate()</code>.</p>
+<p>To create a new column with the number of years it took each
+agreement to enter into force:</p>
+<pre class="r"><code>agreements %&gt;%
+  mutate(years_to_force = year_in_force - year_signed)</code></pre>
+<pre><code>## # A tibble: 5,016 × 11
+##    iea_id agreement_name            scope instrument subject lineage year_signed
+##     &lt;dbl&gt; &lt;chr&gt;                     &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt;
+##  1      1 Agreement Between Austri… Bila… Agreement  Freshw… Danube         1858
+##  2      2 Fishing Regulations For … Bila… Agreement  Fish a… Bidass…        1859
+##  3      3 Treaty To Regulate The D… Bila… Agreement  Freshw… Meuse          1863
+##  4      4 Convention Between Franc… Bila… Agreement  Fish a… Not Ye…        1867
+##  5      5 Convention Between The G… Bila… Agreement  Fish a… Rhine-…        1869
+##  6      6 Convention Amending The … Bila… Agreement  Freshw… Meuse          1873
+##  7      7 Convention Between Baden… Bila… Agreement  Fish a… Rhine-…        1875
+##  8      8 Convention Between The G… Bila… Agreement  Fish a… Not Ye…        1880
+##  9      9 Convention Between Franc… Bila… Agreement  Fish a… French…        1880
+## 10     10 Agreement on Neighbourly… Bila… Agreement  Conser… French…        1882
+## # ℹ 5,006 more rows
+## # ℹ 4 more variables: year_in_force &lt;dbl&gt;, terminated &lt;lgl&gt;, n_members &lt;dbl&gt;,
+## #   years_to_force &lt;dbl&gt;</code></pre>
+<p>You can also create a second new column based on the first new column
+within the same call of <code>mutate()</code>:</p>
+<pre class="r"><code>agreements %&gt;%
+  mutate(years_to_force = year_in_force - year_signed,
+         decades_to_force = years_to_force / 10)</code></pre>
+<pre><code>## # A tibble: 5,016 × 12
+##    iea_id agreement_name            scope instrument subject lineage year_signed
+##     &lt;dbl&gt; &lt;chr&gt;                     &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt;
+##  1      1 Agreement Between Austri… Bila… Agreement  Freshw… Danube         1858
+##  2      2 Fishing Regulations For … Bila… Agreement  Fish a… Bidass…        1859
+##  3      3 Treaty To Regulate The D… Bila… Agreement  Freshw… Meuse          1863
+##  4      4 Convention Between Franc… Bila… Agreement  Fish a… Not Ye…        1867
+##  5      5 Convention Between The G… Bila… Agreement  Fish a… Rhine-…        1869
+##  6      6 Convention Amending The … Bila… Agreement  Freshw… Meuse          1873
+##  7      7 Convention Between Baden… Bila… Agreement  Fish a… Rhine-…        1875
+##  8      8 Convention Between The G… Bila… Agreement  Fish a… Not Ye…        1880
+##  9      9 Convention Between Franc… Bila… Agreement  Fish a… French…        1880
+## 10     10 Agreement on Neighbourly… Bila… Agreement  Conser… French…        1882
+## # ℹ 5,006 more rows
+## # ℹ 5 more variables: year_in_force &lt;dbl&gt;, terminated &lt;lgl&gt;, n_members &lt;dbl&gt;,
+## #   years_to_force &lt;dbl&gt;, decades_to_force &lt;dbl&gt;</code></pre>
+<p>If this runs off your screen and you just want to see the first few
+rows, you can use a pipe to view the <code>head()</code> of the data.
+(Pipes work with non-<strong><code>dplyr</code></strong> functions, too,
+as long as the <strong><code>dplyr</code></strong> or
+<code>magrittr</code> package is loaded).</p>
+<pre class="r"><code>agreements %&gt;%
+  mutate(years_to_force = year_in_force - year_signed) %&gt;%
+  select(agreement_name, year_signed, year_in_force, years_to_force) %&gt;%
+  head()</code></pre>
+<pre><code>## # A tibble: 6 × 4
+##   agreement_name                        year_signed year_in_force years_to_force
+##   &lt;chr&gt;                                       &lt;dbl&gt;         &lt;dbl&gt;          &lt;dbl&gt;
+## 1 Agreement Between Austria And Bavari…        1858          1859              1
+## 2 Fishing Regulations For The Bidassoa…        1859          1860              1
+## 3 Treaty To Regulate The Diversion Of …        1863            NA             NA
+## 4 Convention Between France And Great …        1867          1868              1
+## 5 Convention Between The Grand Duchy O…        1869          1870              1
+## 6 Convention Amending The Treaty To Re…        1873            NA             NA</code></pre>
+<p>Some of these rows are <code>NA</code>, because those agreements
+never entered into force (or the IEA database doesn’t know when they
+did). If we wanted to remove those we could insert a
+<code>filter()</code> in the chain:</p>
+<pre class="r"><code>agreements %&gt;%
+  filter(!is.na(year_in_force)) %&gt;%
+  mutate(years_to_force = year_in_force - year_signed) %&gt;%
+  select(agreement_name, year_signed, year_in_force, years_to_force) %&gt;%
+  head()</code></pre>
+<pre><code>## # A tibble: 6 × 4
+##   agreement_name                        year_signed year_in_force years_to_force
+##   &lt;chr&gt;                                       &lt;dbl&gt;         &lt;dbl&gt;          &lt;dbl&gt;
+## 1 Agreement Between Austria And Bavari…        1858          1859              1
+## 2 Fishing Regulations For The Bidassoa…        1859          1860              1
+## 3 Convention Between France And Great …        1867          1868              1
+## 4 Convention Between The Grand Duchy O…        1869          1870              1
+## 5 Convention Between Baden And Switzer…        1875          1875              0
+## 6 Convention Between France And Switze…        1880          1882              2</code></pre>
+<p><code>is.na()</code> is a function that determines whether something
+is an <code>NA</code>. The <code>!</code> symbol negates the result, so
+we’re asking for every row where <code>year_in_force</code> <em>is
+not</em> an <code>NA</code>.</p>
+<p>New columns are also a good way to check your data. An agreement
+can’t take effect before it’s signed, so <code>years_to_force</code>
+should never be negative. Is it?</p>
+<pre class="r"><code>agreements %&gt;%
+  mutate(years_to_force = year_in_force - year_signed) %&gt;%
+  filter(years_to_force &lt; 0) %&gt;%
+  select(agreement_name, year_signed, year_in_force)</code></pre>
+<pre><code>## # A tibble: 2 × 3
+##   agreement_name                                       year_signed year_in_force
+##   &lt;chr&gt;                                                      &lt;dbl&gt;         &lt;dbl&gt;
+## 1 Agreement Between The Government Of Belarus And The…        1998          1900
+## 2 Fisheries Partnership Agreement between the Europea…        2008          2006</code></pre>
+<p>Two agreements say they entered into force before they were signed.
+One of them is off by almost a century, which looks like a typo in the
+original record. Real datasets have mistakes like this; a quick
+<code>mutate()</code> and <code>filter()</code> is often how you find
+them.</p>
+<div id="challenge-1" class="section level3 blue">
+<h3>Challenge</h3>
+<p>Create a new data frame from the <code>agreements</code> data that
+meets the following criteria: contains only the
+<code>agreement_name</code> column and a new column called
+<code>years_to_force</code> containing the number of years between when
+the agreement was signed and when it entered into force. In this
+<code>years_to_force</code> column, there are no <code>NA</code>s and
+all values are 10 or more (slow agreements!). Name this data frame
+<code>agreements_slow</code>.</p>
+<p><strong>Hint</strong>: think about how the commands should be ordered
+to produce this data frame!</p>
 <details>
-<summary>ANSWER</summary>
-
-``` r
-surveys_hindfoot_half <- surveys %>%
-    filter(!is.na(hindfoot_length)) %>%
-    mutate(hindfoot_half = hindfoot_length / 2) %>%
-    filter(hindfoot_half < 30) %>%
-    select(species_id, hindfoot_half)
-```
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>agreements_slow &lt;- agreements %&gt;%
+    filter(!is.na(year_in_force)) %&gt;%
+    mutate(years_to_force = year_in_force - year_signed) %&gt;%
+    filter(years_to_force &gt;= 10) %&gt;%
+    select(agreement_name, years_to_force)</code></pre>
 </details>
 </div>
-<br>
-
-## Group by and summarize
-
-Many data analysis tasks can be approached using the *split-apply-combine*
-paradigm: split the data into groups, apply some analysis to each group, and
-then combine the results. **`dplyr`** makes this very easy through the use of the
-`group_by()` function.
-
-`group_by()` is often used together with `summarize()`, which collapses each
-group into a single-row summary of that group.  `group_by()` takes as arguments
-the column names that contain the **categorical** variables for which you want
-to calculate the summary statistics. So to compute the mean `weight` by sex:
-
-
-``` r
-surveys %>%
-  group_by(sex) %>%
-  summarize(mean_weight = mean(weight, na.rm = TRUE))
-```
-
-```
-## # A tibble: 3 × 2
-##   sex   mean_weight
-##   <chr>       <dbl>
-## 1 F            42.2
-## 2 M            43.0
-## 3 <NA>         64.7
-```
-
-You may also have noticed that the output from these calls doesn't run off the
-screen anymore. It's one of the advantages of `tbl_df` over data frame.
-
-You can also group by multiple columns:
-
-
-``` r
-surveys %>%
-  group_by(sex, species_id) %>%
-  summarize(mean_weight = mean(weight, na.rm = TRUE))
-```
-
-```
-## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by sex and species_id.
-## ℹ Output is grouped by sex.
-## ℹ Use `summarise(.groups = "drop_last")` to silence this message.
-## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.
-```
-
-```
-## # A tibble: 93 × 3
-## # Groups:   sex [3]
-##    sex   species_id mean_weight
-##    <chr> <chr>            <dbl>
-##  1 F     BA                9.16
-##  2 F     DM               41.6 
-##  3 F     DO               48.5 
-##  4 F     DS              118.  
-##  5 F     NL              154.  
-##  6 F     OL               31.1 
-##  7 F     OT               24.8 
-##  8 F     OX               21   
-##  9 F     PB               30.2 
-## 10 F     PE               22.8 
-## # ℹ 83 more rows
-```
-
-We can also remove the missing values for weight before we attempt to calculate the summary statistics on weight. Because the missing values are removed first, we can omit `na.rm = TRUE` when computing the mean:
-
-
-``` r
-surveys %>%
-  filter(!is.na(weight)) %>%
-  group_by(sex, species_id) %>%
-  summarize(mean_weight = mean(weight))
-```
-
-```
-## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by sex and species_id.
-## ℹ Output is grouped by sex.
-## ℹ Use `summarise(.groups = "drop_last")` to silence this message.
-## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.
-```
-
-```
-## # A tibble: 64 × 3
-## # Groups:   sex [3]
-##    sex   species_id mean_weight
-##    <chr> <chr>            <dbl>
-##  1 F     BA                9.16
-##  2 F     DM               41.6 
-##  3 F     DO               48.5 
-##  4 F     DS              118.  
-##  5 F     NL              154.  
-##  6 F     OL               31.1 
-##  7 F     OT               24.8 
-##  8 F     OX               21   
-##  9 F     PB               30.2 
-## 10 F     PE               22.8 
-## # ℹ 54 more rows
-```
-
-Here, again, the output from these calls doesn't run off the screen
-anymore. If you want to display more data, you can use the `print()` function
-at the end of your chain with the argument `n` specifying the number of rows to
-display:
-
-
-``` r
-surveys %>%
-  filter(!is.na(weight)) %>%
-  group_by(sex, species_id) %>%
-  summarize(mean_weight = mean(weight)) %>%
-  print(n = 15)
-```
-
-```
-## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by sex and species_id.
-## ℹ Output is grouped by sex.
-## ℹ Use `summarise(.groups = "drop_last")` to silence this message.
-## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.
-```
-
-```
-## # A tibble: 64 × 3
-## # Groups:   sex [3]
-##    sex   species_id mean_weight
-##    <chr> <chr>            <dbl>
-##  1 F     BA                9.16
-##  2 F     DM               41.6 
-##  3 F     DO               48.5 
-##  4 F     DS              118.  
-##  5 F     NL              154.  
-##  6 F     OL               31.1 
-##  7 F     OT               24.8 
-##  8 F     OX               21   
-##  9 F     PB               30.2 
-## 10 F     PE               22.8 
-## 11 F     PF                7.97
-## 12 F     PH               30.8 
-## 13 F     PL               19.3 
-## 14 F     PM               22.1 
-## 15 F     PP               17.2 
-## # ℹ 49 more rows
-```
-
-Once the data are grouped, you can also summarize multiple variables at the same
-time (and not necessarily on the same variable). For instance, we could add a
-column indicating the minimum weight for each species for each sex:
-
-
-``` r
-surveys %>%
-  filter(!is.na(weight)) %>%
-  group_by(sex, species_id) %>%
-  summarize(mean_weight = mean(weight),
-            min_weight = min(weight))
-```
-
-```
-## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by sex and species_id.
-## ℹ Output is grouped by sex.
-## ℹ Use `summarise(.groups = "drop_last")` to silence this message.
-## ℹ Use `summarise(.by = c(sex, species_id))` for per-operation grouping (`?dplyr::dplyr_by`) instead.
-```
-
-```
-## # A tibble: 64 × 4
-## # Groups:   sex [3]
-##    sex   species_id mean_weight min_weight
-##    <chr> <chr>            <dbl>      <dbl>
-##  1 F     BA                9.16          6
-##  2 F     DM               41.6          10
-##  3 F     DO               48.5          12
-##  4 F     DS              118.           45
-##  5 F     NL              154.           32
-##  6 F     OL               31.1          10
-##  7 F     OT               24.8           5
-##  8 F     OX               21            20
-##  9 F     PB               30.2          12
-## 10 F     PE               22.8          11
-## # ℹ 54 more rows
-```
-
-<div class = "blue">
-### Challenge
-
-1. What was the weight of the heaviest animal measured in each year? Return a table with three columns: year, weight of the heaviest animal in grams, and weight in kilograms, arranged (`arrange()`) in descending order, from heaviest to lightest.  (This table should have 26 rows, one for each year)  
-2. Try out a new function, `count()`. Group the data by `sex` and pipe the grouped data into the `count()` function. How could you get the same result using `group_by()` and `summarize()`? Hint: see `?n`.
-
+<p><br></p>
+</div>
+<div id="group-by-and-summarize" class="section level2">
+<h2>Group by and summarize</h2>
+<p>Many data analysis tasks can be approached using the
+<em>split-apply-combine</em> paradigm: split the data into groups, apply
+some analysis to each group, and then combine the results.
+<strong><code>dplyr</code></strong> makes this very easy through the use
+of the <code>group_by()</code> function.</p>
+<p><code>group_by()</code> is often used together with
+<code>summarize()</code>, which collapses each group into a single-row
+summary of that group. <code>group_by()</code> takes as arguments the
+column names that contain the <strong>categorical</strong> variables for
+which you want to calculate the summary statistics. So to compute the
+mean number of members by scope:</p>
+<pre class="r"><code>agreements %&gt;%
+  group_by(scope) %&gt;%
+  summarize(mean_members = mean(n_members, na.rm = TRUE))</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   scope        mean_members
+##   &lt;chr&gt;               &lt;dbl&gt;
+## 1 Bilateral            2.00
+## 2 Multilateral        48.1 
+## 3 Other                2</code></pre>
+<p>No surprise that bilateral agreements average two members. What
+happens if you leave out <code>na.rm = TRUE</code>? Try it: a single
+<code>NA</code> in a group makes the whole mean <code>NA</code>.</p>
+<p>You may also have noticed that the output from these calls doesn’t
+run off the screen anymore. It’s one of the advantages of
+<code>tbl_df</code> over data frame.</p>
+<p>You can also group by multiple columns:</p>
+<pre class="r"><code>agreements %&gt;%
+  group_by(subject, scope) %&gt;%
+  summarize(mean_members = mean(n_members, na.rm = TRUE))</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by subject and scope.
+## ℹ Output is grouped by subject.
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(subject, scope))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
+<pre><code>## # A tibble: 32 × 3
+## # Groups:   subject [11]
+##    subject                                  scope        mean_members
+##    &lt;chr&gt;                                    &lt;chr&gt;               &lt;dbl&gt;
+##  1 Agriculture                              Bilateral            2.00
+##  2 Agriculture                              Multilateral        27.5 
+##  3 Agriculture                              Other              NaN   
+##  4 Conservation of species and biodiversity Bilateral            2   
+##  5 Conservation of species and biodiversity Multilateral        61.4 
+##  6 Conservation of species and biodiversity Other                2   
+##  7 Energy                                   Bilateral            2.00
+##  8 Energy                                   Multilateral        30.1 
+##  9 Energy                                   Other              NaN   
+## 10 Fish and fisheries                       Bilateral            2.00
+## # ℹ 22 more rows</code></pre>
+<p>Multilateral agreements are much bigger than bilateral ones on every
+subject. But some rows say <code>NaN</code> (“not a number”). Every
+agreement in those groups is missing <code>n_members</code>, so once
+<code>na.rm = TRUE</code> removes the <code>NA</code>s there’s nothing
+left to average.</p>
+<p>We can also remove the missing values for <code>n_members</code>
+before we attempt to calculate the summary statistics. Because the
+missing values are removed first, we can omit <code>na.rm = TRUE</code>
+when computing the mean, and the all-<code>NA</code> groups drop out
+entirely:</p>
+<pre class="r"><code>agreements %&gt;%
+  filter(!is.na(n_members)) %&gt;%
+  group_by(subject, scope) %&gt;%
+  summarize(mean_members = mean(n_members))</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by subject and scope.
+## ℹ Output is grouped by subject.
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(subject, scope))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
+<pre><code>## # A tibble: 24 × 3
+## # Groups:   subject [11]
+##    subject                                  scope        mean_members
+##    &lt;chr&gt;                                    &lt;chr&gt;               &lt;dbl&gt;
+##  1 Agriculture                              Bilateral            2.00
+##  2 Agriculture                              Multilateral        27.5 
+##  3 Conservation of species and biodiversity Bilateral            2   
+##  4 Conservation of species and biodiversity Multilateral        61.4 
+##  5 Conservation of species and biodiversity Other                2   
+##  6 Energy                                   Bilateral            2.00
+##  7 Energy                                   Multilateral        30.1 
+##  8 Fish and fisheries                       Bilateral            2.00
+##  9 Fish and fisheries                       Multilateral        13.6 
+## 10 Freshwater                               Bilateral            2.00
+## # ℹ 14 more rows</code></pre>
+<p>Here, again, the output from these calls doesn’t run off the screen
+anymore. If you want to display more data, you can use the
+<code>print()</code> function at the end of your chain with the argument
+<code>n</code> specifying the number of rows to display:</p>
+<pre class="r"><code>agreements %&gt;%
+  filter(!is.na(n_members)) %&gt;%
+  group_by(subject, scope) %&gt;%
+  summarize(mean_members = mean(n_members)) %&gt;%
+  print(n = 15)</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by subject and scope.
+## ℹ Output is grouped by subject.
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(subject, scope))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
+<pre><code>## # A tibble: 24 × 3
+## # Groups:   subject [11]
+##    subject                                  scope        mean_members
+##    &lt;chr&gt;                                    &lt;chr&gt;               &lt;dbl&gt;
+##  1 Agriculture                              Bilateral            2.00
+##  2 Agriculture                              Multilateral        27.5 
+##  3 Conservation of species and biodiversity Bilateral            2   
+##  4 Conservation of species and biodiversity Multilateral        61.4 
+##  5 Conservation of species and biodiversity Other                2   
+##  6 Energy                                   Bilateral            2.00
+##  7 Energy                                   Multilateral        30.1 
+##  8 Fish and fisheries                       Bilateral            2.00
+##  9 Fish and fisheries                       Multilateral        13.6 
+## 10 Freshwater                               Bilateral            2.00
+## 11 Freshwater                               Multilateral         6.84
+## 12 General environmental cooperation        Bilateral            2   
+## 13 General environmental cooperation        Multilateral        13.6 
+## 14 Habitat and ocean                        Bilateral            2   
+## 15 Habitat and ocean                        Multilateral        40.7 
+## # ℹ 9 more rows</code></pre>
+<p>Once the data are grouped, you can also summarize multiple variables
+at the same time (and not necessarily on the same variable). For
+instance, we could add a column with the largest membership of any
+agreement in each group:</p>
+<pre class="r"><code>agreements %&gt;%
+  filter(!is.na(n_members)) %&gt;%
+  group_by(subject, scope) %&gt;%
+  summarize(mean_members = mean(n_members),
+            max_members = max(n_members))</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by subject and scope.
+## ℹ Output is grouped by subject.
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(subject, scope))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
+<pre><code>## # A tibble: 24 × 4
+## # Groups:   subject [11]
+##    subject                                  scope       mean_members max_members
+##    &lt;chr&gt;                                    &lt;chr&gt;              &lt;dbl&gt;       &lt;dbl&gt;
+##  1 Agriculture                              Bilateral           2.00           2
+##  2 Agriculture                              Multilater…        27.5          197
+##  3 Conservation of species and biodiversity Bilateral           2              2
+##  4 Conservation of species and biodiversity Multilater…        61.4          196
+##  5 Conservation of species and biodiversity Other               2              2
+##  6 Energy                                   Bilateral           2.00           2
+##  7 Energy                                   Multilater…        30.1          171
+##  8 Fish and fisheries                       Bilateral           2.00           3
+##  9 Fish and fisheries                       Multilater…        13.6           98
+## 10 Freshwater                               Bilateral           2.00           2
+## # ℹ 14 more rows</code></pre>
+<div id="challenge-2" class="section level3 blue">
+<h3>Challenge</h3>
+<ol style="list-style-type: decimal">
+<li>What was the largest number of members of any agreement signed in
+each year since 1990? Return a table with three columns:
+<code>year_signed</code>, the largest number of members
+(<code>max_members</code>), and that number as a percent of the 202
+countries in the database (<code>max_pct</code>), arranged
+(<code>arrange()</code>) in descending order of
+<code>max_members</code>. (This table should have 36 rows, one for each
+year)</li>
+<li>Try out a new function, <code>count()</code>. Group the data by
+<code>scope</code> and pipe the grouped data into the
+<code>count()</code> function. How could you get the same result using
+<code>group_by()</code> and <code>summarize()</code>? Hint: see
+<code>?n</code>.</li>
+</ol>
 <details>
-<summary>ANSWER</summary>
-
-``` r
-## Answer 1
-surveys %>%
-    filter(!is.na(weight)) %>%
-    group_by(year) %>%
-    summarize(max_weight_g = max(weight)) %>% 
-    mutate(max_weight_kg = max_weight_g/1000) %>% 
-    arrange(-max_weight_g)
-```
-
-```
-## # A tibble: 26 × 3
-##     year max_weight_g max_weight_kg
-##    <dbl>        <dbl>         <dbl>
-##  1  2001          280         0.28 
-##  2  1987          278         0.278
-##  3  1989          275         0.275
-##  4  1979          274         0.274
-##  5  2000          265         0.265
-##  6  1981          264         0.264
-##  7  1984          259         0.259
-##  8  1983          256         0.256
-##  9  1982          252         0.252
-## 10  1988          248         0.248
-## # ℹ 16 more rows
-```
-
-``` r
-## Answer 2
-surveys %>%
-  group_by(sex) %>%
-  count()
-```
-
-```
-## # A tibble: 3 × 2
-## # Groups:   sex [3]
-##   sex       n
-##   <chr> <int>
-## 1 F     15690
-## 2 M     17348
-## 3 <NA>   2511
-```
-
-``` r
-surveys %>%
-  group_by(sex) %>%
-  summarize(n = n())
-```
-
-```
-## # A tibble: 3 × 2
-##   sex       n
-##   <chr> <int>
-## 1 F     15690
-## 2 M     17348
-## 3 <NA>   2511
-```
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>## Answer 1
+agreements %&gt;%
+    filter(!is.na(n_members), year_signed &gt;= 1990) %&gt;%
+    group_by(year_signed) %&gt;%
+    summarize(max_members = max(n_members)) %&gt;%
+    mutate(max_pct = max_members / 202 * 100) %&gt;%
+    arrange(desc(max_members))</code></pre>
+<pre><code>## # A tibble: 36 × 3
+##    year_signed max_members max_pct
+##          &lt;dbl&gt;       &lt;dbl&gt;   &lt;dbl&gt;
+##  1        1994         200    99.0
+##  2        2000         199    98.5
+##  3        1992         198    98.0
+##  4        2018         198    98.0
+##  5        1990         197    97.5
+##  6        1995         197    97.5
+##  7        1997         197    97.5
+##  8        1999         197    97.5
+##  9        2001         197    97.5
+## 10        2007         197    97.5
+## # ℹ 26 more rows</code></pre>
+<pre class="r"><code>## Answer 2
+agreements %&gt;%
+  group_by(scope) %&gt;%
+  count()</code></pre>
+<pre><code>## # A tibble: 3 × 2
+## # Groups:   scope [3]
+##   scope            n
+##   &lt;chr&gt;        &lt;int&gt;
+## 1 Bilateral     3343
+## 2 Multilateral  1549
+## 3 Other          124</code></pre>
+<pre class="r"><code>agreements %&gt;%
+  group_by(scope) %&gt;%
+  summarize(n = n())</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   scope            n
+##   &lt;chr&gt;        &lt;int&gt;
+## 1 Bilateral     3343
+## 2 Multilateral  1549
+## 3 Other          124</code></pre>
 </details>
 </div>
-<br>
-
-
-
-
--->
+<p><br></p>
+<p>This lesson is adapted from the Data Carpentry: R for Data Analysis
+and Visualization of Ecological Data <a
+href="https://datacarpentry.org/R-ecology-lesson/03-dplyr.html">Manipulating,
+analyzing and exporting data with tidyverse materials</a>. Data are from
+the International Environmental Agreements Database Project, hosted by
+Université Laval, available at <a href="https://www.iea.ulaval.ca"
+class="uri">https://www.iea.ulaval.ca</a>, and described in Mitchell et
+al. (2020), “What We Know (and Could Know) About International
+Environmental Agreements,” <em>Global Environmental Politics</em> 20(1):
+103–121, <a href="https://doi.org/10.1162/glep_a_00544"
+class="uri">https://doi.org/10.1162/glep_a_00544</a>. The course files
+are a simplified subset of the database prepared for teaching (see the
+<a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/iea_codebook.md">codebook</a>);
+for research, use the full database from the IEADB website.</p>
+</div>
 
 
 

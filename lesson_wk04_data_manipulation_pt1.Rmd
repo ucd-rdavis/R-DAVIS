@@ -320,16 +320,18 @@ You can also group by multiple columns:
 
 ```{r, purl = FALSE}
 agreements %>%
-  group_by(scope, subject) %>%
+  group_by(subject, scope) %>%
   summarize(mean_members = mean(n_members, na.rm = TRUE))
 ```
 
-We can also remove the missing values for `n_members` before we attempt to calculate the summary statistics. Because the missing values are removed first, we can omit `na.rm = TRUE` when computing the mean:
+Multilateral agreements are much bigger than bilateral ones on every subject. But some rows say `NaN` ("not a number"). Every agreement in those groups is missing `n_members`, so once `na.rm = TRUE` removes the `NA`s there's nothing left to average.
+
+We can also remove the missing values for `n_members` before we attempt to calculate the summary statistics. Because the missing values are removed first, we can omit `na.rm = TRUE` when computing the mean, and the all-`NA` groups drop out entirely:
 
 ```{r, purl = FALSE}
 agreements %>%
   filter(!is.na(n_members)) %>%
-  group_by(scope, subject) %>%
+  group_by(subject, scope) %>%
   summarize(mean_members = mean(n_members))
 ```
 
@@ -341,7 +343,7 @@ display:
 ```{r, purl = FALSE}
 agreements %>%
   filter(!is.na(n_members)) %>%
-  group_by(scope, subject) %>%
+  group_by(subject, scope) %>%
   summarize(mean_members = mean(n_members)) %>%
   print(n = 15)
 ```
@@ -353,7 +355,7 @@ column with the largest membership of any agreement in each group:
 ```{r, purl = FALSE}
 agreements %>%
   filter(!is.na(n_members)) %>%
-  group_by(scope, subject) %>%
+  group_by(subject, scope) %>%
   summarize(mean_members = mean(n_members),
             max_members = max(n_members))
 ```

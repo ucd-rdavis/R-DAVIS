@@ -94,7 +94,7 @@ first_year <- function(year, action, which) {
 memberships <- actions %>%
   group_by(iea_id, country) %>%
   summarize(
-    year_signed = first_year(year, action, "signed"),
+    year_country_signed = first_year(year, action, "signed"),
     year_joined = first_year(year, action, "joined"),
     year_left = first_year(year, action, "left"),
     .groups = "drop"
