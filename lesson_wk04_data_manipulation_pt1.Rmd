@@ -70,20 +70,20 @@ memory. The database connections essentially remove that limitation in that you
 can connect to a database of many hundreds of GB, conduct queries on it directly, and pull
 back into R only what you need for analysis.
 
-The package **`tidyr`** addresses the common problem of wanting to reshape your data for plotting and use by different R functions. Sometimes we want data sets where we have one row per measurement. Sometimes we want a data frame where each measurement type has its own column, and rows are instead more aggregated groups - like countries or decades. Moving back and forth between these formats is nontrivial, and **`tidyr`** gives you tools for this and more sophisticated  data manipulation.
+The package **`tidyr`** addresses the common problem of wanting to reshape your data for plotting and use by different R functions. Sometimes we want data sets where we have one row per measurement. Sometimes we want a data frame where each measurement type has its own column, and rows are instead more aggregated groups - like countries or decades. Moving back and forth between these formats is nontrivial, and **`tidyr`** gives you tools for this and more sophisticated data manipulation.
 
-To learn more about **`dplyr`** and **`tidyr`** after the workshop, you may want to check out this
+To learn more about **`dplyr`** and **`tidyr`**, you may want to check out this
 [handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf) and this [one about **`tidyr`**](https://github.com/rstudio/cheatsheets/blob/main/tidyr.pdf).
 
 ## Our data: international environmental agreements
 
-For the next two weeks we'll work with a new dataset: the [International Environmental Agreements (IEA) Database](https://www.iea.ulaval.ca), which tracks every treaty, protocol, and amendment that countries have signed to manage the environment, from 19th-century agreements about fishing on border rivers to the Montreal Protocol and the UN climate convention. The database was built by political scientist Ronald Mitchell at the University of Oregon and is now hosted by Université Laval. We'll use a simplified subset of it, frozen as of October 2026 and trimmed to a handful of columns for teaching. It comes as three linked tables:
+For the next two weeks we'll work with the [International Environmental Agreements (IEA) Database](https://www.iea.ulaval.ca), which tracks every treaty, protocol, and amendment that countries have signed to manage the environment, from 19th-century agreements about fishing on border rivers to the Montreal Protocol and the UN climate convention. The database was built by political scientist Ronald Mitchell at the University of Oregon and is now hosted by Université Laval. We'll use a simplified subset of it, frozen as of October 2026 and trimmed to a handful of columns for teaching. It comes as three linked tables:
 
 * `iea_agreements.csv`: one row per agreement (this week)
 * `iea_memberships.csv`: one row per country per agreement it has signed or joined (next week)
 * `iea_countries.csv`: one row per country (next week)
 
-The [codebook](https://ucd-rdavis.github.io/R-DAVIS/data/iea_codebook.md) describes every column. Missing values (`NA`) are left in on purpose: real data have gaps, and part of the job is figuring out where they are.
+The [codebook](https://ucd-rdavis.github.io/R-DAVIS/data/iea_codebook.md) describes every column. Missing values (`NA`) are left in on purpose.
 
 We'll read in our data using the `read_csv()` function, from the tidyverse package **`readr`**, instead of `read.csv()`, the base function for reading in data. We'll read it straight from the course website, but you can also download it into the `data` folder of your R_DAVIS_2026 project.
 
@@ -95,15 +95,13 @@ str(agreements)
 ```
 
 Notice that the class of the data is now `tbl_df`
-This is referred to as a "tibble".
-Tibbles are almost identical to R's standard data frames, but they tweak some of the old behaviors of data frames. For our purposes the only differences between data frames
-and tibbles are that:
+This is referred to as a "tibble". Remember tibbles are standard data frames with some extra window dressing:
 
 1. When you print a tibble, R displays the data type of each column under its name; it prints only the first few rows of data and only as many columns as fit
 on one screen.
 2. Columns of class `character` are never automatically converted into factors.
 
-Each of the 5,016 rows is one agreement. A few columns we'll lean on:
+Each of the 5,016 rows is one agreement. A few columns we'll use:
 
 * `scope`: `Bilateral` (between two countries), `Multilateral` (three or more), or `Other`
 * `subject`: the issue area, like `Fish and fisheries` or `Pollution`
@@ -127,7 +125,7 @@ To choose **rows** based on a specific criteria, use `filter()`. Here are all th
 filter(agreements, year_signed == 1992)
 ```
 
-`filter` is used for **rows** and `select` is used for **columns**.
+`filter` is used for **rows** and `select` is used for **columns**. Note that in `select` and `filter`, you do not have to wrap the column names in quotes (e.g., `year_signed` works instead of "year_signed"). The reason is that these `dplyr` functions are wired to know that the variable names are vector objects stored within the tibble/data.frame object, and so standard object naming conventions work.
 
 ## Pipes
 
