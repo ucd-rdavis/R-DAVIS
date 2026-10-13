@@ -8,16 +8,16 @@ format:
 This is the Lab Week 4 document for R-DAVIS. Complete the tasks below in this file, then click **Render** and upload the resulting HTML file to Canvas.
 
 
-This week the lab will review data manipulation in the tidyverse.
+This week the lab will review data manipulation in the tidyverse, using the international environmental agreements data from lecture. The codebook at https://ucd-rdavis.github.io/R-DAVIS/data/iea_codebook.md describes every column. The data are a simplified subset of the International Environmental Agreements Database Project (https://www.iea.ulaval.ca; Mitchell et al. 2020, *Global Environmental Politics* 20(1): 103–121), prepared for this course.
 
-1. Create a tibble named `surveys` from the portal_data_joined.csv file, found at https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv.
+1. Create a tibble named `agreements` from the iea_agreements.csv file, found at https://ucd-rdavis.github.io/R-DAVIS/data/iea_agreements.csv.
 
-2. Subset `surveys` using Tidyverse methods to keep rows with weight between 30 and 60, and print out the first 6 rows.
+2. Subset `agreements` using Tidyverse methods to keep agreements signed between 1972 and 1992 (the years of the Stockholm and Rio environmental summits), and print out the first 6 rows.
 
-3. Create a new tibble showing the maximum weight for each species + sex combination and name it `biggest_critters`. Sort the tibble to take a look at the biggest and smallest species + sex combinations. HINT: it's easier to calculate max if there are no NAs in the dataframe...
+3. Create a new tibble showing the largest number of members (`n_members`) for each subject + scope combination and name it `biggest_agreements`. Sort the tibble to take a look at the largest and smallest subject + scope combinations. HINT: it's easier to calculate max if there are no NAs in the dataframe...
 
-4. Try to figure out where the NA weights are concentrated in the data- is there a particular species, taxa, plot, or whatever, where there are lots of NA values? There isn’t necessarily a right or wrong answer here, but manipulate surveys a few different ways to explore this. Maybe use `tally` and `arrange` here.
+4. Try to figure out where the NA values of `n_members` are concentrated in the data- is there a particular scope, subject, instrument, time period, or whatever, where there are lots of NA values? There isn't necessarily a right or wrong answer here, but manipulate `agreements` a few different ways to explore this. Maybe use `count` and `arrange` here. Does `year_in_force` have its NAs in the same places? Why might that be?
 
-5. Take `surveys`, remove the rows where weight is NA and add a column that contains the average weight of each species+sex combination to the **full** `surveys` dataframe. Then get rid of all the columns except for species, sex, weight, and your new average weight column. Save this tibble as `surveys_avg_weight`.
+5. Take `agreements`, remove the rows where `n_members` is NA and add a column that contains the average number of members of each subject + scope combination to the **full** `agreements` dataframe. Then get rid of all the columns except for agreement_name, subject, scope, n_members, and your new average members column. Save this tibble as `agreements_avg_members`.
 
-6. Take `surveys_avg_weight` and add a new column called `above_average` that contains logical values stating whether or not a row’s weight is above average for its species+sex combination (recall the new column we made for this tibble).
+6. Take `agreements_avg_members` and add a new column called `above_average` that contains logical values stating whether or not a row's `n_members` is above average for its subject + scope combination (recall the new column we made for this tibble).
