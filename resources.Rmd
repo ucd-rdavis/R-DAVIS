@@ -62,6 +62,10 @@ This is a list of most of the data sources used in this course.
     + [surveys_complete.csv](data_output/surveys_complete.csv) [cleaned trapping data by record id]
     + [combined.csv](data/combined.csv) [trapping data merged with record id metadata]
     + [plots.csv](data/plots.csv) [plot type metadata]
+* From the [International Environmental Agreements Database Project](https://www.iea.ulaval.ca) (Mitchell et al. 2020, [*Global Environmental Politics* 20(1)](https://doi.org/10.1162/glep_a_00544)); a simplified teaching subset, not the full database; see the [codebook](data/iea_codebook.md) for what was changed and the terms of use
+    + [iea_agreements.csv](data/iea_agreements.csv) [one row per environmental agreement]
+    + [iea_memberships.csv](data/iea_memberships.csv) [one row per country per agreement]
+    + [iea_countries.csv](data/iea_countries.csv) [country characteristics]
 * From [Data Carpentry: R for Data Analysis and Visualization of Ecological Data](http://www.datacarpentry.org/R-ecology-lesson/)
     + [survey_data_spreadsheet_messy.xls](data/survey_data_spreadsheet_messy.xls) [example of untidy data]
 * From [Software Carpentry: R for Reproducible Scientific Analysis](http://data-lessons.github.io/gapminder-R/)
