@@ -556,8 +556,7 @@ like countries or decades. Moving back and forth between these formats
 is nontrivial, and <strong><code>tidyr</code></strong> gives you tools
 for this and more sophisticated data manipulation.</p>
 <p>To learn more about <strong><code>dplyr</code></strong> and
-<strong><code>tidyr</code></strong> after the workshop, you may want to
-check out this <a
+<strong><code>tidyr</code></strong>, you may want to check out this <a
 href="https://github.com/rstudio/cheatsheets/blob/main/data-transformation.pdf">handy
 data transformation with <strong><code>dplyr</code></strong>
 cheatsheet</a> and this <a
@@ -568,7 +567,7 @@ about <strong><code>tidyr</code></strong></a>.</p>
 <div id="our-data-international-environmental-agreements"
 class="section level2">
 <h2>Our data: international environmental agreements</h2>
-<p>For the next two weeks we’ll work with a new dataset: the <a
+<p>For the next two weeks we’ll work with the <a
 href="https://www.iea.ulaval.ca">International Environmental Agreements
 (IEA) Database</a>, which tracks every treaty, protocol, and amendment
 that countries have signed to manage the environment, from 19th-century
@@ -588,8 +587,7 @@ it has signed or joined (next week)</li>
 <p>The <a
 href="https://ucd-rdavis.github.io/R-DAVIS/data/iea_codebook.md">codebook</a>
 describes every column. Missing values (<code>NA</code>) are left in on
-purpose: real data have gaps, and part of the job is figuring out where
-they are.</p>
+purpose.</p>
 <p>We’ll read in our data using the <code>read_csv()</code> function,
 from the tidyverse package <strong><code>readr</code></strong>, instead
 of <code>read.csv()</code>, the base function for reading in data. We’ll
@@ -597,7 +595,7 @@ read it straight from the course website, but you can also download it
 into the <code>data</code> folder of your R_DAVIS_2026 project.</p>
 <pre class="r"><code>agreements &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/iea_agreements.csv&quot;)</code></pre>
 <pre><code>## Rows: 5016 Columns: 10
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ─────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (5): agreement_name, scope, instrument, subject, lineage
 ## dbl (4): iea_id, year_signed, year_in_force, n_members
@@ -608,10 +606,8 @@ into the <code>data</code> folder of your R_DAVIS_2026 project.</p>
 <pre class="r"><code>## inspect the data
 str(agreements)</code></pre>
 <p>Notice that the class of the data is now <code>tbl_df</code> This is
-referred to as a “tibble”. Tibbles are almost identical to R’s standard
-data frames, but they tweak some of the old behaviors of data frames.
-For our purposes the only differences between data frames and tibbles
-are that:</p>
+referred to as a “tibble”. Remember tibbles are standard data frames
+with some extra window dressing:</p>
 <ol style="list-style-type: decimal">
 <li>When you print a tibble, R displays the data type of each column
 under its name; it prints only the first few rows of data and only as
@@ -619,8 +615,7 @@ many columns as fit on one screen.</li>
 <li>Columns of class <code>character</code> are never automatically
 converted into factors.</li>
 </ol>
-<p>Each of the 5,016 rows is one agreement. A few columns we’ll lean
-on:</p>
+<p>Each of the 5,016 rows is one agreement. A few columns we’ll use:</p>
 <ul>
 <li><code>scope</code>: <code>Bilateral</code> (between two countries),
 <code>Multilateral</code> (three or more), or <code>Other</code></li>
@@ -663,7 +658,13 @@ year of the Rio Earth Summit:</p>
 ## # ℹ 130 more rows
 ## # ℹ 3 more variables: year_in_force &lt;dbl&gt;, terminated &lt;lgl&gt;, n_members &lt;dbl&gt;</code></pre>
 <p><code>filter</code> is used for <strong>rows</strong> and
-<code>select</code> is used for <strong>columns</strong>.</p>
+<code>select</code> is used for <strong>columns</strong>. Note that in
+<code>select</code> and <code>filter</code>, you do not have to wrap the
+column names in quotes (e.g., <code>year_signed</code> works instead of
+“year_signed”). The reason is that these <code>dplyr</code> functions
+are wired to know that the variable names are vector objects stored
+within the tibble/data.frame object, and so standard object naming
+conventions work.</p>
 </div>
 <div id="pipes" class="section level2">
 <h2>Pipes</h2>
