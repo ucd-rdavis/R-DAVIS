@@ -42,10 +42,17 @@ keep those when editing and add one when borrowing more.
 
 `data/portal_data_joined.csv` (Portal Project rodent surveys, ~35.5k rows, 13
 columns: `record_id, month, day, year, plot_id, species_id, sex, hindfoot_length,
-weight, genus, species, taxa, plot_type`). Weeks 3–5, 7, and 10 and most labs use it,
+weight, genus, species, taxa, plot_type`). Weeks 3, 7, and 10 and most labs use it,
 always via the GitHub Pages URL. `surveys.csv`, `species.csv`, `plots.csv`, and
 `combined.csv` are its unjoined components; `tail_length.csv` is a companion table
 used to teach joins; `data_output/surveys_complete.csv` is the NA-free version.
+Weeks 4–5 (lessons and labs) instead use the International Environmental
+Agreements (IEA) snapshot: `iea_agreements.csv` (one row per agreement, key
+`iea_id`), `iea_memberships.csv` (country × agreement), and `iea_countries.csv`
+(key `country`), documented in `data/iea_codebook.md`. It is a frozen copy built
+by `scripts/build_iea_data.R`; the IEADB updates weekly, so re-running the script
+changes counts quoted in those lessons and labs. NAs are kept on purpose for
+teaching. Pages using it must cite the IEADB website and Mitchell et al. (2020).
 Other datasets: `gapminder.csv` (labs and functions), `mauna_loa_met_2001_minute.csv`
 (iteration lab; 43 MB, read from the URL), `mysteryData.csv` (faceting
 challenge), and the `nyc_13_*` and `tyler_activity_laps_*`/`finals_data.csv` files,

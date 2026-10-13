@@ -1,0 +1,203 @@
+country,iso3,continent,subregion,oecd_joined,eu_joined,population,gdp_per_capita,democracy_index
+Afghanistan,AFG,Asia,Southern Asia,NA,NA,39068979,528,0.167
+Albania,ALB,Europe,Southern Europe,NA,NA,2528480,4981,0.442
+Algeria,DZA,Africa,Northern Africa,NA,NA,44042091,4364,0.152
+Andorra,AND,Europe,Southern Europe,NA,NA,77380,34537,NA
+Angola,AGO,Africa,Central Africa,NA,NA,33451132,2847,0.16
+Antigua and Barbuda,ATG,Caribbean,Caribbean,NA,NA,91846,14951,NA
+Argentina,ARG,South America,South America,NA,NA,45191965,11393,0.634
+Armenia,ARM,Asia,Western Asia,NA,NA,2961500,4032,0.576
+Aruba,ABW,Caribbean,Caribbean,NA,NA,108587,22718,NA
+Australia,AUS,Oceania,Australia and New Zealand,1971,NA,25649248,58378,0.79
+Austria,AUT,Europe,Western Europe,1961,1995,8916864,43429,0.786
+Azerbaijan,AZE,Asia,Western Asia,NA,NA,10093121,5088,0.064
+Bahamas,BHS,Caribbean,Caribbean,NA,NA,395863,24792,NA
+Bahrain,BHR,Asia,Western Asia,NA,NA,1472204,23587,0.062
+Bangladesh,BGD,Asia,Southern Asia,NA,NA,166298024,1605,0.094
+Barbados,BRB,Caribbean,Caribbean,NA,NA,281698,17057,0.692
+Belarus,BLR,Europe,Eastern Europe,NA,NA,9379952,6252,0.045
+Belgium,BEL,Europe,Western Europe,1961,1952,11538604,40769,0.826
+Belize,BLZ,Central America,Central America,NA,NA,390812,5006,NA
+Benin,BEN,Africa,Western Africa,NA,NA,13070169,1127,0.284
+Bhutan,BTN,Asia,Southern Asia,NA,NA,770006,3092,0.515
+Bolivia,BOL,South America,South America,NA,NA,11816299,2765,0.209
+Bosnia and Herzegovina,BIH,Europe,Southern Europe,NA,NA,3299349,5491,0.335
+Botswana,BWA,Africa,Southern Africa,NA,NA,2365894,6254,0.484
+Brazil,BRA,South America,South America,NA,NA,208660842,8435,0.534
+Brunei Darussalam,BRN,Asia,South-Eastern Asia,NA,NA,447404,30016,NA
+Bulgaria,BGR,Europe,Eastern Europe,NA,2007,6550696,8441,0.501
+Burkina Faso,BFA,Africa,Western Africa,NA,NA,21478690,714,0.486
+Burundi,BDI,Africa,Eastern Africa,NA,NA,12617036,263,0.049
+Cambodia,KHM,Asia,South-Eastern Asia,NA,NA,16725474,1909,0.063
+Cameroon,CMR,Africa,Central Africa,NA,NA,26210558,1435,0.123
+Canada,CAN,North America,Northern America,1961,NA,38028638,42366,0.745
+Cape Verde,CPV,Africa,Western Africa,NA,NA,514679,3256,0.701
+Central African Republic,CAF,Africa,Central Africa,NA,NA,5026628,399,0.201
+Chad,TCD,Africa,Central Africa,NA,NA,17224679,885,0.088
+Chile,CHL,South America,South America,2010,NA,19370624,12681,0.766
+China,CHN,Asia,Eastern Asia,NA,NA,1411100000,10573,0.042
+Colombia,COL,South America,South America,NA,NA,50629997,5892,0.496
+Comoros,COM,Africa,Eastern Africa,NA,NA,802163,1360,0.124
+"Congo, Democratic Republic of",COD,Africa,Central Africa,NA,NA,95989998,471,0.152
+"Congo, Republic of the",COG,Africa,Central Africa,NA,NA,5752791,1726,0.118
+Cook Islands,COK,Oceania,Polynesia,NA,NA,NA,NA,NA
+Costa Rica,CRI,Central America,Central America,NA,NA,5034320,12322,0.844
+Croatia,HRV,Europe,Southern Europe,NA,2013,3914206,13546,0.647
+Cuba,CUB,Caribbean,Caribbean,NA,NA,11176354,7252,0.06
+Curacao,CUW,Caribbean,Caribbean,NA,NA,155482,14850,NA
+Cyprus,CYP,Asia,Western Asia,NA,2004,1302247,26896,0.691
+Czechia,CZE,Europe,Eastern Europe,1995,2004,10697858,19233,0.709
+Côte d'Ivoire,CIV,Africa,Western Africa,NA,NA,28915449,2055,0.261
+Denmark,DNK,Europe,Northern Europe,1961,1973,5831404,55935,0.882
+Djibouti,DJI,Africa,Eastern Africa,NA,NA,1105188,2773,0.119
+Dominica,DMA,Caribbean,Caribbean,NA,NA,67573,7303,NA
+Dominican Republic,DOM,Caribbean,Caribbean,NA,NA,11008300,7396,0.449
+Ecuador,ECU,South America,South America,NA,NA,17546065,5356,0.481
+Egypt,EGY,Africa,Northern Africa,NA,NA,109315124,3771,0.117
+El Salvador,SLV,Central America,Central America,NA,NA,6234673,3809,0.316
+Equatorial Guinea,GNQ,Africa,Central Africa,NA,NA,1716468,5575,0.051
+Eritrea,ERI,Africa,Eastern Africa,NA,NA,3291271,NA,0.01
+Estonia,EST,Europe,Northern Europe,2010,2004,1329522,19947,0.842
+Eswatini,SWZ,Africa,Southern Africa,NA,NA,1192729,3609,0.115
+Ethiopia,ETH,Africa,Eastern Africa,NA,NA,118917671,769,0.152
+Fiji,FJI,Oceania,Melanesia,NA,NA,914963,4721,0.276
+Finland,FIN,Europe,Northern Europe,1969,1995,5529543,44691,0.844
+France,FRA,Europe,Western Europe,1961,1952,67601110,35709,0.789
+Gabon,GAB,Africa,Central Africa,NA,NA,2322539,6534,0.196
+Gambia,GMB,Africa,Western Africa,NA,NA,2515733,671,0.403
+Georgia,GEO,Asia,Western Asia,NA,NA,3722716,4660,0.47
+Germany,DEU,Europe,Western Europe,1961,1952,83160871,42373,0.821
+Ghana,GHA,Africa,Western Africa,NA,NA,31887809,1970,0.604
+Greece,GRC,Europe,Southern Europe,1961,1981,10698599,17487,0.669
+Grenada,GRD,Caribbean,Caribbean,NA,NA,116341,8413,NA
+Guatemala,GTM,Central America,Central America,NA,NA,17357325,4006,0.402
+Guinea,GIN,Africa,Western Africa,NA,NA,13371183,946,0.113
+Guinea-Bissau,GNB,Africa,Western Africa,NA,NA,2013255,710,0.328
+Guyana,GUY,South America,South America,NA,NA,807481,9011,0.386
+Haiti,HTI,Caribbean,Caribbean,NA,NA,11243848,1332,0.237
+Holy See,VAT,Europe,Southern Europe,NA,NA,NA,NA,NA
+Honduras,HND,Central America,Central America,NA,NA,10119640,2189,0.233
+Hungary,HUN,Europe,Eastern Europe,1996,2004,9670419,14664,0.351
+Iceland,ISL,Europe,Northern Europe,1961,NA,366463,52464,0.784
+India,IND,Asia,Southern Asia,NA,NA,1402617695,1807,0.292
+Indonesia,IDN,Asia,South-Eastern Asia,NA,NA,274814866,3739,0.411
+Iran,IRN,Asia,Southern Asia,NA,NA,87723443,5133,0.119
+Iraq,IRQ,Asia,Western Asia,NA,NA,42116605,4214,0.212
+Ireland,IRL,Europe,Northern Europe,1961,1973,5039747,80928,0.824
+Israel,ISR,Asia,Western Asia,2010,NA,9215100,37938,0.639
+Italy,ITA,Europe,Southern Europe,1962,1952,59438851,29470,0.774
+Jamaica,JAM,Caribbean,Caribbean,NA,NA,2830739,5318,0.702
+Japan,JPN,Asia,Eastern Asia,1964,NA,126261000,35363,0.742
+Jordan,JOR,Asia,Western Asia,NA,NA,10865228,4188,0.24
+Kazakhstan,KAZ,Asia,Central Asia,NA,NA,19482117,10565,0.117
+Kenya,KEN,Africa,Eastern Africa,NA,NA,52217334,1609,0.404
+Kiribati,KIR,Oceania,Micronesia,NA,NA,126099,1780,NA
+"Korea, Democratic People's Republic",PRK,Asia,Eastern Asia,NA,NA,26136312,NA,0.014
+"Korea, Republic of",KOR,Asia,Eastern Asia,1996,NA,51836239,33216,0.782
+Kosovo,XKX,Europe,Southern Europe,NA,NA,1790151,3991,0.493
+Kuwait,KWT,Asia,Western Asia,NA,NA,4400267,25542,0.282
+Kyrgyzstan,KGZ,Asia,Central Asia,NA,NA,6726596,1093,0.255
+Laos,LAO,Asia,South-Eastern Asia,NA,NA,7346533,2530,0.094
+Latvia,LVA,Europe,Northern Europe,NA,2004,1900449,14901,0.737
+Lebanon,LBN,Asia,Western Asia,NA,NA,5702398,6441,0.274
+Lesotho,LSO,Africa,Southern Africa,NA,NA,2235727,945,0.505
+Liberia,LBR,Africa,Western Africa,NA,NA,5149463,605,0.419
+Libya,LBY,Africa,Northern Africa,NA,NA,7045399,6103,0.145
+Liechtenstein,LIE,Europe,Western Europe,NA,NA,38901,NA,NA
+Lithuania,LTU,Europe,Northern Europe,NA,2004,2810369,17444,0.745
+Luxembourg,LUX,Europe,Western Europe,1961,1952,630419,105274,0.786
+Madagascar,MDG,Africa,Eastern Africa,NA,NA,28953556,423,0.246
+Malawi,MWI,Africa,Eastern Africa,NA,NA,19533888,559,0.462
+Malaysia,MYS,Asia,South-Eastern Asia,NA,NA,33889558,10171,0.307
+Maldives,MDV,Asia,Southern Asia,NA,NA,502118,7296,0.429
+Mali,MLI,Africa,Western Africa,NA,NA,21713836,872,0.254
+Malta,MLT,Europe,Southern Europe,NA,2004,515490,27862,0.605
+Marshall Islands,MHL,Oceania,Micronesia,NA,NA,42706,5173,NA
+Mauritania,MRT,Africa,Western Africa,NA,NA,4600131,1557,0.206
+Mauritius,MUS,Africa,Eastern Africa,NA,NA,1266014,9534,0.451
+Mexico,MEX,Central America,Central America,1994,NA,126799054,9235,0.406
+Micronesia,FSM,Oceania,Micronesia,NA,NA,110916,2963,NA
+Moldova,MDA,Europe,Eastern Europe,NA,NA,2635130,3189,0.518
+Monaco,MCO,Europe,Western Europe,NA,NA,38050,161263,NA
+Mongolia,MNG,Asia,Eastern Asia,NA,NA,3327204,4066,0.523
+Montenegro,MNE,Europe,Southern Europe,NA,NA,626590,6352,0.395
+Morocco,MAR,Africa,Northern Africa,NA,NA,36584208,3091,0.238
+Mozambique,MOZ,Africa,Eastern Africa,NA,NA,30783688,592,0.238
+Myanmar,MMR,Asia,South-Eastern Asia,NA,NA,53016522,1301,0.252
+Namibia,NAM,Africa,Southern Africa,NA,NA,2728762,3787,0.516
+Naoero,NRU,Oceania,Micronesia,NA,NA,NA,NA,NA
+Nepal,NPL,Asia,Southern Asia,NA,NA,28966574,1032,0.477
+Netherlands,NLD,Europe,Western Europe,1961,1952,17441500,47087,0.813
+Netherlands Antilles,ANT,Caribbean,Caribbean,NA,NA,NA,NA,NA
+New Zealand,NZL,Oceania,Australia and New Zealand,1973,NA,5072400,39702,0.826
+Nicaragua,NIC,Central America,Central America,NA,NA,6565267,1950,0.045
+Niger,NER,Africa,Western Africa,NA,NA,23717613,532,0.401
+Nigeria,NGA,Africa,Western Africa,NA,NA,213996181,2229,0.349
+Niue,NIU,Oceania,Polynesia,NA,NA,NA,NA,NA
+North Macedonia,MKD,Europe,Southern Europe,NA,NA,1856124,5744,0.4
+Norway,NOR,Europe,Northern Europe,1961,NA,5379475,78387,0.84
+Oman,OMN,Asia,Western Asia,NA,NA,4522497,17744,0.137
+Pakistan,PAK,Asia,Southern Asia,NA,NA,235001746,1526,0.253
+Palau,PLW,Oceania,Micronesia,NA,NA,17792,14674,NA
+Panama,PAN,Central America,Central America,NA,NA,4293261,12647,0.533
+Papua New Guinea,PNG,Oceania,Melanesia,NA,NA,9815746,2439,0.359
+Paraguay,PRY,South America,South America,NA,NA,6603739,6109,0.42
+Peru,PER,South America,South America,NA,NA,32838579,5832,0.706
+Philippines,PHL,Asia,South-Eastern Asia,NA,NA,112081264,3199,0.27
+Poland,POL,Europe,Eastern Europe,1996,2004,37515748,15090,0.45
+Portugal,PRT,Europe,Southern Europe,1961,1986,10297081,19779,0.806
+Qatar,QAT,Asia,Western Asia,NA,NA,2794148,57770,0.083
+Romania,ROU,Europe,Eastern Europe,NA,2007,19265250,10854,0.676
+Russian Federation,RUS,Europe,Eastern Europe,NA,NA,145245148,9632,0.097
+Rwanda,RWA,Africa,Eastern Africa,NA,NA,13065837,821,0.12
+Saint Kitts and Nevis,KNA,Caribbean,Caribbean,NA,NA,46870,18919,NA
+Saint Lucia,LCA,Caribbean,Caribbean,NA,NA,178250,8513,NA
+Saint Vincent and the Grenadines,VCT,Caribbean,Caribbean,NA,NA,103526,7990,NA
+Samoa,WSM,Oceania,Polynesia,NA,NA,211944,4283,NA
+San Marino,SMR,Europe,Southern Europe,NA,NA,34770,40507,NA
+Sao Tome and Principe,STP,Africa,Central Africa,NA,NA,217435,1431,0.557
+Saudi Arabia,SAU,Asia,Western Asia,NA,NA,31552510,22828,0.045
+Senegal,SEN,Africa,Western Africa,NA,NA,16789219,1362,0.563
+Serbia,SRB,Europe,Southern Europe,NA,NA,6899126,6851,0.244
+Seychelles,SYC,Africa,Eastern Africa,NA,NA,98462,17048,0.575
+Sierra Leone,SLE,Africa,Western Africa,NA,NA,7912558,1010,0.426
+Singapore,SGP,Asia,South-Eastern Asia,NA,NA,5685807,59084,0.332
+Slovakia,SVK,Europe,Eastern Europe,2000,2004,5458827,17764,0.757
+Slovenia,SVN,Europe,Southern Europe,2010,2004,2102419,22812,0.665
+Solomon Islands,SLB,Oceania,Melanesia,NA,NA,744498,1931,0.494
+Somalia,SOM,Africa,Eastern Africa,NA,NA,16651191,463,0.105
+South Africa,ZAF,Africa,Southern Africa,NA,NA,60562381,5570,0.604
+South Sudan,SSD,Africa,Eastern Africa,NA,NA,10698467,NA,0.069
+Spain,ESP,Europe,Southern Europe,1961,1986,47359424,25077,0.786
+Sri Lanka,LKA,Asia,Southern Asia,NA,NA,21919000,4227,0.379
+Sudan,SDN,Africa,Northern Africa,NA,NA,46789231,1057,0.054
+Suriname,SUR,South America,South America,NA,NA,612317,7213,0.628
+Sweden,SWE,Europe,Northern Europe,1961,1995,10353442,51625,0.868
+Switzerland,CHE,Europe,Western Europe,1961,NA,8638167,86294,0.856
+Syria,SYR,Asia,Western Asia,NA,NA,21049429,753,0.031
+Taiwan,TWN,Asia,Eastern Asia,NA,NA,NA,NA,NA
+Tajikistan,TJK,Asia,Central Asia,NA,NA,9749310,1172,0.041
+Tanzania,TZA,Africa,Eastern Africa,NA,NA,60972798,1041,0.33
+Thailand,THA,Asia,South-Eastern Asia,NA,NA,71641484,6032,0.187
+Tibet,NA,Asia,Eastern Asia,NA,NA,NA,NA,NA
+Timor-Leste,TLS,Asia,South-Eastern Asia,NA,NA,1326053,1948,0.492
+Togo,TGO,Africa,Western Africa,NA,NA,7788054,900,0.233
+Tonga,TON,Oceania,Polynesia,NA,NA,105704,4647,NA
+Trinidad and Tobago,TTO,Caribbean,Caribbean,NA,NA,1366725,15680,0.672
+Tunisia,TUN,Africa,Northern Africa,NA,NA,11974057,3749,0.623
+Turkmenistan,TKM,Asia,Central Asia,NA,NA,6949912,6964,0.033
+Tuvalu,TUV,Oceania,Polynesia,NA,NA,10399,4265,NA
+Türkiye,TUR,Asia,Western Asia,1961,NA,83384680,12339,0.115
+Uganda,UGA,Africa,Eastern Africa,NA,NA,44457152,917,0.192
+Ukraine,UKR,Europe,Eastern Europe,NA,NA,44680014,2324,0.325
+United Arab Emirates,ARE,Asia,Western Asia,NA,NA,9401038,39878,0.09
+United Kingdom,GBR,Europe,Northern Europe,1961,1973,66740000,42985,0.8
+United States,USA,North America,Northern America,1961,NA,331578104,59534,0.734
+Uruguay,URY,South America,South America,NA,NA,3398968,16443,0.808
+Uzbekistan,UZB,Asia,Central Asia,NA,NA,33586372,3724,0.083
+Vanuatu,VUT,Oceania,Melanesia,NA,NA,298858,3085,0.659
+Venezuela,VEN,South America,South America,NA,NA,28444077,1256,0.056
+Viet Nam,VNM,Asia,South-Eastern Asia,NA,NA,98079191,3303,0.106
+Yemen,YEM,Asia,Western Asia,NA,NA,36134863,NA,0.033
+Zambia,ZMB,Africa,Eastern Africa,NA,NA,19059395,1229,0.292
+Zimbabwe,ZWE,Africa,Eastern Africa,NA,NA,15526888,1231,0.192

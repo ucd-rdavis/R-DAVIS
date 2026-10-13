@@ -144,16 +144,16 @@ Lab this week will be playing with the `surveys` data we worked on in class.
 
 ### <small>Lab Week 4</small> {#lab-week-4}
 
-This week the lab will review data manipulation in the tidyverse.
+This week the lab will review data manipulation in the tidyverse, using the international environmental agreements data from lecture.
 
-*This lab is being updated — check back soon.*
+<a href="labs/lab_week_04.qmd" download>Download Lab 4 (.qmd)</a>
 
 
 ### <small>Lab Week 5</small> {#lab-week-5}
 
-This week's questions will have us practicing pivots and conditional statements.
+This week's questions will have us practicing pivots, conditional statements, and joins with the international environmental agreements data.
 
-*This lab is being updated — check back soon.*
+<a href="labs/lab_week_05.qmd" download>Download Lab 5 (.qmd)</a>
 
 
 ### <small>Lab Week 7</small> {#lab-week-7}
