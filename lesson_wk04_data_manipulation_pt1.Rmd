@@ -19,7 +19,6 @@ title: 'Wk04: Manipulating and analyzing data in the tidyverse, Part 1'
 
 ## Videos
 
-- *New videos for this week are coming soon.*
 - [filter and select](https://video.ucdavis.edu/media/Wk4_dplyr_filter_select/1_do170r4l/420714533)
 - [group_by, sumarize, and mutate](https://video.ucdavis.edu/media/Wk4_dplyr_group_by_summarize_mutate/1_ndrozb6j/420714533)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714928)

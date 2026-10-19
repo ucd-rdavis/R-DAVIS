@@ -481,7 +481,6 @@ results.</li>
 <div id="videos" class="section level2">
 <h2>Videos</h2>
 <ul>
-<li><em>New videos for this week are coming soon.</em></li>
 <li><a
 href="https://video.ucdavis.edu/media/Wk4_dplyr_filter_select/1_do170r4l/420714533">filter
 and select</a></li>
@@ -601,7 +600,7 @@ read it straight from the course website, but you can also download it
 into the <code>data</code> folder of your R_DAVIS_2026 project.</p>
 <pre class="r"><code>agreements &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/iea_agreements.csv&quot;)</code></pre>
 <pre><code>## Rows: 5016 Columns: 10
-## ── Column specification ─────────────────────────
+## ── Column specification ─────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (5): agreement_name, scope, instrument, subject, lineage
 ## dbl (4): iea_id, year_signed, year_in_force, n_members
@@ -940,14 +939,11 @@ run off the screen anymore. It’s one of the advantages of
   group_by(subject, scope) %&gt;%
   summarize(mean_members = mean(n_members, na.rm = TRUE))</code></pre>
 <pre><code>## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by subject and
-##   scope.
+## ℹ Summaries were computed grouped by subject and scope.
 ## ℹ Output is grouped by subject.
-## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to
-##   silence this message.
-## ℹ Use `summarise(.by = c(subject, scope))` for
-##   per-operation grouping (`?dplyr::dplyr_by`)
-##   instead.</code></pre>
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(subject, scope))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 32 × 3
 ## # Groups:   subject [11]
 ##    subject                                  scope        mean_members
@@ -978,14 +974,11 @@ entirely:</p>
   group_by(subject, scope) %&gt;%
   summarize(mean_members = mean(n_members))</code></pre>
 <pre><code>## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by subject and
-##   scope.
+## ℹ Summaries were computed grouped by subject and scope.
 ## ℹ Output is grouped by subject.
-## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to
-##   silence this message.
-## ℹ Use `summarise(.by = c(subject, scope))` for
-##   per-operation grouping (`?dplyr::dplyr_by`)
-##   instead.</code></pre>
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(subject, scope))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 24 × 3
 ## # Groups:   subject [11]
 ##    subject                                  scope        mean_members
@@ -1011,14 +1004,11 @@ anymore. If you want to display more data, you can use the
   summarize(mean_members = mean(n_members)) %&gt;%
   print(n = 15)</code></pre>
 <pre><code>## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by subject and
-##   scope.
+## ℹ Summaries were computed grouped by subject and scope.
 ## ℹ Output is grouped by subject.
-## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to
-##   silence this message.
-## ℹ Use `summarise(.by = c(subject, scope))` for
-##   per-operation grouping (`?dplyr::dplyr_by`)
-##   instead.</code></pre>
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(subject, scope))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 24 × 3
 ## # Groups:   subject [11]
 ##    subject                                  scope        mean_members
@@ -1049,14 +1039,11 @@ agreement in each group:</p>
   summarize(mean_members = mean(n_members),
             max_members = max(n_members))</code></pre>
 <pre><code>## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by subject and
-##   scope.
+## ℹ Summaries were computed grouped by subject and scope.
 ## ℹ Output is grouped by subject.
-## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to
-##   silence this message.
-## ℹ Use `summarise(.by = c(subject, scope))` for
-##   per-operation grouping (`?dplyr::dplyr_by`)
-##   instead.</code></pre>
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(subject, scope))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre><code>## # A tibble: 24 × 4
 ## # Groups:   subject [11]
 ##    subject                                  scope       mean_members max_members
