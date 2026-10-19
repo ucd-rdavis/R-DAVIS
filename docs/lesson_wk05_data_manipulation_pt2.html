@@ -472,7 +472,10 @@ purpose those formats are useful.</li>
 <div id="videos" class="section level2">
 <h2>Videos</h2>
 <ul>
-<li><em>New videos for this week are coming soon.</em></li>
+<li><a
+href="https://video.ucdavis.edu/media/Wk5_Conditional_Statements/1_g2weyqu6/420714533">Conditional
+Statements</a></li>
+<li><a href="">Joins and Reshapes</a></li>
 <li><a
 href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714927">Video
 Discussion</a></li>
@@ -1033,13 +1036,10 @@ q1 &lt;- memberships %&gt;%
   summarize(n_countries = n_distinct(country)) %&gt;%
   pivot_wider(names_from = &quot;decade&quot;, values_from = &quot;n_countries&quot;)</code></pre>
 <pre><code>## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by continent
-##   and decade.
+## ℹ Summaries were computed grouped by continent and decade.
 ## ℹ Output is grouped by continent.
-## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to
-##   silence this message.
-## ℹ Use `summarise(.by = c(continent, decade))`
-##   for per-operation grouping
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(continent, decade))` for per-operation grouping
 ##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre class="r"><code>q1</code></pre>
 <pre><code>## # A tibble: 8 × 9
@@ -1067,14 +1067,11 @@ q2b &lt;- q2a %&gt;%
   summarize(mean_value = mean(value, na.rm = TRUE)) %&gt;%
   pivot_wider(names_from = &quot;measurement&quot;, values_from = &quot;mean_value&quot;)</code></pre>
 <pre><code>## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by measurement
-##   and continent.
+## ℹ Summaries were computed grouped by measurement and continent.
 ## ℹ Output is grouped by measurement.
-## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to
-##   silence this message.
-## ℹ Use `summarise(.by = c(measurement,
-##   continent))` for per-operation grouping
-##   (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(measurement, continent))` for per-operation
+##   grouping (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre class="r"><code>q2b</code></pre>
 <pre><code>## # A tibble: 8 × 4
 ##   continent       democracy_index gdp_per_capita population
