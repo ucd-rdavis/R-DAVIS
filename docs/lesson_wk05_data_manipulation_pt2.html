@@ -475,7 +475,10 @@ purpose those formats are useful.</li>
 <li><a
 href="https://video.ucdavis.edu/media/Wk5_Conditional_Statements/1_g2weyqu6/420714533">Conditional
 Statements</a></li>
-<li><a href="">Joins and Reshapes</a></li>
+<li><a
+href="https://video.ucdavis.edu/media/t/1_3juoufn6">Joins</a></li>
+<li><a
+href="https://video.ucdavis.edu/media/wk5_reshape/1_1gk3msv8">Reshapes</a></li>
 <li><a
 href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714927">Video
 Discussion</a></li>
@@ -507,7 +510,7 @@ each agreement. Using the summary function below, we see that the mean
 number of members is 20.33, so let’s split the data at the mean using a
 conditional statement.</p>
 <pre class="r"><code>summary(agreements$n_members)</code></pre>
-<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA&#39;s 
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
 ##    1.00    2.00    2.00   20.33    9.00  200.00    1556</code></pre>
 <p>Notice how different the mean (20.33) and the median (2) are. Most
 agreements are bilateral, with exactly two members, while a few global
@@ -663,7 +666,7 @@ frames look like.</p>
 ##   ..   year_joined = col_double(),
 ##   ..   year_left = col_double()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x9cf31c2b0&gt;</code></pre>
 <pre class="r"><code>str(countries)</code></pre>
 <pre><code>## spc_tbl_ [202 × 9] (S3: spec_tbl_df/tbl_df/tbl/data.frame)
 ##  $ country        : chr [1:202] &quot;Afghanistan&quot; &quot;Albania&quot; &quot;Algeria&quot; &quot;Andorra&quot; ...
@@ -687,7 +690,7 @@ frames look like.</p>
 ##   ..   gdp_per_capita = col_double(),
 ##   ..   democracy_index = col_double()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x9cf31c2a0&gt;</code></pre>
 <p><code>memberships</code> has 75,791 rows, one for each country’s
 participation in an agreement, with the years it signed, joined, and
 (rarely) left. <code>countries</code> has 202 rows, one per country,
@@ -745,7 +748,7 @@ frame:</p>
 ##   ..   year_joined = col_double(),
 ##   ..   year_left = col_double()
 ##   .. )
-##  - attr(*, &quot;problems&quot;)=&lt;externalptr&gt;</code></pre>
+##  - attr(*, &quot;problems&quot;)=&lt;pointer: 0x9cf31c2b0&gt;</code></pre>
 <p>We now have a new data frame called <code>memberships_joined</code>
 which has all of the information from our original
 <code>memberships</code> data frame, plus the country information
@@ -1070,8 +1073,8 @@ q2b &lt;- q2a %&gt;%
 ## ℹ Summaries were computed grouped by measurement and continent.
 ## ℹ Output is grouped by measurement.
 ## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(measurement, continent))` for per-operation
-##   grouping (`?dplyr::dplyr_by`) instead.</code></pre>
+## ℹ Use `summarise(.by = c(measurement, continent))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre class="r"><code>q2b</code></pre>
 <pre><code>## # A tibble: 8 × 4
 ##   continent       democracy_index gdp_per_capita population

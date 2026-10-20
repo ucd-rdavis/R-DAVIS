@@ -17,7 +17,8 @@ title: 'Wk05: Manipulating and analyzing data in the tidyverse, Part 2'
 ## Videos
 
 - [Conditional Statements](https://video.ucdavis.edu/media/Wk5_Conditional_Statements/1_g2weyqu6/420714533)
-- [Joins and Reshapes]()
+- [Joins](https://video.ucdavis.edu/media/t/1_3juoufn6)
+- [Reshapes](https://video.ucdavis.edu/media/wk5_reshape/1_1gk3msv8)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714927)
 
 ## In Class Coding
