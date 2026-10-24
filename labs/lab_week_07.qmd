@@ -5,7 +5,7 @@ format:
     embed-resources: true
 ---
 
-This is the Lab Week 7 document for R-DAVIS. Complete the tasks below in this file, then click **Render** and upload the resulting HTML file to Canvas.
+This is the Lab Week 7 document for R-DAVIS. Complete the tasks below in this file (or in your own `.Rmd` or `.R` file, if you prefer), save it, and upload that file to Canvas. No need to render it to HTML.
 
 
 For our week seven lab, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`. This data set is looking at statistics for a few different counties including population, GDP per capita, and life expectancy. Download the data using the code below.

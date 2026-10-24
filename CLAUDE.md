@@ -27,7 +27,7 @@ keep those when editing and add one when borrowing more.
 | `computer_setup.Rmd`, `setting_up_git.Rmd` | Pre-course setup pages. |
 | `lesson_wkNN_<topic>.Rmd` | One lecture page per week (week 6 is the midterm and has no lesson). Naming is `lesson_wk` + two-digit week + short topic. |
 | `labs.Rmd` | Lab index page: one `### <small>Lab Week N</small> {#lab-week-N}` tab per week holding a one-sentence description and a download link. The outline links to these anchors. |
-| `labs/` | The labs themselves, one `lab_week_NN.qmd` per week. `render_site()` does not render `.qmd` files; it copies them unchanged into `docs/labs/`, where students download them, fill them in, and render locally. Never put solution code in these files — the source is what students receive. |
+| `labs/` | The labs themselves, one `lab_week_NN.qmd` per week. `render_site()` does not render `.qmd` files; it copies them unchanged into `docs/labs/`, where students download them, fill them in, and upload the file to Canvas. Never put solution code in these files — the source is what students receive. |
 | `data/` | Datasets. Served publicly by GitHub Pages at `https://ucd-rdavis.github.io/R-DAVIS/data/<file>`; lessons and labs read from those URLs so students never need local copies. |
 | `data_output/`, `figures/`, `results/` | Example outputs that mirror the folder structure students are taught to create in their own projects. |
 | `img/` | Images referenced by lessons. |
@@ -108,8 +108,9 @@ Things to know before rendering:
   never a local path, so chunks run for students and for the site build alike.
 - **Student-facing paths:** students work in an RStudio project named
   `R_DAVIS_<year>` with `data/`, `scripts/`, `figures/`, and `data_output/`
-  subfolders; labs are the downloaded `labs/lab_week_NN.qmd` files, rendered to
-  HTML and uploaded to Canvas. Keep instructions consistent with that layout.
+  subfolders; labs are the downloaded `labs/lab_week_NN.qmd` files, completed as a
+  `.qmd`, `.Rmd`, or `.R` file and uploaded to Canvas as that file (not rendered
+  HTML). New labs should use the same submission line as the existing ones. Keep instructions consistent with that layout.
 - **Semester-specific links** (Canvas assignment IDs, Kaltura video IDs, room and
   date info in `index.Rmd`/`outline.Rmd`, the project-name year) change every
   offering. When updating one, search all pages for the same ID.

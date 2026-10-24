@@ -5,7 +5,7 @@ format:
     embed-resources: true
 ---
 
-This is the Lab Week 5 document for R-DAVIS. Complete the tasks below in this file, then click **Render** and upload the resulting HTML file to Canvas.
+This is the Lab Week 5 document for R-DAVIS. Complete the tasks below in this file (or in your own `.Rmd` or `.R` file, if you prefer), save it, and upload that file to Canvas. No need to render it to HTML.
 
 
 This week's questions will have us practicing pivots, conditional statements, and joins with the international environmental agreements data. The codebook at https://ucd-rdavis.github.io/R-DAVIS/data/iea_codebook.md describes every column in all three tables. The data are a simplified subset of the International Environmental Agreements Database Project (https://www.iea.ulaval.ca; Mitchell et al. 2020, *Global Environmental Politics* 20(1): 103–121), prepared for this course.

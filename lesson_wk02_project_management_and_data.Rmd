@@ -133,7 +133,7 @@ You're now familiar with using R in the *script* and in the *console*, but over 
 
 Most of us have spent a lot of time in word documents (or LaTex files) getting a figure positioned *just* right, only to realize that this is an outdated version of the figure. Once we've found the new figure, saved it, dragged it in, re-oriented it, we then realize that our figure and our table are reporting different numbers, and we're not sure which is correct. *Sigh. Guess I'm not getting any actual writing done today.*  Quarto makes this process less painful.
 
-Quarto files end in `.qmd`. Quarto comes bundled with RStudio, so you already have it. (You may also run into R Markdown files, which end in `.Rmd`. R Markdown is Quarto's predecessor and works almost the same way. This course website is actually built with it!) From here on out, Eeery lab in this course is a `.qmd` file that you'll download, fill in, render, and upload to Canvas.
+Quarto files end in `.qmd`. Quarto comes bundled with RStudio, so you already have it. (You may also run into R Markdown files, which end in `.Rmd`. R Markdown is Quarto's predecessor and works almost the same way. This course website is actually built with it!) From here on out, every lab in this course is a `.qmd` file that you'll download, fill in, and upload to Canvas. You can also work in your own `.Rmd` or `.R` file if you prefer; either way, you submit the file itself, not a rendered HTML.
 
 Quarto has a lot of built in features that can help with your workflow, such as cross-referencing, citations, making presentations, and more. You can read about it all at the [Quarto Guide](https://quarto.org/docs/guide/). 
 

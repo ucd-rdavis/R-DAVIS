@@ -5,7 +5,7 @@ format:
     embed-resources: true
 ---
 
-This is the Lab Week 8 document for R-DAVIS. Complete the tasks below in this file, then click **Render** and upload the resulting HTML file to Canvas.
+This is the Lab Week 8 document for R-DAVIS. Complete the tasks below in this file (or in your own `.Rmd` or `.R` file, if you prefer), save it, and upload that file to Canvas. No need to render it to HTML.
 
 <!-- PLACEHOLDER (2026 reorg): Data Visualization II lab. Content to be added. The former Mauna Loa dates lab is in archive/lab_week_08.qmd. -->
 
