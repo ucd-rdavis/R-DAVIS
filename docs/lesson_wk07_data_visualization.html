@@ -454,563 +454,902 @@ div.tocify {
 </div>
 
 
-<div id="under-revision" class="section level3 blue">
-<h3>Under revision</h3>
-<p>This lecture is being updated for the current quarter — check back
-soon.</p>
+<div id="learning-objectives" class="section level3 blue">
+<h3>Learning Objectives</h3>
+<ul>
+<li>Use tables and quick base R plots to explore a new dataset.</li>
+<li>Produce histograms, bar charts, boxplots, and time series plots
+using ggplot.</li>
+<li>Set universal plot settings.</li>
+</ul>
 </div>
-<!--
-
-<div class = "blue">
-### Learning Objectives
-
-* Produce scatter plots, boxplots, and time series plots using ggplot.
-* Describe what faceting is and apply faceting in ggplot.
-* Set universal plot settings.
+<p><br></p>
+<div id="videos" class="section level2">
+<h2>Videos</h2>
+<ul>
+<li><a
+href="https://video.ucdavis.edu/media/Week+7%3A+Data+Visualization+Part+1a/1_m55wx7pr">Data
+visualization Part 1a</a></li>
+<li><a
+href="https://video.ucdavis.edu/media/Week7_TimeSeries_and_Faceting/1_mcgh2gkw/390286133">Data
+visualization Part 1b</a></li>
+<li><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714926">Video
+Discussion</a></li>
+</ul>
 </div>
-<br>
+<div id="in-class-coding" class="section level2">
+<h2>In Class Coding</h2>
+<p><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714941">Submit
+Week 7 In Class Coding</a></p>
+<p><br></p>
+</div>
+<div id="building-plots-with-ggplot2" class="section level1">
+<h1>Building Plots with ggplot2</h1>
+<p>This lesson teaches you how to explore a new dataset with some quick
+plots, and then how to make plots with ggplot2. Next week (Data
+Visualization II), we step back and think about the principles and
+practices of making <em>good</em> plots.</p>
+<p>We start by loading the required packages.
+<strong><code>ggplot2</code></strong> is included in the
+<strong><code>tidyverse</code></strong> package.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<div id="our-data-environmental-impact-statements"
+class="section level2">
+<h2>Our data: environmental impact statements</h2>
+<p>This week we’ll the full version the of the EPA’s Environmental
+Impact Statement (EIS) data. When a federal agency wants to do something
+that could significantly affect the environment, like build a highway or
+sell timber, the National Environmental Policy Act (NEPA) says it has to
+write an EIS and file it with the EPA. Each row in our data is one of
+those filings, from 1987 through January 2026.</p>
+<p>The <a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/eis_codebook.md">codebook</a>
+describes every column. We’ll call this first version
+<code>eis_raw</code>, since we’re going to make some changes to it later
+on.</p>
+<pre class="r"><code>eis_raw &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/eis_clean.csv&quot;)</code></pre>
+</div>
+<div id="exploring-the-data" class="section level2">
+<h2>Exploring the data</h2>
+<p>Whenever you get a new dataset, it’s a good idea to spend some time
+poking around in it before you try to do anything fancy. This is called
+<em>exploratory data analysis</em>, and a lot of it is just making
+tables and quick plots to see what’s in each column. You’ve already seen
+a couple of tools for this:</p>
+<pre class="r"><code>glimpse(eis_raw)</code></pre>
+<pre><code>## Rows: 16,784
+## Columns: 14
+## $ eis_id                &lt;dbl&gt; 83232, 78382, 83709, 78828, 83553, 75230, 83301,…
+## $ title                 &lt;chr&gt; &quot;Clinton River Federal Navigation Channel Confin…
+## $ document_type         &lt;chr&gt; &quot;Draft Supplement&quot;, &quot;Third Draft Supplemental&quot;, …
+## $ lead_agency           &lt;chr&gt; &quot;U.S. Army Corps of Engineers&quot;, &quot;Federal Highway…
+## $ state                 &lt;chr&gt; &quot;MI&quot;, &quot;CA&quot;, &quot;WA&quot;, &quot;KY&quot;, &quot;CO&quot;, &quot;WY&quot;, &quot;CA&quot;, &quot;MN&quot;, …
+## $ all_states            &lt;chr&gt; &quot;MI&quot;, &quot;CA&quot;, &quot;WA&quot;, &quot;KY&quot;, &quot;CO&quot;, &quot;WY&quot;, &quot;CA&quot;, &quot;MN&quot;, …
+## $ filed_date            &lt;date&gt; 1987-01-02, 1987-01-05, 1987-01-05, 1987-01-07,…
+## $ filed_year            &lt;dbl&gt; 1987, 1987, 1987, 1987, 1987, 1987, 1987, 1987, …
+## $ federal_register_date &lt;date&gt; 1987-01-09, 1987-01-16, 1987-01-16, 1987-01-16,…
+## $ comment_letter_date   &lt;date&gt; 1987-02-23, 1987-04-01, NA, 1987-03-04, 1987-04…
+## $ comment_due_date      &lt;date&gt; 1987-02-23, 1987-03-30, 1987-02-17, 1987-02-18,…
+## $ epa_impact            &lt;chr&gt; &quot;Environmental Concerns&quot;, &quot;Lack of Objections&quot;, …
+## $ epa_adequacy          &lt;dbl&gt; 2, NA, NA, 2, 3, NA, 3, 2, NA, 2, 2, 2, 2, NA, 2…
+## $ attachment_count      &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</code></pre>
+<pre class="r"><code>summary(eis_raw)</code></pre>
+<pre><code>##      eis_id             title         document_type      lead_agency   
+##  Min.   : 75043   Length   :16784   Length   :16784   Length   :16784  
+##  1st Qu.: 79241   N.unique :11846   N.unique :   30   N.unique :   91  
+##  Median : 83436   N.blank  :    0   N.blank  :    0   N.blank  :    0  
+##  Mean   :119024   Min.nchar:    6   Min.nchar:    2   Min.nchar:   14  
+##  3rd Qu.: 87635   Max.nchar:  545   Max.nchar:   25   Max.nchar:   64  
+##  Max.   :546302                                       NAs      :   32  
+##                                                                        
+##        state           all_states      filed_date           filed_year  
+##  Length   :16784   Length   :16784   Min.   :1987-01-02   Min.   :1987  
+##  N.unique :   62   N.unique :  468   1st Qu.:1995-11-03   1st Qu.:1995  
+##  N.blank  :    0   N.blank  :    0   Median :2003-10-10   Median :2003  
+##  Min.nchar:    2   Min.nchar:    2   Mean   :2004-03-13   Mean   :2004  
+##  Max.nchar:    5   Max.nchar:  257   3rd Qu.:2011-09-02   3rd Qu.:2011  
+##  NAs      : 1316   NAs      : 1316   Max.   :2026-01-21   Max.   :2026  
+##                                                                         
+##  federal_register_date comment_letter_date  comment_due_date    
+##  Min.   :1987-01-09    Min.   :1987-02-09   Min.   :1987-01-28  
+##  1st Qu.:1995-11-09    1st Qu.:1995-08-21   1st Qu.:1995-12-04  
+##  Median :2003-10-17    Median :2003-05-16   Median :2003-10-06  
+##  Mean   :2004-03-22    Mean   :2003-07-24   Mean   :2004-02-24  
+##  3rd Qu.:2011-09-09    3rd Qu.:2010-06-24   3rd Qu.:2011-07-05  
+##  Max.   :2026-01-23    Max.   :2026-01-23   Max.   :2026-03-09  
+##                        NAs    :1218         NAs    :192         
+##      epa_impact     epa_adequacy   attachment_count 
+##  Length   :16784   Min.   :1.000   Min.   :  0.000  
+##  N.unique :    4   1st Qu.:2.000   1st Qu.:  0.000  
+##  N.blank  :    0   Median :2.000   Median :  1.000  
+##  Min.nchar:   18   Mean   :1.893   Mean   :  2.723  
+##  Max.nchar:   30   3rd Qu.:2.000   3rd Qu.:  2.000  
+##  NAs      : 3809   Max.   :3.000   Max.   :253.000  
+##                    NAs    :8775</code></pre>
+<p>For a categorical column, one of the first things you might want to
+know is how many times each value shows up. The base R function
+<code>table()</code> does that:</p>
+<pre class="r"><code>table(eis_raw$document_type)</code></pre>
+<pre><code>## 
+##                        A1                        A3                        D2 
+##                         2                         1                         7 
+##                        DC                        DD                        DE 
+##                        15                         4                         2 
+##                        DF                     Draft          Draft Supplement 
+##                         2                      7280                      1054 
+##                        F2                        F3                        FC 
+##                         4                         1                         9 
+##                        FD                        FE                     Final 
+##                         2                         1                      7033 
+##          Final Supplement Fourth Draft Supplemental                        LD 
+##                       697                         1                        32 
+##                        LF                        NF                        RD 
+##                        17                         1                         7 
+##             Revised Draft             Revised Final                        RF 
+##                       113                        42                         4 
+##              Second Draft Second Draft Supplemental              Second Final 
+##                        59                       146                        73 
+## Second Final Supplemental  Third Draft Supplemental  Third Final Supplemental 
+##                        83                        52                        40</code></pre>
+<p>That’s a lot of document types! Most of them are some version of a
+draft or a final statement, plus a handful of short codes like
+<code>LD</code> and <code>DC</code>. It’s easier to see what’s going on
+if we sort the table:</p>
+<pre class="r"><code>sort(table(eis_raw$document_type), decreasing = TRUE)</code></pre>
+<pre><code>## 
+##                     Draft                     Final          Draft Supplement 
+##                      7280                      7033                      1054 
+##          Final Supplement Second Draft Supplemental             Revised Draft 
+##                       697                       146                       113 
+## Second Final Supplemental              Second Final              Second Draft 
+##                        83                        73                        59 
+##  Third Draft Supplemental             Revised Final  Third Final Supplemental 
+##                        52                        42                        40 
+##                        LD                        LF                        DC 
+##                        32                        17                        15 
+##                        FC                        D2                        RD 
+##                         9                         7                         7 
+##                        DD                        F2                        RF 
+##                         4                         4                         4 
+##                        A1                        DE                        DF 
+##                         2                         2                         2 
+##                        FD                        A3                        F3 
+##                         2                         1                         1 
+##                        FE Fourth Draft Supplemental                        NF 
+##                         1                         1                         1</code></pre>
+<p>And even easier if we make it into a picture. The base R function
+<code>barplot()</code> takes a table and draws a bar for each value.
+<code>las = 2</code> turns the axis labels sideways so they fit:</p>
+<pre class="r"><code>barplot(sort(table(eis_raw$document_type), decreasing = TRUE), las = 2)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-barplot-1.png" alt="" width="672" /></p>
+<p>It’s not the prettiest plot, and some of the labels get cut off, but
+with one line of code we can see that almost all of the filings are
+plain drafts or finals.</p>
+<p>Let’s do the same thing for <code>epa_impact</code>, the EPA’s rating
+of the environmental impact of each project. Adding
+<code>useNA = "ifany"</code> tells <code>table()</code> to count the
+<code>NA</code> values too:</p>
+<pre class="r"><code>table(eis_raw$epa_impact, useNA = &quot;ifany&quot;)</code></pre>
+<pre><code>## 
+##         Environmental Concerns       Environmental Objections 
+##                           6709                           1026 
+## Environmentally Unsatisfactory             Lack of Objections 
+##                             79                           5161 
+##                           &lt;NA&gt; 
+##                           3809</code></pre>
+<pre class="r"><code>barplot(table(eis_raw$epa_impact, useNA = &quot;ifany&quot;))</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-impact-1.png" alt="" width="672" /></p>
+<p>That’s a lot of <code>NA</code> values. Keep that in mind, we’ll come
+back to it next week.</p>
+<p>For a numeric column like <code>filed_year</code>, we could also make
+a table:</p>
+<pre class="r"><code>table(eis_raw$filed_year)</code></pre>
+<pre><code>## 
+## 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 
+##  432  433  371  477  457  511  467  530  606  603  498  527  502  474  496  536 
+## 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 
+##  594  598  557  550  563  550  455  497  443  418  398  392  379  331  247  329 
+## 2019 2020 2021 2022 2023 2024 2025 2026 
+##  314  261  190  191  181  242  171   13</code></pre>
+<p>But that’s a lot of numbers to read. A <em>histogram</em> shows the
+same information as a picture. It splits the values into bins and draws
+a bar for how many values fall into each bin:</p>
+<pre class="r"><code>hist(eis_raw$filed_year)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-hist-1.png" alt="" width="672" /></p>
+<p>By default R picks the bins for you, but we can set them ourselves
+with the <code>breaks</code> argument. Here we make one bin for each
+year:</p>
+<pre class="r"><code>hist(eis_raw$filed_year, breaks = 1986:2026)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-hist-breaks-1.png" alt="" width="672" /></p>
+<p>Now we can see that filings peaked in the mid-2000s and have mostly
+gone down since. The last bar is tiny because the data stop in January
+2026, so we only have a few weeks of filings for that year.</p>
+<div id="challenge" class="section level3 blue">
+<h3>Challenge</h3>
+<ol style="list-style-type: decimal">
+<li><p>Make a table and a barplot of <code>lead_agency</code>. What
+problem do you run into? What could we do about it?</p></li>
+<li><p>Make a histogram of <code>attachment_count</code>. What does the
+distribution look like?</p></li>
+</ol>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code># 1
+table(eis_raw$lead_agency)</code></pre>
+<pre><code>## 
+##                                     Agriculture Research Service 
+##                                                                3 
+##                       Animal and Plant Health Inspection Service 
+##                                                               72 
+##                             Arizona Department of Transportation 
+##                                                                2 
+##                                     Armed Forces Retirement Home 
+##                                                                2 
+##                                  Bonneville Power Administration 
+##                                                               33 
+##                                         Bureau of Indian Affairs 
+##                                                              169 
+##                                        Bureau of Land Management 
+##                                                             1513 
+##                                Bureau of Ocean Energy Management 
+##                                                               76 
+##                                                Bureau of Prisons 
+##                                                              122 
+##                                            Bureau of Reclamation 
+##                                                              373 
+##                          California Department of Transportation 
+##                                                               24 
+##                             California High-Speed Rail Authority 
+##                                                               19 
+##                City of New York, Office of Management and Budget 
+##                                                                2 
+##                                Community Development Block Grant 
+##                                                               30 
+##                                Connecticut Department of Housing 
+##                                                                2 
+##                                         Defense Logistics Agency 
+##                                                                1 
+##                                           Defense Nuclear Agency 
+##                                                                1 
+##                                                Denali Commission 
+##                                                                2 
+##                                        Department of Agriculture 
+##                                                               46 
+##                                           Department of Commerce 
+##                                                               17 
+##                                            Department of Defense 
+##                                                               25 
+##                                             Department of Energy 
+##                                                              424 
+##                          Department of Health and Human Services 
+##                                                                8 
+##                                  Department of Homeland Security 
+##                                                               15 
+##                      Department of Housing and Urban Development 
+##                                                               57 
+##                                            Department of Justice 
+##                                                               36 
+##                                              Department of State 
+##                                                               22 
+##                                       Department of the Interior 
+##                                                               33 
+##                                     Department of Transportation 
+##                                                                9 
+##                                           Department of Treasury 
+##                                                                2 
+##                                    Department of Veteran Affairs 
+##                                                               37 
+##                              Economic Development Administration 
+##                                                                5 
+##                                 Energy Regulatory Administration 
+##                                                                1 
+##                                  Environmental Protection Agency 
+##                                                              203 
+##                                              Farm Service Agency 
+##                                                               13 
+##                                      Farmers Home Administration 
+##                                                                8 
+##                                  Federal Aviation Administration 
+##                                                              254 
+##                              Federal Emergency Management Agency 
+##                                                               12 
+##                             Federal Energy Regulatory Commission 
+##                                                              588 
+##                                   Federal Highway Administration 
+##                                                             2278 
+##                                  Federal Railroad Administration 
+##                                                               81 
+##                            Federal Reserve Bank of San Francisco 
+##                                                                4 
+##                                   Federal Transit Administration 
+##                                                              313 
+##                                        Fish and Wildlife Service 
+##                                                              427 
+##                             Florida Department of Transportation 
+##                                                                1 
+##                                     Food and Drug Administration 
+##                                                                4 
+##                                                   Forest Service 
+##                                                             3729 
+##                                  General Services Administration 
+##                                                              190 
+##                                                Geological Survey 
+##                                                                2 
+##                      International Boundary and Water Commission 
+##                                                               14 
+##                                   Interstate Commerce Commission 
+##                                                               13 
+##              Los Angeles Housing Community Investment Department 
+##                                                                4 
+##                                          Maritime Administration 
+##                                                                5 
+##                                      Minerals Management Service 
+##                                                               91 
+##                                           Missile Defense Agency 
+##                                                                4 
+##                    National Aeronautics and Space Administration 
+##                                                               62 
+##                             National Capital Planning Commission 
+##                                                               14 
+##                          National Geospatial-Intelligence Agency 
+##                                                                2 
+##                   National Highway Traffic Safety Administration 
+##                                                               17 
+##                                National Indian Gaming Commission 
+##                                                                3 
+##                                     National Institute of Health 
+##                                                               28 
+##                                National Marine Fisheries Service 
+##                                                              105 
+##                         National Nuclear Security Administration 
+##                                                               19 
+##                  National Oceanic and Atmospheric Administration 
+##                                                              526 
+##                                            National Park Service 
+##                                                              800 
+##                                      National Science Foundation 
+##                                                               23 
+##                                         National Security Agency 
+##                                                                8 
+##                            Natural Resource Conservation Service 
+##                                                               85 
+##                New Jersey Department of Environmental Protection 
+##                                                                2 
+## New York City Department of Housing Preservation and Development 
+##                                                                2 
+##                                    Nuclear Regulatory Commission 
+##                                                              285 
+##             Office of Surface Mining Reclamation and Enforcement 
+##                                                               45 
+##                             Rural Electrification Administration 
+##                                                                7 
+##                                          Rural Utilities Service 
+##                                                               31 
+##                                        Soil Conservation Service 
+##                                                               88 
+##                                     Surface Transportation Board 
+##                                                               33 
+##                                       Tennessee Valley Authority 
+##                                                              144 
+##                               Texas Department of Transportation 
+##                                                               13 
+##                                               The Presidio Trust 
+##                                                                9 
+##                                     U.S. Army Corps of Engineers 
+##                                                             1697 
+##                                                 U.S. Coast Guard 
+##                                                               96 
+##                               U.S. Customs and Border Protection 
+##                                                                2 
+##                                          United States Air Force 
+##                                                              347 
+##                                               United States Army 
+##                                                              300 
+##                                       United States Marine Corps 
+##                                                               31 
+##                                               United States Navy 
+##                                                              396 
+##                                     United States Postal Service 
+##                                                                8 
+##                         Urban Mass Transportation Administration 
+##                                                               47 
+##                                Utah Department of Transportation 
+##                                                               14 
+##                       Washington Department of Fish and Wildlife 
+##                                                                1 
+##                                Western Area Power Administration 
+##                                                               41</code></pre>
+<pre class="r"><code>barplot(sort(table(eis_raw$lead_agency), decreasing = TRUE), las = 2)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-challenge-1.png" alt="" width="672" /></p>
+<pre class="r"><code># 2
+hist(eis_raw$attachment_count)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-challenge-2.png" alt="" width="672" /></p>
+<pre class="r"><code>summary(eis_raw$attachment_count)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   1.000   2.723   2.000 253.000</code></pre>
+<p>There are 92 agencies, which is way too many bars to read. One option
+is to keep the agencies with the most filings and lump the rest together
+into an “other” group, which we’ll do next.</p>
+<p>Most filings have 0 or 1 attachments, and a few have a lot (up to
+253), so the histogram is one tall bar and a long tail to the right.</p>
+</details>
+</div>
+<p><br></p>
+</div>
+<div id="getting-the-data-ready-to-plot" class="section level2">
+<h2>Getting the data ready to plot</h2>
+<p>Before we start plotting, we’re going to make a few changes to the
+data. We’ll do them one step at a time so we can see what each one
+does.</p>
+<p>First, let’s get rid of the 2026 filings, since we only have part of
+that year. We’ll save the result as a new object called
+<code>eis</code>, so we still have <code>eis_raw</code> if we ever need
+to go back:</p>
+<pre class="r"><code>eis &lt;- eis_raw %&gt;%
+  filter(filed_year &lt;= 2025)</code></pre>
+<p>Next, let’s deal with all those document types. For this lesson we
+mostly care whether a filing is a draft or a final statement. The
+function <code>str_detect()</code>, from the tidyverse package
+<strong><code>stringr</code></strong>, checks whether a piece of text
+contains a pattern and returns <code>TRUE</code> or
+<code>FALSE</code>:</p>
+<pre class="r"><code>str_detect(&quot;Draft Supplement&quot;, &quot;Draft&quot;)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>str_detect(&quot;Final Supplement&quot;, &quot;Draft&quot;)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>We can use it inside <code>case_when()</code>, which you saw in week
+5, to make a new <code>stage</code> column. Anything that doesn’t
+contain “Draft” or “Final” (those short codes) goes into “Other”:</p>
+<pre class="r"><code>eis &lt;- eis %&gt;%
+  mutate(stage = case_when(
+    str_detect(document_type, &quot;Draft&quot;) ~ &quot;Draft&quot;,
+    str_detect(document_type, &quot;Final&quot;) ~ &quot;Final&quot;,
+    TRUE ~ &quot;Other&quot;
+  ))
 
-## Videos
+table(eis$stage)</code></pre>
+<pre><code>## 
+## Draft Final Other 
+##  8697  7963   111</code></pre>
+<p>Now for the agencies. 92 is too many to plot, so we’ll keep the six
+agencies with the most filings and lump everyone else into an “Other
+agencies” group. First we find the top six. <code>slice_head()</code>
+keeps the first six rows, and <code>pull()</code> pulls a column out of
+a dataframe as a plain vector:</p>
+<pre class="r"><code>top_agencies &lt;- eis %&gt;%
+  count(lead_agency, sort = TRUE) %&gt;%
+  slice_head(n = 6) %&gt;%
+  pull(lead_agency)
 
-- [Data visualization Part 1a](https://video.ucdavis.edu/media/Week+7%3A+Data+Visualization+Part+1a/1_m55wx7pr)
-- [Data visualization Part 1b](https://video.ucdavis.edu/media/Week7_TimeSeries_and_Faceting/1_mcgh2gkw/390286133)
-- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714926)
+top_agencies</code></pre>
+<pre><code>## [1] &quot;Forest Service&quot;                      
+## [2] &quot;Federal Highway Administration&quot;      
+## [3] &quot;U.S. Army Corps of Engineers&quot;        
+## [4] &quot;Bureau of Land Management&quot;           
+## [5] &quot;National Park Service&quot;               
+## [6] &quot;Federal Energy Regulatory Commission&quot;</code></pre>
+<p>Then we use <code>if_else()</code> and <code>%in%</code> to make the
+new column:</p>
+<pre class="r"><code>eis &lt;- eis %&gt;%
+  mutate(agency = if_else(lead_agency %in% top_agencies, lead_agency, &quot;Other agencies&quot;))
 
-## In Class Coding
+table(eis$agency)</code></pre>
+<pre><code>## 
+##            Bureau of Land Management Federal Energy Regulatory Commission 
+##                                 1511                                  587 
+##       Federal Highway Administration                       Forest Service 
+##                                 2277                                 3728 
+##                National Park Service                       Other agencies 
+##                                  800                                 6172 
+##         U.S. Army Corps of Engineers 
+##                                 1696</code></pre>
+<p>R sorts text alphabetically, which doesn’t make much sense for
+<code>epa_impact</code>, since the ratings go from best to worst.
+Turning the column into a factor lets us set the order of the categories
+ourselves, and ggplot will use that order when we plot:</p>
+<pre class="r"><code>eis &lt;- eis %&gt;%
+  mutate(epa_impact = factor(epa_impact, levels = c(&quot;Lack of Objections&quot;,
+                                                    &quot;Environmental Concerns&quot;,
+                                                    &quot;Environmental Objections&quot;,
+                                                    &quot;Environmentally Unsatisfactory&quot;)))
 
-[Submit Week 7 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1714941)
+levels(eis$epa_impact)</code></pre>
+<pre><code>## [1] &quot;Lack of Objections&quot;             &quot;Environmental Concerns&quot;        
+## [3] &quot;Environmental Objections&quot;       &quot;Environmentally Unsatisfactory&quot;</code></pre>
+<p>Our data also has several date columns. When you subtract one date
+from another, R gives you the number of days in between. We’ll use that
+to make two new numeric columns: <code>comment_days</code>, the number
+of days the public had to comment on the statement, and
+<code>epa_lag</code>, the number of days it took the EPA to send its
+comment letter after the statement was filed:</p>
+<pre class="r"><code>eis &lt;- eis %&gt;%
+  mutate(comment_days = as.numeric(comment_due_date - federal_register_date),
+         epa_lag = as.numeric(comment_letter_date - filed_date))</code></pre>
+<p>Last, let’s add the region of the country each filing is in. R comes
+with a few built-in vectors about U.S. states, including
+<code>state.abb</code> (the two-letter abbreviations) and
+<code>state.region</code> (the census region). We can put them together
+into a little lookup table and join it on, just like we did in week
+5:</p>
+<pre class="r"><code>state_regions &lt;- tibble(state = state.abb, region = as.character(state.region))
 
+eis &lt;- eis %&gt;%
+  left_join(state_regions, by = &quot;state&quot;)
 
-
-<br>
-
-# Building Plots with ggplot2
-
-This lesson teaches you how to make plots with ggplot2. Next week (Data Visualization II), we step back and think about the principles and practices of making *good* plots.
-
-We start by loading the required packages. **`ggplot2`** is included in the **`tidyverse`** package.
-
-
-``` r
-library(tidyverse)
-```
-
-Remember the challenge from last week, where we merged in some extra variables to the survey data? This week we did it for you, since we're going to need those variables. We'll read in that merged datafile, but filter it to only get back rows where ALL the data are present, also known as "complete cases". We're also showing you a new little trick: using a period with a pipe. Normally, a pipe just sends the stuff on the left into the FIRST argument position in the function on the right. However, sometimes we want that stuff to get sent to a slightly different place in the righthand function. In this case, we want to send it into the `complete.cases()` function, so that function will run on the whole dataset. In order to specifically tell the pipe to send the lefthand side into this function, we put a period there. You can think of this as the target for the pipe.
-
-
-``` r
-surveys_complete <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv") %>% 
-  filter(complete.cases(.))
-```
-
-## Plotting with **`ggplot2`**
-
-**`ggplot2`** is a plotting package that makes it simple to create complex plots
-from data in a data frame. It provides a more programmatic interface for
-specifying what variables to plot, how they are displayed, and general visual
-properties. Therefore, we only need minimal changes if the underlying data change
-or if we decide to change from a bar plot to a scatterplot. This helps in creating
-publication quality plots with minimal amounts of adjustments and tweaking.
-
-**`ggplot2`** functions like data in the 'long' format, i.e., a column for every dimension,
-and a row for every observation. Well-structured data will save you lots of time
-when making figures with **`ggplot2`**
-
-ggplot graphics are built step by step by adding new elements. Adding layers in
-this fashion allows for extensive flexibility and customization of plots.
-
-To build a ggplot, we will use the following basic template that can be used for different types of plots:
-
-```
-ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +  <GEOM_FUNCTION>()
-```
-
-- use the `ggplot()` function and bind the plot to a specific data frame using the
-      `data` argument
-
-
-``` r
-ggplot(data = surveys_complete)
-```
-
-- define a mapping (using the aesthetic (`aes`) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g. as x/y positions or characteristics such as size, shape, color, etc.
-
-
-``` r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length))
-```
-
-- add 'geoms' – graphical representations of the data in the plot (points,
-  lines, bars). **`ggplot2`** offers many different geoms; we will use some 
-  common ones today, including:
-  
-      * `geom_point()` for scatter plots, dot plots, etc.
-      * `geom_boxplot()` for, well, boxplots!
-      * `geom_line()` for trend lines, time series, etc.  
-
-To add a geom to the plot use the `+` operator. Because we have two continuous variables,
-let's use `geom_point()` first:
-
-
-``` r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-  geom_point()
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/first-ggplot-1.png" alt="" width="672" />
-
-The `+` in the **`ggplot2`** package is particularly useful because it allows you
-to modify existing `ggplot` objects. This means you can easily set up plot
-templates and conveniently explore different types of plots, so the above
-plot can also be generated with code like this:
-
-
-``` r
-# Assign plot to a variable
-surveys_plot <- ggplot(data = surveys_complete, 
-                       mapping = aes(x = weight, y = hindfoot_length))
+table(eis$region, useNA = &quot;ifany&quot;)</code></pre>
+<pre><code>## 
+## North Central     Northeast         South          West          &lt;NA&gt; 
+##          1602          1180          3276          9032          1681</code></pre>
+<p>Filings without a state, or with a code that isn’t one of the 50
+states (like <code>PR</code> or <code>DC</code>), get an <code>NA</code>
+region.</p>
+<div id="checking-our-new-variables" class="section level3">
+<h3>Checking our new variables</h3>
+<p>It’s a good idea to look at a new variable before you trust it. Let’s
+check <code>comment_days</code>:</p>
+<pre class="r"><code>summary(eis$comment_days)</code></pre>
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.      NAs 
+## -2891.00    31.00    45.00    46.17    47.00  1949.00      189</code></pre>
+<pre class="r"><code>hist(eis$comment_days)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/check-comment-1.png" alt="" width="672" /></p>
+<p>Some of these comment periods are negative, and one is more than five
+years long! These are probably data entry errors. Everything is crammed
+into one bar, because the bins have to stretch all the way from the
+smallest value to the largest. We’ll treat anything below 0 or longer
+than a year as missing, and do the same for <code>epa_lag</code>:</p>
+<pre class="r"><code>eis &lt;- eis %&gt;%
+  mutate(comment_days = if_else(comment_days &gt;= 0 &amp; comment_days &lt;= 365, comment_days, NA),
+         epa_lag = if_else(epa_lag &gt;= 0 &amp; epa_lag &lt;= 365, epa_lag, NA))</code></pre>
+<p>Now let’s try that histogram again, with one bin per day:</p>
+<pre class="r"><code>hist(eis$comment_days, breaks = 0:365)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/check-comment-again-1.png" alt="" width="672" /></p>
+<p>Much better. Most of the comment periods are bunched up at a couple
+of specific lengths. We’ll figure out why in a bit.</p>
+</div>
+</div>
+<div id="plotting-with-ggplot2" class="section level2">
+<h2>Plotting with <strong><code>ggplot2</code></strong></h2>
+<p><strong><code>ggplot2</code></strong> is a plotting package that
+makes it simple to create complex plots from data in a data frame. It
+provides a more programmatic interface for specifying what variables to
+plot, how they are displayed, and general visual properties. Therefore,
+we only need minimal changes if the underlying data change or if we
+decide to change from a bar plot to a scatterplot. This helps in
+creating publication quality plots with minimal amounts of adjustments
+and tweaking.</p>
+<p><strong><code>ggplot2</code></strong> functions like data in the
+‘long’ format, i.e., a column for every dimension, and a row for every
+observation. Well-structured data will save you lots of time when making
+figures with <strong><code>ggplot2</code></strong></p>
+<p>ggplot graphics are built step by step by adding new elements. Adding
+layers in this fashion allows for extensive flexibility and
+customization of plots.</p>
+<p>To build a ggplot, we will use the following basic template that can
+be used for different types of plots:</p>
+<pre><code>ggplot(data = &lt;DATA&gt;, mapping = aes(&lt;MAPPINGS&gt;)) +  &lt;GEOM_FUNCTION&gt;()</code></pre>
+<ul>
+<li>use the <code>ggplot()</code> function and bind the plot to a
+specific data frame using the <code>data</code> argument</li>
+</ul>
+<pre class="r"><code>ggplot(data = eis)</code></pre>
+<ul>
+<li>define a mapping (using the aesthetic (<code>aes</code>) function),
+by selecting the variables to be plotted and specifying how to present
+them in the graph, e.g. as x/y positions or characteristics such as
+size, shape, color, etc.</li>
+</ul>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = comment_days))</code></pre>
+<ul>
+<li><p>add ‘geoms’ – graphical representations of the data in the plot
+(points, lines, bars). <strong><code>ggplot2</code></strong> offers many
+different geoms; we will use some common ones today, including:</p>
+<pre><code>* `geom_histogram()` for histograms
+* `geom_bar()` for bar charts
+* `geom_point()` for scatter plots, dot plots, etc.
+* `geom_boxplot()` for, well, boxplots!
+* `geom_line()` for trend lines, time series, etc.</code></pre></li>
+</ul>
+<p>To add a geom to the plot use the <code>+</code> operator. Because we
+have one continuous variable, let’s use <code>geom_histogram()</code>
+first:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = comment_days)) +
+  geom_histogram()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 282 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/first-ggplot-1.png" alt="" width="672" /></p>
+<p>ggplot picked 30 bins for us, and gave us a message about it. Like
+with <code>hist()</code>, we can choose the bins ourselves. The
+<code>binwidth</code> argument sets how wide each bin is, so
+<code>binwidth = 1</code> gives us one bar per day. Let’s also zoom in
+on the first 120 days with <code>xlim()</code>:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = comment_days)) +
+  geom_histogram(binwidth = 1) +
+  xlim(0, 120)</code></pre>
+<pre><code>## Warning: Removed 512 rows containing non-finite outside the scale range
+## (`stat_bin()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values or values outside the scale range
+## (`geom_bar()`).</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/ggplot-binwidth-1.png" alt="" width="672" /></p>
+<p>ggplot warns us that it removed some rows. Those are the
+<code>NA</code> values, plus anything longer than 120 days. Notice the
+two big spikes, one at 31 days and one at 45 days. Keep those in
+mind.</p>
+<p>The <code>+</code> in the <strong><code>ggplot2</code></strong>
+package is particularly useful because it allows you to modify existing
+<code>ggplot</code> objects. This means you can easily set up plot
+templates and conveniently explore different types of plots, so the
+above plot can also be generated with code like this:</p>
+<pre class="r"><code># Assign plot to a variable
+eis_plot &lt;- ggplot(data = eis,
+                   mapping = aes(x = comment_days))
 
 # Draw the plot
-surveys_plot + 
-    geom_point()
-```
-
-**Notes**
-
-- Anything you put in the `ggplot()` function can be seen by any geom layers
-  that you add (i.e., these are universal plot settings). This includes the x- and
-  y-axis mapping you set up in `aes()`.
-- You can also specify mappings for a given geom independently of the
-  mappings defined globally in the `ggplot()` function.
-- The `+` sign used to add new layers must be placed at the end of the line containing
-the *previous* layer. If, instead, the `+` sign is added at the beginning of the line
-containing the new layer, **`ggplot2`** will not add the new layer and will return an 
-error message.
-
-
-``` r
-# This is the correct syntax for adding layers
-surveys_plot +
-  geom_point()
+eis_plot +
+    geom_histogram(binwidth = 1)</code></pre>
+<p><strong>Notes</strong></p>
+<ul>
+<li>Anything you put in the <code>ggplot()</code> function can be seen
+by any geom layers that you add (i.e., these are universal plot
+settings). This includes the x- and y-axis mapping you set up in
+<code>aes()</code>.</li>
+<li>You can also specify mappings for a given geom independently of the
+mappings defined globally in the <code>ggplot()</code> function.</li>
+<li>The <code>+</code> sign used to add new layers must be placed at the
+end of the line containing the <em>previous</em> layer. If, instead, the
+<code>+</code> sign is added at the beginning of the line containing the
+new layer, <strong><code>ggplot2</code></strong> will not add the new
+layer and will return an error message.</li>
+</ul>
+<pre class="r"><code># This is the correct syntax for adding layers
+eis_plot +
+  geom_histogram()
 
 # This will not add the new layer and will return an error message
-surveys_plot
-  + geom_point()
-```
-
-## Building your plots iteratively
-
-Building plots with **`ggplot2`** is typically an iterative process. We start by
-defining the dataset we'll use, lay out the axes, and choose a geom:
-
-
-``` r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point()
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/create-ggplot-object-1.png" alt="" width="672" />
-
-Then, we start modifying this plot to extract more information from it. For
-instance, we can add transparency (`alpha`) to avoid overplotting:
-
-
-``` r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1)
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/adding-transparency-1.png" alt="" width="672" />
-
-We can also add colors for all the points:
-
-
-``` r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1, color = "blue")
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/adding-colors-1.png" alt="" width="672" />
-
-Or to color each species in the plot differently, you could use a vector as an input to the argument **color**. **`ggplot2`** will provide a different color corresponding to different values in the vector. Here is an example where we color with **`species_id`**:
-
-
-
-``` r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length)) +
-    geom_point(alpha = 0.1, aes(color = species_id))
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/color-by-species-1.png" alt="" width="672" />
-
-We can also specify the colors directly inside the mapping provided in the `ggplot()` function. This will be seen by all geom layers and the mapping will be determined by the x- and y-axis set up in `aes()`.
-
-
-``` r
-ggplot(data = surveys_complete, mapping = aes(x = weight, y = hindfoot_length, color = species_id)) +
-    geom_point(alpha = 0.1)
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/color-by-species2-1.png" alt="" width="672" />
-
-Notice that we can change the geom layer and colors will be still determined by **`species_id`**
-
-
-<div class = "blue">
-### Challenge
-
-Use `ggplot()` to create a scatter plot of `weight` and
-`species_id` with weight on the Y-axis, and species_id on the X-axis. Have the colors be coded by `plot_type`. Is this a good way to show this type of data? What might be a better graph? 
-
+eis_plot
+  + geom_histogram()</code></pre>
+</div>
+<div id="building-your-plots-iteratively" class="section level2">
+<h2>Building your plots iteratively</h2>
+<p>Building plots with <strong><code>ggplot2</code></strong> is
+typically an iterative process. We start by defining the dataset we’ll
+use, lay out the axes, and choose a geom. Let’s count up the filings for
+each agency with <code>geom_bar()</code>:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = agency)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/create-ggplot-object-1.png" alt="" width="672" /></p>
+<p>Then, we start modifying this plot to extract more information from
+it. For instance, the agency names are so long that they run into each
+other. We can fix that by putting <code>agency</code> on the y-axis
+instead:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = agency)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/flip-axis-1.png" alt="" width="672" /></p>
+<p>We can also add colors for all the bars. For bars, <code>fill</code>
+sets the color inside the bar, and <code>color</code> sets the color of
+the outline:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = agency)) +
+    geom_bar(fill = &quot;darkgreen&quot;)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/adding-colors-1.png" alt="" width="672" /></p>
+<p>Or to color each stage in the plot differently, you could use a
+vector as an input to the argument <strong>fill</strong>.
+<strong><code>ggplot2</code></strong> will provide a different color
+corresponding to different values in the vector. Here is an example
+where we fill with <strong><code>stage</code></strong>:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = agency)) +
+    geom_bar(aes(fill = stage))</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/fill-by-stage-1.png" alt="" width="672" /></p>
+<p>We can also specify the colors directly inside the mapping provided
+in the <code>ggplot()</code> function. This will be seen by all geom
+layers and the mapping will be determined by the x- and y-axis set up in
+<code>aes()</code>.</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = agency, fill = stage)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/fill-by-stage2-1.png" alt="" width="672" /></p>
+<p>Notice that we can change the geom layer and colors will be still
+determined by <strong><code>stage</code></strong>. For example, we can
+tell <code>geom_bar()</code> to put the bars for each stage side by side
+instead of stacking them:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = agency, fill = stage)) +
+    geom_bar(position = &quot;dodge&quot;)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/dodge-1.png" alt="" width="672" /></p>
+</div>
+<div id="counting-with-geom_bar-and-geom_col" class="section level2">
+<h2>Counting with <code>geom_bar()</code> and
+<code>geom_col()</code></h2>
+<p><code>geom_bar()</code> counts the rows in each group for us, so we
+only have to give it one variable. Let’s try it with a couple of other
+columns. Here’s the EPA’s impact rating:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = epa_impact)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/bar-impact-1.png" alt="" width="960" /></p>
+<p>The ratings show up in the order we set when we made
+<code>epa_impact</code> a factor, not alphabetically. There’s that big
+<code>NA</code> bar again. We can fill by stage to see what kind of
+filings got rated:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = epa_impact, fill = stage)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/bar-impact-stage-1.png" alt="" width="960" /></p>
+<p>And here’s the number of filings in each region:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = region)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/bar-region-1.png" alt="" width="672" /></p>
+<p>Sometimes we’ve already counted things ourselves, like with
+<code>count()</code>. In that case we use <code>geom_col()</code>
+instead, and give it the counts as one of the variables:</p>
+<pre class="r"><code>state_counts &lt;- eis %&gt;%
+  filter(!is.na(region)) %&gt;%
+  count(state, region)</code></pre>
+<p>There are 50 states, so we’ll put them on the y-axis like we did with
+the agencies:</p>
+<pre class="r"><code>ggplot(data = state_counts, mapping = aes(x = n, y = state, fill = region)) +
+    geom_col()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/state-col-1.png" alt="" width="672" /></p>
+<p>California has the most filings by far, and the western states in
+general have a lot more than the rest of the country.</p>
+<div id="challenge-1" class="section level3 blue">
+<h3>Challenge</h3>
+<p>Use <code>ggplot()</code> to create a scatter plot of
+<code>epa_lag</code> and <code>epa_impact</code> with
+<code>epa_lag</code> on the Y-axis, and <code>epa_impact</code> on the
+X-axis. Have the colors be coded by <code>stage</code>. Is this a good
+way to show this type of data? What might be a better graph?</p>
 <details>
-<summary>ANSWER</summary>
-
-``` r
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
-   geom_point(aes(color = plot_type))
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/scatter-challenge-1.png" alt="" width="672" />
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = epa_impact, y = epa_lag)) +
+   geom_point(aes(color = stage))</code></pre>
+<pre><code>## Warning: Removed 1377 rows containing missing values or values outside the scale range
+## (`geom_point()`).</code></pre>
+<img src="lesson_wk07_data_visualization_files/figure-html/scatter-challenge-1.png" alt="" width="960" />
 </details>
 </div>
-
-<br>
-
-## Boxplot
-
-We can use boxplots to visualize the distribution of weight within each species:
-
-
-``` r
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
-    geom_boxplot()
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/boxplot-1.png" alt="" width="672" />
-
-By adding points to boxplot, we can have a better idea of the number of
-measurements and of their distribution. 
-
-Let's also use the geometry "jitter". `geom_jitter` is almost like `geom_point` but it allows you to visualize the density of points because it adds a small amount of random variation to the location of each point. 
-
-
-``` r
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
+<p><br></p>
+</div>
+<div id="boxplot" class="section level2">
+<h2>Boxplot</h2>
+<p>We can use boxplots to visualize the distribution of
+<code>epa_lag</code> within each impact rating. We’ll stick to the draft
+statements that the EPA actually rated:</p>
+<pre class="r"><code>drafts_rated &lt;- eis %&gt;%
+  filter(stage == &quot;Draft&quot;, !is.na(epa_impact), !is.na(epa_lag))</code></pre>
+<pre class="r"><code>ggplot(data = drafts_rated, mapping = aes(x = epa_impact, y = epa_lag)) +
+    geom_boxplot()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-1.png" alt="" width="960" /></p>
+<p>The worse the rating, the longer the EPA tends to take to send its
+comment letter.</p>
+<p>By adding points to boxplot, we can have a better idea of the number
+of measurements and of their distribution.</p>
+<p>Let’s also use the geometry “jitter”. <code>geom_jitter</code> is
+almost like <code>geom_point</code> but it allows you to visualize the
+density of points because it adds a small amount of random variation to
+the location of each point.</p>
+<pre class="r"><code>ggplot(data = drafts_rated, mapping = aes(x = epa_impact, y = epa_lag)) +
     geom_boxplot(alpha = 0) +
-    geom_jitter(alpha = 0.3, color = "tomato") #notice our color needs to be in quotations 
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/boxplot-with-points-1.png" alt="" width="672" />
-
-Notice how the boxplot layer is behind the jitter layer? What do you need to
-change in the code to put the boxplot in front of the points such that it's not
-hidden?
-
-<div class = "blue">
-
-### Challenges
-
-1. Boxplots are useful summaries, but hide the *shape* of the distribution. For
-example, if the distribution is bimodal, we would not see it in a
-boxplot. An alternative to the boxplot is the violin plot, where the shape 
-(of the density of points) is drawn.
-
-- Replace the box plot code from above with a violin plot; see `geom_violin()`.
-
-2. In many types of data, it is important to consider the *scale* of the
-observations.  For example, it may be worth changing the scale of the axis to
-better distribute the observations in the space of the plot.  Changing the scale
-of the axes is done similarly to adding/modifying other components (i.e., by
-incrementally adding commands). Try making these modifications:
-
-- Use the violin plot you made in Q1 and adjust the weight to be on the log~10~ scale; see `scale_y_log10()`.
-
-3. Make a new plot to explore the distribution of `hindfoot_length` just for species NL and PF using `geom_boxplot()`. Overlay a jitter/scatter plot of the hindfoot lengths of the two species behind the boxplots. Then, add an `aes()` argument to color the datapoints (but not the boxplots) according to the plot from which the sample was taken.  
-
-*Hint:* Check the class for `plot_id`. Consider changing the class of `plot_id` from integer to factor. Why does this change how R makes the graph?
-
+    geom_jitter(alpha = 0.3, color = &quot;tomato&quot;) #notice our color needs to be in quotations</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-with-points-1.png" alt="" width="960" /></p>
+<p>Notice how the boxplot layer is behind the jitter layer? What do you
+need to change in the code to put the boxplot in front of the points
+such that it’s not hidden?</p>
+<div id="challenges" class="section level3 blue">
+<h3>Challenges</h3>
+<ol style="list-style-type: decimal">
+<li>Boxplots are useful summaries, but hide the <em>shape</em> of the
+distribution. For example, if the distribution is bimodal, we would not
+see it in a boxplot. An alternative to the boxplot is the violin plot,
+where the shape (of the density of points) is drawn.</li>
+</ol>
+<ul>
+<li>Replace the box plot code from above with a violin plot; see
+<code>geom_violin()</code>.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>In many types of data, it is important to consider the
+<em>scale</em> of the observations. For example, it may be worth
+changing the scale of the axis to better distribute the observations in
+the space of the plot. Changing the scale of the axes is done similarly
+to adding/modifying other components (i.e., by incrementally adding
+commands). Try making these modifications:</li>
+</ol>
+<ul>
+<li>Use the violin plot you made in Q1 and adjust <code>epa_lag</code>
+to be on the log<sub>10</sub> scale; see
+<code>scale_y_log10()</code>.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Make a new plot to explore the distribution of
+<code>comment_days</code> just for the Forest Service and the Bureau of
+Land Management using <code>geom_boxplot()</code>. Overlay a
+jitter/scatter plot of the comment periods of the two agencies behind
+the boxplots. Then, add an <code>aes()</code> argument to color the
+datapoints (but not the boxplots) according to the stage of the filing.
+Leave out the “Other” stage.</li>
+</ol>
+<p><em>Hint:</em> Remember the two spikes in our histogram of
+<code>comment_days</code>, at 31 and 45 days? Does coloring by stage
+help explain them?</p>
 <details>
-<summary>ANSWER</summary>  
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>#1 + 2
 
-``` r
-#1 + 2
-
-ggplot(data = surveys_complete, mapping = aes(x = species_id, y = weight)) +
-    geom_jitter(alpha = 0.3, color = "tomato") +
-    geom_violin(alpha = 0) + 
-    scale_y_log10()
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" />
-
-``` r
-#3
-surveys_complete %>% 
-  filter(species_id == "NL" | species_id == "PF") %>% 
- ggplot(mapping = aes(x= species_id, y = hindfoot_length)) + 
-  geom_jitter(alpha = 0.3, aes(color = as.factor(plot_id))) +
-  geom_boxplot()
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-3-2.png" alt="" width="672" />
+ggplot(data = drafts_rated, mapping = aes(x = epa_impact, y = epa_lag)) +
+    geom_jitter(alpha = 0.3, color = &quot;tomato&quot;) +
+    geom_violin(alpha = 0) +
+    scale_y_log10()</code></pre>
+<pre><code>## Warning in scale_y_log10(): log-10 transformation introduced infinite values.
+## log-10 transformation introduced infinite values.</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
+## (`stat_ydensity()`).</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-challenges-1.png" alt="" width="960" /></p>
+<pre class="r"><code>#3
+eis %&gt;%
+  filter(agency == &quot;Forest Service&quot; | agency == &quot;Bureau of Land Management&quot;, stage != &quot;Other&quot;) %&gt;%
+ ggplot(mapping = aes(x = agency, y = comment_days)) +
+  geom_jitter(alpha = 0.3, aes(color = stage)) +
+  geom_boxplot(alpha = 0)</code></pre>
+<pre><code>## Warning: Removed 38 rows containing non-finite outside the scale range
+## (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 38 rows containing missing values or values outside the scale range
+## (`geom_point()`).</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-challenges-2.png" alt="" width="960" /></p>
+<p>R warns about infinite values in #2 because a few filings have an
+<code>epa_lag</code> of 0 days, and the log of 0 is negative
+infinity.</p>
+<p>In #3, the final statements pile up at around 30 days and the drafts
+at 45 days or more. The two spikes in the histogram are mostly the two
+stages.</p>
 </details>
 </div>
-<br>
-
-## Plotting time series data
-
-Let's calculate number of counts per year for each species. First we need
-to group the data and count records within each group. We can quickly use the dplyr function `count` to do this. `count` is very similar to the function `tally` we have seen before, but it internally calls `group_by` before the function and `ungroup` after. 
-
-
-``` r
-yearly_counts <- surveys_complete %>%
-                 count(year, species_id) 
-```
-
-Time series data can be visualized as a line plot with years on the x axis and counts
-on the y axis:
-
-
-``` r
-ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
-     geom_line()
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/first-time-series-1.png" alt="" width="672" />
-
-Unfortunately, this does not work because we plotted data for all the species
-together. We need to tell ggplot to draw a line for each species by modifying
-the aesthetic function to include `group = species_id`:
-
-
-``` r
-ggplot(data = yearly_counts, mapping = aes(x = year, y = n, group = species_id)) +
-    geom_line()
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/time-series-by-species-1.png" alt="" width="672" />
-
-We will be able to distinguish species in the plot if we add colors (using `color` also automatically groups the data):
-
-
-``` r
-ggplot(data = yearly_counts, mapping = aes(x = year, y = n, color = species_id)) +
-    geom_line()
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/time-series-with-colors-1.png" alt="" width="672" />
-
-## Faceting
-
-**`ggplot2`** has a special technique called *faceting* that allows the user to split one
-plot into multiple plots based on a factor included in the dataset. We will use it to
-make a time series plot for each species:
-
-
-``` r
-ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
-    geom_line() +
-    facet_wrap(~ species_id)
-```
-
-```
-## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/first-facet-1.png" alt="" width="672" />
-
-
-<div class = "blue">
-### Challenge
-
-You are looking at a new dataset shared with you by a collaborator. You received the dataset shortly after the vernal equinox. Your collaborator didn't really give you any context on what the data represent, and you need to do some preliminary visualizations before you can really even formulate a question for them. Import the mystery dataset using:
-
-
-``` r
-mystery <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/mysteryData.csv")
-```
-
-```
-## Rows: 91325 Columns: 3
-## ── Column specification ─────────────────────────────────────────────────
-## Delimiter: ","
-## chr (1): Group
-## dbl (2): x, y
-## 
-## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
-
-Can you figure out what this dataset represents? 
-
-*Hint* Use your new knowledge of faceting to break up the data into groups, and consider changing the size and transparency of your `geom_`'s to get a better look!
-
-<details>
-<summary>ANSWER</summary>
-
-``` r
-# Preview the data
-mystery %>%
-  head(5)
-```
-
-```
-## # A tibble: 5 × 3
-##       x     y Group
-##   <dbl> <dbl> <chr>
-## 1 414.   282. A    
-## 2 412.   281. A    
-## 3 414.   281. A    
-## 4  26.2  275. A    
-## 5  33.9  275. A
-```
-
-``` r
-# Plot the data
-ggplot(data = mystery, mapping = aes(x = x, y = y)) +
-     facet_wrap(~ Group) +
-     geom_point(size = 0.1, alpha = 0.01) 
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-6-1.png" alt="" width="672" />
-
-If all went well, and you faceted by group, set points to be very small, and transparency to be very high (i.e., a low `alpha` setting), you should discover that each group is the outline of a different animal! You may notice that there is some distortion going on, and our foxy friend in Group B appears to have some thick thighs. Try equalizing the coordinate space in the x- and y-axes by adding a `coord_equal()` to your `ggplot()` call:
-
-
-``` r
-## Equalize coordinate mapping
-ggplot(data = mystery, mapping = aes(x = x, y = y)) +
-  facet_wrap(~ Group) +
-  geom_point(size = 0.1, alpha = 0.01) +
-  coord_equal()
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-7-1.png" alt="" width="672" />
-
-This challenge was inspired by Trevor Branch's [Coelocanth post on Twitter](https://twitter.com/TrevorABranch/status/1227493205337182209) and adapted by [Christian John](https://jepsonnomad.github.io/).
-
-</details>
+<p><br></p>
 </div>
-
-<br>
-
-## **`ggplot2`** themes
-
-ggplot Themes are a great, easy addition that can make all your plots more readable (and a lot more pretty!)
-
-In addition to `theme_bw()`, which changes the plot background to white, **`ggplot2`**
-comes with several other themes which can be useful to quickly change the look
-of your visualization. The complete list of themes is available
-at <https://ggplot2.tidyverse.org/reference/ggtheme.html>. `theme_minimal()` and
-`theme_light()` are popular, and `theme_void()` can be useful as a starting
-point to create a new hand-crafted theme.
-
-
-Usually plots with white background look more readable when printed.  We can set
-the background to white using the function `theme_bw()`. Additionally, you can remove
-the grid:
-
-
-``` r
- ggplot(data = yearly_counts, mapping = aes(x = year, y = n)) +
-     geom_line() +
-     facet_wrap(~ species_id) +
-     theme_bw() +
-     theme(panel.grid = element_blank())
-```
-
-```
-## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/facet-by-species-and-sex-white-bg-1.png" alt="" width="672" />
-
-<div class = "blue">
-### Challenge 1 
-
-Let's make one final change to our facet wrapped plot of our yearly count data. What if we wanted to split the counts of species up by sex where the lines for each sex are different colors? Make sure you have a nice theme on your graph too! 
-
-*Hint* Make a new dataframe using the `count` function we learned earlier! 
-
-<details>
-<summary>ANSWER</summary>
-
-``` r
-#new data frame counting the number of each sex of each species 
- yearly_sex_counts <- surveys_complete %>%
-                      count(year, species_id, sex)
-
-#plot code 
- ggplot(data = yearly_sex_counts, mapping = aes(x = year, y = n, color = sex)) +
-     geom_line() +
-     facet_wrap(~ species_id) +
-     theme_bw()
-```
-
-```
-## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" />
-</details>
+<div id="plotting-time-series-data" class="section level2">
+<h2>Plotting time series data</h2>
+<p>Let’s calculate number of filings per year for each agency. First we
+need to group the data and count records within each group. We can
+quickly use the dplyr function <code>count</code> to do this.
+<code>count</code> is very similar to the function <code>tally</code> we
+have seen before, but it internally calls <code>group_by</code> before
+the function and <code>ungroup</code> after.</p>
+<pre class="r"><code>yearly_counts &lt;- eis %&gt;%
+                 count(filed_year, agency)</code></pre>
+<p>Time series data can be visualized as a line plot with years on the x
+axis and counts on the y axis:</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n)) +
+     geom_line()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/first-time-series-1.png" alt="" width="672" /></p>
+<p>Unfortunately, this does not work because we plotted data for all the
+agencies together. We need to tell ggplot to draw a line for each agency
+by modifying the aesthetic function to include
+<code>group = agency</code>:</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n, group = agency)) +
+    geom_line()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/time-series-by-agency-1.png" alt="" width="672" /></p>
+<p>We will be able to distinguish agencies in the plot if we add colors
+(using <code>color</code> also automatically groups the data):</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n, color = agency)) +
+    geom_line()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/time-series-with-colors-1.png" alt="" width="672" /></p>
+<p><br></p>
+<p>This lesson was contributed by <a
+href="https://github.com/MarthaWohlfeil">Martha Zillig</a>.</p>
+<p>This lesson is adapted from the Data Carpentry: R for Data Analysis
+and Visualization of Ecological Data <a
+href="https://datacarpentry.org/R-ecology-lesson/visualizing-ggplot.html">Data
+visualization with ggplot2 materials</a>. Data are from the U.S. EPA’s
+<a
+href="https://cdxapps.epa.gov/cdx-enepa-II/public/action/eis/search">Environmental
+Impact Statement database</a>. The course file is a cleaned subset
+prepared for teaching (see the <a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/eis_codebook.md">codebook</a>).</p>
 </div>
-
-<br>
-
-<div class = "blue">
-### Challenge 2
-
-Use what you just learned to create a plot that depicts how the average weight
-of each species changes through the years.
-
-<details>
-<summary>ANSWER</summary>
-
-``` r
-#create a new dataframe 
-yearly_weight <- surveys_complete %>%
-                 group_by(year, species_id) %>%
-                 summarize(avg_weight = mean(weight))
-```
-
-```
-## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by year and species_id.
-## ℹ Output is grouped by year.
-## ℹ Use `summarise(.groups = "drop_last")` to silence this message.
-## ℹ Use `summarise(.by = c(year, species_id))` for per-operation grouping
-##   (`?dplyr::dplyr_by`) instead.
-```
-
-``` r
-ggplot(data = yearly_weight, mapping = aes(x=year, y=avg_weight)) +
-  geom_line() +
-  facet_wrap(~ species_id) +
-  theme_bw()
-```
-
-```
-## `geom_line()`: Each group consists of only one observation.
-## ℹ Do you need to adjust the group aesthetic?
-```
-
-<img src="lesson_wk07_data_visualization_files/figure-html/average-weight-time-series-1.png" alt="" width="672" />
-</details>
 </div>
-
-<br>
-
-This lesson was contributed by [Martha Zillig](https://github.com/MarthaWohlfeil).
-
-This lesson is adapted from the Software Carpentry: R for Reproducible 
-Scientific Analysis [Vectors and Data Frames materials](http://data-lessons.github.io/gapminder-R/03-data-types-subsetting.html)
-and the Data Carpentry: R for Data Analysis and Visualization of Ecological Data 
-[Exporting Data materials](http://www.datacarpentry.org/R-ecology-lesson/03-dplyr.html).
--->
 
 
 

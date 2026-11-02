@@ -15,6 +15,8 @@ This lecture is being updated for the current quarter — check back soon.
 <div class = "blue">
 ### Learning Objectives
 
+* Describe what faceting is and apply faceting in ggplot.
+* Use themes to change the look of a plot.
 * Learn some basic visualization dos and don'ts
 * Learn how to customize color in plots
 * Gain a basic understanding of package `cowplot`
@@ -52,6 +54,179 @@ if(length(new_packages)) install.packages(new_packages, repos = "http://cran.us.
 
 invisible(lapply(required_packages, library, character.only = TRUE))
 ```
+
+<br>
+
+# Faceting and Themes
+
+Last week we finished up by plotting the number of filings per year for each agency. This week we'll pick up right where we left off. First, let's load the EIS data and remake the columns we need from last week:
+
+```{r eis-setup, message=FALSE, purl=FALSE}
+eis <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/eis_clean.csv") %>%
+  filter(filed_year <= 2025)
+
+eis <- eis %>%
+  mutate(stage = case_when(
+    str_detect(document_type, "Draft") ~ "Draft",
+    str_detect(document_type, "Final") ~ "Final",
+    TRUE ~ "Other"
+  ))
+
+top_agencies <- eis %>%
+  count(lead_agency, sort = TRUE) %>%
+  slice_head(n = 6) %>%
+  pull(lead_agency)
+
+eis <- eis %>%
+  mutate(agency = if_else(lead_agency %in% top_agencies, lead_agency, "Other agencies"))
+
+yearly_counts <- eis %>%
+  count(filed_year, agency)
+```
+
+## Faceting
+
+**`ggplot2`** has a special technique called *faceting* that allows the user to split one
+plot into multiple plots based on a factor included in the dataset. We will use it to
+make a time series plot for each agency:
+
+```{r first-facet, purl=FALSE}
+ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n)) +
+    geom_line() +
+    facet_wrap(~ agency)
+```
+
+By default every panel uses the same y-axis, which makes it easy to compare agencies to each other but squashes the smaller ones. If you'd rather give each panel its own y-axis, use `scales = "free_y"`:
+
+```{r facet-free, purl=FALSE}
+ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n)) +
+    geom_line() +
+    facet_wrap(~ agency, scales = "free_y")
+```
+
+
+<div class = "blue">
+
+### Challenge
+
+You are looking at a new dataset shared with you by a collaborator. You received the dataset shortly after the vernal equinox. Your collaborator didn't really give you any context on what the data represent, and you need to do some preliminary visualizations before you can really even formulate a question for them. Import the mystery dataset using:
+
+```{r}
+mystery <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/mysteryData.csv")
+```
+
+Can you figure out what this dataset represents?
+
+*Hint* Use your new knowledge of faceting to break up the data into groups, and consider changing the size and transparency of your `geom_`'s to get a better look!
+
+<details>
+<summary>ANSWER</summary>
+```{r}
+# Preview the data
+mystery %>%
+  head(5)
+# Plot the data
+ggplot(data = mystery, mapping = aes(x = x, y = y)) +
+     facet_wrap(~ Group) +
+     geom_point(size = 0.1, alpha = 0.01)
+```
+
+If all went well, and you faceted by group, set points to be very small, and transparency to be very high (i.e., a low `alpha` setting), you should discover that each group is the outline of a different animal! You may notice that there is some distortion going on, and our foxy friend in Group B appears to have some thick thighs. Try equalizing the coordinate space in the x- and y-axes by adding a `coord_equal()` to your `ggplot()` call:
+
+```{r}
+## Equalize coordinate mapping
+ggplot(data = mystery, mapping = aes(x = x, y = y)) +
+  facet_wrap(~ Group) +
+  geom_point(size = 0.1, alpha = 0.01) +
+  coord_equal()
+```
+
+This challenge was inspired by Trevor Branch's [Coelocanth post on Twitter](https://twitter.com/TrevorABranch/status/1227493205337182209) and adapted by [Christian John](https://jepsonnomad.github.io/).
+
+</details>
+</div>
+
+<br>
+
+## **`ggplot2`** themes
+
+ggplot Themes are a great, easy addition that can make all your plots more readable (and a lot more pretty!)
+
+In addition to `theme_bw()`, which changes the plot background to white, **`ggplot2`**
+comes with several other themes which can be useful to quickly change the look
+of your visualization. The complete list of themes is available
+at <https://ggplot2.tidyverse.org/reference/ggtheme.html>. `theme_minimal()` and
+`theme_light()` are popular, and `theme_void()` can be useful as a starting
+point to create a new hand-crafted theme.
+
+
+Usually plots with white background look more readable when printed.  We can set
+the background to white using the function `theme_bw()`. Additionally, you can remove
+the grid:
+
+```{r facet-by-agency-white-bg, purl=FALSE}
+ ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n)) +
+     geom_line() +
+     facet_wrap(~ agency) +
+     theme_bw() +
+     theme(panel.grid = element_blank())
+```
+
+<div class = "blue">
+
+### Challenge 1
+
+Let's make one final change to our facet wrapped plot of our yearly count data. What if we wanted to split the counts for each agency up by stage, where the lines for drafts and finals are different colors? Leave out the "Other" stage. Make sure you have a nice theme on your graph too!
+
+*Hint* Make a new dataframe using the `count` function we learned earlier!
+
+<details>
+<summary>ANSWER</summary>
+```{r}
+#new data frame counting the number of filings of each stage for each agency
+ yearly_stage_counts <- eis %>%
+                        filter(stage != "Other") %>%
+                        count(filed_year, agency, stage)
+
+#plot code
+ ggplot(data = yearly_stage_counts, mapping = aes(x = filed_year, y = n, color = stage)) +
+     geom_line() +
+     facet_wrap(~ agency) +
+     theme_bw()
+```
+</details>
+</div>
+
+<br>
+
+<div class = "blue">
+
+### Challenge 2
+
+Remember all those `NA` values in `epa_impact`? Use what you just learned to create a plot that depicts how the share of filings the EPA rated (the ones where `epa_impact` is not `NA`) changes through the years for each agency. What do you notice?
+
+*Hint* `mean()` of a column of `TRUE` and `FALSE` values gives you the share that are `TRUE`.
+
+<details>
+<summary>ANSWER</summary>
+```{r share-rated-time-series, purl=FALSE}
+
+#create a new dataframe
+yearly_rated <- eis %>%
+                group_by(filed_year, agency) %>%
+                summarize(share_rated = mean(!is.na(epa_impact)))
+
+
+ggplot(data = yearly_rated, mapping = aes(x = filed_year, y = share_rated)) +
+  geom_line() +
+  facet_wrap(~ agency) +
+  theme_bw()
+```
+
+Up until around 2015, the EPA rated most of the filings from every agency. After that the share drops, and by 2019 almost none of the filings in our data have a rating. This is a good reminder to look at where your `NA` values are before you draw conclusions.
+
+</details>
+</div>
 
 <br>
 

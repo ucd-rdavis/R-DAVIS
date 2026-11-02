@@ -160,14 +160,14 @@ This week's questions will have us practicing pivots, conditional statements, an
 
 For our week seven lab, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`.
 
-*This lab is being updated — check back soon.*
+<a href="labs/lab_week_07.qmd" download>Download Lab 7 (.qmd)</a>
 
 
 ### <small>Lab Week 8</small> {#lab-week-8}
 
 Data Visualization II lab — placeholder; content to be added. (The former Mauna Loa dates lab is in `archive/`.)
 
-*This lab is being updated — check back soon.*
+<a href="labs/lab_week_08.qmd" download>Download Lab 8 (.qmd)</a>
 
 
 ### <small>Lab Week 9</small> {#lab-week-9}
