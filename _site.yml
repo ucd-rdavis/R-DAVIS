@@ -30,6 +30,8 @@ navbar:
       href: lesson_wk04_data_manipulation_pt1.html
     - text: Wk05 Data Manipulation Pt2
       href: lesson_wk05_data_manipulation_pt2.html
+    - text: Midterm Debrief
+      href: midterm_debrief.html
     - text: Wk07 Data Visualization I
       href: lesson_wk07_data_visualization.html
     - text: Wk08 Data Visualization II
