@@ -467,12 +467,9 @@ using ggplot.</li>
 <div id="videos" class="section level2">
 <h2>Videos</h2>
 <ul>
+<li><a href="">plotting w/ R</a></li>
 <li><a
-href="https://video.ucdavis.edu/media/Week+7%3A+Data+Visualization+Part+1a/1_m55wx7pr">Data
-visualization Part 1a</a></li>
-<li><a
-href="https://video.ucdavis.edu/media/Week7_TimeSeries_and_Faceting/1_mcgh2gkw/390286133">Data
-visualization Part 1b</a></li>
+href="https://video.ucdavis.edu/media/Wk7_ggplot/1_ja2d9915">ggplot</a></li>
 <li><a
 href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714926">Video
 Discussion</a></li>
@@ -536,22 +533,22 @@ a couple of tools for this:</p>
 ## $ epa_adequacy          &lt;dbl&gt; 2, NA, NA, 2, 3, NA, 3, 2, NA, 2, 2, 2, 2, NA, 2…
 ## $ attachment_count      &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</code></pre>
 <pre class="r"><code>summary(eis_raw)</code></pre>
-<pre><code>##      eis_id             title         document_type      lead_agency   
-##  Min.   : 75043   Length   :16784   Length   :16784   Length   :16784  
-##  1st Qu.: 79241   N.unique :11846   N.unique :   30   N.unique :   91  
-##  Median : 83436   N.blank  :    0   N.blank  :    0   N.blank  :    0  
-##  Mean   :119024   Min.nchar:    6   Min.nchar:    2   Min.nchar:   14  
-##  3rd Qu.: 87635   Max.nchar:  545   Max.nchar:   25   Max.nchar:   64  
-##  Max.   :546302                                       NAs      :   32  
-##                                                                        
-##        state           all_states      filed_date           filed_year  
-##  Length   :16784   Length   :16784   Min.   :1987-01-02   Min.   :1987  
-##  N.unique :   62   N.unique :  468   1st Qu.:1995-11-03   1st Qu.:1995  
-##  N.blank  :    0   N.blank  :    0   Median :2003-10-10   Median :2003  
-##  Min.nchar:    2   Min.nchar:    2   Mean   :2004-03-13   Mean   :2004  
-##  Max.nchar:    5   Max.nchar:  257   3rd Qu.:2011-09-02   3rd Qu.:2011  
-##  NAs      : 1316   NAs      : 1316   Max.   :2026-01-21   Max.   :2026  
-##                                                                         
+<pre><code>##      eis_id          title           document_type      lead_agency       
+##  Min.   : 75043   Length:16784       Length:16784       Length:16784      
+##  1st Qu.: 79241   Class :character   Class :character   Class :character  
+##  Median : 83436   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :119024                                                           
+##  3rd Qu.: 87635                                                           
+##  Max.   :546302                                                           
+##                                                                           
+##     state            all_states          filed_date           filed_year  
+##  Length:16784       Length:16784       Min.   :1987-01-02   Min.   :1987  
+##  Class :character   Class :character   1st Qu.:1995-11-03   1st Qu.:1995  
+##  Mode  :character   Mode  :character   Median :2003-10-10   Median :2003  
+##                                        Mean   :2004-03-13   Mean   :2004  
+##                                        3rd Qu.:2011-09-02   3rd Qu.:2011  
+##                                        Max.   :2026-01-21   Max.   :2026  
+##                                                                           
 ##  federal_register_date comment_letter_date  comment_due_date    
 ##  Min.   :1987-01-09    Min.   :1987-02-09   Min.   :1987-01-28  
 ##  1st Qu.:1995-11-09    1st Qu.:1995-08-21   1st Qu.:1995-12-04  
@@ -559,15 +556,15 @@ a couple of tools for this:</p>
 ##  Mean   :2004-03-22    Mean   :2003-07-24   Mean   :2004-02-24  
 ##  3rd Qu.:2011-09-09    3rd Qu.:2010-06-24   3rd Qu.:2011-07-05  
 ##  Max.   :2026-01-23    Max.   :2026-01-23   Max.   :2026-03-09  
-##                        NAs    :1218         NAs    :192         
-##      epa_impact     epa_adequacy   attachment_count 
-##  Length   :16784   Min.   :1.000   Min.   :  0.000  
-##  N.unique :    4   1st Qu.:2.000   1st Qu.:  0.000  
-##  N.blank  :    0   Median :2.000   Median :  1.000  
-##  Min.nchar:   18   Mean   :1.893   Mean   :  2.723  
-##  Max.nchar:   30   3rd Qu.:2.000   3rd Qu.:  2.000  
-##  NAs      : 3809   Max.   :3.000   Max.   :253.000  
-##                    NAs    :8775</code></pre>
+##                        NA&#39;s   :1218         NA&#39;s   :192         
+##   epa_impact         epa_adequacy   attachment_count 
+##  Length:16784       Min.   :1.000   Min.   :  0.000  
+##  Class :character   1st Qu.:2.000   1st Qu.:  0.000  
+##  Mode  :character   Median :2.000   Median :  1.000  
+##                     Mean   :1.893   Mean   :  2.723  
+##                     3rd Qu.:2.000   3rd Qu.:  2.000  
+##                     Max.   :3.000   Max.   :253.000  
+##                     NA&#39;s   :8775</code></pre>
 <p>For a categorical column, one of the first things you might want to
 know is how many times each value shows up. The base R function
 <code>table()</code> does that:</p>
@@ -992,7 +989,7 @@ region.</p>
 <p>It’s a good idea to look at a new variable before you trust it. Let’s
 check <code>comment_days</code>:</p>
 <pre class="r"><code>summary(eis$comment_days)</code></pre>
-<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.      NAs 
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.     NA&#39;s 
 ## -2891.00    31.00    45.00    46.17    47.00  1949.00      189</code></pre>
 <pre class="r"><code>hist(eis$comment_days)</code></pre>
 <p><img src="lesson_wk07_data_visualization_files/figure-html/check-comment-1.png" alt="" width="672" /></p>
@@ -1058,9 +1055,11 @@ have one continuous variable, let’s use <code>geom_histogram()</code>
 first:</p>
 <pre class="r"><code>ggplot(data = eis, mapping = aes(x = comment_days)) +
   geom_histogram()</code></pre>
-<pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
-<pre><code>## Warning: Removed 282 rows containing non-finite outside the scale range
-## (`stat_bin()`).</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`.
+## Pick better value `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 282 rows containing
+## non-finite outside the scale
+## range (`stat_bin()`).</code></pre>
 <p><img src="lesson_wk07_data_visualization_files/figure-html/first-ggplot-1.png" alt="" width="672" /></p>
 <p>ggplot picked 30 bins for us, and gave us a message about it. Like
 with <code>hist()</code>, we can choose the bins ourselves. The
@@ -1070,10 +1069,12 @@ on the first 120 days with <code>xlim()</code>:</p>
 <pre class="r"><code>ggplot(data = eis, mapping = aes(x = comment_days)) +
   geom_histogram(binwidth = 1) +
   xlim(0, 120)</code></pre>
-<pre><code>## Warning: Removed 512 rows containing non-finite outside the scale range
-## (`stat_bin()`).</code></pre>
-<pre><code>## Warning: Removed 2 rows containing missing values or values outside the scale range
-## (`geom_bar()`).</code></pre>
+<pre><code>## Warning: Removed 512 rows containing
+## non-finite outside the scale
+## range (`stat_bin()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing
+## missing values or values outside
+## the scale range (`geom_bar()`).</code></pre>
 <p><img src="lesson_wk07_data_visualization_files/figure-html/ggplot-binwidth-1.png" alt="" width="672" /></p>
 <p>ggplot warns us that it removed some rows. Those are the
 <code>NA</code> values, plus anything longer than 120 days. Notice the
@@ -1204,7 +1205,9 @@ ANSWER
 </summary>
 <pre class="r"><code>ggplot(data = eis, mapping = aes(x = epa_impact, y = epa_lag)) +
    geom_point(aes(color = stage))</code></pre>
-<pre><code>## Warning: Removed 1377 rows containing missing values or values outside the scale range
+<pre><code>## Warning: Removed 1377 rows containing
+## missing values or values outside
+## the scale range
 ## (`geom_point()`).</code></pre>
 <img src="lesson_wk07_data_visualization_files/figure-html/scatter-challenge-1.png" alt="" width="960" />
 </details>
@@ -1283,10 +1286,13 @@ ggplot(data = drafts_rated, mapping = aes(x = epa_impact, y = epa_lag)) +
     geom_jitter(alpha = 0.3, color = &quot;tomato&quot;) +
     geom_violin(alpha = 0) +
     scale_y_log10()</code></pre>
-<pre><code>## Warning in scale_y_log10(): log-10 transformation introduced infinite values.
-## log-10 transformation introduced infinite values.</code></pre>
-<pre><code>## Warning: Removed 2 rows containing non-finite outside the scale range
-## (`stat_ydensity()`).</code></pre>
+<pre><code>## Warning in scale_y_log10(): log-10 transformation introduced
+## infinite values.
+## log-10 transformation introduced
+## infinite values.</code></pre>
+<pre><code>## Warning: Removed 2 rows containing
+## non-finite outside the scale
+## range (`stat_ydensity()`).</code></pre>
 <p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-challenges-1.png" alt="" width="960" /></p>
 <pre class="r"><code>#3
 eis %&gt;%
@@ -1294,9 +1300,12 @@ eis %&gt;%
  ggplot(mapping = aes(x = agency, y = comment_days)) +
   geom_jitter(alpha = 0.3, aes(color = stage)) +
   geom_boxplot(alpha = 0)</code></pre>
-<pre><code>## Warning: Removed 38 rows containing non-finite outside the scale range
-## (`stat_boxplot()`).</code></pre>
-<pre><code>## Warning: Removed 38 rows containing missing values or values outside the scale range
+<pre><code>## Warning: Removed 38 rows containing
+## non-finite outside the scale
+## range (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 38 rows containing
+## missing values or values outside
+## the scale range
 ## (`geom_point()`).</code></pre>
 <p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-challenges-2.png" alt="" width="960" /></p>
 <p>R warns about infinite values in #2 because a few filings have an

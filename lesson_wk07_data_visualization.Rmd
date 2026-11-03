@@ -14,8 +14,8 @@ title: 'Wk07: Data Visualization I'
 
 ## Videos
 
-- [Data visualization Part 1a](https://video.ucdavis.edu/media/Week+7%3A+Data+Visualization+Part+1a/1_m55wx7pr)
-- [Data visualization Part 1b](https://video.ucdavis.edu/media/Week7_TimeSeries_and_Faceting/1_mcgh2gkw/390286133)
+- [plotting w/ R]()
+- [ggplot](https://video.ucdavis.edu/media/Wk7_ggplot/1_ja2d9915)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714926)
 
 ## In Class Coding
