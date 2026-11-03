@@ -1,5 +1,8 @@
 ---
 title: "Midterm Debrief"
+output:
+  html_document:
+    code_folding: hide
 ---
 
 ## Good job
@@ -58,6 +61,7 @@ ggplot(sc,aes(x = rank,y = `Total Score`)) +
 
 ### Points by exam part
 Now, we can break down the aggregate scores into individual problem scores. First, let's create cumulative point totals to see how far folks got on the exam.
+
 ```{r}
 ## the columsn we need here all have "Part ##:" format.
 ## we'll use a function that works *within* select() that uses regular expression syntax (see https://regexr.com/ for more info) to essentially do fuzzy matching: "Any column names that contains the string "Part" + [space] + [any number between 0 and 9] OR "Deduction"
@@ -96,17 +100,16 @@ ggplot(exam_cumulative,aes(x = Part,y = Cumulative_Points,group = rank)) +
   ## rotate the labels so they fit, kill the axis title
   theme(axis.text.x = element_text(angle = 45,hjust = 1),axis.title.x = element_blank()) +
   ggtitle('Cumulative score by element')
-
-
 ```
+
 You can see the spread starts to diverge at Part 4, and we had a really wide distribution across the finish line. In general, this is what we expected. We've had more time to practice the initial elements than the Week 4/5 content, and the Week 4/5 content builds directly on Wks 1/2/3. So if you are still solidifying the early week items, you might not have even gotten to the later parts of the exam.
 
 ### Midterm grades
-In terms of moving forward, here is our proposal. We are going to offer a non-parametric curve deal that works as follows:
+In terms of moving forward, here is our proposal. We are going to offer a non-parametric adjustment that works as follows:
 
 <div class = "blue">
 
-- (1) You go back and complete the exam (fully). Don't use AI, don't copy your friends code, work through it as a learning exercise.
+- (1) You go back and complete the exam (fully). Don't use AI, don't copy your friends code. Work through it as a learning exercise.
 - (2) Submit a revised exam to us by Tuesday, November 10th (we'll post a canvas assignment).
 - (3) We will non-parametrically "squish" the grades as follows for anyone who completes the exam-redo (based on where your initial exam performance was)
 
@@ -163,6 +166,7 @@ ggplot(final_projections) +
   geom_hline(yintercept = 80,col = 'grey50',lty = 2) + 
   labs(title = 'Range of possible scores',subtitle = "(assumes full credit for other work)")
 ```
+
 As you interpret this plot (we can critique the design choices when we talk about Data Viz) there are several key things to note. First: (1) Assuming you did/do the effort-driven work, *everyone* is still in range of an A and *everyone* can get a "grad studies passing grade" (i.e., > `B-`) by beating 30% on the final exam. I really want each of you to do better than that of course. But you can see there is a clear floor. I had to truncate the Y-axis at 70% (C-) just to make the data points show up well.
 
 

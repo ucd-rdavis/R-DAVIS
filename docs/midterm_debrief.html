@@ -600,23 +600,23 @@ ggplot(exam_cumulative,aes(x = Part,y = Cumulative_Points,group = rank)) +
   ## rotate the labels so they fit, kill the axis title
   theme(axis.text.x = element_text(angle = 45,hjust = 1),axis.title.x = element_blank()) +
   ggtitle(&#39;Cumulative score by element&#39;)</code></pre>
-<p><img src="midterm_debrief_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" />
-You can see the spread starts to diverge at Part 4, and we had a really
-wide distribution across the finish line. In general, this is what we
-expected. We’ve had more time to practice the initial elements than the
-Week 4/5 content, and the Week 4/5 content builds directly on Wks 1/2/3.
-So if you are still solidifying the early week items, you might not have
-even gotten to the later parts of the exam.</p>
+<p><img src="midterm_debrief_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
+<p>You can see the spread starts to diverge at Part 4, and we had a
+really wide distribution across the finish line. In general, this is
+what we expected. We’ve had more time to practice the initial elements
+than the Week 4/5 content, and the Week 4/5 content builds directly on
+Wks 1/2/3. So if you are still solidifying the early week items, you
+might not have even gotten to the later parts of the exam.</p>
 </div>
 <div id="midterm-grades" class="section level3">
 <h3>Midterm grades</h3>
 <p>In terms of moving forward, here is our proposal. We are going to
-offer a non-parametric curve deal that works as follows:</p>
+offer a non-parametric adjustment that works as follows:</p>
 <div class="blue">
 <ul>
 <li><ol style="list-style-type: decimal">
 <li>You go back and complete the exam (fully). Don’t use AI, don’t copy
-your friends code, work through it as a learning exercise.</li>
+your friends code. Work through it as a learning exercise.</li>
 </ol></li>
 <li><ol start="2" style="list-style-type: decimal">
 <li>Submit a revised exam to us by Tuesday, November 10th (we’ll post a
@@ -688,9 +688,9 @@ ggplot(final_projections) +
   scale_y_continuous(name = &#39;Final grade %&#39;,limits = c(70,100)) +
   geom_hline(yintercept = 80,col = &#39;grey50&#39;,lty = 2) + 
   labs(title = &#39;Range of possible scores&#39;,subtitle = &quot;(assumes full credit for other work)&quot;)</code></pre>
-<p><img src="midterm_debrief_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" />
-As you interpret this plot (we can critique the design choices when we
-talk about Data Viz) there are several key things to note. First: (1)
+<p><img src="midterm_debrief_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" /></p>
+<p>As you interpret this plot (we can critique the design choices when
+we talk about Data Viz) there are several key things to note. First: (1)
 Assuming you did/do the effort-driven work, <em>everyone</em> is still
 in range of an A and <em>everyone</em> can get a “grad studies passing
 grade” (i.e., &gt; <code>B-</code>) by beating 30% on the final exam. I
@@ -736,7 +736,7 @@ $(document).ready(function () {
 <!-- code folding -->
 <script>
 $(document).ready(function () {
-  window.initializeCodeFolding("show" === "show");
+  window.initializeCodeFolding("hide" === "show");
 });
 </script>
 
