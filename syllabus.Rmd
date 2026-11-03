@@ -65,11 +65,11 @@ Videos will be posted by Monday. By Thursday at 10am before class, you are expec
 
 - Submitting weekly in-class scratch work. 
 
-These submissions are credit/no-credit, with credit based on *effort* and NOT *completion*. I.e., this is your scratch sheet from class, whatever that looks like. 10 weeks, 10 points each. (Due at 3:10pm, i.e., 10 minutes after class ends)
+These submissions are credit/no-credit, with credit based on *effort* and NOT *completion*. I.e., this is your scratch sheet from class, whatever that looks like. 9 weeks, 10 points each. (Due at 3:10pm, i.e., 10 minutes after class ends). Note there is no in-class scratch work for Week 6, we take the midterm that week.
 
 - Submitting take-home labs. 
 
-These submissions are credit/no-credit, with credit based on *effort* and NOT *completion*. Ideally, you'll be able to work through and complete the lab fully, but I believe you will learn far more from any effort--successful or unsuccessful--you put in than you will from copying and pasting from the key, having Claude solve it, etc. 10 take-home labs, 10 points each. (Due at 1:00pm, on Thursdays, i.e. by start of class, except Lab 10 which is due at the start of the final)
+These submissions are credit/no-credit, with credit based on *effort* and NOT *completion*. Ideally, you'll be able to work through and complete the lab fully, but I believe you will learn far more from any effort--successful or unsuccessful--you put in than you will from copying and pasting from the key, having Claude solve it, etc. 9 take-home labs, 10 points each. (Due at 1:00pm, on Thursdays, i.e. by start of class, except Lab 10 which is due at the start of the final). Note there is no Lab 6, we take the midterm that week.
 
 - Midterm Exam: In-class exam, 45 points
 
