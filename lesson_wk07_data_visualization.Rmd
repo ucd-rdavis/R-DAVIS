@@ -14,7 +14,8 @@ title: 'Wk07: Data Visualization I'
 
 ## Videos
 
-- [plotting w/ R]()
+- [Exploratory Data Analysis](https://video.ucdavis.edu/media/wk7_eda/1_gpgtyr43)
+- [Data Cleaning](https://video.ucdavis.edu/media/wk7_data_cleaning.mp4/1_oolsw0zl)
 - [ggplot](https://video.ucdavis.edu/media/Wk7_ggplot/1_ja2d9915)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714926)
 
