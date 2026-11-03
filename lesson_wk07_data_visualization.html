@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Wk07: Data Visualization I</title>
+
+<script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="site_libs_extra/academicons-1.8.0/css/academicons.css"/>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html"></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="outline.html">
+    <span class="fa fa-calendar fa-1x"></span>
+     
+    Outline
+  </a>
+</li>
+<li>
+  <a href="syllabus.html">
+    <span class="fa fa-map fa-1x"></span>
+     
+    Syllabus
+  </a>
+</li>
+<li>
+  <a href="AI.html">
+    <span class="fa fa-robot fa-1x"></span>
+     
+    AI
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Set Up
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="computer_setup.html">Computer Setup</a>
+    </li>
+    <li>
+      <a href="setting_up_git.html">Setting up Git Repository</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-book  fa-1x"></span>
+     
+    Lectures
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="lesson_wk01_intro_r_rstudio.html">Wk01 Intro to Programming, R, &amp; RStudio</a>
+    </li>
+    <li>
+      <a href="lesson_wk02_project_management_and_data.html">Wk02 Project Management &amp; How R Thinks About Data</a>
+    </li>
+    <li>
+      <a href="lesson_wk03_spreadsheets_and_data_import.html">Wk03 Spreadsheet Best Practices &amp; Data Import</a>
+    </li>
+    <li>
+      <a href="lesson_wk04_data_manipulation_pt1.html">Wk04 Data Manipulation Pt1</a>
+    </li>
+    <li>
+      <a href="lesson_wk05_data_manipulation_pt2.html">Wk05 Data Manipulation Pt2</a>
+    </li>
+    <li>
+      <a href="midterm_debrief.html">Midterm Debrief</a>
+    </li>
+    <li>
+      <a href="lesson_wk07_data_visualization.html">Wk07 Data Visualization I</a>
+    </li>
+    <li>
+      <a href="lesson_wk08_data_visualization_pt2.html">Wk08 Data Visualization II</a>
+    </li>
+    <li>
+      <a href="lesson_wk09_functions.html">Wk09 Functions</a>
+    </li>
+    <li>
+      <a href="lesson_wk10_iteration.html">Wk10 Iteration</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="labs.html">
+    <span class="fa fa-paperclip fa-1x"></span>
+     
+    Labs
+  </a>
+</li>
+<li>
+  <a href="resources.html">
+    <span class="fa fa-list"></span>
+     
+    Resources
+  </a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="contact.html">
+    <span class="fa fa-hand-spock-o"></span>
+     
+    Contact
+  </a>
+</li>
+<li>
+  <a href="https://github.com/ucd-rdavis/R-DAVIS">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Wk07: Data Visualization I</h1>
+
+</div>
+
+
+<div id="learning-objectives" class="section level3 blue">
+<h3>Learning Objectives</h3>
+<ul>
+<li>Use tables and quick base R plots to explore a new dataset.</li>
+<li>Produce histograms, bar charts, boxplots, and time series plots
+using ggplot.</li>
+<li>Set universal plot settings.</li>
+</ul>
+</div>
+<p><br></p>
+<div id="videos" class="section level2">
+<h2>Videos</h2>
+<ul>
+<li><a href="">plotting w/ R</a></li>
+<li><a
+href="https://video.ucdavis.edu/media/Wk7_ggplot/1_ja2d9915">ggplot</a></li>
+<li><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714926">Video
+Discussion</a></li>
+</ul>
+</div>
+<div id="in-class-coding" class="section level2">
+<h2>In Class Coding</h2>
+<p><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714941">Submit
+Week 7 In Class Coding</a></p>
+<p><br></p>
+</div>
+<div id="building-plots-with-ggplot2" class="section level1">
+<h1>Building Plots with ggplot2</h1>
+<p>This lesson teaches you how to explore a new dataset with some quick
+plots, and then how to make plots with ggplot2. Next week (Data
+Visualization II), we step back and think about the principles and
+practices of making <em>good</em> plots.</p>
+<p>We start by loading the required packages.
+<strong><code>ggplot2</code></strong> is included in the
+<strong><code>tidyverse</code></strong> package.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<div id="our-data-environmental-impact-statements"
+class="section level2">
+<h2>Our data: environmental impact statements</h2>
+<p>This week we’ll the full version the of the EPA’s Environmental
+Impact Statement (EIS) data. When a federal agency wants to do something
+that could significantly affect the environment, like build a highway or
+sell timber, the National Environmental Policy Act (NEPA) says it has to
+write an EIS and file it with the EPA. Each row in our data is one of
+those filings, from 1987 through January 2026.</p>
+<p>The <a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/eis_codebook.md">codebook</a>
+describes every column. We’ll call this first version
+<code>eis_raw</code>, since we’re going to make some changes to it later
+on.</p>
+<pre class="r"><code>eis_raw &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/eis_clean.csv&quot;)</code></pre>
+</div>
+<div id="exploring-the-data" class="section level2">
+<h2>Exploring the data</h2>
+<p>Whenever you get a new dataset, it’s a good idea to spend some time
+poking around in it before you try to do anything fancy. This is called
+<em>exploratory data analysis</em>, and a lot of it is just making
+tables and quick plots to see what’s in each column. You’ve already seen
+a couple of tools for this:</p>
+<pre class="r"><code>glimpse(eis_raw)</code></pre>
+<pre><code>## Rows: 16,784
+## Columns: 14
+## $ eis_id                &lt;dbl&gt; 83232, 78382, 83709, 78828, 83553, 75230, 83301,…
+## $ title                 &lt;chr&gt; &quot;Clinton River Federal Navigation Channel Confin…
+## $ document_type         &lt;chr&gt; &quot;Draft Supplement&quot;, &quot;Third Draft Supplemental&quot;, …
+## $ lead_agency           &lt;chr&gt; &quot;U.S. Army Corps of Engineers&quot;, &quot;Federal Highway…
+## $ state                 &lt;chr&gt; &quot;MI&quot;, &quot;CA&quot;, &quot;WA&quot;, &quot;KY&quot;, &quot;CO&quot;, &quot;WY&quot;, &quot;CA&quot;, &quot;MN&quot;, …
+## $ all_states            &lt;chr&gt; &quot;MI&quot;, &quot;CA&quot;, &quot;WA&quot;, &quot;KY&quot;, &quot;CO&quot;, &quot;WY&quot;, &quot;CA&quot;, &quot;MN&quot;, …
+## $ filed_date            &lt;date&gt; 1987-01-02, 1987-01-05, 1987-01-05, 1987-01-07,…
+## $ filed_year            &lt;dbl&gt; 1987, 1987, 1987, 1987, 1987, 1987, 1987, 1987, …
+## $ federal_register_date &lt;date&gt; 1987-01-09, 1987-01-16, 1987-01-16, 1987-01-16,…
+## $ comment_letter_date   &lt;date&gt; 1987-02-23, 1987-04-01, NA, 1987-03-04, 1987-04…
+## $ comment_due_date      &lt;date&gt; 1987-02-23, 1987-03-30, 1987-02-17, 1987-02-18,…
+## $ epa_impact            &lt;chr&gt; &quot;Environmental Concerns&quot;, &quot;Lack of Objections&quot;, …
+## $ epa_adequacy          &lt;dbl&gt; 2, NA, NA, 2, 3, NA, 3, 2, NA, 2, 2, 2, 2, NA, 2…
+## $ attachment_count      &lt;dbl&gt; 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …</code></pre>
+<pre class="r"><code>summary(eis_raw)</code></pre>
+<pre><code>##      eis_id          title           document_type      lead_agency       
+##  Min.   : 75043   Length:16784       Length:16784       Length:16784      
+##  1st Qu.: 79241   Class :character   Class :character   Class :character  
+##  Median : 83436   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :119024                                                           
+##  3rd Qu.: 87635                                                           
+##  Max.   :546302                                                           
+##                                                                           
+##     state            all_states          filed_date           filed_year  
+##  Length:16784       Length:16784       Min.   :1987-01-02   Min.   :1987  
+##  Class :character   Class :character   1st Qu.:1995-11-03   1st Qu.:1995  
+##  Mode  :character   Mode  :character   Median :2003-10-10   Median :2003  
+##                                        Mean   :2004-03-13   Mean   :2004  
+##                                        3rd Qu.:2011-09-02   3rd Qu.:2011  
+##                                        Max.   :2026-01-21   Max.   :2026  
+##                                                                           
+##  federal_register_date comment_letter_date  comment_due_date    
+##  Min.   :1987-01-09    Min.   :1987-02-09   Min.   :1987-01-28  
+##  1st Qu.:1995-11-09    1st Qu.:1995-08-21   1st Qu.:1995-12-04  
+##  Median :2003-10-17    Median :2003-05-16   Median :2003-10-06  
+##  Mean   :2004-03-22    Mean   :2003-07-24   Mean   :2004-02-24  
+##  3rd Qu.:2011-09-09    3rd Qu.:2010-06-24   3rd Qu.:2011-07-05  
+##  Max.   :2026-01-23    Max.   :2026-01-23   Max.   :2026-03-09  
+##                        NA&#39;s   :1218         NA&#39;s   :192         
+##   epa_impact         epa_adequacy   attachment_count 
+##  Length:16784       Min.   :1.000   Min.   :  0.000  
+##  Class :character   1st Qu.:2.000   1st Qu.:  0.000  
+##  Mode  :character   Median :2.000   Median :  1.000  
+##                     Mean   :1.893   Mean   :  2.723  
+##                     3rd Qu.:2.000   3rd Qu.:  2.000  
+##                     Max.   :3.000   Max.   :253.000  
+##                     NA&#39;s   :8775</code></pre>
+<p>For a categorical column, one of the first things you might want to
+know is how many times each value shows up. The base R function
+<code>table()</code> does that:</p>
+<pre class="r"><code>table(eis_raw$document_type)</code></pre>
+<pre><code>## 
+##                        A1                        A3                        D2 
+##                         2                         1                         7 
+##                        DC                        DD                        DE 
+##                        15                         4                         2 
+##                        DF                     Draft          Draft Supplement 
+##                         2                      7280                      1054 
+##                        F2                        F3                        FC 
+##                         4                         1                         9 
+##                        FD                        FE                     Final 
+##                         2                         1                      7033 
+##          Final Supplement Fourth Draft Supplemental                        LD 
+##                       697                         1                        32 
+##                        LF                        NF                        RD 
+##                        17                         1                         7 
+##             Revised Draft             Revised Final                        RF 
+##                       113                        42                         4 
+##              Second Draft Second Draft Supplemental              Second Final 
+##                        59                       146                        73 
+## Second Final Supplemental  Third Draft Supplemental  Third Final Supplemental 
+##                        83                        52                        40</code></pre>
+<p>That’s a lot of document types! Most of them are some version of a
+draft or a final statement, plus a handful of short codes like
+<code>LD</code> and <code>DC</code>. It’s easier to see what’s going on
+if we sort the table:</p>
+<pre class="r"><code>sort(table(eis_raw$document_type), decreasing = TRUE)</code></pre>
+<pre><code>## 
+##                     Draft                     Final          Draft Supplement 
+##                      7280                      7033                      1054 
+##          Final Supplement Second Draft Supplemental             Revised Draft 
+##                       697                       146                       113 
+## Second Final Supplemental              Second Final              Second Draft 
+##                        83                        73                        59 
+##  Third Draft Supplemental             Revised Final  Third Final Supplemental 
+##                        52                        42                        40 
+##                        LD                        LF                        DC 
+##                        32                        17                        15 
+##                        FC                        D2                        RD 
+##                         9                         7                         7 
+##                        DD                        F2                        RF 
+##                         4                         4                         4 
+##                        A1                        DE                        DF 
+##                         2                         2                         2 
+##                        FD                        A3                        F3 
+##                         2                         1                         1 
+##                        FE Fourth Draft Supplemental                        NF 
+##                         1                         1                         1</code></pre>
+<p>And even easier if we make it into a picture. The base R function
+<code>barplot()</code> takes a table and draws a bar for each value.
+<code>las = 2</code> turns the axis labels sideways so they fit:</p>
+<pre class="r"><code>barplot(sort(table(eis_raw$document_type), decreasing = TRUE), las = 2)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-barplot-1.png" alt="" width="672" /></p>
+<p>It’s not the prettiest plot, and some of the labels get cut off, but
+with one line of code we can see that almost all of the filings are
+plain drafts or finals.</p>
+<p>Let’s do the same thing for <code>epa_impact</code>, the EPA’s rating
+of the environmental impact of each project. Adding
+<code>useNA = "ifany"</code> tells <code>table()</code> to count the
+<code>NA</code> values too:</p>
+<pre class="r"><code>table(eis_raw$epa_impact, useNA = &quot;ifany&quot;)</code></pre>
+<pre><code>## 
+##         Environmental Concerns       Environmental Objections 
+##                           6709                           1026 
+## Environmentally Unsatisfactory             Lack of Objections 
+##                             79                           5161 
+##                           &lt;NA&gt; 
+##                           3809</code></pre>
+<pre class="r"><code>barplot(table(eis_raw$epa_impact, useNA = &quot;ifany&quot;))</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-impact-1.png" alt="" width="672" /></p>
+<p>That’s a lot of <code>NA</code> values. Keep that in mind, we’ll come
+back to it next week.</p>
+<p>For a numeric column like <code>filed_year</code>, we could also make
+a table:</p>
+<pre class="r"><code>table(eis_raw$filed_year)</code></pre>
+<pre><code>## 
+## 1987 1988 1989 1990 1991 1992 1993 1994 1995 1996 1997 1998 1999 2000 2001 2002 
+##  432  433  371  477  457  511  467  530  606  603  498  527  502  474  496  536 
+## 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015 2016 2017 2018 
+##  594  598  557  550  563  550  455  497  443  418  398  392  379  331  247  329 
+## 2019 2020 2021 2022 2023 2024 2025 2026 
+##  314  261  190  191  181  242  171   13</code></pre>
+<p>But that’s a lot of numbers to read. A <em>histogram</em> shows the
+same information as a picture. It splits the values into bins and draws
+a bar for how many values fall into each bin:</p>
+<pre class="r"><code>hist(eis_raw$filed_year)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-hist-1.png" alt="" width="672" /></p>
+<p>By default R picks the bins for you, but we can set them ourselves
+with the <code>breaks</code> argument. Here we make one bin for each
+year:</p>
+<pre class="r"><code>hist(eis_raw$filed_year, breaks = 1986:2026)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-hist-breaks-1.png" alt="" width="672" /></p>
+<p>Now we can see that filings peaked in the mid-2000s and have mostly
+gone down since. The last bar is tiny because the data stop in January
+2026, so we only have a few weeks of filings for that year.</p>
+<div id="challenge" class="section level3 blue">
+<h3>Challenge</h3>
+<ol style="list-style-type: decimal">
+<li><p>Make a table and a barplot of <code>lead_agency</code>. What
+problem do you run into? What could we do about it?</p></li>
+<li><p>Make a histogram of <code>attachment_count</code>. What does the
+distribution look like?</p></li>
+</ol>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code># 1
+table(eis_raw$lead_agency)</code></pre>
+<pre><code>## 
+##                                     Agriculture Research Service 
+##                                                                3 
+##                       Animal and Plant Health Inspection Service 
+##                                                               72 
+##                             Arizona Department of Transportation 
+##                                                                2 
+##                                     Armed Forces Retirement Home 
+##                                                                2 
+##                                  Bonneville Power Administration 
+##                                                               33 
+##                                         Bureau of Indian Affairs 
+##                                                              169 
+##                                        Bureau of Land Management 
+##                                                             1513 
+##                                Bureau of Ocean Energy Management 
+##                                                               76 
+##                                                Bureau of Prisons 
+##                                                              122 
+##                                            Bureau of Reclamation 
+##                                                              373 
+##                          California Department of Transportation 
+##                                                               24 
+##                             California High-Speed Rail Authority 
+##                                                               19 
+##                City of New York, Office of Management and Budget 
+##                                                                2 
+##                                Community Development Block Grant 
+##                                                               30 
+##                                Connecticut Department of Housing 
+##                                                                2 
+##                                         Defense Logistics Agency 
+##                                                                1 
+##                                           Defense Nuclear Agency 
+##                                                                1 
+##                                                Denali Commission 
+##                                                                2 
+##                                        Department of Agriculture 
+##                                                               46 
+##                                           Department of Commerce 
+##                                                               17 
+##                                            Department of Defense 
+##                                                               25 
+##                                             Department of Energy 
+##                                                              424 
+##                          Department of Health and Human Services 
+##                                                                8 
+##                                  Department of Homeland Security 
+##                                                               15 
+##                      Department of Housing and Urban Development 
+##                                                               57 
+##                                            Department of Justice 
+##                                                               36 
+##                                              Department of State 
+##                                                               22 
+##                                       Department of the Interior 
+##                                                               33 
+##                                     Department of Transportation 
+##                                                                9 
+##                                           Department of Treasury 
+##                                                                2 
+##                                    Department of Veteran Affairs 
+##                                                               37 
+##                              Economic Development Administration 
+##                                                                5 
+##                                 Energy Regulatory Administration 
+##                                                                1 
+##                                  Environmental Protection Agency 
+##                                                              203 
+##                                              Farm Service Agency 
+##                                                               13 
+##                                      Farmers Home Administration 
+##                                                                8 
+##                                  Federal Aviation Administration 
+##                                                              254 
+##                              Federal Emergency Management Agency 
+##                                                               12 
+##                             Federal Energy Regulatory Commission 
+##                                                              588 
+##                                   Federal Highway Administration 
+##                                                             2278 
+##                                  Federal Railroad Administration 
+##                                                               81 
+##                            Federal Reserve Bank of San Francisco 
+##                                                                4 
+##                                   Federal Transit Administration 
+##                                                              313 
+##                                        Fish and Wildlife Service 
+##                                                              427 
+##                             Florida Department of Transportation 
+##                                                                1 
+##                                     Food and Drug Administration 
+##                                                                4 
+##                                                   Forest Service 
+##                                                             3729 
+##                                  General Services Administration 
+##                                                              190 
+##                                                Geological Survey 
+##                                                                2 
+##                      International Boundary and Water Commission 
+##                                                               14 
+##                                   Interstate Commerce Commission 
+##                                                               13 
+##              Los Angeles Housing Community Investment Department 
+##                                                                4 
+##                                          Maritime Administration 
+##                                                                5 
+##                                      Minerals Management Service 
+##                                                               91 
+##                                           Missile Defense Agency 
+##                                                                4 
+##                    National Aeronautics and Space Administration 
+##                                                               62 
+##                             National Capital Planning Commission 
+##                                                               14 
+##                          National Geospatial-Intelligence Agency 
+##                                                                2 
+##                   National Highway Traffic Safety Administration 
+##                                                               17 
+##                                National Indian Gaming Commission 
+##                                                                3 
+##                                     National Institute of Health 
+##                                                               28 
+##                                National Marine Fisheries Service 
+##                                                              105 
+##                         National Nuclear Security Administration 
+##                                                               19 
+##                  National Oceanic and Atmospheric Administration 
+##                                                              526 
+##                                            National Park Service 
+##                                                              800 
+##                                      National Science Foundation 
+##                                                               23 
+##                                         National Security Agency 
+##                                                                8 
+##                            Natural Resource Conservation Service 
+##                                                               85 
+##                New Jersey Department of Environmental Protection 
+##                                                                2 
+## New York City Department of Housing Preservation and Development 
+##                                                                2 
+##                                    Nuclear Regulatory Commission 
+##                                                              285 
+##             Office of Surface Mining Reclamation and Enforcement 
+##                                                               45 
+##                             Rural Electrification Administration 
+##                                                                7 
+##                                          Rural Utilities Service 
+##                                                               31 
+##                                        Soil Conservation Service 
+##                                                               88 
+##                                     Surface Transportation Board 
+##                                                               33 
+##                                       Tennessee Valley Authority 
+##                                                              144 
+##                               Texas Department of Transportation 
+##                                                               13 
+##                                               The Presidio Trust 
+##                                                                9 
+##                                     U.S. Army Corps of Engineers 
+##                                                             1697 
+##                                                 U.S. Coast Guard 
+##                                                               96 
+##                               U.S. Customs and Border Protection 
+##                                                                2 
+##                                          United States Air Force 
+##                                                              347 
+##                                               United States Army 
+##                                                              300 
+##                                       United States Marine Corps 
+##                                                               31 
+##                                               United States Navy 
+##                                                              396 
+##                                     United States Postal Service 
+##                                                                8 
+##                         Urban Mass Transportation Administration 
+##                                                               47 
+##                                Utah Department of Transportation 
+##                                                               14 
+##                       Washington Department of Fish and Wildlife 
+##                                                                1 
+##                                Western Area Power Administration 
+##                                                               41</code></pre>
+<pre class="r"><code>barplot(sort(table(eis_raw$lead_agency), decreasing = TRUE), las = 2)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-challenge-1.png" alt="" width="672" /></p>
+<pre class="r"><code># 2
+hist(eis_raw$attachment_count)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/eda-challenge-2.png" alt="" width="672" /></p>
+<pre class="r"><code>summary(eis_raw$attachment_count)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##   0.000   0.000   1.000   2.723   2.000 253.000</code></pre>
+<p>There are 92 agencies, which is way too many bars to read. One option
+is to keep the agencies with the most filings and lump the rest together
+into an “other” group, which we’ll do next.</p>
+<p>Most filings have 0 or 1 attachments, and a few have a lot (up to
+253), so the histogram is one tall bar and a long tail to the right.</p>
+</details>
+</div>
+<p><br></p>
+</div>
+<div id="getting-the-data-ready-to-plot" class="section level2">
+<h2>Getting the data ready to plot</h2>
+<p>Before we start plotting, we’re going to make a few changes to the
+data. We’ll do them one step at a time so we can see what each one
+does.</p>
+<p>First, let’s get rid of the 2026 filings, since we only have part of
+that year. We’ll save the result as a new object called
+<code>eis</code>, so we still have <code>eis_raw</code> if we ever need
+to go back:</p>
+<pre class="r"><code>eis &lt;- eis_raw %&gt;%
+  filter(filed_year &lt;= 2025)</code></pre>
+<p>Next, let’s deal with all those document types. For this lesson we
+mostly care whether a filing is a draft or a final statement. The
+function <code>str_detect()</code>, from the tidyverse package
+<strong><code>stringr</code></strong>, checks whether a piece of text
+contains a pattern and returns <code>TRUE</code> or
+<code>FALSE</code>:</p>
+<pre class="r"><code>str_detect(&quot;Draft Supplement&quot;, &quot;Draft&quot;)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>str_detect(&quot;Final Supplement&quot;, &quot;Draft&quot;)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<p>We can use it inside <code>case_when()</code>, which you saw in week
+5, to make a new <code>stage</code> column. Anything that doesn’t
+contain “Draft” or “Final” (those short codes) goes into “Other”:</p>
+<pre class="r"><code>eis &lt;- eis %&gt;%
+  mutate(stage = case_when(
+    str_detect(document_type, &quot;Draft&quot;) ~ &quot;Draft&quot;,
+    str_detect(document_type, &quot;Final&quot;) ~ &quot;Final&quot;,
+    TRUE ~ &quot;Other&quot;
+  ))
+
+table(eis$stage)</code></pre>
+<pre><code>## 
+## Draft Final Other 
+##  8697  7963   111</code></pre>
+<p>Now for the agencies. 92 is too many to plot, so we’ll keep the six
+agencies with the most filings and lump everyone else into an “Other
+agencies” group. First we find the top six. <code>slice_head()</code>
+keeps the first six rows, and <code>pull()</code> pulls a column out of
+a dataframe as a plain vector:</p>
+<pre class="r"><code>top_agencies &lt;- eis %&gt;%
+  count(lead_agency, sort = TRUE) %&gt;%
+  slice_head(n = 6) %&gt;%
+  pull(lead_agency)
+
+top_agencies</code></pre>
+<pre><code>## [1] &quot;Forest Service&quot;                      
+## [2] &quot;Federal Highway Administration&quot;      
+## [3] &quot;U.S. Army Corps of Engineers&quot;        
+## [4] &quot;Bureau of Land Management&quot;           
+## [5] &quot;National Park Service&quot;               
+## [6] &quot;Federal Energy Regulatory Commission&quot;</code></pre>
+<p>Then we use <code>if_else()</code> and <code>%in%</code> to make the
+new column:</p>
+<pre class="r"><code>eis &lt;- eis %&gt;%
+  mutate(agency = if_else(lead_agency %in% top_agencies, lead_agency, &quot;Other agencies&quot;))
+
+table(eis$agency)</code></pre>
+<pre><code>## 
+##            Bureau of Land Management Federal Energy Regulatory Commission 
+##                                 1511                                  587 
+##       Federal Highway Administration                       Forest Service 
+##                                 2277                                 3728 
+##                National Park Service                       Other agencies 
+##                                  800                                 6172 
+##         U.S. Army Corps of Engineers 
+##                                 1696</code></pre>
+<p>R sorts text alphabetically, which doesn’t make much sense for
+<code>epa_impact</code>, since the ratings go from best to worst.
+Turning the column into a factor lets us set the order of the categories
+ourselves, and ggplot will use that order when we plot:</p>
+<pre class="r"><code>eis &lt;- eis %&gt;%
+  mutate(epa_impact = factor(epa_impact, levels = c(&quot;Lack of Objections&quot;,
+                                                    &quot;Environmental Concerns&quot;,
+                                                    &quot;Environmental Objections&quot;,
+                                                    &quot;Environmentally Unsatisfactory&quot;)))
+
+levels(eis$epa_impact)</code></pre>
+<pre><code>## [1] &quot;Lack of Objections&quot;             &quot;Environmental Concerns&quot;        
+## [3] &quot;Environmental Objections&quot;       &quot;Environmentally Unsatisfactory&quot;</code></pre>
+<p>Our data also has several date columns. When you subtract one date
+from another, R gives you the number of days in between. We’ll use that
+to make two new numeric columns: <code>comment_days</code>, the number
+of days the public had to comment on the statement, and
+<code>epa_lag</code>, the number of days it took the EPA to send its
+comment letter after the statement was filed:</p>
+<pre class="r"><code>eis &lt;- eis %&gt;%
+  mutate(comment_days = as.numeric(comment_due_date - federal_register_date),
+         epa_lag = as.numeric(comment_letter_date - filed_date))</code></pre>
+<p>Last, let’s add the region of the country each filing is in. R comes
+with a few built-in vectors about U.S. states, including
+<code>state.abb</code> (the two-letter abbreviations) and
+<code>state.region</code> (the census region). We can put them together
+into a little lookup table and join it on, just like we did in week
+5:</p>
+<pre class="r"><code>state_regions &lt;- tibble(state = state.abb, region = as.character(state.region))
+
+eis &lt;- eis %&gt;%
+  left_join(state_regions, by = &quot;state&quot;)
+
+table(eis$region, useNA = &quot;ifany&quot;)</code></pre>
+<pre><code>## 
+## North Central     Northeast         South          West          &lt;NA&gt; 
+##          1602          1180          3276          9032          1681</code></pre>
+<p>Filings without a state, or with a code that isn’t one of the 50
+states (like <code>PR</code> or <code>DC</code>), get an <code>NA</code>
+region.</p>
+<div id="checking-our-new-variables" class="section level3">
+<h3>Checking our new variables</h3>
+<p>It’s a good idea to look at a new variable before you trust it. Let’s
+check <code>comment_days</code>:</p>
+<pre class="r"><code>summary(eis$comment_days)</code></pre>
+<pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max.     NA&#39;s 
+## -2891.00    31.00    45.00    46.17    47.00  1949.00      189</code></pre>
+<pre class="r"><code>hist(eis$comment_days)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/check-comment-1.png" alt="" width="672" /></p>
+<p>Some of these comment periods are negative, and one is more than five
+years long! These are probably data entry errors. Everything is crammed
+into one bar, because the bins have to stretch all the way from the
+smallest value to the largest. We’ll treat anything below 0 or longer
+than a year as missing, and do the same for <code>epa_lag</code>:</p>
+<pre class="r"><code>eis &lt;- eis %&gt;%
+  mutate(comment_days = if_else(comment_days &gt;= 0 &amp; comment_days &lt;= 365, comment_days, NA),
+         epa_lag = if_else(epa_lag &gt;= 0 &amp; epa_lag &lt;= 365, epa_lag, NA))</code></pre>
+<p>Now let’s try that histogram again, with one bin per day:</p>
+<pre class="r"><code>hist(eis$comment_days, breaks = 0:365)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/check-comment-again-1.png" alt="" width="672" /></p>
+<p>Much better. Most of the comment periods are bunched up at a couple
+of specific lengths. We’ll figure out why in a bit.</p>
+</div>
+</div>
+<div id="plotting-with-ggplot2" class="section level2">
+<h2>Plotting with <strong><code>ggplot2</code></strong></h2>
+<p><strong><code>ggplot2</code></strong> is a plotting package that
+makes it simple to create complex plots from data in a data frame. It
+provides a more programmatic interface for specifying what variables to
+plot, how they are displayed, and general visual properties. Therefore,
+we only need minimal changes if the underlying data change or if we
+decide to change from a bar plot to a scatterplot. This helps in
+creating publication quality plots with minimal amounts of adjustments
+and tweaking.</p>
+<p><strong><code>ggplot2</code></strong> functions like data in the
+‘long’ format, i.e., a column for every dimension, and a row for every
+observation. Well-structured data will save you lots of time when making
+figures with <strong><code>ggplot2</code></strong></p>
+<p>ggplot graphics are built step by step by adding new elements. Adding
+layers in this fashion allows for extensive flexibility and
+customization of plots.</p>
+<p>To build a ggplot, we will use the following basic template that can
+be used for different types of plots:</p>
+<pre><code>ggplot(data = &lt;DATA&gt;, mapping = aes(&lt;MAPPINGS&gt;)) +  &lt;GEOM_FUNCTION&gt;()</code></pre>
+<ul>
+<li>use the <code>ggplot()</code> function and bind the plot to a
+specific data frame using the <code>data</code> argument</li>
+</ul>
+<pre class="r"><code>ggplot(data = eis)</code></pre>
+<ul>
+<li>define a mapping (using the aesthetic (<code>aes</code>) function),
+by selecting the variables to be plotted and specifying how to present
+them in the graph, e.g. as x/y positions or characteristics such as
+size, shape, color, etc.</li>
+</ul>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = comment_days))</code></pre>
+<ul>
+<li><p>add ‘geoms’ – graphical representations of the data in the plot
+(points, lines, bars). <strong><code>ggplot2</code></strong> offers many
+different geoms; we will use some common ones today, including:</p>
+<pre><code>* `geom_histogram()` for histograms
+* `geom_bar()` for bar charts
+* `geom_point()` for scatter plots, dot plots, etc.
+* `geom_boxplot()` for, well, boxplots!
+* `geom_line()` for trend lines, time series, etc.</code></pre></li>
+</ul>
+<p>To add a geom to the plot use the <code>+</code> operator. Because we
+have one continuous variable, let’s use <code>geom_histogram()</code>
+first:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = comment_days)) +
+  geom_histogram()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better
+## value `binwidth`.</code></pre>
+<pre><code>## Warning: Removed 282 rows containing non-finite outside
+## the scale range (`stat_bin()`).</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/first-ggplot-1.png" alt="" width="672" /></p>
+<p>ggplot picked 30 bins for us, and gave us a message about it. Like
+with <code>hist()</code>, we can choose the bins ourselves. The
+<code>binwidth</code> argument sets how wide each bin is, so
+<code>binwidth = 1</code> gives us one bar per day. Let’s also zoom in
+on the first 120 days with <code>xlim()</code>:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = comment_days)) +
+  geom_histogram(binwidth = 1) +
+  xlim(0, 120)</code></pre>
+<pre><code>## Warning: Removed 512 rows containing non-finite outside
+## the scale range (`stat_bin()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values or
+## values outside the scale range (`geom_bar()`).</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/ggplot-binwidth-1.png" alt="" width="672" /></p>
+<p>ggplot warns us that it removed some rows. Those are the
+<code>NA</code> values, plus anything longer than 120 days. Notice the
+two big spikes, one at 31 days and one at 45 days. Keep those in
+mind.</p>
+<p>The <code>+</code> in the <strong><code>ggplot2</code></strong>
+package is particularly useful because it allows you to modify existing
+<code>ggplot</code> objects. This means you can easily set up plot
+templates and conveniently explore different types of plots, so the
+above plot can also be generated with code like this:</p>
+<pre class="r"><code># Assign plot to a variable
+eis_plot &lt;- ggplot(data = eis,
+                   mapping = aes(x = comment_days))
+
+# Draw the plot
+eis_plot +
+    geom_histogram(binwidth = 1)</code></pre>
+<p><strong>Notes</strong></p>
+<ul>
+<li>Anything you put in the <code>ggplot()</code> function can be seen
+by any geom layers that you add (i.e., these are universal plot
+settings). This includes the x- and y-axis mapping you set up in
+<code>aes()</code>.</li>
+<li>You can also specify mappings for a given geom independently of the
+mappings defined globally in the <code>ggplot()</code> function.</li>
+<li>The <code>+</code> sign used to add new layers must be placed at the
+end of the line containing the <em>previous</em> layer. If, instead, the
+<code>+</code> sign is added at the beginning of the line containing the
+new layer, <strong><code>ggplot2</code></strong> will not add the new
+layer and will return an error message.</li>
+</ul>
+<pre class="r"><code># This is the correct syntax for adding layers
+eis_plot +
+  geom_histogram()
+
+# This will not add the new layer and will return an error message
+eis_plot
+  + geom_histogram()</code></pre>
+</div>
+<div id="building-your-plots-iteratively" class="section level2">
+<h2>Building your plots iteratively</h2>
+<p>Building plots with <strong><code>ggplot2</code></strong> is
+typically an iterative process. We start by defining the dataset we’ll
+use, lay out the axes, and choose a geom. Let’s count up the filings for
+each agency with <code>geom_bar()</code>:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = agency)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/create-ggplot-object-1.png" alt="" width="672" /></p>
+<p>Then, we start modifying this plot to extract more information from
+it. For instance, the agency names are so long that they run into each
+other. We can fix that by putting <code>agency</code> on the y-axis
+instead:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = agency)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/flip-axis-1.png" alt="" width="672" /></p>
+<p>We can also add colors for all the bars. For bars, <code>fill</code>
+sets the color inside the bar, and <code>color</code> sets the color of
+the outline:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = agency)) +
+    geom_bar(fill = &quot;darkgreen&quot;)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/adding-colors-1.png" alt="" width="672" /></p>
+<p>Or to color each stage in the plot differently, you could use a
+vector as an input to the argument <strong>fill</strong>.
+<strong><code>ggplot2</code></strong> will provide a different color
+corresponding to different values in the vector. Here is an example
+where we fill with <strong><code>stage</code></strong>:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = agency)) +
+    geom_bar(aes(fill = stage))</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/fill-by-stage-1.png" alt="" width="672" /></p>
+<p>We can also specify the colors directly inside the mapping provided
+in the <code>ggplot()</code> function. This will be seen by all geom
+layers and the mapping will be determined by the x- and y-axis set up in
+<code>aes()</code>.</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = agency, fill = stage)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/fill-by-stage2-1.png" alt="" width="672" /></p>
+<p>Notice that we can change the geom layer and colors will be still
+determined by <strong><code>stage</code></strong>. For example, we can
+tell <code>geom_bar()</code> to put the bars for each stage side by side
+instead of stacking them:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = agency, fill = stage)) +
+    geom_bar(position = &quot;dodge&quot;)</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/dodge-1.png" alt="" width="672" /></p>
+</div>
+<div id="counting-with-geom_bar-and-geom_col" class="section level2">
+<h2>Counting with <code>geom_bar()</code> and
+<code>geom_col()</code></h2>
+<p><code>geom_bar()</code> counts the rows in each group for us, so we
+only have to give it one variable. Let’s try it with a couple of other
+columns. Here’s the EPA’s impact rating:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = epa_impact)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/bar-impact-1.png" alt="" width="960" /></p>
+<p>The ratings show up in the order we set when we made
+<code>epa_impact</code> a factor, not alphabetically. There’s that big
+<code>NA</code> bar again. We can fill by stage to see what kind of
+filings got rated:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = epa_impact, fill = stage)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/bar-impact-stage-1.png" alt="" width="960" /></p>
+<p>And here’s the number of filings in each region:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = region)) +
+    geom_bar()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/bar-region-1.png" alt="" width="672" /></p>
+<p>Sometimes we’ve already counted things ourselves, like with
+<code>count()</code>. In that case we use <code>geom_col()</code>
+instead, and give it the counts as one of the variables:</p>
+<pre class="r"><code>state_counts &lt;- eis %&gt;%
+  filter(!is.na(region)) %&gt;%
+  count(state, region)</code></pre>
+<p>There are 50 states, so we’ll put them on the y-axis like we did with
+the agencies:</p>
+<pre class="r"><code>ggplot(data = state_counts, mapping = aes(x = n, y = state, fill = region)) +
+    geom_col()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/state-col-1.png" alt="" width="672" /></p>
+<p>California has the most filings by far, and the western states in
+general have a lot more than the rest of the country.</p>
+<div id="challenge-1" class="section level3 blue">
+<h3>Challenge</h3>
+<p>Use <code>ggplot()</code> to create a scatter plot of
+<code>epa_lag</code> and <code>epa_impact</code> with
+<code>epa_lag</code> on the Y-axis, and <code>epa_impact</code> on the
+X-axis. Have the colors be coded by <code>stage</code>. Is this a good
+way to show this type of data? What might be a better graph?</p>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = epa_impact, y = epa_lag)) +
+   geom_point(aes(color = stage))</code></pre>
+<pre><code>## Warning: Removed 1377 rows containing missing values or
+## values outside the scale range
+## (`geom_point()`).</code></pre>
+<img src="lesson_wk07_data_visualization_files/figure-html/scatter-challenge-1.png" alt="" width="960" />
+</details>
+</div>
+<p><br></p>
+</div>
+<div id="boxplot" class="section level2">
+<h2>Boxplot</h2>
+<p>We can use boxplots to visualize the distribution of
+<code>epa_lag</code> within each impact rating. We’ll stick to the draft
+statements that the EPA actually rated:</p>
+<pre class="r"><code>drafts_rated &lt;- eis %&gt;%
+  filter(stage == &quot;Draft&quot;, !is.na(epa_impact), !is.na(epa_lag))</code></pre>
+<pre class="r"><code>ggplot(data = drafts_rated, mapping = aes(x = epa_impact, y = epa_lag)) +
+    geom_boxplot()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-1.png" alt="" width="960" /></p>
+<p>The worse the rating, the longer the EPA tends to take to send its
+comment letter.</p>
+<p>By adding points to boxplot, we can have a better idea of the number
+of measurements and of their distribution.</p>
+<p>Let’s also use the geometry “jitter”. <code>geom_jitter</code> is
+almost like <code>geom_point</code> but it allows you to visualize the
+density of points because it adds a small amount of random variation to
+the location of each point.</p>
+<pre class="r"><code>ggplot(data = drafts_rated, mapping = aes(x = epa_impact, y = epa_lag)) +
+    geom_boxplot(alpha = 0) +
+    geom_jitter(alpha = 0.3, color = &quot;tomato&quot;) #notice our color needs to be in quotations</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-with-points-1.png" alt="" width="960" /></p>
+<p>Notice how the boxplot layer is behind the jitter layer? What do you
+need to change in the code to put the boxplot in front of the points
+such that it’s not hidden?</p>
+<div id="challenges" class="section level3 blue">
+<h3>Challenges</h3>
+<ol style="list-style-type: decimal">
+<li>Boxplots are useful summaries, but hide the <em>shape</em> of the
+distribution. For example, if the distribution is bimodal, we would not
+see it in a boxplot. An alternative to the boxplot is the violin plot,
+where the shape (of the density of points) is drawn.</li>
+</ol>
+<ul>
+<li>Replace the box plot code from above with a violin plot; see
+<code>geom_violin()</code>.</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>In many types of data, it is important to consider the
+<em>scale</em> of the observations. For example, it may be worth
+changing the scale of the axis to better distribute the observations in
+the space of the plot. Changing the scale of the axes is done similarly
+to adding/modifying other components (i.e., by incrementally adding
+commands). Try making these modifications:</li>
+</ol>
+<ul>
+<li>Use the violin plot you made in Q1 and adjust <code>epa_lag</code>
+to be on the log<sub>10</sub> scale; see
+<code>scale_y_log10()</code>.</li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Make a new plot to explore the distribution of
+<code>comment_days</code> just for the Forest Service and the Bureau of
+Land Management using <code>geom_boxplot()</code>. Overlay a
+jitter/scatter plot of the comment periods of the two agencies behind
+the boxplots. Then, add an <code>aes()</code> argument to color the
+datapoints (but not the boxplots) according to the stage of the filing.
+Leave out the “Other” stage.</li>
+</ol>
+<p><em>Hint:</em> Remember the two spikes in our histogram of
+<code>comment_days</code>, at 31 and 45 days? Does coloring by stage
+help explain them?</p>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>#1 + 2
+
+ggplot(data = drafts_rated, mapping = aes(x = epa_impact, y = epa_lag)) +
+    geom_jitter(alpha = 0.3, color = &quot;tomato&quot;) +
+    geom_violin(alpha = 0) +
+    scale_y_log10()</code></pre>
+<pre><code>## Warning in scale_y_log10(): log-10 transformation introduced infinite
+## values.
+## log-10 transformation introduced infinite
+## values.</code></pre>
+<pre><code>## Warning: Removed 2 rows containing non-finite outside
+## the scale range (`stat_ydensity()`).</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-challenges-1.png" alt="" width="960" /></p>
+<pre class="r"><code>#3
+eis %&gt;%
+  filter(agency == &quot;Forest Service&quot; | agency == &quot;Bureau of Land Management&quot;, stage != &quot;Other&quot;) %&gt;%
+ ggplot(mapping = aes(x = agency, y = comment_days)) +
+  geom_jitter(alpha = 0.3, aes(color = stage)) +
+  geom_boxplot(alpha = 0)</code></pre>
+<pre><code>## Warning: Removed 38 rows containing non-finite outside
+## the scale range (`stat_boxplot()`).</code></pre>
+<pre><code>## Warning: Removed 38 rows containing missing values or
+## values outside the scale range
+## (`geom_point()`).</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/boxplot-challenges-2.png" alt="" width="960" /></p>
+<p>R warns about infinite values in #2 because a few filings have an
+<code>epa_lag</code> of 0 days, and the log of 0 is negative
+infinity.</p>
+<p>In #3, the final statements pile up at around 30 days and the drafts
+at 45 days or more. The two spikes in the histogram are mostly the two
+stages.</p>
+</details>
+</div>
+<p><br></p>
+</div>
+<div id="plotting-time-series-data" class="section level2">
+<h2>Plotting time series data</h2>
+<p>Let’s calculate number of filings per year for each agency. First we
+need to group the data and count records within each group. We can
+quickly use the dplyr function <code>count</code> to do this.
+<code>count</code> is very similar to the function <code>tally</code> we
+have seen before, but it internally calls <code>group_by</code> before
+the function and <code>ungroup</code> after.</p>
+<pre class="r"><code>yearly_counts &lt;- eis %&gt;%
+                 count(filed_year, agency)</code></pre>
+<p>Time series data can be visualized as a line plot with years on the x
+axis and counts on the y axis:</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n)) +
+     geom_line()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/first-time-series-1.png" alt="" width="672" /></p>
+<p>Unfortunately, this does not work because we plotted data for all the
+agencies together. We need to tell ggplot to draw a line for each agency
+by modifying the aesthetic function to include
+<code>group = agency</code>:</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n, group = agency)) +
+    geom_line()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/time-series-by-agency-1.png" alt="" width="672" /></p>
+<p>We will be able to distinguish agencies in the plot if we add colors
+(using <code>color</code> also automatically groups the data):</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n, color = agency)) +
+    geom_line()</code></pre>
+<p><img src="lesson_wk07_data_visualization_files/figure-html/time-series-with-colors-1.png" alt="" width="672" /></p>
+<p><br></p>
+<p>This lesson was contributed by <a
+href="https://github.com/MarthaWohlfeil">Martha Zillig</a>.</p>
+<p>This lesson is adapted from the Data Carpentry: R for Data Analysis
+and Visualization of Ecological Data <a
+href="https://datacarpentry.org/R-ecology-lesson/visualizing-ggplot.html">Data
+visualization with ggplot2 materials</a>. Data are from the U.S. EPA’s
+<a
+href="https://cdxapps.epa.gov/cdx-enepa-II/public/action/eis/search">Environmental
+Impact Statement database</a>. The course file is a cleaned subset
+prepared for teaching (see the <a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/eis_codebook.md">codebook</a>).</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
