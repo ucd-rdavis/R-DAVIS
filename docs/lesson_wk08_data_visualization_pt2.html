@@ -473,7 +473,9 @@ fits your data.</li>
 <div id="videos" class="section level2">
 <h2>Videos</h2>
 <ul>
-<li>[Data visualization: Faceting and Themes]</li>
+<li><a
+href="https://video.ucdavis.edu/media/Wk8_facets_themes/1_yv3x0kn0/420714533">Data
+visualization: Faceting and Themes</a></li>
 <li><a
 href="https://video.ucdavis.edu/media/wk8_best_practices/1_c9jxzck6">Data
 visualization: Best Practices</a></li>
@@ -543,7 +545,7 @@ can really even formulate a question for them. Import the mystery
 dataset using:</p>
 <pre class="r"><code>mystery &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/mysteryData.csv&quot;)</code></pre>
 <pre><code>## Rows: 91325 Columns: 3
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ────────────
 ## Delimiter: &quot;,&quot;
 ## chr (1): Group
 ## dbl (2): x, y
@@ -662,11 +664,17 @@ ANSWER
 yearly_rated &lt;- eis %&gt;%
                 group_by(filed_year, agency) %&gt;%
                 summarize(share_rated = mean(!is.na(epa_impact)))</code></pre>
-<pre><code>## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by filed_year and agency.
+<pre><code>## `summarise()` has regrouped the
+## output.
+## ℹ Summaries were computed grouped
+##   by filed_year and agency.
 ## ℹ Output is grouped by filed_year.
-## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
-## ℹ Use `summarise(.by = c(filed_year, agency))` for per-operation grouping
+## ℹ Use `summarise(.groups =
+##   &quot;drop_last&quot;)` to silence this
+##   message.
+## ℹ Use `summarise(.by =
+##   c(filed_year, agency))` for
+##   per-operation grouping
 ##   (`?dplyr::dplyr_by`) instead.</code></pre>
 <pre class="r"><code>ggplot(data = yearly_rated, mapping = aes(x = filed_year, y = share_rated)) +
   geom_line() +
