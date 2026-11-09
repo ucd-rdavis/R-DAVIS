@@ -5,8 +5,70 @@ format:
     embed-resources: true
 ---
 
-This is the Lab Week 8 document for R-DAVIS. Complete the tasks below in this file (or in your own `.Rmd` or `.R` file, if you prefer), save it, and upload that file to Canvas. No need to render it to HTML.
+This is the Lab Week 8 document for R-DAVIS. Complete the tasks below in this file (or in your own `.qmd` or `.Rmd` file, if you prefer) and save it.
 
-<!-- PLACEHOLDER (2026 reorg): Data Visualization II lab. Content to be added. The former Mauna Loa dates lab is in archive/lab_week_08.qmd. -->
+**This week you'll submit a PDF, not the code file.** When you're done, render your document so the PDF shows both your code and your figures, then upload that PDF to Gradescope. The most reliable way to get there:
 
-**Data Visualization II lab — placeholder. Content to be added.**
+1. Click **Render** in RStudio (or press `Ctrl/Cmd+Shift+K`). This makes an `.html` file in the same folder as your lab.
+2. Open the `.html` file in your web browser.
+3. Print the page (`Ctrl/Cmd+P`) and choose **Save as PDF** as the printer.
+4. Upload that PDF to Gradescope.
+
+You can also change `html` to `pdf` in the `format:` line at the top of this file and render straight to PDF, but that needs some extra software (run `quarto install tinytex` in the Terminal first) and doesn't always cooperate. If it gives you trouble, use the HTML route above.
+
+
+For our week eight lab, we are going to practice making plots that you could show to someone else. First we'll fix up a messy plot of the environmental impact statement (EIS) data from lecture, and then you'll make a plot of your own with some new data. The codebook at https://ucd-rdavis.github.io/R-DAVIS/data/eis_codebook.md describes every column. The data are from the U.S. EPA's Environmental Impact Statement database (https://cdxapps.epa.gov/cdx-enepa-II/public/action/eis/search), cleaned up for this course.
+
+Load the data and remake the `stage` and `agency` columns from lecture using the code below.
+
+```{r}
+library(tidyverse)
+
+eis <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/eis_clean.csv") %>%
+  filter(filed_year <= 2025)
+
+eis <- eis %>%
+  mutate(stage = case_when(
+    str_detect(document_type, "Draft") ~ "Draft",
+    str_detect(document_type, "Final") ~ "Final",
+    TRUE ~ "Other"
+  ))
+
+top_agencies <- eis %>%
+  count(lead_agency, sort = TRUE) %>%
+  slice_head(n = 6) %>%
+  pull(lead_agency)
+
+eis <- eis %>%
+  mutate(agency = if_else(lead_agency %in% top_agencies, lead_agency, "Other agencies"))
+```
+
+**Part A: Fix this plot**
+
+Here's a plot of the number of filings each year for each agency and stage:
+
+```{r}
+ggplot(data = eis %>% count(filed_year, agency, stage),
+       mapping = aes(x = filed_year, y = n, color = agency, linetype = stage)) +
+  geom_line()
+```
+
+It's a mess.
+
+1. Write a few sentences about what makes this plot hard to read.
+
+2. Use anything you learned this week (faceting, themes, color, labels, annotation) to make a new version of this plot that you could show to someone else. Give it a title that tells the reader what to take away from it.
+
+3. Write one or two sentences about what your new plot shows, and why you made the choices you did.
+
+**Part B: Make your own plot**
+
+For the second part of this lab, you'll find a new dataset and make a plot with it. We'd really encourage you to bring your own data, whether it's from your research, a class, or anything else you're interested in. If you're stuck, the Resources page on the course website (https://ucd-rdavis.github.io/R-DAVIS/resources.html) lists other datasets you can use.
+
+4. Read your data into R, and write a sentence or two about where it came from and what one row represents.
+
+5. Do a little exploring with tables and quick plots, like we did at the start of week 7. Then come up with a question you could answer with a plot.
+
+6. Make a plot that answers your question. Choose a plot type and a color palette that fit your data, and add a title and labels. Save it with `ggsave()`.
+
+7. Write a few sentences about what your plot shows, and why you chose the plot type and colors that you did.

@@ -36,14 +36,6 @@
 <script src="site_libs/navigation-1.1/codefolding.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
-<link href="site_libs/htmltools-fill-0.5.9/fill.css" rel="stylesheet" />
-<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-<script src="site_libs/plotly-binding-4.12.0/plotly.js"></script>
-<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
-<link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet" />
-<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
-<link href="site_libs/plotly-htmlwidgets-css-2.25.2/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="site_libs/plotly-main-2.25.2/plotly-latest.min.js"></script>
 <link href="site_libs/font-awesome-6.5.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="site_libs_extra/academicons-1.8.0/css/academicons.css"/>
@@ -465,886 +457,687 @@ div.tocify {
 </div>
 
 
-<div id="under-revision" class="section level3 blue">
-<h3>Under revision</h3>
-<p>This lecture is being updated for the current quarter — check back
-soon.</p>
+<div id="learning-objectives" class="section level3 blue">
+<h3>Learning Objectives</h3>
+<ul>
+<li>Describe what faceting is and apply faceting in ggplot.</li>
+<li>Use themes to change the look of a plot.</li>
+<li>Choose a type of plot that fits your question.</li>
+<li>Choose a color palette (qualitative, sequential, or diverging) that
+fits your data.</li>
+<li>Add titles, labels, and annotations to a plot.</li>
+<li>Save plots with <code>ggsave()</code>.</li>
+</ul>
 </div>
-<!--
-
-<div class = "blue">
-### Learning Objectives
-
-* Describe what faceting is and apply faceting in ggplot.
-* Use themes to change the look of a plot.
-* Learn some basic visualization dos and don'ts
-* Learn how to customize color in plots
-* Gain a basic understanding of package `cowplot`
-* Introduction to interactive `plotly` package
+<p><br></p>
+<div id="videos" class="section level2">
+<h2>Videos</h2>
+<ul>
+<li>[Data visualization: Faceting and Themes]</li>
+<li>[Data visualization: Best Practices]</li>
+<li><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714923">Video
+Discussion</a></li>
+</ul>
 </div>
-<br>
+<div id="in-class-coding" class="section level2">
+<h2>In Class Coding</h2>
+<p><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714942">Submit
+Week 8 In Class Coding</a></p>
+<p><br></p>
+</div>
+<div id="faceting-and-themes" class="section level1">
+<h1>Faceting and Themes</h1>
+<p>Last week we finished up by plotting the number of filings per year
+for each agency. This week we’ll pick up right where we left off. First,
+let’s load the EIS data and remake the columns we need from last
+week:</p>
+<pre class="r"><code>eis &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/eis_clean.csv&quot;) %&gt;%
+  filter(filed_year &lt;= 2025)
 
-## Videos
-
-- [Data visualization Part 2a](https://www.youtube.com/watch?v=aahVpfygvtc)
-- [Data visualization Part 2b](https://www.youtube.com/watch?v=0yTQY9doaZM)
-- [Data visualization Part 2c](https://video.ucdavis.edu/media/Week7_Saving_and_NonVizViz/1_2fzv6mle/390286133)
-- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714923)
-
-## In Class Coding
-
-[Submit Week 8 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1714942)
-
-
-
-<br>
-
-# Faceting and Themes
-
-Last week we finished up by plotting the number of filings per year for each agency. This week we'll pick up right where we left off. First, let's load the EIS data and remake the columns we need from last week:
-
-
-``` r
-eis <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/eis_clean.csv") %>%
-  filter(filed_year <= 2025)
-
-eis <- eis %>%
+eis &lt;- eis %&gt;%
   mutate(stage = case_when(
-    str_detect(document_type, "Draft") ~ "Draft",
-    str_detect(document_type, "Final") ~ "Final",
-    TRUE ~ "Other"
+    str_detect(document_type, &quot;Draft&quot;) ~ &quot;Draft&quot;,
+    str_detect(document_type, &quot;Final&quot;) ~ &quot;Final&quot;,
+    TRUE ~ &quot;Other&quot;
   ))
 
-top_agencies <- eis %>%
-  count(lead_agency, sort = TRUE) %>%
-  slice_head(n = 6) %>%
+top_agencies &lt;- eis %&gt;%
+  count(lead_agency, sort = TRUE) %&gt;%
+  slice_head(n = 6) %&gt;%
   pull(lead_agency)
 
-eis <- eis %>%
-  mutate(agency = if_else(lead_agency %in% top_agencies, lead_agency, "Other agencies"))
+eis &lt;- eis %&gt;%
+  mutate(agency = if_else(lead_agency %in% top_agencies, lead_agency, &quot;Other agencies&quot;))
 
-yearly_counts <- eis %>%
-  count(filed_year, agency)
-```
-
-## Faceting
-
-**`ggplot2`** has a special technique called *faceting* that allows the user to split one
-plot into multiple plots based on a factor included in the dataset. We will use it to
-make a time series plot for each agency:
-
-
-``` r
-ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n)) +
+yearly_counts &lt;- eis %&gt;%
+  count(filed_year, agency)</code></pre>
+<div id="faceting" class="section level2">
+<h2>Faceting</h2>
+<p><strong><code>ggplot2</code></strong> has a special technique called
+<em>faceting</em> that allows the user to split one plot into multiple
+plots based on a factor included in the dataset. We will use it to make
+a time series plot for each agency:</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n)) +
     geom_line() +
-    facet_wrap(~ agency)
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/first-facet-1.png" alt="" width="672" />
-
-```
-## This is an untitled chart with no subtitle or caption.
-## The chart is comprised of 7 panels containing sub-charts, arranged horizontally.
-## The panels represent different values of agency.
-## Each sub-chart has x-axis '' with labels 1990, 2000, 2010 and 2020.
-## Each sub-chart has y-axis '' with labels 0, 50, 100, 150 and 200.
-## Panel 1 represents data for agency = Bureau of Land Management COORD = 1.
-## Panel 1 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 2 represents data for agency = Federal Energy Regulatory Commission COORD = 1.
-## Panel 2 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 3 represents data for agency = Federal Highway Administration COORD = 1.
-## Panel 3 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 4 represents data for agency = Forest Service COORD = 1.
-## Panel 4 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 5 represents data for agency = National Park Service COORD = 1.
-## Panel 5 is a set of 1 line.
-## Line 1 connects 38 points.
-## Panel 6 represents data for agency = Other agencies COORD = 1.
-## Panel 6 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 7 represents data for agency = U.S. Army Corps of Engineers COORD = 1.
-## Panel 7 is a set of 1 line.
-## Line 1 connects 39 points.
-```
-
-By default every panel uses the same y-axis, which makes it easy to compare agencies to each other but squashes the smaller ones. If you'd rather give each panel its own y-axis, use `scales = "free_y"`:
-
-
-``` r
-ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n)) +
+    facet_wrap(~ agency)</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/first-facet-1.png" alt="" width="672" /></p>
+<p>By default every panel uses the same y-axis, which makes it easy to
+compare agencies to each other but squashes the smaller ones. If you’d
+rather give each panel its own y-axis, use
+<code>scales = "free_y"</code>:</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n)) +
     geom_line() +
-    facet_wrap(~ agency, scales = "free_y")
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/facet-free-1.png" alt="" width="672" />
-
-```
-## This is an untitled chart with no subtitle or caption.
-## The chart is comprised of 7 panels containing sub-charts, arranged horizontally.
-## The panels represent different values of agency.
-## There is no x-axis.
-## There is no y-axis.
-## Panel 1 represents data for agency = Bureau of Land Management COORD = 1.
-## In this panel, x-axis '' has labels 1990, 2000, 2010 and 2020.
-## In this panel, y-axis '' has labels 20, 40 and 60.
-## Panel 1 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 2 represents data for agency = Federal Energy Regulatory Commission COORD = 2.
-## In this panel, x-axis '' has labels 1990, 2000, 2010 and 2020.
-## In this panel, y-axis '' has labels 20, 40 and 60.
-## Panel 2 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 3 represents data for agency = Federal Highway Administration COORD = 3.
-## In this panel, x-axis '' has labels 1990, 2000, 2010 and 2020.
-## In this panel, y-axis '' has labels 20, 40 and 60.
-## Panel 3 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 4 represents data for agency = Forest Service COORD = 4.
-## In this panel, x-axis '' has labels 1990, 2000, 2010 and 2020.
-## In this panel, y-axis '' has labels 20, 40 and 60.
-## Panel 4 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 5 represents data for agency = National Park Service COORD = 5.
-## In this panel, x-axis '' has labels 1990, 2000, 2010 and 2020.
-## In this panel, y-axis '' has labels 20, 40 and 60.
-## Panel 5 is a set of 1 line.
-## Line 1 connects 38 points.
-## Panel 6 represents data for agency = Other agencies COORD = 6.
-## In this panel, x-axis '' has labels 1990, 2000, 2010 and 2020.
-## In this panel, y-axis '' has labels 20, 40 and 60.
-## Panel 6 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 7 represents data for agency = U.S. Army Corps of Engineers COORD = 7.
-## In this panel, x-axis '' has labels 1990, 2000, 2010 and 2020.
-## In this panel, y-axis '' has labels 20, 40 and 60.
-## Panel 7 is a set of 1 line.
-## Line 1 connects 39 points.
-```
-
-
-<div class = "blue">
-
-### Challenge
-
-You are looking at a new dataset shared with you by a collaborator. You received the dataset shortly after the vernal equinox. Your collaborator didn't really give you any context on what the data represent, and you need to do some preliminary visualizations before you can really even formulate a question for them. Import the mystery dataset using:
-
-
-``` r
-mystery <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/mysteryData.csv")
-```
-
-```
-## Rows: 91325 Columns: 3
-## ── Column specification ───────────────────────
-## Delimiter: ","
+    facet_wrap(~ agency, scales = &quot;free_y&quot;)</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/facet-free-1.png" alt="" width="672" /></p>
+<div id="challenge" class="section level3 blue">
+<h3>Challenge</h3>
+<p>You are looking at a new dataset shared with you by a collaborator.
+You received the dataset shortly after the vernal equinox. Your
+collaborator didn’t really give you any context on what the data
+represent, and you need to do some preliminary visualizations before you
+can really even formulate a question for them. Import the mystery
+dataset using:</p>
+<pre class="r"><code>mystery &lt;- read_csv(&quot;https://ucd-rdavis.github.io/R-DAVIS/data/mysteryData.csv&quot;)</code></pre>
+<pre><code>## Rows: 91325 Columns: 3
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
 ## chr (1): Group
 ## dbl (2): x, y
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
-## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-```
-
-Can you figure out what this dataset represents?
-
-*Hint* Use your new knowledge of faceting to break up the data into groups, and consider changing the size and transparency of your `geom_`'s to get a better look!
-
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>Can you figure out what this dataset represents?</p>
+<p><em>Hint</em> Use your new knowledge of faceting to break up the data
+into groups, and consider changing the size and transparency of your
+<code>geom_</code>’s to get a better look!</p>
 <details>
-<summary>ANSWER</summary>
-
-``` r
-# Preview the data
-mystery %>%
-  head(5)
-```
-
-```
-## # A tibble: 5 × 3
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code># Preview the data
+mystery %&gt;%
+  head(5)</code></pre>
+<pre><code>## # A tibble: 5 × 3
 ##       x     y Group
-##   <dbl> <dbl> <chr>
+##   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;
 ## 1 414.   282. A    
 ## 2 412.   281. A    
 ## 3 414.   281. A    
 ## 4  26.2  275. A    
-## 5  33.9  275. A
-```
-
-``` r
-# Plot the data
+## 5  33.9  275. A</code></pre>
+<pre class="r"><code># Plot the data
 ggplot(data = mystery, mapping = aes(x = x, y = y)) +
      facet_wrap(~ Group) +
-     geom_point(size = 0.1, alpha = 0.01)
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" />
-
-```
-## This is an untitled chart with no subtitle or caption.
-## The chart is comprised of 4 panels containing sub-charts, arranged horizontally.
-## The panels represent different values of Group.
-## Each sub-chart has x-axis '' with labels -300, 0, 300 and 600.
-## Each sub-chart has y-axis '' with labels -200, 0, 200, 400 and 600.
-## Panel 1 represents data for Group = A COORD = 1.
-## Panel 1 is a set of 13481 big solid circle points of which about 41% can be seen.
-## It has size set to 0.1.
-## It has alpha set to 0.01.
-## Panel 2 represents data for Group = B COORD = 1.
-## Panel 2 is a set of 33033 big solid circle points of which about 25% can be seen.
-## It has size set to 0.1.
-## It has alpha set to 0.01.
-## Panel 3 represents data for Group = C COORD = 1.
-## Panel 3 is a set of 31083 big solid circle points of which about 26% can be seen.
-## It has size set to 0.1.
-## It has alpha set to 0.01.
-## Panel 4 represents data for Group = D COORD = 1.
-## Panel 4 is a set of 13728 big solid circle points of which about 41% can be seen.
-## It has size set to 0.1.
-## It has alpha set to 0.01.
-```
-
-If all went well, and you faceted by group, set points to be very small, and transparency to be very high (i.e., a low `alpha` setting), you should discover that each group is the outline of a different animal! You may notice that there is some distortion going on, and our foxy friend in Group B appears to have some thick thighs. Try equalizing the coordinate space in the x- and y-axes by adding a `coord_equal()` to your `ggplot()` call:
-
-
-``` r
-## Equalize coordinate mapping
+     geom_point(size = 0.1, alpha = 0.01)</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
+<p>If all went well, and you faceted by group, set points to be very
+small, and transparency to be very high (i.e., a low <code>alpha</code>
+setting), you should discover that each group is the outline of a
+different animal! You may notice that there is some distortion going on,
+and our foxy friend in Group B appears to have some thick thighs. Try
+equalizing the coordinate space in the x- and y-axes by adding a
+<code>coord_equal()</code> to your <code>ggplot()</code> call:</p>
+<pre class="r"><code>## Equalize coordinate mapping
 ggplot(data = mystery, mapping = aes(x = x, y = y)) +
   facet_wrap(~ Group) +
   geom_point(size = 0.1, alpha = 0.01) +
-  coord_equal()
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" />
-
-```
-## This is an untitled chart with no subtitle or caption.
-## The chart is comprised of 4 panels containing sub-charts, arranged horizontally.
-## The panels represent different values of Group.
-## Each sub-chart has x-axis '' with labels -300, 0, 300 and 600.
-## Each sub-chart has y-axis '' with labels -200, 0, 200, 400 and 600.
-## Panel 1 represents data for Group = A COORD = 1.
-## Panel 1 is a set of 13481 big solid circle points of which about 41% can be seen.
-## It has size set to 0.1.
-## It has alpha set to 0.01.
-## Panel 2 represents data for Group = B COORD = 1.
-## Panel 2 is a set of 33033 big solid circle points of which about 25% can be seen.
-## It has size set to 0.1.
-## It has alpha set to 0.01.
-## Panel 3 represents data for Group = C COORD = 1.
-## Panel 3 is a set of 31083 big solid circle points of which about 26% can be seen.
-## It has size set to 0.1.
-## It has alpha set to 0.01.
-## Panel 4 represents data for Group = D COORD = 1.
-## Panel 4 is a set of 13728 big solid circle points of which about 41% can be seen.
-## It has size set to 0.1.
-## It has alpha set to 0.01.
-```
-
-This challenge was inspired by Trevor Branch's [Coelocanth post on Twitter](https://twitter.com/TrevorABranch/status/1227493205337182209) and adapted by [Christian John](https://jepsonnomad.github.io/).
-
+  coord_equal()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
+<p>This challenge was inspired by Trevor Branch’s <a
+href="https://twitter.com/TrevorABranch/status/1227493205337182209">Coelocanth
+post on Twitter</a> and adapted by <a
+href="https://jepsonnomad.github.io/">Christian John</a>.</p>
 </details>
 </div>
-
-<br>
-
-## **`ggplot2`** themes
-
-ggplot Themes are a great, easy addition that can make all your plots more readable (and a lot more pretty!)
-
-In addition to `theme_bw()`, which changes the plot background to white, **`ggplot2`**
-comes with several other themes which can be useful to quickly change the look
-of your visualization. The complete list of themes is available
-at <https://ggplot2.tidyverse.org/reference/ggtheme.html>. `theme_minimal()` and
-`theme_light()` are popular, and `theme_void()` can be useful as a starting
-point to create a new hand-crafted theme.
-
-
-Usually plots with white background look more readable when printed.  We can set
-the background to white using the function `theme_bw()`. Additionally, you can remove
-the grid:
-
-
-``` r
- ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n)) +
+<p><br></p>
+</div>
+<div id="ggplot2-themes" class="section level2">
+<h2><strong><code>ggplot2</code></strong> themes</h2>
+<p>ggplot Themes are a great, easy addition that can make all your plots
+more readable (and a lot more pretty!)</p>
+<p>In addition to <code>theme_bw()</code>, which changes the plot
+background to white, <strong><code>ggplot2</code></strong> comes with
+several other themes which can be useful to quickly change the look of
+your visualization. The complete list of themes is available at <a
+href="https://ggplot2.tidyverse.org/reference/ggtheme.html"
+class="uri">https://ggplot2.tidyverse.org/reference/ggtheme.html</a>.
+<code>theme_minimal()</code> and <code>theme_light()</code> are popular,
+and <code>theme_void()</code> can be useful as a starting point to
+create a new hand-crafted theme.</p>
+<p>Usually plots with white background look more readable when printed.
+We can set the background to white using the function
+<code>theme_bw()</code>. Additionally, you can remove the grid:</p>
+<pre class="r"><code> ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n)) +
      geom_line() +
      facet_wrap(~ agency) +
      theme_bw() +
-     theme(panel.grid = element_blank())
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/facet-by-agency-white-bg-1.png" alt="" width="672" />
-
-```
-## This is an untitled chart with no subtitle or caption.
-## The chart is comprised of 7 panels containing sub-charts, arranged horizontally.
-## The panels represent different values of agency.
-## Each sub-chart has x-axis '' with labels 1990, 2000, 2010 and 2020.
-## Each sub-chart has y-axis '' with labels 0, 50, 100, 150 and 200.
-## Panel 1 represents data for agency = Bureau of Land Management COORD = 1.
-## Panel 1 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 2 represents data for agency = Federal Energy Regulatory Commission COORD = 1.
-## Panel 2 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 3 represents data for agency = Federal Highway Administration COORD = 1.
-## Panel 3 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 4 represents data for agency = Forest Service COORD = 1.
-## Panel 4 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 5 represents data for agency = National Park Service COORD = 1.
-## Panel 5 is a set of 1 line.
-## Line 1 connects 38 points.
-## Panel 6 represents data for agency = Other agencies COORD = 1.
-## Panel 6 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 7 represents data for agency = U.S. Army Corps of Engineers COORD = 1.
-## Panel 7 is a set of 1 line.
-## Line 1 connects 39 points.
-```
-
-<div class = "blue">
-
-### Challenge 1
-
-Let's make one final change to our facet wrapped plot of our yearly count data. What if we wanted to split the counts for each agency up by stage, where the lines for drafts and finals are different colors? Leave out the "Other" stage. Make sure you have a nice theme on your graph too!
-
-*Hint* Make a new dataframe using the `count` function we learned earlier!
-
+     theme(panel.grid = element_blank())</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/facet-by-agency-white-bg-1.png" alt="" width="672" /></p>
+<div id="challenge-1" class="section level3 blue">
+<h3>Challenge 1</h3>
+<p>Let’s make one final change to our facet wrapped plot of our yearly
+count data. What if we wanted to split the counts for each agency up by
+stage, where the lines for drafts and finals are different colors? Leave
+out the “Other” stage. Make sure you have a nice theme on your graph
+too!</p>
+<p><em>Hint</em> Make a new dataframe using the <code>count</code>
+function we learned earlier!</p>
 <details>
-<summary>ANSWER</summary>
-
-``` r
-#new data frame counting the number of filings of each stage for each agency
- yearly_stage_counts <- eis %>%
-                        filter(stage != "Other") %>%
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>#new data frame counting the number of filings of each stage for each agency
+ yearly_stage_counts &lt;- eis %&gt;%
+                        filter(stage != &quot;Other&quot;) %&gt;%
                         count(filed_year, agency, stage)
 
 #plot code
  ggplot(data = yearly_stage_counts, mapping = aes(x = filed_year, y = n, color = stage)) +
      geom_line() +
      facet_wrap(~ agency) +
-     theme_bw()
-```
-
+     theme_bw()</code></pre>
 <img src="lesson_wk08_data_visualization_pt2_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" />
-
-```
-## This is an untitled chart with no subtitle or caption.
-## The chart is comprised of 7 panels containing sub-charts, arranged horizontally.
-## The panels represent different values of agency.
-## Each sub-chart has x-axis '' with labels 1990, 2000, 2010 and 2020.
-## Each sub-chart has y-axis '' with labels 0, 25, 50, 75, 100 and 125.
-## Panel 1 represents data for agency = Bureau of Land Management COORD = 1.
-## Panel 1 is a set of 2 lines.
-## Line 1 connects 39 points.
-## This line has colour strong reddish orange which maps to  = Draft.
-## Line 2 connects 39 points.
-## This line has colour brilliant bluish green which maps to  = Final.
-## Panel 2 represents data for agency = Federal Energy Regulatory Commission COORD = 1.
-## Panel 2 is a set of 2 lines.
-## Line 1 connects 38 points.
-## This line has colour strong reddish orange which maps to  = Draft.
-## Line 2 connects 38 points.
-## This line has colour brilliant bluish green which maps to  = Final.
-## Panel 3 represents data for agency = Federal Highway Administration COORD = 1.
-## Panel 3 is a set of 2 lines.
-## Line 1 connects 39 points.
-## This line has colour strong reddish orange which maps to  = Draft.
-## Line 2 connects 39 points.
-## This line has colour brilliant bluish green which maps to  = Final.
-## Panel 4 represents data for agency = Forest Service COORD = 1.
-## Panel 4 is a set of 2 lines.
-## Line 1 connects 39 points.
-## This line has colour strong reddish orange which maps to  = Draft.
-## Line 2 connects 39 points.
-## This line has colour brilliant bluish green which maps to  = Final.
-## Panel 5 represents data for agency = National Park Service COORD = 1.
-## Panel 5 is a set of 2 lines.
-## Line 1 connects 36 points.
-## This line has colour strong reddish orange which maps to  = Draft.
-## Line 2 connects 35 points.
-## This line has colour brilliant bluish green which maps to  = Final.
-## Panel 6 represents data for agency = Other agencies COORD = 1.
-## Panel 6 is a set of 2 lines.
-## Line 1 connects 39 points.
-## This line has colour strong reddish orange which maps to  = Draft.
-## Line 2 connects 39 points.
-## This line has colour brilliant bluish green which maps to  = Final.
-## Panel 7 represents data for agency = U.S. Army Corps of Engineers COORD = 1.
-## Panel 7 is a set of 2 lines.
-## Line 1 connects 39 points.
-## This line has colour strong reddish orange which maps to  = Draft.
-## Line 2 connects 39 points.
-## This line has colour brilliant bluish green which maps to  = Final.
-```
 </details>
 </div>
-
-<br>
-
-<div class = "blue">
-
-### Challenge 2
-
-Remember all those `NA` values in `epa_impact`? Use what you just learned to create a plot that depicts how the share of filings the EPA rated (the ones where `epa_impact` is not `NA`) changes through the years for each agency. What do you notice?
-
-*Hint* `mean()` of a column of `TRUE` and `FALSE` values gives you the share that are `TRUE`.
-
+<p><br></p>
+<div id="challenge-2" class="section level3 blue">
+<h3>Challenge 2</h3>
+<p>Remember all those <code>NA</code> values in <code>epa_impact</code>?
+Use what you just learned to create a plot that depicts how the share of
+filings the EPA rated (the ones where <code>epa_impact</code> is not
+<code>NA</code>) changes through the years for each agency. What do you
+notice?</p>
+<p><em>Hint</em> <code>mean()</code> of a column of <code>TRUE</code>
+and <code>FALSE</code> values gives you the share that are
+<code>TRUE</code>.</p>
 <details>
-<summary>ANSWER</summary>
-
-``` r
-#create a new dataframe
-yearly_rated <- eis %>%
-                group_by(filed_year, agency) %>%
-                summarize(share_rated = mean(!is.na(epa_impact)))
-```
-
-```
-## `summarise()` has regrouped the output.
-## ℹ Summaries were computed grouped by
-##   filed_year and agency.
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>#create a new dataframe
+yearly_rated &lt;- eis %&gt;%
+                group_by(filed_year, agency) %&gt;%
+                summarize(share_rated = mean(!is.na(epa_impact)))</code></pre>
+<pre><code>## `summarise()` has regrouped the output.
+## ℹ Summaries were computed grouped by filed_year and agency.
 ## ℹ Output is grouped by filed_year.
-## ℹ Use `summarise(.groups = "drop_last")` to
-##   silence this message.
-## ℹ Use `summarise(.by = c(filed_year, agency))`
-##   for per-operation grouping
-##   (`?dplyr::dplyr_by`) instead.
-```
-
-``` r
-ggplot(data = yearly_rated, mapping = aes(x = filed_year, y = share_rated)) +
+## ℹ Use `summarise(.groups = &quot;drop_last&quot;)` to silence this message.
+## ℹ Use `summarise(.by = c(filed_year, agency))` for per-operation grouping
+##   (`?dplyr::dplyr_by`) instead.</code></pre>
+<pre class="r"><code>ggplot(data = yearly_rated, mapping = aes(x = filed_year, y = share_rated)) +
   geom_line() +
   facet_wrap(~ agency) +
-  theme_bw()
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/share-rated-time-series-1.png" alt="" width="672" />
-
-```
-## This is an untitled chart with no subtitle or caption.
-## The chart is comprised of 7 panels containing sub-charts, arranged horizontally.
-## The panels represent different values of agency.
-## Each sub-chart has x-axis '' with labels 1990, 2000, 2010 and 2020.
-## Each sub-chart has y-axis '' with labels 0.00, 0.25, 0.50, 0.75 and 1.00.
-## Panel 1 represents data for agency = Bureau of Land Management COORD = 1.
-## Panel 1 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 2 represents data for agency = Federal Energy Regulatory Commission COORD = 1.
-## Panel 2 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 3 represents data for agency = Federal Highway Administration COORD = 1.
-## Panel 3 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 4 represents data for agency = Forest Service COORD = 1.
-## Panel 4 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 5 represents data for agency = National Park Service COORD = 1.
-## Panel 5 is a set of 1 line.
-## Line 1 connects 38 points.
-## Panel 6 represents data for agency = Other agencies COORD = 1.
-## Panel 6 is a set of 1 line.
-## Line 1 connects 39 points.
-## Panel 7 represents data for agency = U.S. Army Corps of Engineers COORD = 1.
-## Panel 7 is a set of 1 line.
-## Line 1 connects 39 points.
-```
-
-Up until around 2015, the EPA rated most of the filings from every agency. After that the share drops, and by 2019 almost none of the filings in our data have a rating. This is a good reminder to look at where your `NA` values are before you draw conclusions.
-
+  theme_bw()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/share-rated-time-series-1.png" alt="" width="672" /></p>
+<p>Up until around 2015, the EPA rated most of the filings from every
+agency. After that the share drops, and by 2019 almost none of the
+filings in our data have a rating. This is a good reminder to look at
+where your <code>NA</code> values are before you draw conclusions.</p>
 </details>
 </div>
+<p><br></p>
+</div>
+</div>
+<div id="data-visualization-best-practices" class="section level1">
+<h1>Data Visualization Best Practices</h1>
+<div id="data-visualization-in-r" class="section level2">
+<h2>Data Visualization in R</h2>
+<p>There are many tips and tricks that are available for the multitude
+of visualization packages in R. However, there aren’t as many simple
+rules or suggestions on what actually makes a good visualization. This
+starts with the “grammar of graphics”, which is the fundamental rules or
+principals which describe an art or science (from Wickham 2010).</p>
+<blockquote>
+<p>“A good grammar will allow us to gain insight into the composition of
+complicated graphics, and reveal unexpected connections between
+seemingly different graphics (Cox 1978)”</p>
+</blockquote>
+<p>Because there are so many options and methods to plot our data in R,
+we need to think about how we are going to represent the data, how can
+that data be interpreted visually, and what story it may tell.</p>
+<p>A very nice example of this is provided by this animation (created by
+Darkhorse Analytics, and used in Jenny Bryan’s <a
+href="https://stat545.com/effective-graphs.html">stat545</a> course). It
+shows how <em>simplification</em> can make a big difference in
+communication.</p>
+<div class="float">
+<img src="img/less-is-more-darkhorse-analytics.gif"
+alt="Less is more graphic" />
+<div class="figcaption">Less is more graphic</div>
+</div>
+<div id="exploration-vs.-communication" class="section level3">
+<h3>Exploration vs. Communication</h3>
+<p>One thing to consider is what the objective is when creating a
+visualization or plot. When we build plots for exploratory purposes, we
+already know what the variables are we are using, and the objective is
+more about what sort of patterns the data might show. When
+communicating, the objective is more about providing a stand-alone
+snapshot which helps others <em>understand</em> what you are trying to
+convey.</p>
+</div>
+<div id="pick-the-plot-for-your-question" class="section level3">
+<h3>Pick the plot for your question</h3>
+<p>Most of the plots you’ll make answer one of a handful of questions,
+and each question has a kind of plot that usually works best. You’ve
+already made all of these:</p>
+<ul>
+<li><strong>How much?</strong> (amounts): bar charts, like our count of
+filings for each agency</li>
+<li><strong>How is it spread out?</strong> (distributions): histograms
+and boxplots, like <code>comment_days</code> and <code>epa_lag</code>
+last week</li>
+<li><strong>What share?</strong> (proportions): stacked or filled bar
+charts</li>
+<li><strong>How are two things related?</strong> (relationships):
+scatter plots</li>
+<li><strong>How does it change?</strong> (time series): line plots, like
+our yearly counts</li>
+</ul>
+<p>If you want to go deeper, Claus Wilke’s free online book <a
+href="https://clauswilke.com/dataviz/"><em>Fundamentals of Data
+Visualization</em></a> has a chapter on each of these, and is
+opinionated in a helpful way about which plots work and which don’t.</p>
+</div>
+</div>
+<div id="bar-charts" class="section level2">
+<h2>Bar charts</h2>
+<div id="order-your-bars" class="section level3">
+<h3>Order your bars</h3>
+<p>Here’s our count of filings for each agency from last week:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = agency)) +
+  geom_bar()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/bar-alpha-1.png" alt="" width="672" /></p>
+<p>The agencies are in alphabetical order, which doesn’t tell us
+anything. It’s much easier to compare the bars if they’re sorted by
+size. The function <code>fct_infreq()</code>, from the tidyverse package
+<strong><code>forcats</code></strong>, orders a variable from the most
+common value to the least:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(y = fct_infreq(agency))) +
+  geom_bar()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/bar-infreq-1.png" alt="" width="672" /></p>
+<p>That’s closer, but the biggest bar is at the bottom.
+<code>fct_rev()</code> flips the order. And “Other agencies” isn’t
+really one agency, so it makes more sense at the end, no matter how big
+it is. <code>fct_relevel()</code> moves it to the front of the list,
+which puts it at the bottom of the plot:</p>
+<pre class="r"><code>eis_ordered &lt;- eis %&gt;%
+  mutate(agency = fct_rev(fct_infreq(agency)),
+         agency = fct_relevel(agency, &quot;Other agencies&quot;))
 
-<br>
+ggplot(data = eis_ordered, mapping = aes(y = agency)) +
+  geom_bar()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/bar-ordered-1.png" alt="" width="672" /></p>
+</div>
+<div id="where-should-the-axis-start" class="section level3">
+<h3>Where should the axis start?</h3>
+<p>Let’s count up the total number of filings each year and plot them as
+a line:</p>
+<pre class="r"><code>yearly_total &lt;- eis %&gt;%
+  count(filed_year)
 
-# Data Visualization Best Practices
-
-## Data Visualization in R
-
-There are many tips and tricks that are available for the multitude of visualization packages in R. However, there aren't as many simple rules or suggestions on what actually makes a good visualization. This starts with the "grammar of graphics", which is the fundamental rules or principals which describe an art or science (from Wickham 2010).
-
- > "A good grammar will allow us to gain insight into the composition of complicated graphics, and reveal unexpected connections between seemingly different graphics (Cox 1978)"
- 
-Because there are so many options and methods to plot our data in R, we need to think about how we are going to represent the data, how can that data be interpreted visually, and what story it may tell.
-
-A very nice example of this is provided by this animation (created by Darkhorse Analytics, and used in Jenny Bryan's excellent [stat545](https://stat545.com/effective-graphs.html) course). It shows how *simplification* can make a big difference in communication. 
-
-![Less is more graphic](img/less-is-more-darkhorse-analytics.gif)
-
-### Exploration vs. Communication
-
-One thing to consider is what the objective is when creating a visualization or plot. When we build plots for exploratory purposes, we already know what the variables are we are using, and the objective is more about what sort of patterns the data might show. When communicating, the objective is more about providing a stand-alone snapshot which helps others *understand* what you are trying to convey. We'll cover more on this when we talk about `Rmarkdown`.
-
-    
-## Color
-
-There are so many options in R. It is fun to play around with color, but keep in mind not everyone sees color in the same way, and some folks cannot see certain spectrums of color (i.e., [absence of blue or green receptors is common](https://www.colormatters.com/color-and-vision/what-is-color-blindness)). See below for a example of what colorblindness may do...if you see numbers inside these circles, great, you have some blue/green retinal receptors.
-
-![](https://www.colormatters.com/images/cbtests/plate1.jpg) ![](https://www.colormatters.com/images/cbtests/plate3.jpg)
-
-Having said that, [here's a great cheat sheet of colors in R](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf), it can be handy when trying to find the correct color or name of a color. Check out this recent Nature perspective piece on [The misuse of colour in science communication](https://www.nature.com/articles/s41467-020-19160-7?utm_source=twitter&utm_medium=social&utm_content=organic&utm_campaign=NGMT_USG_JC01_GL_NRJournals).
-
-### Discrete/Categorical:
-
-For a very nice discussion about color palettes, I recommend [this page](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/) from the R cookbook folks. 
-
-Additionally, check out the great [ggthemes](https://cran.r-project.org/web/packages/ggthemes/vignettes/ggthemes.html) package, which has many options. One I find very helpful is using `scale_color_colorblind()`, which if you have 8-9 categories, may be a nice way to display your data.
-
-### Continuous: [`viridis`](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
-
-The `viridis` package is an excellent set of colors that better represent your data, are easier to read for those with colorblindness, and they also tend to print fairly well in grayscale.
-
-Take a look at the [vignette online](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)!
-
-An example:
-
-![viridis](img/viridis_demo.png)
-
-### Customizing color palettes in ggplot
-
-The viridis color palettes have been built into ggplot so that you can call upon them using the scale_fill_viridis_ or scale_color_viridis_ functions. Note that whether or not you use the fill or color scale function depends on which aesthetic you set in your plot. The functions also have extensions depending on the kind of variable that you want to color: scale_fill_viridis_*d* is for discrete variables while scale_fill_viridis_*c* is for continuous variables. Within the function, you can specify which viridis palette to use: A-D.
-
-In this example we fill in our bars with the cut variable in the diamond dataset, a categorical variable with 5 groups. 
-
-``` r
-library(ggplot2)
-ggplot(diamonds, aes(x = clarity, fill = cut)) + 
+ggplot(data = yearly_total, mapping = aes(x = filed_year, y = n)) +
+  geom_line()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/line-total-1.png" alt="" width="672" /></p>
+<p>Notice that ggplot didn’t start the y-axis at zero. It starts a
+little below the smallest value, so the line fills up the plot. That’s
+fine for a line plot. We read a line by how it goes up and down, not by
+how far it is from the bottom of the plot.</p>
+<p>Now let’s compare the number of draft statements to the number of
+final statements, cropping the y-axis the same way with
+<code>coord_cartesian()</code>:</p>
+<pre class="r"><code>eis %&gt;%
+  filter(stage != &quot;Other&quot;) %&gt;%
+  ggplot(mapping = aes(x = stage)) +
   geom_bar() +
-    theme_classic() +
-  theme(axis.text.x = element_text(angle=70, vjust=0.5)) +
-  scale_fill_viridis_d(option = "C") 
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" />
-
-```
-## This is an untitled chart with no subtitle or caption.
-## It has x-axis '' with labels I1, SI2, SI1, VS2, VS1, VVS2, VVS1 and IF.
-## It has y-axis '' with labels 0, 5000 and 10000.
-## The chart is a bar chart with 8 vertical bars.
-```
-
-## Visualization Tips {.tabset .tabset-fade}
-
-This information isn't meant to be comprehensive, but at minimum, it may provide some guidance when you are creating plots and figures. 
-
-### Visualization Do's
-
-The most basic tip is keep it simple! Stick with a clean and clear message, what is your plot/figure trying to get across? Data visualization is effective when it is simple, and repackages data into a visual story that is easy to understand. 
-
- - Label appropriately and legibly, including axes, and use text to highlight important bits
- - Use one color to represent each category, consider colorblind/BW friendly palettes
- - Order datasets using logical hierarchy (Make it easy for reader to compare values)
- - Use icons when possible to reduce unnecessary labeling
- - Pay attention to scale (e.g., start axis at zero not 2.4 to 3.5)
- - Include your data/outliers where possible
-
-
-### Visualization Don'ts
-
-A few things to avoid (which basically relates to keeping it simple):
-
- - Don't try to add too much into one plot...**keep it simple**
- - Don't add color unnecessarily unless it provides a specific function
- - Avoid high contrast colors (red/green or blue/yellow)
- - Don't use 3D charts. They can make it hard to discern or perceive the actual information.
- - Avoid ornamentation (shadowing, extra illustration, etc)
- - Avoid more than 6 categorical colors in a layout unless you are looking at continuous data.
- - Keep fonts simple (avoid unnecessary **bold** or *italicization*)
- - Don't try to compare too many categories or data types in one chart
- 
-### Examples
-
-#### Scatterplots
-
-One of the best simple plots for examining patterns in data, but very effective. Also used when adding model trend lines.
-
-
-``` r
-suppressPackageStartupMessages(library(ggplot2))
-plot(x=iris$Petal.Width) # single variable
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/scatterplots-1.png" alt="" width="672" />
-
-``` r
-plot(x=iris$Petal.Width, y=iris$Petal.Length) # multiple variables
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/scatterplots-2.png" alt="" width="672" />
-
-``` r
-ggplot() + geom_point(data=iris, aes(x=Petal.Width, y=Petal.Length))
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/scatterplots-3.png" alt="" width="672" />
-
-```
-## This is an untitled chart with no subtitle or caption.
-## It has x-axis '' with labels 0.0, 0.5, 1.0, 1.5, 2.0 and 2.5.
-## It has y-axis '' with labels 2, 4 and 6.
-## The chart is a set of 150 big solid circle points of which about 68% can be seen.
-```
-
-``` r
-ggplot() + geom_point(data=iris, aes(x=Petal.Width, y=Petal.Length, fill=Species), pch=21, size=3, alpha=0.5)
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/scatterplots-4.png" alt="" width="672" />
-
-```
-## This is an untitled chart with no subtitle or caption.
-## It has x-axis '' with labels 0.0, 0.5, 1.0, 1.5, 2.0 and 2.5.
-## It has y-axis '' with labels 2, 4 and 6.
-## The chart is a set of 150 fillable circle points of which about 68% can be seen.
-## It has shape set to fillable circle.
-## It has size set to 3.
-## It has alpha set to 0.5.
-```
-
-
-#### Lineplots
-
-Comparing relative change in quantities across a variable like time. Note the change when we avoid facetting each line independently.
-
-
-``` r
-plot(EuStockMarkets)
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/lineplots-1.png" alt="" width="672" />
-
-``` r
-suppressPackageStartupMessages(library(tidyverse))
-EuStockMarkets_df <- data.frame(as.matrix(EuStockMarkets), date=as.numeric(time(EuStockMarkets)))
-EuStockMarkets_long <- pivot_longer(EuStockMarkets_df, cols = 1:4, names_to = "Market", values_to = "value")
-ggplot() + geom_line(data=EuStockMarkets_long, aes(x=date, y=value, color=Market))
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/lineplots-2.png" alt="" width="672" />
-
-```
-## This is an untitled chart with no subtitle or caption.
-## It has x-axis '' with labels 1993, 1995, 1997 and 1999.
-## It has y-axis '' with labels 2000, 4000, 6000 and 8000.
-## The chart is a set of 4 lines.
-## Line 1 connects 1860 points.
-## This line has colour strong reddish orange which maps to  = CAC.
-## Line 2 connects 1860 points.
-## This line has colour vivid yellow green which maps to  = DAX.
-## Line 3 connects 1860 points.
-## This line has colour brilliant bluish green which maps to  = FTSE.
-## Line 4 connects 1860 points.
-## This line has colour vivid violet which maps to  = SMI.
-```
-
-#### Barplots
-
-Comparing totals across multiple groups. Notice legibility when you stack the bars.
-
-
-``` r
-# code adapted from https://www.analyticsvidhya.com/blog/2015/07/guide-data-visualization-r/
-suppressPackageStartupMessages(library(viridis))
-barplot(iris$Petal.Length)
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/barplots-1.png" alt="" width="672" />
-
-``` r
-barplot(iris$Sepal.Length,col  = viridis(3, option = "A")) 
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/barplots-2.png" alt="" width="672" />
-
-``` r
-barplot(table(iris$Species,iris$Sepal.Length),col  = viridis(3, option = "A")) 
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/barplots-3.png" alt="" width="672" />
-
-<br>
-
-## Saving Figures and Plots 
-
-A plot you created with ggplot or another plotting package can be saved as .JPEGS (or .tiff, .img, etc) onto you. For any ggplot objects, we recommend using `ggsave`. 
-
-First, let's create a new folder in this project called `figures`. Let's save all the figures we create to that folder. `ggsave` will default to saving the last plot you created, however, we think it is always a good idea to specify exactly which plot you want saved. To do that, we have to save our plot as an object. 
-
-
-``` r
-ggsave("figures/surveys_plot.png", surveys_plot)
-```
-
-#### With `ggsave` you can save images as
-
- - .png, .jpeg, .tiff, .pdf, .bmp, or .svg
-
-#### Other arguments of `ggsave`
-
- - `scale` can scale the image (multiplicative scaling factor)
- - `width` and `height` let you specify the size of the image in `units` that you specify
- - `dpi` can change the quality of the image; for publication graphs we suggest over 700 dpi
-
-
-``` r
-ggsave("figures/surveys_plot.png", surveys_plot, width = 6, height = 4, units = "in", dpi = 700)
-```
-
-<br>
-
-## Non-visual data interaction  
-
-
-Discussions of visualization so far have taken for granted that visualization is accessible to everyone, but researchers and audiences alike are not all sighted. RStudio is behind on blind accessibility, but some packages can provide text descriptions and sonification/audification of plots to improve accessibility for non-visual data interaction.  
-
-The `BrailleR` package ([read more here](https://r-resources.massey.ac.nz/BrailleRInAction/)), has a `VI()` function that wraps around plots and provides a text-description output. We can use the VI wrapper to interact with our plots from a textual perspective and identify what information is missing. Such text can also be used as alt-text when publishing this material. What could we do to our plot to improve the text description?
-
-
-``` r
-#install.packages("BrailleR")
-library(BrailleR)
-
-barplot <- ggplot(diamonds, aes(x = clarity, fill = cut)) + 
+  coord_cartesian(ylim = c(7500, 9000))</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/bar-truncated-1.png" alt="" width="672" /></p>
+<p>Why is this figure misleading? Look at how long each bar is compared
+to the actual numbers on the y-axis.</p>
+<p>Here’s the same plot with the y-axis starting at zero:</p>
+<pre class="r"><code>eis %&gt;%
+  filter(stage != &quot;Other&quot;) %&gt;%
+  ggplot(mapping = aes(x = stage)) +
+  geom_bar()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/bar-zero-1.png" alt="" width="672" /></p>
+<p>The cropped version makes it look like there are about four times as
+many drafts as finals. There are actually 8,697 drafts and 7,963 finals,
+so the difference is pretty small. We read a bar by its length, so if
+the axis doesn’t start at zero, the lengths lie. Bar charts should
+always start at zero.</p>
+</div>
+<div id="pie-charts" class="section level3">
+<h3>Pie charts</h3>
+<p>Pie charts are popular, but it’s hard to compare the sizes of slices,
+especially when they’re close. ggplot doesn’t have a pie chart geom, but
+you can make one by wrapping a bar chart into a circle with
+<code>coord_polar()</code>:</p>
+<pre class="r"><code>ggplot(data = eis, mapping = aes(x = &quot;&quot;, fill = agency)) +
   geom_bar() +
-  theme(axis.text.x = element_text(angle=70, vjust=0.5)) +
-  scale_fill_viridis_d(option = "C") +
-  theme_classic()
+  coord_polar(theta = &quot;y&quot;)</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/pie-1.png" alt="" width="672" /></p>
+<p>Is the Army Corps of Engineers slice bigger or smaller than the
+Bureau of Land Management slice? Hard to say. If you want to show
+shares, a filled bar chart is usually easier to read.
+<code>position = "fill"</code> stretches every bar to the same length,
+so each one shows proportions instead of counts:</p>
+<pre class="r"><code>eis %&gt;%
+  filter(stage != &quot;Other&quot;) %&gt;%
+  ggplot(mapping = aes(y = agency, fill = stage)) +
+  geom_bar(position = &quot;fill&quot;)</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/bar-fill-1.png" alt="" width="672" /></p>
+</div>
+</div>
+<div id="color" class="section level2">
+<h2>Color</h2>
+<p>There are so many options in R. It is fun to play around with color,
+but the most important thing is to pick colors that match your data.
+There are three main kinds of color palettes:</p>
+<ul>
+<li><strong>Qualitative</strong>: for categories that don’t have an
+order, like agencies. The colors should look different from each other,
+but no color should look “bigger” than another.</li>
+<li><strong>Sequential</strong>: for values that go from low to high.
+The colors go from light to dark.</li>
+<li><strong>Diverging</strong>: for values that go above and below a
+meaningful middle, like zero. The colors get darker in two directions,
+with a light color in the middle.</li>
+</ul>
+<div id="qualitative-palettes" class="section level3">
+<h3>Qualitative palettes</h3>
+<p>Remember our line plot of yearly filings for each agency? Here it is
+with ggplot’s default colors:</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n, color = agency)) +
+  geom_line()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/lines-default-1.png" alt="" width="864" /></p>
+<p>The default colors work for categories, but some of them are hard to
+tell apart, especially for folks with colorblindness. The Okabe-Ito
+palette was designed so that people with the most common kinds of
+colorblindness can still tell the colors apart, and it comes with R.
+<code>palette.colors()</code> gives us the colors, and
+<code>scale_color_manual()</code> lets us use our own colors:</p>
+<pre class="r"><code>ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n, color = agency)) +
+  geom_line() +
+  scale_color_manual(values = palette.colors(palette = &quot;Okabe-Ito&quot;))</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/lines-okabe-1.png" alt="" width="864" /></p>
+</div>
+<div id="using-color-for-emphasis" class="section level3">
+<h3>Using color for emphasis</h3>
+<p>Even with good colors, seven lines is a lot to follow. If your plot
+has one main point, you can make everything else gray. Let’s say we want
+to show what happened to the Federal Highway Administration. First we
+make a column that says whether each row is the agency we care
+about:</p>
+<pre class="r"><code>yearly_highlight &lt;- yearly_counts %&gt;%
+  mutate(highlight = agency == &quot;Federal Highway Administration&quot;)</code></pre>
+<p>Then we color by that column. We still need
+<code>group = agency</code> so that ggplot draws a separate line for
+each agency:</p>
+<pre class="r"><code>ggplot(data = yearly_highlight, mapping = aes(x = filed_year, y = n, group = agency, color = highlight)) +
+  geom_line() +
+  scale_color_manual(values = c(&quot;grey75&quot;, &quot;firebrick&quot;))</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/highlight-plot-1.png" alt="" width="768" /></p>
+</div>
+<div id="sequential-palettes" class="section level3">
+<h3>Sequential palettes</h3>
+<p>Here’s a new kind of plot: a heatmap. <code>geom_tile()</code> draws
+a square for each year and agency, and we fill it based on the number of
+filings. We’ll save it as an object so we can try a few different color
+scales:</p>
+<pre class="r"><code>eis_heatmap &lt;- ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = agency, fill = n)) +
+  geom_tile()
 
-VI(barplot)
-```
-
-```
-## This is an untitled chart with no subtitle or caption.
-## It has x-axis '' with labels I1, SI2, SI1, VS2, VS1, VVS2, VVS1 and IF.
-## It has y-axis '' with labels 0, 5000 and 10000.
-## The chart is a bar chart with 8 vertical bars.
-```
-
-The `sonification` package's `sonify` function can be used to represent data in audio form, where the x-axis can span sound across time, so that the length of time a sound plays follows the data long the x-axis from left to right; the y-axis can be expressed as pitch, so that the pitch of the sound matches to the values of the data (lower value = lower pitch).
-
-
-
-One variable can be used as an input to hear the distribution. For instance this univariate plot of iris petal width visually looks like this:
-
-``` r
-plot(iris$Petal.Width)
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/unnamed-chunk-10-1.png" alt="" width="672" />
-
-Using `sonify` instead of plot, the distribution of iris petal width sounds like this:
-
-``` r
-#install.packages("sonify")
-library(sonify)
-sonify(iris$Petal.Width)
-```
-If you try this on your computer it should play automatically, but on the website you can listen below: 
-
-<audio controls>
-  <source src="img/sw.width.sound.wav" type="audio/wav">
-</audio>
-
-
-Two variables can be used as input to hear the relationship between continuous variables. For instance this bivariate plot of iris petal length and petal width visually looks like this:
-
-``` r
-plot(x = iris$Petal.Width, y = iris$Petal.Length)
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/unnamed-chunk-13-1.png" alt="" width="672" />
-
-And using `sonify`, sounds like this:
-
-``` r
-sonify(x=iris$Petal.Width, y = iris$Petal.Length) 
-```
-
-<audio controls>
-  <source src="img/sw.width.length.sound.wav" type="audio/wav">
-</audio>
-
-# BONUS CONTENT #
-
-This is provided for your reference, but won't be something we cover in class or address on the exam.
-
-## Publishing Plots: `cowplot`
-
-A few excellent options exist for creating multi-paneled plots for publications. The first and foremost is a package by Claus Wilke called [`cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html). With `cowplot`, it's possible to quickly combine existing `ggplots`, creating publication quality plots. See the vignette for more options, but here's a quick example from the vignette below:
-
-
-
-
-
-``` r
-library(cowplot)
-
-# make a few plots:
-plot.diamonds <- ggplot(diamonds, aes(clarity, fill = cut)) + 
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=70, vjust=0.5))
-#plot.diamonds
-
-plot.cars <- ggplot(mpg, aes(x = cty, y = hwy, colour = factor(cyl))) + 
-   geom_point(size = 2.5)
-#plot.cars
-
-plot.iris <- ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Length, fill=Species)) +
-  geom_point(size=3, alpha=0.7, shape=21)
-#plot.iris
-
-# use plot_grid
-panel_plot <- plot_grid(plot.cars, plot.iris, plot.diamonds, labels=c("A", "B", "C"), ncol=2, nrow = 2)
-
-panel_plot
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/cowplot-1.png" alt="" width="672" />
-
-``` r
-# fix the sizes draw_plot
-fixed_gridplot <- ggdraw() + draw_plot(plot.iris, x = 0, y = 0, width = 1, height = 0.5) +
-           draw_plot(plot.cars, x=0, y=.5, width=0.5, height = 0.5) +
-           draw_plot(plot.diamonds, x=0.5, y=0.5, width=0.5, height = 0.5) + 
-  draw_plot_label(label = c("A","B","C"), x = c(0, 0.5, 0), y = c(1, 1, 0.5))
-
-fixed_gridplot
-```
-
-<img src="lesson_wk08_data_visualization_pt2_files/figure-html/cowplot-2.png" alt="" width="672" />
-
-## The package `plotly`
-
-The package `plotly` is an excellent, easy to use resource that allows you to quickly create interactive, web-based figures. We have used plotly to illustrate patterns in data to collaborators, to visualize patterns in our data during the pre-analysis stage, and even impress with "fancy" graphics during a conference talk! 
-
-Let's try plotly together using some of the `iris` data: 
-
-
-``` r
-library(plotly)
-
-plot.iris <- ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Length, fill=Species)) +
-  geom_point(size=3, alpha=0.7, shape=21)
-
-plotly::ggplotly(plot.iris) #it's as simple as that! 
-```
-
-```{=html}
-<div class="plotly html-widget html-fill-item" id="htmlwidget-922f8c10f8471954b8d0" style="width:672px;height:480px;"></div>
-<script type="application/json" data-for="htmlwidget-922f8c10f8471954b8d0">{"x":{"data":[{"x":[5.0999999999999996,4.9000000000000004,4.7000000000000002,4.5999999999999996,5,5.4000000000000004,4.5999999999999996,5,4.4000000000000004,4.9000000000000004,5.4000000000000004,4.7999999999999998,4.7999999999999998,4.2999999999999998,5.7999999999999998,5.7000000000000002,5.4000000000000004,5.0999999999999996,5.7000000000000002,5.0999999999999996,5.4000000000000004,5.0999999999999996,4.5999999999999996,5.0999999999999996,4.7999999999999998,5,5,5.2000000000000002,5.2000000000000002,4.7000000000000002,4.7999999999999998,5.4000000000000004,5.2000000000000002,5.5,4.9000000000000004,5,5.5,4.9000000000000004,4.4000000000000004,5.0999999999999996,5,4.5,4.4000000000000004,5,5.0999999999999996,4.7999999999999998,5.0999999999999996,4.5999999999999996,5.2999999999999998,5],"y":[1.3999999999999999,1.3999999999999999,1.3,1.5,1.3999999999999999,1.7,1.3999999999999999,1.5,1.3999999999999999,1.5,1.5,1.6000000000000001,1.3999999999999999,1.1000000000000001,1.2,1.5,1.3,1.3999999999999999,1.7,1.5,1.7,1.5,1,1.7,1.8999999999999999,1.6000000000000001,1.6000000000000001,1.5,1.3999999999999999,1.6000000000000001,1.6000000000000001,1.5,1.5,1.3999999999999999,1.5,1.2,1.3,1.3999999999999999,1.3,1.5,1.3,1.3,1.3,1.6000000000000001,1.8999999999999999,1.3999999999999999,1.6000000000000001,1.3999999999999999,1.5,1.3999999999999999],"text":["Sepal.Length: 5.1<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.9<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.7<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 4.6<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 5.4<br />Petal.Length: 1.7<br />Species: setosa","Sepal.Length: 4.6<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 4.4<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.9<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.4<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 4.8<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 4.8<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.3<br />Petal.Length: 1.1<br />Species: setosa","Sepal.Length: 5.8<br />Petal.Length: 1.2<br />Species: setosa","Sepal.Length: 5.7<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.4<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 5.7<br />Petal.Length: 1.7<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.4<br />Petal.Length: 1.7<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 4.6<br />Petal.Length: 1.0<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.7<br />Species: setosa","Sepal.Length: 4.8<br />Petal.Length: 1.9<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 5.2<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.2<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.7<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 4.8<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 5.4<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.2<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.5<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.9<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.2<br />Species: setosa","Sepal.Length: 5.5<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 4.9<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 4.4<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 4.5<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 4.4<br />Petal.Length: 1.3<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.9<br />Species: setosa","Sepal.Length: 4.8<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 5.1<br />Petal.Length: 1.6<br />Species: setosa","Sepal.Length: 4.6<br />Petal.Length: 1.4<br />Species: setosa","Sepal.Length: 5.3<br />Petal.Length: 1.5<br />Species: setosa","Sepal.Length: 5.0<br />Petal.Length: 1.4<br />Species: setosa"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(248,118,109,1)","opacity":0.69999999999999996,"size":11.338582677165356,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","name":"setosa","legendgroup":"setosa","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[7,6.4000000000000004,6.9000000000000004,5.5,6.5,5.7000000000000002,6.2999999999999998,4.9000000000000004,6.5999999999999996,5.2000000000000002,5,5.9000000000000004,6,6.0999999999999996,5.5999999999999996,6.7000000000000002,5.5999999999999996,5.7999999999999998,6.2000000000000002,5.5999999999999996,5.9000000000000004,6.0999999999999996,6.2999999999999998,6.0999999999999996,6.4000000000000004,6.5999999999999996,6.7999999999999998,6.7000000000000002,6,5.7000000000000002,5.5,5.5,5.7999999999999998,6,5.4000000000000004,6,6.7000000000000002,6.2999999999999998,5.5999999999999996,5.5,5.5,6.0999999999999996,5.7999999999999998,5,5.5999999999999996,5.7000000000000002,5.7000000000000002,6.2000000000000002,5.0999999999999996,5.7000000000000002],"y":[4.7000000000000002,4.5,4.9000000000000004,4,4.5999999999999996,4.5,4.7000000000000002,3.2999999999999998,4.5999999999999996,3.8999999999999999,3.5,4.2000000000000002,4,4.7000000000000002,3.6000000000000001,4.4000000000000004,4.5,4.0999999999999996,4.5,3.8999999999999999,4.7999999999999998,4,4.9000000000000004,4.7000000000000002,4.2999999999999998,4.4000000000000004,4.7999999999999998,5,4.5,3.5,3.7999999999999998,3.7000000000000002,3.8999999999999999,5.0999999999999996,4.5,4.5,4.7000000000000002,4.4000000000000004,4.0999999999999996,4,4.4000000000000004,4.5999999999999996,4,3.2999999999999998,4.2000000000000002,4.2000000000000002,4.2000000000000002,4.2999999999999998,3,4.0999999999999996],"text":["Sepal.Length: 7.0<br />Petal.Length: 4.7<br />Species: versicolor","Sepal.Length: 6.4<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 6.9<br />Petal.Length: 4.9<br />Species: versicolor","Sepal.Length: 5.5<br />Petal.Length: 4.0<br />Species: versicolor","Sepal.Length: 6.5<br />Petal.Length: 4.6<br />Species: versicolor","Sepal.Length: 5.7<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 6.3<br />Petal.Length: 4.7<br />Species: versicolor","Sepal.Length: 4.9<br />Petal.Length: 3.3<br />Species: versicolor","Sepal.Length: 6.6<br />Petal.Length: 4.6<br />Species: versicolor","Sepal.Length: 5.2<br />Petal.Length: 3.9<br />Species: versicolor","Sepal.Length: 5.0<br />Petal.Length: 3.5<br />Species: versicolor","Sepal.Length: 5.9<br />Petal.Length: 4.2<br />Species: versicolor","Sepal.Length: 6.0<br />Petal.Length: 4.0<br />Species: versicolor","Sepal.Length: 6.1<br />Petal.Length: 4.7<br />Species: versicolor","Sepal.Length: 5.6<br />Petal.Length: 3.6<br />Species: versicolor","Sepal.Length: 6.7<br />Petal.Length: 4.4<br />Species: versicolor","Sepal.Length: 5.6<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 5.8<br />Petal.Length: 4.1<br />Species: versicolor","Sepal.Length: 6.2<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 5.6<br />Petal.Length: 3.9<br />Species: versicolor","Sepal.Length: 5.9<br />Petal.Length: 4.8<br />Species: versicolor","Sepal.Length: 6.1<br />Petal.Length: 4.0<br />Species: versicolor","Sepal.Length: 6.3<br />Petal.Length: 4.9<br />Species: versicolor","Sepal.Length: 6.1<br />Petal.Length: 4.7<br />Species: versicolor","Sepal.Length: 6.4<br />Petal.Length: 4.3<br />Species: versicolor","Sepal.Length: 6.6<br />Petal.Length: 4.4<br />Species: versicolor","Sepal.Length: 6.8<br />Petal.Length: 4.8<br />Species: versicolor","Sepal.Length: 6.7<br />Petal.Length: 5.0<br />Species: versicolor","Sepal.Length: 6.0<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 5.7<br />Petal.Length: 3.5<br />Species: versicolor","Sepal.Length: 5.5<br />Petal.Length: 3.8<br />Species: versicolor","Sepal.Length: 5.5<br />Petal.Length: 3.7<br />Species: versicolor","Sepal.Length: 5.8<br />Petal.Length: 3.9<br />Species: versicolor","Sepal.Length: 6.0<br />Petal.Length: 5.1<br />Species: versicolor","Sepal.Length: 5.4<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 6.0<br />Petal.Length: 4.5<br />Species: versicolor","Sepal.Length: 6.7<br />Petal.Length: 4.7<br />Species: versicolor","Sepal.Length: 6.3<br />Petal.Length: 4.4<br />Species: versicolor","Sepal.Length: 5.6<br />Petal.Length: 4.1<br />Species: versicolor","Sepal.Length: 5.5<br />Petal.Length: 4.0<br />Species: versicolor","Sepal.Length: 5.5<br />Petal.Length: 4.4<br />Species: versicolor","Sepal.Length: 6.1<br />Petal.Length: 4.6<br />Species: versicolor","Sepal.Length: 5.8<br />Petal.Length: 4.0<br />Species: versicolor","Sepal.Length: 5.0<br />Petal.Length: 3.3<br />Species: versicolor","Sepal.Length: 5.6<br />Petal.Length: 4.2<br />Species: versicolor","Sepal.Length: 5.7<br />Petal.Length: 4.2<br />Species: versicolor","Sepal.Length: 5.7<br />Petal.Length: 4.2<br />Species: versicolor","Sepal.Length: 6.2<br />Petal.Length: 4.3<br />Species: versicolor","Sepal.Length: 5.1<br />Petal.Length: 3.0<br />Species: versicolor","Sepal.Length: 5.7<br />Petal.Length: 4.1<br />Species: versicolor"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,186,56,1)","opacity":0.69999999999999996,"size":11.338582677165356,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","name":"versicolor","legendgroup":"versicolor","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[6.2999999999999998,5.7999999999999998,7.0999999999999996,6.2999999999999998,6.5,7.5999999999999996,4.9000000000000004,7.2999999999999998,6.7000000000000002,7.2000000000000002,6.5,6.4000000000000004,6.7999999999999998,5.7000000000000002,5.7999999999999998,6.4000000000000004,6.5,7.7000000000000002,7.7000000000000002,6,6.9000000000000004,5.5999999999999996,7.7000000000000002,6.2999999999999998,6.7000000000000002,7.2000000000000002,6.2000000000000002,6.0999999999999996,6.4000000000000004,7.2000000000000002,7.4000000000000004,7.9000000000000004,6.4000000000000004,6.2999999999999998,6.0999999999999996,7.7000000000000002,6.2999999999999998,6.4000000000000004,6,6.9000000000000004,6.7000000000000002,6.9000000000000004,5.7999999999999998,6.7999999999999998,6.7000000000000002,6.7000000000000002,6.2999999999999998,6.5,6.2000000000000002,5.9000000000000004],"y":[6,5.0999999999999996,5.9000000000000004,5.5999999999999996,5.7999999999999998,6.5999999999999996,4.5,6.2999999999999998,5.7999999999999998,6.0999999999999996,5.0999999999999996,5.2999999999999998,5.5,5,5.0999999999999996,5.2999999999999998,5.5,6.7000000000000002,6.9000000000000004,5,5.7000000000000002,4.9000000000000004,6.7000000000000002,4.9000000000000004,5.7000000000000002,6,4.7999999999999998,4.9000000000000004,5.5999999999999996,5.7999999999999998,6.0999999999999996,6.4000000000000004,5.5999999999999996,5.0999999999999996,5.5999999999999996,6.0999999999999996,5.5999999999999996,5.5,4.7999999999999998,5.4000000000000004,5.5999999999999996,5.0999999999999996,5.0999999999999996,5.9000000000000004,5.7000000000000002,5.2000000000000002,5,5.2000000000000002,5.4000000000000004,5.0999999999999996],"text":["Sepal.Length: 6.3<br />Petal.Length: 6.0<br />Species: virginica","Sepal.Length: 5.8<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 7.1<br />Petal.Length: 5.9<br />Species: virginica","Sepal.Length: 6.3<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 6.5<br />Petal.Length: 5.8<br />Species: virginica","Sepal.Length: 7.6<br />Petal.Length: 6.6<br />Species: virginica","Sepal.Length: 4.9<br />Petal.Length: 4.5<br />Species: virginica","Sepal.Length: 7.3<br />Petal.Length: 6.3<br />Species: virginica","Sepal.Length: 6.7<br />Petal.Length: 5.8<br />Species: virginica","Sepal.Length: 7.2<br />Petal.Length: 6.1<br />Species: virginica","Sepal.Length: 6.5<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 6.4<br />Petal.Length: 5.3<br />Species: virginica","Sepal.Length: 6.8<br />Petal.Length: 5.5<br />Species: virginica","Sepal.Length: 5.7<br />Petal.Length: 5.0<br />Species: virginica","Sepal.Length: 5.8<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 6.4<br />Petal.Length: 5.3<br />Species: virginica","Sepal.Length: 6.5<br />Petal.Length: 5.5<br />Species: virginica","Sepal.Length: 7.7<br />Petal.Length: 6.7<br />Species: virginica","Sepal.Length: 7.7<br />Petal.Length: 6.9<br />Species: virginica","Sepal.Length: 6.0<br />Petal.Length: 5.0<br />Species: virginica","Sepal.Length: 6.9<br />Petal.Length: 5.7<br />Species: virginica","Sepal.Length: 5.6<br />Petal.Length: 4.9<br />Species: virginica","Sepal.Length: 7.7<br />Petal.Length: 6.7<br />Species: virginica","Sepal.Length: 6.3<br />Petal.Length: 4.9<br />Species: virginica","Sepal.Length: 6.7<br />Petal.Length: 5.7<br />Species: virginica","Sepal.Length: 7.2<br />Petal.Length: 6.0<br />Species: virginica","Sepal.Length: 6.2<br />Petal.Length: 4.8<br />Species: virginica","Sepal.Length: 6.1<br />Petal.Length: 4.9<br />Species: virginica","Sepal.Length: 6.4<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 7.2<br />Petal.Length: 5.8<br />Species: virginica","Sepal.Length: 7.4<br />Petal.Length: 6.1<br />Species: virginica","Sepal.Length: 7.9<br />Petal.Length: 6.4<br />Species: virginica","Sepal.Length: 6.4<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 6.3<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 6.1<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 7.7<br />Petal.Length: 6.1<br />Species: virginica","Sepal.Length: 6.3<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 6.4<br />Petal.Length: 5.5<br />Species: virginica","Sepal.Length: 6.0<br />Petal.Length: 4.8<br />Species: virginica","Sepal.Length: 6.9<br />Petal.Length: 5.4<br />Species: virginica","Sepal.Length: 6.7<br />Petal.Length: 5.6<br />Species: virginica","Sepal.Length: 6.9<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 5.8<br />Petal.Length: 5.1<br />Species: virginica","Sepal.Length: 6.8<br />Petal.Length: 5.9<br />Species: virginica","Sepal.Length: 6.7<br />Petal.Length: 5.7<br />Species: virginica","Sepal.Length: 6.7<br />Petal.Length: 5.2<br />Species: virginica","Sepal.Length: 6.3<br />Petal.Length: 5.0<br />Species: virginica","Sepal.Length: 6.5<br />Petal.Length: 5.2<br />Species: virginica","Sepal.Length: 6.2<br />Petal.Length: 5.4<br />Species: virginica","Sepal.Length: 5.9<br />Petal.Length: 5.1<br />Species: virginica"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(97,156,255,1)","opacity":0.69999999999999996,"size":11.338582677165356,"symbol":"circle","line":{"width":1.8897637795275593,"color":"rgba(0,0,0,1)"}},"hoveron":"points","name":"virginica","legendgroup":"virginica","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":23.305936073059364,"r":7.3059360730593621,"b":37.260273972602747,"l":31.415525114155255},"plot_bgcolor":"rgba(235,235,235,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[4.1200000000000001,8.0800000000000001],"tickmode":"array","ticktext":["5","6","7","8"],"tickvals":[5,6,7,8],"categoryorder":"array","categoryarray":["5","6","7","8"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"y","title":{"text":"Sepal.Length","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.70499999999999996,7.1950000000000003],"tickmode":"array","ticktext":["2","4","6"],"tickvals":[2,4,6],"categoryorder":"array","categoryarray":["2","4","6"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.6529680365296811,"tickwidth":0.66417600664176002,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.68949771689498},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":true,"gridcolor":"rgba(255,255,255,1)","gridwidth":0.66417600664176002,"zeroline":false,"anchor":"x","title":{"text":"Petal.Length","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}},"hoverformat":".2f"},"shapes":[],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.8897637795275593,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.68949771689498},"title":{"text":"Species","font":{"color":"rgba(0,0,0,1)","family":"","size":14.611872146118724}}},"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"source":"A","attrs":{"714f27981196":{"x":{},"y":{},"fill":{},"type":"scatter"}},"cur_data":"714f27981196","visdat":{"714f27981196":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
-```
-
-This lesson was contributed by [Martha Zillig](https://github.com/MarthaWohlfeil).
-
-This lesson is adapted from the Software Carpentry: R for Reproducible 
-Scientific Analysis [Vectors and Data Frames materials](http://data-lessons.github.io/gapminder-R/03-data-types-subsetting.html)
-and the Data Carpentry: R for Data Analysis and Visualization of Ecological Data 
-[Exporting Data materials](http://www.datacarpentry.org/R-ecology-lesson/03-dplyr.html).
--->
+eis_heatmap</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/tile-default-1.png" alt="" width="864" /></p>
+<p>The number of filings goes from low to high, so ggplot uses a
+sequential palette by default, from dark blue to light blue. It works,
+but it’s hard to see differences between the blues.</p>
+<p>The <a
+href="https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html"><code>viridis</code></a>
+palettes are an excellent set of colors that better represent your data,
+are easier to read for those with colorblindness, and they also tend to
+print fairly well in grayscale. They’re built into ggplot, and you can
+call upon them using the <code>scale_fill_viridis_</code> or
+<code>scale_color_viridis_</code> functions. Note that whether or not
+you use the fill or color scale function depends on which aesthetic you
+set in your plot. The functions also have extensions depending on the
+kind of variable that you want to color:
+<code>scale_fill_viridis_d</code> is for discrete variables while
+<code>scale_fill_viridis_c</code> is for continuous variables.</p>
+<pre class="r"><code>eis_heatmap +
+  scale_fill_viridis_c()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/tile-viridis-1.png" alt="" width="864" /></p>
+<p>What not to do: a rainbow palette.</p>
+<pre class="r"><code>eis_heatmap +
+  scale_fill_gradientn(colors = rainbow(7))</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/tile-rainbow-1.png" alt="" width="864" /></p>
+<p>The rainbow doesn’t have an order. Is purple more than green? The
+colors also jump around, so years with 100 and 150 filings look like
+totally different things, while years with 150 and 200 look about the
+same.</p>
+</div>
+<div id="sequential-palettes-for-ordered-categories"
+class="section level3">
+<h3>Sequential palettes for ordered categories</h3>
+<p>Categories can have an order too. The EPA’s impact ratings go from
+best to worst, so the colors should too. Let’s look at the share of each
+rating for each agency. We’ll use only the rated drafts from 2018 and
+earlier, since that’s when the ratings stop showing up in our data:</p>
+<pre class="r"><code>drafts_rated &lt;- eis %&gt;%
+  filter(stage == &quot;Draft&quot;, !is.na(epa_impact), filed_year &lt;= 2018) %&gt;%
+  mutate(epa_impact = factor(epa_impact, levels = c(&quot;Lack of Objections&quot;,
+                                                    &quot;Environmental Concerns&quot;,
+                                                    &quot;Environmental Objections&quot;,
+                                                    &quot;Environmentally Unsatisfactory&quot;)))</code></pre>
+<pre class="r"><code>ggplot(data = drafts_rated, mapping = aes(y = agency, fill = epa_impact)) +
+  geom_bar(position = &quot;fill&quot;)</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/rated-default-1.png" alt="" width="960" /></p>
+<p>The default colors treat the ratings like they have no order. A
+sequential palette from the <a
+href="https://colorbrewer2.org/">ColorBrewer</a> palettes, which are
+built into ggplot with <code>scale_fill_brewer()</code>, makes the order
+obvious: pale is fine, red is bad.</p>
+<pre class="r"><code>ggplot(data = drafts_rated, mapping = aes(y = agency, fill = epa_impact)) +
+  geom_bar(position = &quot;fill&quot;) +
+  scale_fill_brewer(palette = &quot;YlOrRd&quot;)</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/rated-brewer-1.png" alt="" width="960" /></p>
+</div>
+<div id="diverging-palettes" class="section level3">
+<h3>Diverging palettes</h3>
+<p>A diverging palette only makes sense when the middle of your scale
+means something. Let’s ask a different question: was each year busier or
+slower than usual for that agency? We’ll calculate how far above or
+below its own average each agency was every year, as a percent:</p>
+<pre class="r"><code>yearly_diff &lt;- yearly_counts %&gt;%
+  group_by(agency) %&gt;%
+  mutate(pct_diff = (n - mean(n)) / mean(n) * 100) %&gt;%
+  ungroup()</code></pre>
+<p>Now zero means “an average year”, so we want white in the middle, one
+color for busier years and another for slower ones.
+<code>scale_fill_gradient2()</code> does exactly that, with the middle
+at zero by default:</p>
+<pre class="r"><code>ggplot(data = yearly_diff, mapping = aes(x = filed_year, y = agency, fill = pct_diff)) +
+  geom_tile() +
+  scale_fill_gradient2(low = &quot;#2166AC&quot;, mid = &quot;white&quot;, high = &quot;#B2182B&quot;)</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/diff-plot-1.png" alt="" width="864" /></p>
+<p>Almost every agency was busier than usual in the 1990s and 2000s, and
+slower than usual after about 2015.</p>
+</div>
+<div id="colorblindness" class="section level3">
+<h3>Colorblindness</h3>
+<p>Keep in mind not everyone sees color in the same way, and some folks
+cannot see certain spectrums of color. About 1 in 12 men and 1 in 200
+women have some kind of colorblindness. You can check how your plot
+looks to them by uploading an image to a simulator like <a
+href="https://www.color-blindness.com/coblis-color-blindness-simulator/">Coblis</a>.
+For more on picking colors, check out the <a
+href="https://clauswilke.com/dataviz/color-basics.html">color
+chapters</a> in <em>Fundamentals of Data Visualization</em> and this
+Nature perspective piece on <a
+href="https://www.nature.com/articles/s41467-020-19160-7">The misuse of
+colour in science communication</a>.</p>
+</div>
+<div id="challenge-3" class="section level3 blue">
+<h3>Challenge</h3>
+<p>For each of these plots, which kind of color palette would you use,
+and why?</p>
+<ol style="list-style-type: decimal">
+<li>A map of the number of filings in each state</li>
+<li>A bar chart of filings for each agency, filled by
+<code>stage</code></li>
+<li>A map of the change in filings for each state between the 1990s and
+the 2010s</li>
+</ol>
+<p>Then pick one of the plots we made today and try out a different
+palette that fits.</p>
+<details>
+<summary>
+ANSWER
+</summary>
+<ol style="list-style-type: decimal">
+<li>Sequential. The number of filings goes from low to high.</li>
+<li>Qualitative. Draft and final don’t have an order.</li>
+<li>Diverging. Some states went up and some went down, and zero (no
+change) is a meaningful middle.</li>
+</ol>
+</details>
+</div>
+<p><br></p>
+</div>
+<div id="labels-and-annotation" class="section level2">
+<h2>Labels and annotation</h2>
+<p>Our plots so far have used the column names as labels, which is fine
+while you’re exploring, but not when you’re showing a plot to someone
+else. Here’s our ordered bar chart from earlier, with all of ggplot’s
+defaults:</p>
+<pre class="r"><code>ggplot(data = eis_ordered, mapping = aes(y = agency)) +
+  geom_bar()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/labels-default-1.png" alt="" width="768" /></p>
+<p><code>labs()</code> lets you set the title, subtitle, axis labels,
+and a caption. A good title says what the reader should take away from
+the plot, not just what’s on the axes. Let’s also change the color and
+theme:</p>
+<pre class="r"><code>ggplot(data = eis_ordered, mapping = aes(y = agency)) +
+  geom_bar(fill = &quot;darkgreen&quot;) +
+  labs(title = &quot;The Forest Service files more EISs than any other agency&quot;,
+       subtitle = &quot;Environmental impact statements filed with the EPA, 1987-2025&quot;,
+       x = &quot;Number of filings&quot;,
+       y = NULL,
+       caption = &quot;Data: U.S. EPA Environmental Impact Statement database&quot;) +
+  theme_bw()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/labels-1.png" alt="" width="768" /></p>
+<p>Setting <code>y = NULL</code> removes the y-axis label, since the
+agency names speak for themselves.</p>
+<p>The <strong><code>scales</code></strong> package, which comes with
+ggplot, has functions to format the numbers on an axis.
+<code>label_comma()</code> adds commas to big numbers:</p>
+<pre class="r"><code>ggplot(data = eis_ordered, mapping = aes(y = agency)) +
+  geom_bar(fill = &quot;darkgreen&quot;) +
+  scale_x_continuous(labels = scales::label_comma()) +
+  labs(x = &quot;Number of filings&quot;, y = NULL) +
+  theme_bw()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/labels-comma-1.png" alt="" width="768" /></p>
+<p>You can also add text or shapes right onto the plot with
+<code>annotate()</code>. Unlike a geom, <code>annotate()</code> doesn’t
+use the data, so you give it the positions yourself. Let’s point out the
+busiest year:</p>
+<pre class="r"><code>ggplot(data = yearly_total, mapping = aes(x = filed_year, y = n)) +
+  geom_line() +
+  annotate(&quot;point&quot;, x = 1995, y = 606, color = &quot;firebrick&quot;, size = 3) +
+  annotate(&quot;text&quot;, x = 1995, y = 631, label = &quot;606 filings in 1995&quot;) +
+  labs(x = &quot;Year filed&quot;, y = &quot;Number of filings&quot;) +
+  theme_bw()</code></pre>
+<p><img src="lesson_wk08_data_visualization_pt2_files/figure-html/annotate-1.png" alt="" width="672" /></p>
+</div>
+<div id="visualization-tips" class="section level2 tabset tabset-fade">
+<h2 class="tabset tabset-fade">Visualization Tips</h2>
+<p>This information isn’t meant to be comprehensive, but at minimum, it
+may provide some guidance when you are creating plots and figures.</p>
+<div id="visualization-dos" class="section level3">
+<h3>Visualization Do’s</h3>
+<p>The most basic tip is keep it simple! Stick with a clean and clear
+message, what is your plot/figure trying to get across? Data
+visualization is effective when it is simple, and repackages data into a
+visual story that is easy to understand.</p>
+<ul>
+<li>Label appropriately and legibly, including axes, and use text to
+highlight important bits</li>
+<li>Use one color to represent each category, consider colorblind/BW
+friendly palettes</li>
+<li>Order datasets using logical hierarchy (Make it easy for reader to
+compare values)</li>
+<li>Pay attention to scale (e.g., start bar charts at zero)</li>
+<li>Include your data/outliers where possible</li>
+</ul>
+</div>
+<div id="visualization-donts" class="section level3">
+<h3>Visualization Don’ts</h3>
+<p>A few things to avoid (which basically relates to keeping it
+simple):</p>
+<ul>
+<li>Don’t try to add too much into one plot…<strong>keep it
+simple</strong></li>
+<li>Don’t add color unnecessarily unless it provides a specific
+function</li>
+<li>Avoid high contrast colors (red/green or blue/yellow)</li>
+<li>Don’t use 3D charts. They can make it hard to discern or perceive
+the actual information.</li>
+<li>Avoid ornamentation (shadowing, extra illustration, etc)</li>
+<li>Avoid more than 6 categorical colors in a layout unless you are
+looking at continuous data.</li>
+<li>Keep fonts simple (avoid unnecessary <strong>bold</strong> or
+<em>italicization</em>)</li>
+<li>Don’t try to compare too many categories or data types in one
+chart</li>
+</ul>
+<p><br></p>
+</div>
+</div>
+<div id="saving-figures-and-plots" class="section level2">
+<h2>Saving Figures and Plots</h2>
+<p>A plot you created with ggplot or another plotting package can be
+saved as .JPEGS (or .tiff, .img, etc) onto you. For any ggplot objects,
+we recommend using <code>ggsave</code>.</p>
+<p>First, let’s create a new folder in this project called
+<code>figures</code>. Let’s save all the figures we create to that
+folder. <code>ggsave</code> will default to saving the last plot you
+created, however, we think it is always a good idea to specify exactly
+which plot you want saved. To do that, we have to save our plot as an
+object.</p>
+<pre class="r"><code>ggsave(&quot;figures/eis_heatmap.png&quot;, eis_heatmap)</code></pre>
+<div id="with-ggsave-you-can-save-images-as" class="section level4">
+<h4>With <code>ggsave</code> you can save images as</h4>
+<ul>
+<li>.png, .jpeg, .tiff, .pdf, .bmp, or .svg</li>
+</ul>
+</div>
+<div id="other-arguments-of-ggsave" class="section level4">
+<h4>Other arguments of <code>ggsave</code></h4>
+<ul>
+<li><code>scale</code> can scale the image (multiplicative scaling
+factor)</li>
+<li><code>width</code> and <code>height</code> let you specify the size
+of the image in <code>units</code> that you specify</li>
+<li><code>dpi</code> can change the quality of the image; for
+publication graphs we suggest over 700 dpi</li>
+</ul>
+<pre class="r"><code>ggsave(&quot;figures/eis_heatmap.png&quot;, eis_heatmap, width = 6, height = 4, units = &quot;in&quot;, dpi = 700)</code></pre>
+<p><br></p>
+<p>This lesson was contributed by <a
+href="https://github.com/MarthaWohlfeil">Martha Zillig</a>.</p>
+<p>This lesson is adapted from the Data Carpentry: R for Data Analysis
+and Visualization of Ecological Data <a
+href="https://datacarpentry.org/R-ecology-lesson/visualizing-ggplot.html">Data
+visualization with ggplot2 materials</a>. Data are from the U.S. EPA’s
+<a
+href="https://cdxapps.epa.gov/cdx-enepa-II/public/action/eis/search">Environmental
+Impact Statement database</a>. The course file is a cleaned subset
+prepared for teaching (see the <a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/eis_codebook.md">codebook</a>).</p>
+</div>
+</div>
+</div>
 
 
 
