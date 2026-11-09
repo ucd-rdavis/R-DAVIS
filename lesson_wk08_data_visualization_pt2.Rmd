@@ -17,7 +17,7 @@ title: 'Wk08: Data Visualization II'
 
 ## Videos
 
-- [Data visualization: Faceting and Themes]
+- [Data visualization: Faceting and Themes](https://video.ucdavis.edu/media/Wk8_facets_themes/1_yv3x0kn0/420714533)
 - [Data visualization: Best Practices](https://video.ucdavis.edu/media/wk8_best_practices/1_c9jxzck6)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714923)
 
