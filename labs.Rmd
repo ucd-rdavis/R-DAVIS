@@ -165,7 +165,7 @@ For our week seven lab, we are going to be practicing the skills we learned with
 
 ### <small>Lab Week 8</small> {#lab-week-8}
 
-Data Visualization II lab — placeholder; content to be added. (The former Mauna Loa dates lab is in `archive/`.)
+For our week eight lab, we are going to practice making plots that you could show to someone else. First we'll fix up a messy plot of the environmental impact statement (EIS) data from lecture, and then you'll make a plot of your own with some new data.
 
 <a href="labs/lab_week_08.qmd" download>Download Lab 8 (.qmd)</a>
 

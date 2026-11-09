@@ -4,31 +4,21 @@ title: 'Wk08: Data Visualization II'
 
 <div class = "blue">
 
-### Under revision
-
-This lecture is being updated for the current quarter — check back soon.
-
-</div>
-
-<!--
-
-<div class = "blue">
 ### Learning Objectives
 
 * Describe what faceting is and apply faceting in ggplot.
 * Use themes to change the look of a plot.
-* Learn some basic visualization dos and don'ts
-* Learn how to customize color in plots
-* Gain a basic understanding of package `cowplot`
-* Introduction to interactive `plotly` package
+* Choose a type of plot that fits your question.
+* Choose a color palette (qualitative, sequential, or diverging) that fits your data.
+* Add titles, labels, and annotations to a plot.
+* Save plots with `ggsave()`.
 </div>
 <br>
 
 ## Videos
 
-- [Data visualization Part 2a](https://www.youtube.com/watch?v=aahVpfygvtc)
-- [Data visualization Part 2b](https://www.youtube.com/watch?v=0yTQY9doaZM)
-- [Data visualization Part 2c](https://video.ucdavis.edu/media/Week7_Saving_and_NonVizViz/1_2fzv6mle/390286133)
+- [Data visualization: Faceting and Themes]
+- [Data visualization: Best Practices]
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714923)
 
 ## In Class Coding
@@ -38,15 +28,7 @@ This lecture is being updated for the current quarter — check back soon.
 ```{r setup, include=FALSE, echo=FALSE, results='hide'}
 # Packages used in this lesson
 required_packages <- c(
-  "ggplot2",       # plotting
-  "cowplot",       # multi-panel figures (bonus)
-  "plotly",        # interactive plots (bonus)
-  "tidyverse",     # data manipulation and plotting
-  "viridis",       # colorblind-friendly palettes
-  "RColorBrewer",  # additional palettes
-  "sonify",        # sound-based data visualization
-  "seewave",
-  "BrailleR"       # text descriptions of plots
+  "tidyverse"      # data manipulation and plotting (includes ggplot2)
 )
 
 new_packages <- required_packages[!(required_packages %in% installed.packages()[,"Package"])]
@@ -237,69 +219,317 @@ Up until around 2015, the EPA rated most of the filings from every agency. After
 There are many tips and tricks that are available for the multitude of visualization packages in R. However, there aren't as many simple rules or suggestions on what actually makes a good visualization. This starts with the "grammar of graphics", which is the fundamental rules or principals which describe an art or science (from Wickham 2010).
 
  > "A good grammar will allow us to gain insight into the composition of complicated graphics, and reveal unexpected connections between seemingly different graphics (Cox 1978)"
- 
+
 Because there are so many options and methods to plot our data in R, we need to think about how we are going to represent the data, how can that data be interpreted visually, and what story it may tell.
 
-A very nice example of this is provided by this animation (created by Darkhorse Analytics, and used in Jenny Bryan's excellent [stat545](https://stat545.com/effective-graphs.html) course). It shows how *simplification* can make a big difference in communication. 
+A very nice example of this is provided by this animation (created by Darkhorse Analytics, and used in Jenny Bryan's [stat545](https://stat545.com/effective-graphs.html) course). It shows how *simplification* can make a big difference in communication.
 
 ![Less is more graphic](img/less-is-more-darkhorse-analytics.gif)
 
 ### Exploration vs. Communication
 
-One thing to consider is what the objective is when creating a visualization or plot. When we build plots for exploratory purposes, we already know what the variables are we are using, and the objective is more about what sort of patterns the data might show. When communicating, the objective is more about providing a stand-alone snapshot which helps others *understand* what you are trying to convey. We'll cover more on this when we talk about `Rmarkdown`.
+One thing to consider is what the objective is when creating a visualization or plot. When we build plots for exploratory purposes, we already know what the variables are we are using, and the objective is more about what sort of patterns the data might show. When communicating, the objective is more about providing a stand-alone snapshot which helps others *understand* what you are trying to convey.
 
-    
+### Pick the plot for your question
+
+Most of the plots you'll make answer one of a handful of questions, and each question has a kind of plot that usually works best. You've already made all of these:
+
+* **How much?** (amounts): bar charts, like our count of filings for each agency
+* **How is it spread out?** (distributions): histograms and boxplots, like `comment_days` and `epa_lag` last week
+* **What share?** (proportions): stacked or filled bar charts
+* **How are two things related?** (relationships): scatter plots
+* **How does it change?** (time series): line plots, like our yearly counts
+
+If you want to go deeper, Claus Wilke's free online book [*Fundamentals of Data Visualization*](https://clauswilke.com/dataviz/) has a chapter on each of these, and is opinionated in a helpful way about which plots work and which don't.
+
+## Bar charts
+
+### Order your bars
+
+Here's our count of filings for each agency from last week:
+
+```{r bar-alpha}
+ggplot(data = eis, mapping = aes(y = agency)) +
+  geom_bar()
+```
+
+The agencies are in alphabetical order, which doesn't tell us anything. It's much easier to compare the bars if they're sorted by size. The function `fct_infreq()`, from the tidyverse package **`forcats`**, orders a variable from the most common value to the least:
+
+```{r bar-infreq}
+ggplot(data = eis, mapping = aes(y = fct_infreq(agency))) +
+  geom_bar()
+```
+
+That's closer, but the biggest bar is at the bottom. `fct_rev()` flips the order. And "Other agencies" isn't really one agency, so it makes more sense at the end, no matter how big it is. `fct_relevel()` moves it to the front of the list, which puts it at the bottom of the plot:
+
+```{r bar-ordered}
+eis_ordered <- eis %>%
+  mutate(agency = fct_rev(fct_infreq(agency)),
+         agency = fct_relevel(agency, "Other agencies"))
+
+ggplot(data = eis_ordered, mapping = aes(y = agency)) +
+  geom_bar()
+```
+
+### Where should the axis start?
+
+Let's count up the total number of filings each year and plot them as a line:
+
+```{r line-total}
+yearly_total <- eis %>%
+  count(filed_year)
+
+ggplot(data = yearly_total, mapping = aes(x = filed_year, y = n)) +
+  geom_line()
+```
+
+Notice that ggplot didn't start the y-axis at zero. It starts a little below the smallest value, so the line fills up the plot. That's fine for a line plot. We read a line by how it goes up and down, not by how far it is from the bottom of the plot.
+
+Now let's compare the number of draft statements to the number of final statements, cropping the y-axis the same way with `coord_cartesian()`:
+
+```{r bar-truncated}
+eis %>%
+  filter(stage != "Other") %>%
+  ggplot(mapping = aes(x = stage)) +
+  geom_bar() +
+  coord_cartesian(ylim = c(7500, 9000))
+```
+
+Why is this figure misleading? Look at how long each bar is compared to the actual numbers on the y-axis.
+
+Here's the same plot with the y-axis starting at zero:
+
+```{r bar-zero}
+eis %>%
+  filter(stage != "Other") %>%
+  ggplot(mapping = aes(x = stage)) +
+  geom_bar()
+```
+
+The cropped version makes it look like there are about four times as many drafts as finals. There are actually 8,697 drafts and 7,963 finals, so the difference is pretty small. We read a bar by its length, so if the axis doesn't start at zero, the lengths lie. Bar charts should always start at zero.
+
+### Pie charts
+
+Pie charts are popular, but it's hard to compare the sizes of slices, especially when they're close. ggplot doesn't have a pie chart geom, but you can make one by wrapping a bar chart into a circle with `coord_polar()`:
+
+```{r pie}
+ggplot(data = eis, mapping = aes(x = "", fill = agency)) +
+  geom_bar() +
+  coord_polar(theta = "y")
+```
+
+Is the Army Corps of Engineers slice bigger or smaller than the Bureau of Land Management slice? Hard to say. If you want to show shares, a filled bar chart is usually easier to read. `position = "fill"` stretches every bar to the same length, so each one shows proportions instead of counts:
+
+```{r bar-fill}
+eis %>%
+  filter(stage != "Other") %>%
+  ggplot(mapping = aes(y = agency, fill = stage)) +
+  geom_bar(position = "fill")
+```
+
 ## Color
 
-There are so many options in R. It is fun to play around with color, but keep in mind not everyone sees color in the same way, and some folks cannot see certain spectrums of color (i.e., [absence of blue or green receptors is common](https://www.colormatters.com/color-and-vision/what-is-color-blindness)). See below for a example of what colorblindness may do...if you see numbers inside these circles, great, you have some blue/green retinal receptors.
+There are so many options in R. It is fun to play around with color, but the most important thing is to pick colors that match your data. There are three main kinds of color palettes:
 
-![](https://www.colormatters.com/images/cbtests/plate1.jpg) ![](https://www.colormatters.com/images/cbtests/plate3.jpg)
+* **Qualitative**: for categories that don't have an order, like agencies. The colors should look different from each other, but no color should look "bigger" than another.
+* **Sequential**: for values that go from low to high. The colors go from light to dark.
+* **Diverging**: for values that go above and below a meaningful middle, like zero. The colors get darker in two directions, with a light color in the middle.
 
-Having said that, [here's a great cheat sheet of colors in R](https://www.nceas.ucsb.edu/~frazier/RSpatialGuides/colorPaletteCheatsheet.pdf), it can be handy when trying to find the correct color or name of a color. Check out this recent Nature perspective piece on [The misuse of colour in science communication](https://www.nature.com/articles/s41467-020-19160-7?utm_source=twitter&utm_medium=social&utm_content=organic&utm_campaign=NGMT_USG_JC01_GL_NRJournals).
+### Qualitative palettes
 
-### Discrete/Categorical:
+Remember our line plot of yearly filings for each agency? Here it is with ggplot's default colors:
 
-For a very nice discussion about color palettes, I recommend [this page](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/) from the R cookbook folks. 
+```{r lines-default, fig.width=9}
+ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n, color = agency)) +
+  geom_line()
+```
 
-Additionally, check out the great [ggthemes](https://cran.r-project.org/web/packages/ggthemes/vignettes/ggthemes.html) package, which has many options. One I find very helpful is using `scale_color_colorblind()`, which if you have 8-9 categories, may be a nice way to display your data.
+The default colors work for categories, but some of them are hard to tell apart, especially for folks with colorblindness. The Okabe-Ito palette was designed so that people with the most common kinds of colorblindness can still tell the colors apart, and it comes with R. `palette.colors()` gives us the colors, and `scale_color_manual()` lets us use our own colors:
 
-### Continuous: [`viridis`](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)
+```{r lines-okabe, fig.width=9}
+ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = n, color = agency)) +
+  geom_line() +
+  scale_color_manual(values = palette.colors(palette = "Okabe-Ito"))
+```
 
-The `viridis` package is an excellent set of colors that better represent your data, are easier to read for those with colorblindness, and they also tend to print fairly well in grayscale.
+### Using color for emphasis
 
-Take a look at the [vignette online](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)!
+Even with good colors, seven lines is a lot to follow. If your plot has one main point, you can make everything else gray. Let's say we want to show what happened to the Federal Highway Administration. First we make a column that says whether each row is the agency we care about:
 
-An example:
+```{r highlight-data}
+yearly_highlight <- yearly_counts %>%
+  mutate(highlight = agency == "Federal Highway Administration")
+```
 
-![viridis](img/viridis_demo.png)
+Then we color by that column. We still need `group = agency` so that ggplot draws a separate line for each agency:
 
-### Customizing color palettes in ggplot
+```{r highlight-plot, fig.width=8}
+ggplot(data = yearly_highlight, mapping = aes(x = filed_year, y = n, group = agency, color = highlight)) +
+  geom_line() +
+  scale_color_manual(values = c("grey75", "firebrick"))
+```
 
-The viridis color palettes have been built into ggplot so that you can call upon them using the scale_fill_viridis_ or scale_color_viridis_ functions. Note that whether or not you use the fill or color scale function depends on which aesthetic you set in your plot. The functions also have extensions depending on the kind of variable that you want to color: scale_fill_viridis_*d* is for discrete variables while scale_fill_viridis_*c* is for continuous variables. Within the function, you can specify which viridis palette to use: A-D.
+### Sequential palettes
 
-In this example we fill in our bars with the cut variable in the diamond dataset, a categorical variable with 5 groups. 
-```{r, echo=T, eval=T}
-library(ggplot2)
-ggplot(diamonds, aes(x = clarity, fill = cut)) + 
-  geom_bar() +
-    theme_classic() +
-  theme(axis.text.x = element_text(angle=70, vjust=0.5)) +
-  scale_fill_viridis_d(option = "C") 
+Here's a new kind of plot: a heatmap. `geom_tile()` draws a square for each year and agency, and we fill it based on the number of filings. We'll save it as an object so we can try a few different color scales:
+
+```{r tile-default, fig.width=9}
+eis_heatmap <- ggplot(data = yearly_counts, mapping = aes(x = filed_year, y = agency, fill = n)) +
+  geom_tile()
+
+eis_heatmap
+```
+
+The number of filings goes from low to high, so ggplot uses a sequential palette by default, from dark blue to light blue. It works, but it's hard to see differences between the blues.
+
+The [`viridis`](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html) palettes are an excellent set of colors that better represent your data, are easier to read for those with colorblindness, and they also tend to print fairly well in grayscale. They're built into ggplot, and you can call upon them using the `scale_fill_viridis_` or `scale_color_viridis_` functions. Note that whether or not you use the fill or color scale function depends on which aesthetic you set in your plot. The functions also have extensions depending on the kind of variable that you want to color: `scale_fill_viridis_d` is for discrete variables while `scale_fill_viridis_c` is for continuous variables.
+
+```{r tile-viridis, fig.width=9}
+eis_heatmap +
+  scale_fill_viridis_c()
+```
+
+What not to do: a rainbow palette.
+
+```{r tile-rainbow, fig.width=9}
+eis_heatmap +
+  scale_fill_gradientn(colors = rainbow(7))
+```
+
+The rainbow doesn't have an order. Is purple more than green? The colors also jump around, so years with 100 and 150 filings look like totally different things, while years with 150 and 200 look about the same.
+
+### Sequential palettes for ordered categories
+
+Categories can have an order too. The EPA's impact ratings go from best to worst, so the colors should too. Let's look at the share of each rating for each agency. We'll use only the rated drafts from 2018 and earlier, since that's when the ratings stop showing up in our data:
+
+```{r rated-data}
+drafts_rated <- eis %>%
+  filter(stage == "Draft", !is.na(epa_impact), filed_year <= 2018) %>%
+  mutate(epa_impact = factor(epa_impact, levels = c("Lack of Objections",
+                                                    "Environmental Concerns",
+                                                    "Environmental Objections",
+                                                    "Environmentally Unsatisfactory")))
+```
+
+```{r rated-default, fig.width=10}
+ggplot(data = drafts_rated, mapping = aes(y = agency, fill = epa_impact)) +
+  geom_bar(position = "fill")
+```
+
+The default colors treat the ratings like they have no order. A sequential palette from the [ColorBrewer](https://colorbrewer2.org/) palettes, which are built into ggplot with `scale_fill_brewer()`, makes the order obvious: pale is fine, red is bad.
+
+```{r rated-brewer, fig.width=10}
+ggplot(data = drafts_rated, mapping = aes(y = agency, fill = epa_impact)) +
+  geom_bar(position = "fill") +
+  scale_fill_brewer(palette = "YlOrRd")
+```
+
+### Diverging palettes
+
+A diverging palette only makes sense when the middle of your scale means something. Let's ask a different question: was each year busier or slower than usual for that agency? We'll calculate how far above or below its own average each agency was every year, as a percent:
+
+```{r diff-data}
+yearly_diff <- yearly_counts %>%
+  group_by(agency) %>%
+  mutate(pct_diff = (n - mean(n)) / mean(n) * 100) %>%
+  ungroup()
+```
+
+Now zero means "an average year", so we want white in the middle, one color for busier years and another for slower ones. `scale_fill_gradient2()` does exactly that, with the middle at zero by default:
+
+```{r diff-plot, fig.width=9}
+ggplot(data = yearly_diff, mapping = aes(x = filed_year, y = agency, fill = pct_diff)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "#2166AC", mid = "white", high = "#B2182B")
+```
+
+Almost every agency was busier than usual in the 1990s and 2000s, and slower than usual after about 2015.
+
+### Colorblindness
+
+Keep in mind not everyone sees color in the same way, and some folks cannot see certain spectrums of color. About 1 in 12 men and 1 in 200 women have some kind of colorblindness. You can check how your plot looks to them by uploading an image to a simulator like [Coblis](https://www.color-blindness.com/coblis-color-blindness-simulator/). For more on picking colors, check out the [color chapters](https://clauswilke.com/dataviz/color-basics.html) in *Fundamentals of Data Visualization* and this Nature perspective piece on [The misuse of colour in science communication](https://www.nature.com/articles/s41467-020-19160-7).
+
+<div class = "blue">
+
+### Challenge
+
+For each of these plots, which kind of color palette would you use, and why?
+
+1. A map of the number of filings in each state
+2. A bar chart of filings for each agency, filled by `stage`
+3. A map of the change in filings for each state between the 1990s and the 2010s
+
+Then pick one of the plots we made today and try out a different palette that fits.
+
+<details>
+<summary>ANSWER</summary>
+
+1. Sequential. The number of filings goes from low to high.
+2. Qualitative. Draft and final don't have an order.
+3. Diverging. Some states went up and some went down, and zero (no change) is a meaningful middle.
+
+</details>
+</div>
+
+<br>
+
+## Labels and annotation
+
+Our plots so far have used the column names as labels, which is fine while you're exploring, but not when you're showing a plot to someone else. Here's our ordered bar chart from earlier, with all of ggplot's defaults:
+
+```{r labels-default, fig.width=8}
+ggplot(data = eis_ordered, mapping = aes(y = agency)) +
+  geom_bar()
+```
+
+`labs()` lets you set the title, subtitle, axis labels, and a caption. A good title says what the reader should take away from the plot, not just what's on the axes. Let's also change the color and theme:
+
+```{r labels, fig.width=8}
+ggplot(data = eis_ordered, mapping = aes(y = agency)) +
+  geom_bar(fill = "darkgreen") +
+  labs(title = "The Forest Service files more EISs than any other agency",
+       subtitle = "Environmental impact statements filed with the EPA, 1987-2025",
+       x = "Number of filings",
+       y = NULL,
+       caption = "Data: U.S. EPA Environmental Impact Statement database") +
+  theme_bw()
+```
+
+Setting `y = NULL` removes the y-axis label, since the agency names speak for themselves.
+
+The **`scales`** package, which comes with ggplot, has functions to format the numbers on an axis. `label_comma()` adds commas to big numbers:
+
+```{r labels-comma, fig.width=8}
+ggplot(data = eis_ordered, mapping = aes(y = agency)) +
+  geom_bar(fill = "darkgreen") +
+  scale_x_continuous(labels = scales::label_comma()) +
+  labs(x = "Number of filings", y = NULL) +
+  theme_bw()
+```
+
+You can also add text or shapes right onto the plot with `annotate()`. Unlike a geom, `annotate()` doesn't use the data, so you give it the positions yourself. Let's point out the busiest year:
+
+```{r annotate}
+ggplot(data = yearly_total, mapping = aes(x = filed_year, y = n)) +
+  geom_line() +
+  annotate("point", x = 1995, y = 606, color = "firebrick", size = 3) +
+  annotate("text", x = 1995, y = 631, label = "606 filings in 1995") +
+  labs(x = "Year filed", y = "Number of filings") +
+  theme_bw()
 ```
 
 ## Visualization Tips {.tabset .tabset-fade}
 
-This information isn't meant to be comprehensive, but at minimum, it may provide some guidance when you are creating plots and figures. 
+This information isn't meant to be comprehensive, but at minimum, it may provide some guidance when you are creating plots and figures.
 
 ### Visualization Do's
 
-The most basic tip is keep it simple! Stick with a clean and clear message, what is your plot/figure trying to get across? Data visualization is effective when it is simple, and repackages data into a visual story that is easy to understand. 
+The most basic tip is keep it simple! Stick with a clean and clear message, what is your plot/figure trying to get across? Data visualization is effective when it is simple, and repackages data into a visual story that is easy to understand.
 
  - Label appropriately and legibly, including axes, and use text to highlight important bits
  - Use one color to represent each category, consider colorblind/BW friendly palettes
  - Order datasets using logical hierarchy (Make it easy for reader to compare values)
- - Use icons when possible to reduce unnecessary labeling
- - Pay attention to scale (e.g., start axis at zero not 2.4 to 3.5)
+ - Pay attention to scale (e.g., start bar charts at zero)
  - Include your data/outliers where possible
 
 
@@ -315,61 +545,17 @@ A few things to avoid (which basically relates to keeping it simple):
  - Avoid more than 6 categorical colors in a layout unless you are looking at continuous data.
  - Keep fonts simple (avoid unnecessary **bold** or *italicization*)
  - Don't try to compare too many categories or data types in one chart
- 
-### Examples
-
-#### Scatterplots
-
-One of the best simple plots for examining patterns in data, but very effective. Also used when adding model trend lines.
-
-```{r scatterplots}
-
-suppressPackageStartupMessages(library(ggplot2))
-plot(x=iris$Petal.Width) # single variable
-plot(x=iris$Petal.Width, y=iris$Petal.Length) # multiple variables
-ggplot() + geom_point(data=iris, aes(x=Petal.Width, y=Petal.Length))
-ggplot() + geom_point(data=iris, aes(x=Petal.Width, y=Petal.Length, fill=Species), pch=21, size=3, alpha=0.5)
-
-```
-
-
-#### Lineplots
-
-Comparing relative change in quantities across a variable like time. Note the change when we avoid facetting each line independently.
-
-```{r lineplots}
-plot(EuStockMarkets)
-
-suppressPackageStartupMessages(library(tidyverse))
-EuStockMarkets_df <- data.frame(as.matrix(EuStockMarkets), date=as.numeric(time(EuStockMarkets)))
-EuStockMarkets_long <- pivot_longer(EuStockMarkets_df, cols = 1:4, names_to = "Market", values_to = "value")
-ggplot() + geom_line(data=EuStockMarkets_long, aes(x=date, y=value, color=Market))
-
-```
-
-#### Barplots
-
-Comparing totals across multiple groups. Notice legibility when you stack the bars.
-
-```{r barplots}
-
-# code adapted from https://www.analyticsvidhya.com/blog/2015/07/guide-data-visualization-r/
-suppressPackageStartupMessages(library(viridis))
-barplot(iris$Petal.Length)
-barplot(iris$Sepal.Length,col  = viridis(3, option = "A")) 
-barplot(table(iris$Species,iris$Sepal.Length),col  = viridis(3, option = "A")) 
-```
 
 <br>
 
-## Saving Figures and Plots 
+## Saving Figures and Plots
 
-A plot you created with ggplot or another plotting package can be saved as .JPEGS (or .tiff, .img, etc) onto you. For any ggplot objects, we recommend using `ggsave`. 
+A plot you created with ggplot or another plotting package can be saved as .JPEGS (or .tiff, .img, etc) onto you. For any ggplot objects, we recommend using `ggsave`.
 
-First, let's create a new folder in this project called `figures`. Let's save all the figures we create to that folder. `ggsave` will default to saving the last plot you created, however, we think it is always a good idea to specify exactly which plot you want saved. To do that, we have to save our plot as an object. 
+First, let's create a new folder in this project called `figures`. Let's save all the figures we create to that folder. `ggsave` will default to saving the last plot you created, however, we think it is always a good idea to specify exactly which plot you want saved. To do that, we have to save our plot as an object.
 
 ```{r, eval = F}
-ggsave("figures/surveys_plot.png", surveys_plot)
+ggsave("figures/eis_heatmap.png", eis_heatmap)
 ```
 
 #### With `ggsave` you can save images as
@@ -383,138 +569,13 @@ ggsave("figures/surveys_plot.png", surveys_plot)
  - `dpi` can change the quality of the image; for publication graphs we suggest over 700 dpi
 
 ```{r, eval = F}
-ggsave("figures/surveys_plot.png", surveys_plot, width = 6, height = 4, units = "in", dpi = 700)
+ggsave("figures/eis_heatmap.png", eis_heatmap, width = 6, height = 4, units = "in", dpi = 700)
 ```
 
 <br>
 
-## Non-visual data interaction  
-
-
-Discussions of visualization so far have taken for granted that visualization is accessible to everyone, but researchers and audiences alike are not all sighted. RStudio is behind on blind accessibility, but some packages can provide text descriptions and sonification/audification of plots to improve accessibility for non-visual data interaction.  
-
-The `BrailleR` package ([read more here](https://r-resources.massey.ac.nz/BrailleRInAction/)), has a `VI()` function that wraps around plots and provides a text-description output. We can use the VI wrapper to interact with our plots from a textual perspective and identify what information is missing. Such text can also be used as alt-text when publishing this material. What could we do to our plot to improve the text description?
-
-```{r, echo=T, eval=T, warning= F, message = F}
-#install.packages("BrailleR")
-library(BrailleR)
-
-barplot <- ggplot(diamonds, aes(x = clarity, fill = cut)) + 
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=70, vjust=0.5)) +
-  scale_fill_viridis_d(option = "C") +
-  theme_classic()
-
-VI(barplot)
-```
-
-The `sonification` package's `sonify` function can be used to represent data in audio form, where the x-axis can span sound across time, so that the length of time a sound plays follows the data long the x-axis from left to right; the y-axis can be expressed as pitch, so that the pitch of the sound matches to the values of the data (lower value = lower pitch).
-
-```{r, echo = F, eval = FALSE, warning= F, message = F}
-library(sonify)
-library(seewave)
-sonif <- sonify(iris$Petal.Width)
-savewav(sonif, file = "sw.width.sound.wav")
-```
-
-One variable can be used as an input to hear the distribution. For instance this univariate plot of iris petal width visually looks like this:
-```{r, echo=T, eval=T, warning= F, message = F}
-plot(iris$Petal.Width)
-```
-
-Using `sonify` instead of plot, the distribution of iris petal width sounds like this:
-```{r, echo = T, eval = FALSE, warning= F, message = F}
-#install.packages("sonify")
-library(sonify)
-sonify(iris$Petal.Width)
-```
-If you try this on your computer it should play automatically, but on the website you can listen below: 
-
-<audio controls>
-  <source src="img/sw.width.sound.wav" type="audio/wav">
-</audio>
-
-```{r, echo = F, eval = FALSE, warning= F, message = F}
-sonif <- sonify(x = iris$Petal.Width, y = iris$Petal.Length)
-savewav(sonif, file = "sw.width.length.sound.wav")
-```
-Two variables can be used as input to hear the relationship between continuous variables. For instance this bivariate plot of iris petal length and petal width visually looks like this:
-```{r, echo=T, eval=T, warning= F, message = F}
-plot(x = iris$Petal.Width, y = iris$Petal.Length)
-```
-
-And using `sonify`, sounds like this:
-```{r, echo=T, eval=FALSE, warning= F, message = F}
-sonify(x=iris$Petal.Width, y = iris$Petal.Length) 
-```
-
-<audio controls>
-  <source src="img/sw.width.length.sound.wav" type="audio/wav">
-</audio>
-
-# BONUS CONTENT #
-
-This is provided for your reference, but won't be something we cover in class or address on the exam.
-
-## Publishing Plots: `cowplot`
-
-A few excellent options exist for creating multi-paneled plots for publications. The first and foremost is a package by Claus Wilke called [`cowplot`](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html). With `cowplot`, it's possible to quickly combine existing `ggplots`, creating publication quality plots. See the vignette for more options, but here's a quick example from the vignette below:
-
-```{r, echo=FALSE, warning = F, message = F}
-detach("package:BrailleR", unload=TRUE)
-```
-
-
-```{r cowplot, echo=T, eval=T}
-library(cowplot)
-
-# make a few plots:
-plot.diamonds <- ggplot(diamonds, aes(clarity, fill = cut)) + 
-  geom_bar() +
-  theme(axis.text.x = element_text(angle=70, vjust=0.5))
-#plot.diamonds
-
-plot.cars <- ggplot(mpg, aes(x = cty, y = hwy, colour = factor(cyl))) + 
-   geom_point(size = 2.5)
-#plot.cars
-
-plot.iris <- ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Length, fill=Species)) +
-  geom_point(size=3, alpha=0.7, shape=21)
-#plot.iris
-
-# use plot_grid
-panel_plot <- plot_grid(plot.cars, plot.iris, plot.diamonds, labels=c("A", "B", "C"), ncol=2, nrow = 2)
-
-panel_plot
-
-# fix the sizes draw_plot
-fixed_gridplot <- ggdraw() + draw_plot(plot.iris, x = 0, y = 0, width = 1, height = 0.5) +
-           draw_plot(plot.cars, x=0, y=.5, width=0.5, height = 0.5) +
-           draw_plot(plot.diamonds, x=0.5, y=0.5, width=0.5, height = 0.5) + 
-  draw_plot_label(label = c("A","B","C"), x = c(0, 0.5, 0), y = c(1, 1, 0.5))
-
-fixed_gridplot
-```
-
-## The package `plotly`
-
-The package `plotly` is an excellent, easy to use resource that allows you to quickly create interactive, web-based figures. We have used plotly to illustrate patterns in data to collaborators, to visualize patterns in our data during the pre-analysis stage, and even impress with "fancy" graphics during a conference talk! 
-
-Let's try plotly together using some of the `iris` data: 
-
-```{r, warning = F, message =F}
-library(plotly)
-
-plot.iris <- ggplot(data=iris, aes(x=Sepal.Length, y=Petal.Length, fill=Species)) +
-  geom_point(size=3, alpha=0.7, shape=21)
-
-plotly::ggplotly(plot.iris) #it's as simple as that! 
-```
-
 This lesson was contributed by [Martha Zillig](https://github.com/MarthaWohlfeil).
 
-This lesson is adapted from the Software Carpentry: R for Reproducible 
-Scientific Analysis [Vectors and Data Frames materials](http://data-lessons.github.io/gapminder-R/03-data-types-subsetting.html)
-and the Data Carpentry: R for Data Analysis and Visualization of Ecological Data 
-[Exporting Data materials](http://www.datacarpentry.org/R-ecology-lesson/03-dplyr.html).
--->
+This lesson is adapted from the Data Carpentry: R for Data Analysis and Visualization of Ecological Data
+[Data visualization with ggplot2 materials](https://datacarpentry.org/R-ecology-lesson/visualizing-ggplot.html).
+Data are from the U.S. EPA's [Environmental Impact Statement database](https://cdxapps.epa.gov/cdx-enepa-II/public/action/eis/search). The course file is a cleaned subset prepared for teaching (see the [codebook](https://ucd-rdavis.github.io/R-DAVIS/data/eis_codebook.md)).

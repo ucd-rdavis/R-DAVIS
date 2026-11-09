@@ -5,7 +5,16 @@ format:
     embed-resources: true
 ---
 
-This is the Lab Week 7 document for R-DAVIS. Complete the tasks below in this file (or in your own `.Rmd` or `.R` file, if you prefer), save it, and upload that file to Canvas. No need to render it to HTML.
+This is the Lab Week 7 document for R-DAVIS. Complete the tasks below in this file (or in your own `.qmd` or `.Rmd` file, if you prefer) and save it.
+
+**This week you'll submit a PDF, not the code file.** When you're done, render your document so the PDF shows both your code and your figures, then upload that PDF to Gradescope. The most reliable way to get there:
+
+1. Click **Render** in RStudio (or press `Ctrl/Cmd+Shift+K`). This makes an `.html` file in the same folder as your lab.
+2. Open the `.html` file in your web browser.
+3. Print the page (`Ctrl/Cmd+P`) and choose **Save as PDF** as the printer.
+4. Upload that PDF to Gradescope.
+
+You can also change `html` to `pdf` in the `format:` line at the top of this file and render straight to PDF, but that needs some extra software (run `quarto install tinytex` in the Terminal first) and doesn't always cooperate. If it gives you trouble, use the HTML route above.
 
 
 For our week seven lab, we are going to be practicing the skills we learned with ggplot during class. You will be happy to know that we are going to be using a brand new data set called `gapminder`. This data set is looking at statistics for a few different counties including population, GDP per capita, and life expectancy. Download the data using the code below.
