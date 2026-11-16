@@ -53,7 +53,11 @@ Agreements (IEA) snapshot: `iea_agreements.csv` (one row per agreement, key
 by `scripts/build_iea_data.R`; the IEADB updates weekly, so re-running the script
 changes counts quoted in those lessons and labs. NAs are kept on purpose for
 teaching. Pages using it must cite the IEADB website and Mitchell et al. (2020).
-Other datasets: `gapminder.csv` (labs and functions), `mauna_loa_met_2001_minute.csv`
+Week 9 (Functions) uses `owid_electricity.csv` (country x year electricity generation
+by source, 2000-2024), a frozen subset of Our World in Data's energy dataset built by
+`scripts/build_owid_electricity_data.R` and documented in `data/owid_electricity_codebook.md`;
+pages using it must cite OWID, Ember, and the Energy Institute.
+Other datasets: `gapminder.csv` (labs), `mauna_loa_met_2001_minute.csv`
 (iteration lab; 43 MB, read from the URL), `mysteryData.csv` (faceting
 challenge), and the `nyc_13_*` and `tyler_activity_laps_*`/`finals_data.csv` files,
 which are exam material.
@@ -70,7 +74,7 @@ Or in RStudio: Build tab → Build Website. Rendering runs every code chunk, so 
 build needs a network connection (chunks read data from the live site URL) and every
 package any lesson loads. `tidyverse` covers most of it; week 8 (Data Visualization II) additionally needs
 `viridis`, `cowplot`, `plotly`, `RColorBrewer`, `sonify`, `seewave`, and `BrailleR`;
-week 9 (Functions) needs `gapminder`; `computer_setup.Rmd` needs `emojifont`.
+`computer_setup.Rmd` needs `emojifont`.
 
 Things to know before rendering:
 
