@@ -458,272 +458,577 @@ div.tocify {
 </div>
 
 
-<div id="under-revision" class="section level3 blue">
-<h3>Under revision</h3>
-<p>This lecture is being updated for the current quarter — check back
-soon.</p>
+<div id="learning-objectives" class="section level3 blue">
+<h3>Learning Objectives</h3>
+<ul>
+<li>Decide when a piece of code should become a function.</li>
+<li>Write a function with arguments, default values, and a return
+value.</li>
+<li>Turn code that works once into a function you can reuse.</li>
+<li>Use your own functions inside <code>mutate()</code> and in
+pipes.</li>
+<li>Write functions that take a data frame and return a table.</li>
+<li>Keep functions in their own script and load them with
+<code>source()</code>.</li>
+</ul>
+<p><strong>Bonus (Advanced Function Writing)</strong></p>
+<ul>
+<li>Test functions on inputs with known answers.</li>
+<li>Split shared steps into their own functions.</li>
+<li>Pass column names into a function with <code>{{ }}</code>.</li>
+<li>Check inputs and stop with a clear error message.</li>
+</ul>
 </div>
-<!--
-
-<div class = "blue">
-### Learning Objectives
-
-* Define a function that takes arguments.
-* Set default values for function arguments.
-* Explain why we should divide programs into small, single-purpose functions.
+<p><br></p>
+<div id="videos" class="section level2">
+<h2>Videos</h2>
+<ul>
+<li><a href="">Function-writing</a></li>
+<li><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714925">Video
+Discussion</a></li>
+</ul>
 </div>
-<br>
-
-## Videos
-
-- [Function-writing](https://video.ucdavis.edu/media/Week8_Part2_WritingFunctions/1_fvrbfw9h/390286133)
-- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714925)
-
-## In Class Coding
-
-[Submit Week 9 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1714938)
-
-
-
-<br>
-
-# Creating Functions
-
-Any operation you will perform more than once can be put into a function. That way, rather than retyping all the commands (and potentially making errors), you can simply call the function, passing it a new dataset or parameters. This may seem cumbersome at first, but writing functions to automate repetitive tasks is incredibly powerful. E.g. each time you call `ggplot` you are calling a function that someone wrote. Imagine if each time you wanted to make a plot you had to copy and paste or write that code from scratch!
-
-
-## Defining a function
-
-Recall the components of a function. E.g. the `log` function (see `?log`) takes "arguments" `x` and `base` and "returns" the base-`base` logarithm of `x`. Functions take arguments as input and yield return-values as output. You can define functions to do any number of operations on any number of arguments, but always output a single return value (however there are complex objects into which you can put multiple objects, should you need to).
-
-Let's start by defining a simple function to add two numbers. This is the basic structure, which you can read as "assign to the variable `my_sum` a function that takes arguments `a` and `b` and returns `the_sum`." The body of the function is delimited by the curly-braces. The statements in the body are indented. This makes the code easier to read but does not affect how the code operates. 
-
-
-``` r
-my_sum <- function(a, b) {
-  the_sum <- a + b
-  return(the_sum)
-}
-```
-
-Notice that no numbers were summed when we ran that code, but now the Environment has an object called `my_sum` that has type function. You can call `my_sum` just like you would any other function. When you do, the code between the curly-braces of the `my_sum` definition is run with whatever values you pass to `a` and `b` substituted in their place.
-
-
-``` r
-my_sum(a = 2, b = 2)
-```
-
-```
-## [1] 4
-```
-
-``` r
-my_sum(3, 4)
-```
-
-```
-## [1] 7
-```
-
-Just like `log` provides a default value of `base` (`exp(1)`) so that you don't have to type it every time, you can provide default values to any arguments of your function. Then if the user doesn't specify them, the defaults will be used.
-
-
-``` r
-my_sum2 <- function(a = 1, b = 2) {
-  the_sum <- a + b
-  return(the_sum)
-}
-my_sum2()
-```
-
-```
-## [1] 3
-```
-
-``` r
-my_sum2(b = 7)
-```
-
-```
-## [1] 8
-```
-
-<div class = "blue">
-
-### Tip
-
-One feature unique to R is that the return statement is not required.
-R automatically returns the output of the last line of the body
-of the function unless a `return` statement is specified elsewhere.
-Since other languages require a `return` statement and because it can make
-reading a function easier, we will explicitly define the return statement.
+<div id="in-class-coding" class="section level2">
+<h2>In Class Coding</h2>
+<p><a
+href="https://canvas.ucdavis.edu/courses/1019595/assignments/1510297">Submit
+Week 9 In Class Coding</a></p>
+<p><br> # Function Writing Basics</p>
+<p>You have been using functions since week 1: <code>mean()</code>,
+<code>filter()</code>, <code>ggplot()</code>, <code>read_csv()</code>.
+Each one is code that someone wrote once, gave a name, and shared so
+nobody has to rewrite it.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
 </div>
-<br>
+<div id="our-data-electricity-generation-by-country"
+class="section level2">
+<h2>Our data: electricity generation by country</h2>
+<p>This week we use electricity data from <a
+href="https://github.com/owid/energy-data">Our World in Data</a>, which
+compiles it from Ember and the Energy Institute. Each row is one country
+in one year, 2000–2024. For each country-year we have total electricity
+generated, the amount from each of nine sources (coal, gas, oil,
+nuclear, hydro, wind, solar, bioenergy, and other renewables),
+population, and the carbon intensity of the electricity. Electricity is
+measured in terawatt-hours (TWh). One TWh is one billion kilowatt-hours
+(kWh).</p>
+<p>The <a
+href="https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity_codebook.md">codebook</a>
+describes every column.</p>
+<pre class="r"><code># owid_url &lt;- &quot;https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity.csv&quot;
+## remember that in a .Rmd/.Qmd chunk, the working directory is where the markdown doc lives. Since our lecture markdown docs are in the primary directory, we can call `data/` directly. If you have stored your markdown files in a `scripts/` or `code/` subdirectory (which you should have) that means you&#39;ll need to zoom up one level in your file tree and then back down into the `data/` subdirectory (e.g., `&quot;../data/owid_electricity.csv&quot;`
+owid_flnm &lt;- &quot;data/owid_electricity.csv&quot;
+# download.file(url = owid_url,filename = owid_flnm)
+elec &lt;- read_csv(owid_flnm)</code></pre>
+</div>
+<div id="why-write-functions" class="section level2">
+<h2>Why write functions?</h2>
+<p>There are many reasons, but they tend to come down to accuracy,
+convenience, and speed. When you write a custom function instead of
+script out a process multiple times, there is only one place for
+mistakes and one place to fix them. Your scripts get shorter, you can
+reuse the function for other applications, and you can build on the
+function with other functions to scale up your code.</p>
+<p><em>A common rule of thumb: once you have copied a block of code
+twice, write a function.</em></p>
+</div>
+<div id="the-parts-of-a-function" class="section level2">
+<h2>The parts of a function</h2>
+<p>Here is a function that calculates a percentage:</p>
+<pre class="r"><code>pct &lt;- function(part, total) {
+  100 * part / total
+}</code></pre>
+<p>It has four parts:</p>
+<ul>
+<li><strong>Name:</strong> <code>pct</code>. You assign a function to a
+name with <code>&lt;-</code>, like any other object.</li>
+<li><strong>Arguments:</strong> <code>part</code> and
+<code>total</code>, listed inside <code>function()</code>. These are the
+inputs.</li>
+<li><strong>Body:</strong> the code between the curly braces
+<code>{ }</code>. It uses the arguments.</li>
+<li><strong>Return value:</strong> the output. R returns the value of
+the last line of the body.</li>
+</ul>
+<p>Running that chunk does not calculate anything. It creates an object
+called <code>pct</code> in your Environment, with type function. The
+body runs only when you call the function:</p>
+<pre class="r"><code>pct(1, 4)</code></pre>
+<pre><code>## [1] 25</code></pre>
+<pre class="r"><code>pct(part = 30, total = 120)</code></pre>
+<pre><code>## [1] 25</code></pre>
+<p>When you call <code>pct(1, 4)</code>, R sets <code>part</code> to 1
+and <code>total</code> to 4, runs the body, and returns the result.</p>
+<p>Because the body only uses arithmetic, which works on whole vectors,
+<code>pct()</code> also works on vectors:</p>
+<pre class="r"><code>pct(c(10, 20, 30), 200)</code></pre>
+<pre><code>## [1]  5 10 15</code></pre>
+<p>You can also call your function–just like other functions you already
+know of–inside <code>mutate()</code>:</p>
+<pre class="r"><code>elec_pct &lt;- elec %&gt;%
+  mutate(coal_pct  = pct(coal_electricity,  electricity_generation),
+         wind_pct  = pct(wind_electricity,  electricity_generation),
+         solar_pct = pct(solar_electricity, electricity_generation))
 
-## Temperature conversion
-
-Let's define a function F_to_K that converts temperatures from Fahrenheit to Kelvin:
-
-
-``` r
-F_to_K <- function(temp) {
-  K <- ((temp - 32) * (5 / 9)) + 273.15
-  return(K)
+elec_pct %&gt;%
+  filter(country == &quot;Norway&quot;, year %in% c(2000, 2012, 2024)) %&gt;%
+  select(country, year, coal_pct, wind_pct, solar_pct)</code></pre>
+<pre><code>## # A tibble: 3 × 5
+##   country  year coal_pct wind_pct solar_pct
+##   &lt;chr&gt;   &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+## 1 Norway   2000   0.0281   0.0210     0    
+## 2 Norway   2012   0.0274   1.05       0    
+## 3 Norway   2024   0        9.29       0.337</code></pre>
+<div id="tip" class="section level3 blue">
+<h3>Tip</h3>
+<p>You can also end a function with <code>return(x)</code>.
+<code>R</code> automatically returns the last evaluated expression in a
+function, so <code>return(x)</code> is not necessary. But sometimes, you
+might want to use <code>return(x)</code> to have the function return
+<em>not the last thing</em> under certain conditions.</p>
+<pre class="r"><code>divide_numbers &lt;- function(a, b) {
+  if (b == 0) {
+    return(NA) # Stops immediately so it doesn&#39;t divide by zero
+  }
+  a / b        # Implicitly returned if b is not 0
+}</code></pre>
+</div>
+<p><br></p>
+</div>
+<div id="arguments-and-default-values" class="section level2">
+<h2>Arguments and default values</h2>
+<p>You can give an argument a default value in <code>function()</code>.
+If the user doesn’t supply that argument, the default is used.
+<code>round()</code> does this: <code>digits</code> defaults to 0. Let’s
+add a <code>digits</code> argument to <code>pct()</code>:</p>
+<pre class="r"><code>pct &lt;- function(part, total, digits = 1) {
+  round(100 * part / total, digits)
 }
-```
 
-Calling our own function is no different from calling any other function:
-
-
-``` r
-# freezing point of water
-F_to_K(32)
-```
-
-```
-## [1] 273.15
-```
-
-
-``` r
-# boiling point of water
-F_to_K(212)
-```
-
-```
-## [1] 373.15
-```
-
-<div class = "blue">
-
-### Challenge
-
-- Write a function called `K_to_C` that takes a temperature in K
-and returns that temperature in C
-   - Hint: To convert from K to C you subtract 273.15
-- Create a new R script, copy `F_to_K` and `K_to_C` in it, and save it as 
-functions.R in the `scripts` directory of your project.
-
+pct(1, 3)</code></pre>
+<pre><code>## [1] 33.3</code></pre>
+<pre class="r"><code>pct(1, 3, digits = 3)</code></pre>
+<pre><code>## [1] 33.333</code></pre>
+<p>R matches arguments by name first, then by position. These calls give
+the same result:</p>
+<pre class="r"><code>pct(1, 3, 2)</code></pre>
+<pre><code>## [1] 33.33</code></pre>
+<pre class="r"><code>pct(total = 3, part = 1, digits = 2)</code></pre>
+<pre><code>## [1] 33.33</code></pre>
+<p>Naming every argument after the first one or two makes your code
+easier to read, especially for arguments like <code>digits</code> that
+change how a function behaves.</p>
+<div id="challenge" class="section level3 blue">
+<h3>Challenge</h3>
+<ol style="list-style-type: decimal">
+<li>Write a function called <code>kwh_per_person()</code> that takes
+electricity in TWh and a population and returns kWh per person. One TWh
+is <code>1e9</code> kWh. Test it: the United States generated 4,391 TWh
+in 2024 with a population of about 345 million (<code>345e6</code>),
+which should give roughly 12,700 kWh per person.</li>
+<li>Use <code>kwh_per_person()</code> inside <code>mutate()</code> to
+find the five countries with the highest electricity generation per
+person in 2024.</li>
+</ol>
 <details>
-<summary>ANSWER</summary>
-
-``` r
-K_to_C <- function(tempK) {
-    tempC <- tempK - 273.15 
-    return(tempC)
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code># 1.
+kwh_per_person &lt;- function(twh, population) {
+  twh * 1e9 / population
 }
-```
+kwh_per_person(4391, 345e6)</code></pre>
+<pre><code>## [1] 12727.54</code></pre>
+<pre class="r"><code># 2.
+elec %&gt;%
+  filter(year == 2024) %&gt;%
+  mutate(kwh_pp = kwh_per_person(electricity_generation, population)) %&gt;%
+  arrange(desc(kwh_pp)) %&gt;%
+  select(country, kwh_pp) %&gt;%
+  head(5)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   country kwh_pp
+##   &lt;chr&gt;    &lt;dbl&gt;
+## 1 Iceland 48424.
+## 2 Norway  28173.
+## 3 Bahrain 23615.
+## 4 Kuwait  18744.
+## 5 Qatar   18593.</code></pre>
 </details>
 </div>
-<br>
-
-
-## `source()`ing functions
-
-You can load all the functions in your `scripts/functions.R` script without even opening the file, via the `source` function. This allows you to keep your functions separate from the analyses which use them. 
-
-
-``` r
-source('scripts/functions.R')
-```
-
-
-### Using dataframes in functions
-
-Let's write a function to calculate the average GDP in a given country, in a given span of years, based on the `gapminder` data. If you were to do this for just one specification, without writing a function, it might look something like this:
-
-
-``` r
-library(gapminder)
-library(tidyverse)
-
-gapminder %>% 
-  filter(country == "Canada", year %in% c(1950:1970)) %>% 
-  summarize(mean(gdpPercap, na.rm = T))
-```
-
-```
-## # A tibble: 1 × 1
-##   `mean(gdpPercap, na.rm = T)`
-##                          <dbl>
-## 1                       13349.
-```
-
-But, what if you wanted to do this for many different specifications? You might find yourself wanting to copy and paste these couple lines of code over and over. Instead, you can write it into a function, **soft coding** the parts that you want as your function's arguments. In this example, we want to be able to change the country and the year range that we are interested in. 
-
-
-``` r
-# Note: try to name arguments something that do not exist as a column name, to avoid confusing yourself and R
-avgGDP <- function(cntry, yr.range){
-  df <- gapminder %>% 
-  filter(country == cntry, year %in% yr.range)
-  mean(df$gdpPercap, na.rm = T)
+<p><br></p>
+</div>
+<div id="from-working-code-to-a-function" class="section level2">
+<h2>From working code to a function</h2>
+<p>Most functions start as code that works for one case. The steps
+are:</p>
+<ol style="list-style-type: decimal">
+<li>Write code that works for one case.</li>
+<li>Find the values you would change to run it for a different
+case.</li>
+<li>Replace those values with arguments and wrap the code in
+<code>function()</code>.</li>
+<li>Test the function on the original case, then on a new one.</li>
+</ol>
+<p>Let’s build a function that shows a country’s electricity mix (the
+share from each source) in one year.</p>
+<p><strong>Step 1: write it once.</strong> Here is Germany in 2024. We
+pivot the nine source columns into a long table (week 5), clean up the
+source names, and use <code>pct()</code>:</p>
+<pre class="r"><code>elec %&gt;%
+  filter(country == &quot;Norway&quot;, year == 2024) %&gt;%
+  pivot_longer(coal_electricity:other_renewable_electricity,
+               names_to = &quot;source&quot;, values_to = &quot;twh&quot;) %&gt;%
+  mutate(source = str_remove(source, &quot;_electricity&quot;),
+         share = pct(twh, electricity_generation)) %&gt;%
+  select(source, twh, share) %&gt;%
+  arrange(desc(share))</code></pre>
+<pre><code>## # A tibble: 9 × 3
+##   source             twh share
+##   &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;
+## 1 hydro           140.    88.8
+## 2 wind             14.6    9.3
+## 3 gas               1.47   0.9
+## 4 oil               0.72   0.5
+## 5 solar             0.53   0.3
+## 6 biofuel           0.24   0.2
+## 7 coal              0      0  
+## 8 nuclear           0      0  
+## 9 other_renewable   0      0</code></pre>
+<p><strong>Step 2: find what changes.</strong> To run this for a
+different country or year we would edit <code>"Germany"</code> and
+<code>2024</code>. Those become arguments. We also make the data an
+argument, so the function doesn’t depend on an object called
+<code>elec</code> existing.</p>
+<p><strong>Step 3: replace and wrap.</strong></p>
+<pre class="r"><code>elec_mix &lt;- function(data, country_name, yr) {
+  data %&gt;%
+    filter(country == country_name, year == yr) %&gt;%
+    pivot_longer(coal_electricity:other_renewable_electricity,
+                 names_to = &quot;source&quot;, values_to = &quot;twh&quot;) %&gt;%
+    mutate(source = str_remove(source, &quot;_electricity&quot;),
+           share = pct(twh, electricity_generation)) %&gt;%
+    select(source, twh, share) %&gt;%
+    arrange(desc(share))
+}</code></pre>
+<p><strong>Step 4: test.</strong> First the case we already know, then
+new ones:</p>
+<pre class="r"><code>elec_mix(elec, &quot;Norway&quot;, 2024)</code></pre>
+<pre><code>## # A tibble: 9 × 3
+##   source             twh share
+##   &lt;chr&gt;            &lt;dbl&gt; &lt;dbl&gt;
+## 1 hydro           140.    88.8
+## 2 wind             14.6    9.3
+## 3 gas               1.47   0.9
+## 4 oil               0.72   0.5
+## 5 solar             0.53   0.3
+## 6 biofuel           0.24   0.2
+## 7 coal              0      0  
+## 8 nuclear           0      0  
+## 9 other_renewable   0      0</code></pre>
+<pre class="r"><code>elec_mix(elec, &quot;Sweden&quot;, 2024)</code></pre>
+<pre><code>## # A tibble: 9 × 3
+##   source            twh share
+##   &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt;
+## 1 hydro           64.6   37.5
+## 2 nuclear         50.7   29.4
+## 3 wind            40.4   23.5
+## 4 biofuel         10.2    5.9
+## 5 solar            4.16   2.4
+## 6 oil              1.97   1.1
+## 7 gas              0.11   0.1
+## 8 coal             0      0  
+## 9 other_renewable  0      0</code></pre>
+<p>Because <code>data</code> is the first argument, the function also
+works in a pipe:</p>
+<pre class="r"><code>elec %&gt;% elec_mix(&quot;Finland&quot;, 2024)</code></pre>
+<pre><code>## # A tibble: 9 × 3
+##   source            twh share
+##   &lt;chr&gt;           &lt;dbl&gt; &lt;dbl&gt;
+## 1 nuclear         32.6   39.5
+## 2 wind            20.5   24.8
+## 3 hydro           14.3   17.3
+## 4 biofuel         10.4   12.6
+## 5 oil              2.19   2.7
+## 6 solar            0.94   1.1
+## 7 coal             0.83   1  
+## 8 gas              0.82   1  
+## 9 other_renewable  0      0</code></pre>
+<div id="dont-name-arguments-after-columns" class="section level3">
+<h3>Don’t name arguments after columns</h3>
+<p>Notice the argument is called <code>country_name</code>, not
+<code>country</code>. Here is what happens if you use
+<code>country</code>:</p>
+<pre class="r"><code>elec_mix_bad &lt;- function(data, country, yr) {
+  data %&gt;%
+    filter(country == country, year == yr)
 }
 
-avgGDP("Iran", 1980:1985)
-```
+elec_mix_bad(elec, &quot;Norway&quot;, 2024) %&gt;% nrow()</code></pre>
+<pre><code>## [1] 199</code></pre>
+<p>We asked for one country and got every country. Inside
+<code>filter()</code>, dplyr looks for column names first.
+<code>country == country</code> compares the <code>country</code> column
+to itself, which is always <code>TRUE</code>. Give arguments names that
+are not column names in your data.</p>
+</div>
+</div>
+<div id="what-happens-in-a-function-stays-in-the-function"
+class="section level2">
+<h2>What happens in a function stays in the function</h2>
+<p>Objects created inside a function exist only while it runs. Changes
+you make to an argument inside a function do not change the original
+object. For instance, the code below modifies the temporary
+<code>data</code> input object, but not the original <code>data</code>
+object you fed in, and <code>n_rows</code> is not stored as an
+object.</p>
+<pre class="r"><code>count_2024 &lt;- function(data) {
+  data &lt;- filter(data, year == 2024)
+  n_rows &lt;- nrow(data)
+  n_rows
+}
 
-```
-## [1] 7608.335
-```
-
-``` r
-avgGDP("Zimbabwe", 1950:2000)
-```
-
-```
-## [1] 648.8549
-```
-
-
-## Pass by value
-
-Functions in R almost always make copies of the data to operate on
-inside of a function body. When we modify a data frame inside the function
-we are modifying the copy of the gapminder dataset,
-not the original variable we gave as the first argument.
-This is called "pass-by-value" and it makes writing code much safer:
-you can always be sure that whatever changes you make within the
-body of the function, stay inside the body of the function.
-
-
-<div class = "blue"> 
-
-### Challenge{.challenge}
-
-This challenge will deal with countries' population growth. To access the data, load (and install, if needed) the `gapminder` library and access its life expectancy dataset using:
-
-```
-library(gapminder)
-d <- gapminder::gapminder
-```
-
-Write a new function that takes two arguments, the gapminder data.frame (`d`) and the name of a country (e.g. `"Afghanistan"`), and plots a time series of the country's population. The return value from the function should be a ggplot object. Note: It is often easier to modify existing code than to start from scratch. To start out with one plot for a particular country, figure out what you need to change for each iteration (these will be your arguments), and then wrap it in a function.  
-
-
-
+count_2024(elec)</code></pre>
+<pre><code>## [1] 199</code></pre>
+<pre class="r"><code>nrow(elec)    # elec still has every year</code></pre>
+<pre><code>## [1] 5459</code></pre>
+<pre class="r"><code>n_rows        # this only existed inside the function</code></pre>
+<pre><code>## [1] 35549</code></pre>
+<p>The function worked on a copy of <code>elec</code>. This makes
+functions safe to use: calling one won’t change your data unless you
+save its output with <code>&lt;-</code>.</p>
+<p>It works the other way too. A function can see objects in your
+Environment, so <code>elec_mix()</code> would still run if we deleted
+its <code>data</code> argument and wrote <code>elec</code> in the body.
+Don’t do this. A function that only uses its arguments gives the same
+answer no matter what else is in your Environment, and it works on any
+data you pass to it.</p>
+<p>A few habits that make functions easier to use later:</p>
+<ul>
+<li>Name functions with what they do: <code>elec_mix()</code>,
+<code>kwh_per_person()</code>. Avoid names like <code>f1()</code> or
+<code>my_function()</code>.</li>
+<li>Write a short comment above each function saying what goes in and
+what comes out.</li>
+<li>Keep each function to one job. If you can’t describe it in one
+sentence, split it up.</li>
+<li>Put the data argument first, so the function works with
+<code>%&gt;%</code>.</li>
+</ul>
+<pre class="r"><code># Percent of total. Returns 100 * part / total, rounded to `digits`.
+pct &lt;- function(part, total, digits = 1) {
+  round(100 * part / total, digits)
+}</code></pre>
+</div>
+<div id="keeping-functions-in-their-own-script" class="section level2">
+<h2>Keeping functions in their own script</h2>
+<p>As you write more functions, keep them in a separate script, such as
+<code>scripts/functions.R</code>, rather than at the top of your
+analysis. Then load them all with <code>source()</code>:</p>
+<pre class="r"><code>source(&quot;scripts/functions.R&quot;)</code></pre>
+<p><code>source()</code> runs every line of the file, so your functions
+appear in the Environment, ready to use. Your analysis script stays
+short, and you can reuse the same <code>functions.R</code> in other
+projects.</p>
+</div>
+<div id="test-with-values-you-know" class="section level2">
+<h2>Test with values you know</h2>
+<p>Before you trust a function, try it on inputs where you already know
+the answer:</p>
+<pre class="r"><code>pct(50, 200)     # should be 25</code></pre>
+<pre><code>## [1] 25</code></pre>
+<pre class="r"><code>pct(0, 200)      # should be 0</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>pct(NA, 200)     # missing in, missing out</code></pre>
+<pre><code>## [1] NA</code></pre>
+<pre class="r"><code>pct(0, 0)        # 0 divided by 0</code></pre>
+<pre><code>## [1] NaN</code></pre>
+<p>The last one returns <code>NaN</code> (“not a number”). That is not
+just a math curiosity: a few rows in our data report 0 total generation.
+You don’t have to handle every odd case, but you should know what your
+function does with them.</p>
+<div id="challenge-1" class="section level3">
+<h3>Challenge</h3>
+<p>Write a function
+<code>compare_years(data, country_name, year1, year2)</code> that
+returns a table with one row per source, the share in each year, and the
+change between them. Use <code>elec_mix()</code> and a join from week 5.
+Which source changed most in the Norway between 2012 and 2024?</p>
 <details>
-<summary>ANSWER</summary>
-
-``` r
-plotPopGrowth <- function(countrytoplot, dat = gapminder) {
-    df <- filter(dat, country == countrytoplot) 
-    plot <- ggplot(df, aes(year, pop)) + 
-        geom_line()
-    return(plot)
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>compare_years &lt;- function(data, country_name, year1, year2) {
+  first  &lt;- elec_mix(data, country_name, year1) %&gt;% select(source, share_1 = share)
+  second &lt;- elec_mix(data, country_name, year2) %&gt;% select(source, share_2 = share)
+  left_join(first, second, by = &quot;source&quot;) %&gt;%
+    mutate(change = share_2 - share_1) %&gt;%
+    arrange(change)
 }
-plotPopGrowth('Canada')
-```
-
-<img src="lesson_wk09_functions_files/figure-html/unnamed-chunk-11-1.png" alt="" width="672" />
+compare_years(elec, &quot;Norway&quot;, 2012, 2024)</code></pre>
+<pre><code>## # A tibble: 9 × 4
+##   source          share_1 share_2 change
+##   &lt;chr&gt;             &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+## 1 hydro              96.9    88.8  -8.10
+## 2 gas                 1.5     0.9  -0.6 
+## 3 biofuel             0.2     0.2   0   
+## 4 coal                0       0     0   
+## 5 nuclear             0       0     0   
+## 6 other_renewable     0       0     0   
+## 7 oil                 0.2     0.5   0.3 
+## 8 solar               0       0.3   0.3 
+## 9 wind                1.1     9.3   8.2</code></pre>
 </details>
 </div>
-<br>
+<p><br></p>
+</div>
+</div>
+<div id="passing-column-names" class="section level2">
+<h2>Passing column names: <code>{{ }}</code></h2>
+<p>So far our arguments have been values: a country name, a year.
+Sometimes you want an argument to be a column. For example, a function
+that lists the top countries for any column we choose. Here is a first
+try:</p>
+<pre class="r"><code>top_countries &lt;- function(data, col, yr, n = 5) {
+  data %&gt;%
+    filter(year == yr) %&gt;%
+    arrange(desc(col)) %&gt;%
+    select(country, col) %&gt;%
+    head(n)
+}
 
-This lesson was contributed by [Ryan Peek](https://ryanpeek.github.io/) and [Martha Zillig](https://github.com/MarthaWohlfeil).
+top_countries(elec, wind_electricity, 2024)</code></pre>
+<pre><code>## Error in `arrange()`:
+## ℹ In argument: `..1 = col`.
+## Caused by error:
+## ! object &#39;wind_electricity&#39; not found</code></pre>
+<p>R can’t find <code>wind_electricity</code>. dplyr functions let you
+type bare column names like <code>wind_electricity</code>, but that only
+works when the column name is typed directly into the dplyr function.
+Here, dplyr sees <code>col</code>, looks for a column called
+<code>col</code>, doesn’t find one, and fails.</p>
+<p>The fix is to wrap the argument in double curly braces,
+<code>{{ col }}</code>. This tells dplyr to use the column that the user
+passed in:</p>
+<pre class="r"><code>top_countries &lt;- function(data, col, yr, n = 5) {
+  data %&gt;%
+    filter(year == yr) %&gt;%
+    arrange(desc({{ col }})) %&gt;%
+    select(country, {{ col }}) %&gt;%
+    head(n)
+}
 
-This lesson is adapted from the Software Carpentry: R for Reproducible Scientific Analysis [Creating Functions materials](http://data-lessons.github.io/gapminder-R/07-functions.html).
--->
+top_countries(elec, wind_electricity, 2024)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   country        wind_electricity
+##   &lt;chr&gt;                     &lt;dbl&gt;
+## 1 China                     997. 
+## 2 United States             452. 
+## 3 Germany                   142. 
+## 4 Brazil                    108. 
+## 5 United Kingdom             83.3</code></pre>
+<pre class="r"><code>top_countries(elec, carbon_intensity_elec, 2024, n = 3)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   country      carbon_intensity_elec
+##   &lt;chr&gt;                        &lt;dbl&gt;
+## 1 Turkmenistan                 1306.
+## 2 Uzbekistan                   1040.
+## 3 Montserrat                   1000</code></pre>
+<p><code>{{ }}</code> also works inside <code>mutate()</code>,
+<code>summarize()</code>, and <code>group_by()</code>. You only need it
+when a function argument stands for a column name.</p>
+<p>It works with columns you create, too:</p>
+<pre class="r"><code>elec %&gt;%
+  mutate(wind_pct = pct(wind_electricity, electricity_generation)) %&gt;%
+  top_countries(wind_pct, 2024)</code></pre>
+<pre><code>## # A tibble: 5 × 2
+##   country   wind_pct
+##   &lt;chr&gt;        &lt;dbl&gt;
+## 1 Denmark       58.2
+## 2 Lithuania     46.1
+## 3 Uruguay       38.6
+## 4 Ireland       37.3
+## 5 Djibouti      35</code></pre>
+<div id="challenge-2" class="section level3 blue">
+<h3>Challenge</h3>
+<p>Write a function <code>avg_by_country(data, countries, col)</code>
+that returns the mean of <code>col</code> (generic column name) across
+all years for each country in <code>countries</code>. Use it to compare
+carbon intensity in Norway, Sweden, and Finland.</p>
+<p>Hint: <code>countries</code> can hold more than one name, so use
+<code>%in%</code> instead of <code>==</code> in
+<code>filter()</code>.</p>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>avg_by_country &lt;- function(data, countries, col) {
+  data %&gt;%
+    filter(country %in% countries) %&gt;%
+    group_by(country) %&gt;%
+    summarize(mean = mean({{ col }}, na.rm = TRUE))
+}
+avg_by_country(elec, c(&quot;Poland&quot;, &quot;Germany&quot;, &quot;France&quot;), carbon_intensity_elec)</code></pre>
+<pre><code>## # A tibble: 3 × 2
+##   country  mean
+##   &lt;chr&gt;   &lt;dbl&gt;
+## 1 France   70.1
+## 2 Germany 494. 
+## 3 Poland  849.</code></pre>
+</details>
+</div>
+<p><br></p>
+</div>
+<div id="checking-inputs" class="section level2">
+<h2>Checking inputs</h2>
+<p>What happens if we misspell a country?</p>
+<pre class="r"><code>elec_mix(elec, &quot;Germnay&quot;, 2024)</code></pre>
+<pre><code>## # A tibble: 0 × 3
+## # ℹ 3 variables: source &lt;chr&gt;, twh &lt;dbl&gt;, share &lt;dbl&gt;</code></pre>
+<p>We get an empty table and no warning. In a long script, that can go
+unnoticed. A function can check its inputs and stop with a clear
+message. To do that we use <code>if</code> and <code>stop()</code>:</p>
+<pre class="r"><code>elec_mix &lt;- function(data, country_name, yr) {
+  if (!country_name %in% data$country) {
+    stop(&quot;Can&#39;t find &#39;&quot;, country_name, &quot;&#39; in the data. Check the spelling.&quot;)
+  }
+  data %&gt;%
+    filter(country == country_name, year == yr) %&gt;%
+    pivot_sources() %&gt;%
+    mutate(share = pct(twh, electricity_generation)) %&gt;%
+    select(source, twh, share) %&gt;%
+    arrange(desc(share))
+}
+
+elec_mix(elec, &quot;Germnay&quot;, 2024)</code></pre>
+<pre><code>## Error in `elec_mix()`:
+## ! Can&#39;t find &#39;Germnay&#39; in the data. Check the spelling.</code></pre>
+<p><code>if</code> is different from the <code>ifelse()</code> you saw
+in week 5. <code>ifelse()</code> works on a whole vector and returns a
+vector. <code>if</code> takes a single <code>TRUE</code> or
+<code>FALSE</code> and decides whether to run the code in its braces.
+Here, if the country is not in the data, <code>stop()</code> ends the
+function and prints our message.</p>
+<p>You don’t need to check every possible input. Check the mistakes that
+are likely and that would otherwise fail quietly.</p>
+<p><br></p>
+<p>Data: Our World in Data, <a
+href="https://github.com/owid/energy-data">Energy dataset</a> (CC BY
+4.0), based on Ember, <a
+href="https://ember-energy.org/data/yearly-electricity-data/">Yearly
+Electricity Data</a> (2026), and the Energy Institute, <a
+href="https://www.energyinst.org/statistical-review/">Statistical Review
+of World Energy</a> (2025).</p>
+<p>This lesson builds on earlier versions by <a
+href="https://ryanpeek.github.io/">Ryan Peek</a> and <a
+href="https://github.com/MarthaWohlfeil">Martha Zillig</a>, which were
+adapted from the Software Carpentry: R for Reproducible Scientific
+Analysis <a
+href="http://data-lessons.github.io/gapminder-R/07-functions.html">Creating
+Functions materials</a>.</p>
+</div>
 
 
 

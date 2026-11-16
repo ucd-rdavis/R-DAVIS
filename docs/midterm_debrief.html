@@ -555,8 +555,8 @@ ggplot(sc,aes(x = rank,y = `Total Score`)) +
   scale_x_continuous(&#39;Students&#39;) + 
   ## add title
   ggtitle(&#39;Exam scores (out of 100 points&#39;) </code></pre>
-<pre><code>## `geom_smooth()` using method =
-## &#39;loess&#39; and formula = &#39;y ~ x&#39;</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula = &#39;y ~
+## x&#39;</code></pre>
 <p><img src="midterm_debrief_files/figure-html/unnamed-chunk-2-1.png" alt="" width="672" /></p>
 </div>
 <div id="points-by-exam-part" class="section level3">
@@ -631,9 +631,8 @@ performance was)</li>
 </ul>
 </div>
 <pre class="r"><code>##add a great themes package to access good color palette
-library(ggthemes)</code></pre>
-<pre><code>## Warning: package &#39;ggthemes&#39; was built under R version 4.5.2</code></pre>
-<pre class="r"><code>## bins at 50, 70, 80
+library(ggthemes)
+## bins at 50, 70, 80
 sc &lt;- sc |&gt; mutate(nonparametric_score = case_when(
   `Total Score`&lt;=45 ~ 50,
   `Total Score`&lt;=55 ~ 60,
