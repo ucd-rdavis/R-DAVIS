@@ -172,14 +172,14 @@ For our week eight lab, we are going to practice making plots that you could sho
 
 ### <small>Lab Week 9</small> {#lab-week-9}
 
-Functions lab — placeholder; content to be added.
+This week's questions will have us writing our own functions, including one that makes a plot, with the electricity generation data.
 
-*This lab is being updated — check back soon.*
+<a href="labs/lab_week_09.qmd" download>Download Lab 9 (.qmd)</a>
 
 
 ### <small>Lab Week 10</small> {#lab-week-10}
 
-In this assignment, you'll use the iteration skills we built in the course to apply functions to an entire dataset.
+For our week ten lab, you'll use for loops, `lapply()`, and `sapply()` to summarize California wildfire smoke data by place and by year, including running a function you write yourself across every year in the data.
 
-*This lab is being updated — check back soon.*
+<a href="labs/lab_week_10.qmd" download>Download Lab 10 (.qmd)</a>
 

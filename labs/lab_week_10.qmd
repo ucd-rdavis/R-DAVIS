@@ -7,26 +7,21 @@ format:
 
 This is the Lab Week 10 document for R-DAVIS. Complete the tasks below in this file (or in your own `.Rmd` or `.R` file, if you prefer), save it, and upload that file to Canvas. No need to render it to HTML.
 
-In this assignment, you'll use the iteration skills we built in the course to apply functions to an entire dataset.
+In this assignment, you'll use for loops, `lapply()`, and `sapply()` on the California wildfire air-quality data from lecture. Each row is one place on one day, 2006–2020. `pm10` and `ozone` are the total daily concentrations, and `pm10_fire` and `ozone_fire` are the parts that came from wildfire smoke.
 
-Let's load the surveys dataset:
+Let's load the data:
 
-```{r wk9a}
+```{r wk10a}
 library(tidyverse)
-surveys <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/portal_data_joined.csv")
+air <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/ca_wildfire_air.csv")
 ```
 
-1) Using a for loop, print to the console the longest species name of each taxon. Hint: the function nchar() gets you the number of characters in a string. The function unique() gets you the unique values in a vector.
+1) Not everything needs a loop. Add a column called `ozone_other` to `air` that holds the ozone that did *not* come from wildfire smoke (`ozone` minus `ozone_fire`). In a sentence, explain why you don't need a for loop or `lapply()` for this.
 
-<!-- INSTRUCTOR TODO (2026 reorg): the Mauna Loa dates lab was archived; "last week" no longer refers to it. -->
-Next let's load the Mauna Loa dataset.
+2) Use a for loop to find the highest `ozone_fire` value in each city. Store the answers in a vector that you make *before* the loop, then print the vector. Check your answer with `group_by()` and `summarise()`.
 
-```{r week9b}
-mloa <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/mauna_loa_met_2001_minute.csv")
-```
+3) Use `sapply()` with a function written inside it (`function(x) ...`) to count, for each of the columns `pm10`, `pm10_fire`, `ozone`, and `ozone_fire`, the number of days on which that column was above its own mean.
 
-2) Use the `apply` function to print the max of each of the following columns: "windDir","windSpeed_m_s","baro_hPa","temp_C_2m","temp_C_10m","temp_C_towertop","rel_humid",and "precip_intens_mm_hr". 
+4) Write a function called `year_summary(data, yr)` that returns a one-row tibble for a single year with three columns: `year`, `smoke_days` (the number of rows across all six places with `pm10_fire > 0`), and `worst_city` (the city with the highest `pm10_fire` that year). Test it on 2018. Then use `lapply()` and `bind_rows()` to make a table with one row for each year from 2006 to 2020. Which year had the most smoke days?
 
-3) Make a function called C_to_F that converts Celsius to Fahrenheit. Hint: first you need to multiply the Celsius temperature by 1.8, then add 32. Make three new columns called "temp_F_2m", "temp_F_10m", and "temp_F_towertop" by applying this function to columns "temp_C_2m", "temp_C_10m", and "temp_C_towertop". 
-
-4) Use the `apply` function to create a new column of the `surveys` dataframe that includes the genus and species name together as one string. Hint: the function we've been using to combine strings together has a "collapse" argument. Do some poking around in the help file to get started.
+5) Use `split()` to split `air` into one data frame per city. Then use `lapply()` with a function written inside it to compare air quality on smoke days and other days. For each city, return a one-row tibble with the city name, the mean `pm10` on smoke days (`pm10_fire > 0`), and the mean `pm10` on all other days. Stack the results with `bind_rows()`. In which city is the difference largest?
