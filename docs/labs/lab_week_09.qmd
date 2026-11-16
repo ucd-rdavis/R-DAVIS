@@ -7,6 +7,55 @@ format:
 
 This is the Lab Week 9 document for R-DAVIS. Complete the tasks below in this file (or in your own `.Rmd` or `.R` file, if you prefer), save it, and upload that file to Canvas. No need to render it to HTML.
 
-<!-- PLACEHOLDER (2026 reorg): Functions lab. Content to be added. -->
+This week we'll practice writing our own functions with the electricity data from lecture. Each row is one country in one year, 2000–2024, with total electricity generated and the amount from each of nine sources, in terawatt-hours (TWh). The codebook at https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity_codebook.md describes every column. The data are a simplified subset of Our World in Data's energy dataset (https://github.com/owid/energy-data), based on Ember (2026) and the Energy Institute Statistical Review of World Energy (2025), prepared for this course.
 
-**Functions lab — placeholder. Content to be added.**
+Load the data:
+
+```{r}
+# data at https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity.csv
+
+```
+
+1. Write a function called `fossil_pct()` that takes the electricity from coal, gas, and oil and the total electricity generated, and returns the percent of the total that came from fossil fuels. Give it a `digits` argument with a default of 1 so it rounds its answer.
+    a. Test it on values where you know the answer. `fossil_pct(10, 20, 10, 80)` should give 50. What does it return when every input is 0? What about when one input is `NA`?
+    b. Use `fossil_pct()` inside `mutate()` to find the five countries with the lowest fossil share in 2024, among countries that generated at least 50 TWh that year.
+
+2. The code below works for one country. It adds up the sources into three groups (fossil, nuclear, and renewable) and puts them in a long table, one row per year per group.
+
+```{r}
+elec %>%
+  filter(country == "Chile") %>%
+  mutate(fossil = coal_electricity + gas_electricity + oil_electricity,
+         nuclear = nuclear_electricity,
+         renewable = hydro_electricity + wind_electricity + solar_electricity +
+           biofuel_electricity + other_renewable_electricity) %>%
+  select(country, year, fossil, nuclear, renewable) %>%
+  pivot_longer(fossil:renewable, names_to = "group", values_to = "twh")
+```
+
+Turn this code into a function called `fuel_groups()` with two arguments, `data` and `country_name`. Start from the skeleton below: paste the code inside the braces, then change `elec` to `data` and `"Chile"` to `country_name`. (Remember from lecture why the argument is called `country_name` and not `country`.)
+
+```{r}
+#| eval: false
+fuel_groups <- function(data, country_name) {
+  # paste the code here
+}
+```
+
+Test it with `fuel_groups(elec, "Chile")` and check that you get the same result as the code above. Then run it for one other country.
+
+3. The code below plots the output of `fuel_groups()` for Chile, with one colored line for each group.
+
+```{r}
+#| eval: false
+fuel_groups(elec, "Chile") %>%
+  ggplot(aes(x = year, y = twh, color = group)) +
+  geom_line() +
+  labs(title = "Chile", x = "Year", y = "Electricity generated (TWh)")
+```
+
+Turn it into a function called `plot_fuel_groups()` with the same two arguments as `fuel_groups()`. The plot's title should be the country you ask for.
+a. Use `plot_fuel_groups()` to make plots for two other countries.
+b. A ggplot is an object, so you can add layers to the output of your function with `+`. Try `plot_fuel_groups(elec, "Chile") + theme_bw()`.
+
+BONUS: Write a function `plot_source(data, countries, col)` that makes a line plot of any one source column over time for several countries, with one colored line per country. Use it to compare wind generation in Denmark, Germany, and the United Kingdom, then solar generation in three countries of your choice. Hint: `col` stands for a column name, so you'll need `{{ }}`, and `countries` can hold more than one name, so use `%in%` in `filter()`.

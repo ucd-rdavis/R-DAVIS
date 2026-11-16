@@ -507,7 +507,6 @@ Week 9 In Class Coding</a></p>
 <code>filter()</code>, <code>ggplot()</code>, <code>read_csv()</code>.
 Each one is code that someone wrote once, gave a name, and shared so
 nobody has to rewrite it.</p>
-<pre class="r"><code>library(tidyverse)</code></pre>
 <div id="our-data-electricity-generation-by-country"
 class="section level2">
 <h2>Our data: electricity generation by country</h2>
@@ -809,8 +808,7 @@ count_2024(elec)</code></pre>
 <pre class="r"><code>nrow(elec)    # elec still has every year</code></pre>
 <pre><code>## [1] 5459</code></pre>
 <pre class="r"><code>n_rows        # this only existed inside the function</code></pre>
-<pre><code>## Error:
-## ! object &#39;n_rows&#39; not found</code></pre>
+<pre><code>## [1] 35549</code></pre>
 <p>The function worked on a copy of <code>elec</code>. This makes
 functions safe to use: calling one won’t change your data unless you
 save its output with <code>&lt;-</code>.</p>

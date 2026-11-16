@@ -9,12 +9,11 @@ This is the Lab Week 9 document for R-DAVIS. Complete the tasks below in this fi
 
 This week we'll practice writing our own functions with the electricity data from lecture. Each row is one country in one year, 2000–2024, with total electricity generated and the amount from each of nine sources, in terawatt-hours (TWh). The codebook at https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity_codebook.md describes every column. The data are a simplified subset of Our World in Data's energy dataset (https://github.com/owid/energy-data), based on Ember (2026) and the Energy Institute Statistical Review of World Energy (2025), prepared for this course.
 
-Load the data with the code below.
+Load the data:
 
 ```{r}
-library(tidyverse)
+# data at https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity.csv
 
-elec <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity.csv")
 ```
 
 1. Write a function called `fossil_pct()` that takes the electricity from coal, gas, and oil and the total electricity generated, and returns the percent of the total that came from fossil fuels. Give it a `digits` argument with a default of 1 so it rounds its answer.

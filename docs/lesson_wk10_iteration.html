@@ -11,7 +11,7 @@
 
 
 
-<title>Iteration, Iteration, Iteration, Iter</title>
+<title>Wk10: Iteration</title>
 
 <script src="site_libs/header-attrs-2.32/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -452,601 +452,535 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Iteration, Iteration, Iteration, Iter</h1>
+<h1 class="title toc-ignore">Wk10: Iteration</h1>
+<h3 class="subtitle">Iteration, iteration, iteration, iter</h3>
 
 </div>
 
 
-<div id="under-revision" class="section level3 blue">
-<h3>Under revision</h3>
-<p>This lecture is being updated for the current quarter — check back
-soon.</p>
+<div id="learning-objectives" class="section level3 blue">
+<h3>Learning Objectives</h3>
+<ul>
+<li><strong>Decide whether to iterate</strong>
+<ul>
+<li>Recognize when a vectorized function, <code>mutate()</code>, or
+<code>group_by()</code> already does the job.</li>
+</ul></li>
+<li><strong>Write loops</strong>
+<ul>
+<li>Write a for loop that saves its results into an object you made
+before the loop.</li>
+</ul></li>
+<li><strong>Use the apply family</strong>
+<ul>
+<li>Use <code>lapply()</code> and <code>sapply()</code> to run a
+function on each element of a vector, list, or data frame.</li>
+<li>Write a small function right inside <code>lapply()</code> with
+<code>function(x) { }</code>.</li>
+<li>Stack a list of data frames into one with
+<code>bind_rows()</code>.</li>
+<li>Split a data frame into groups and run the same analysis on each
+one.</li>
+</ul></li>
+</ul>
 </div>
-<!--
-
-<div class = "blue">
-### Learning objectives
-
-* Understand when and why to iterate code
-* Be able to start with a single use and build up to iteration
-* Use for loops and apply functions to iterate
-* Be able to write functions to cleanly iterate code
+<p><br></p>
+<div id="videos" class="section level2">
+<h2>Videos</h2>
+<ul>
+<li><a href="">Iteration</a></li>
+<li><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714924">Video
+Discussion</a></li>
+</ul>
 </div>
-<br>
+<div id="in-class-coding" class="section level2">
+<h2>In Class Coding</h2>
+<p><a
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714939">Submit
+Week 10 In Class Coding</a></p>
+<p><br></p>
+<p>You often want to run the same code many times with different inputs:
+the same summary for each site, the same model for each species, the
+same plot for each year. A good rule of thumb is that if you’ve copied
+and pasted a piece of code three times, it’s time to iterate instead.
+Copy-pasting causes problems:</p>
+<ul>
+<li>it’s easy to forget to change one of the parts that should be
+different</li>
+<li>it’s easy to mistype</li>
+<li>it’s hard to read</li>
+<li>it doesn’t scale (try copy-pasting 100 times…)</li>
+</ul>
+<p>Last week you learned to wrap code in a function so you can reuse it.
+This week you’ll learn to run that code over and over without retyping
+it.</p>
+</div>
+<div id="the-data" class="section level2">
+<h2>The data</h2>
+<p>This week’s data come from a study of wildfire smoke in California.
+The authors estimated daily air pollution for every ZIP code in the
+state from 2006 to 2020 and worked out how much of it came from wildfire
+smoke. We’ll use a small piece of it: one ZIP code in each of six
+places.</p>
+<pre class="r"><code># data at https://ucd-rdavis.github.io/R-DAVIS/data/ca_wildfire_air.csv
+air &lt;- read_csv(&quot;data/ca_wildfire_air.csv&quot;)</code></pre>
+<pre><code>## Rows: 32874 Columns: 8
+## ── Column specification ──────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (1): city
+## dbl  (6): zip, year, pm10, pm10_fire, ozone, ozone_fire
+## date (1): date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>head(air)</code></pre>
+<pre><code>## # A tibble: 6 × 8
+##   city    zip date        year  pm10 pm10_fire ozone ozone_fire
+##   &lt;chr&gt; &lt;dbl&gt; &lt;date&gt;     &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Davis 95616 2006-01-01  2006   7.6         0  34.2          0
+## 2 Davis 95616 2006-01-02  2006  11.6         0  21.8          0
+## 3 Davis 95616 2006-01-03  2006  14           0  25.4          0
+## 4 Davis 95616 2006-01-04  2006  20.8         0  20.1          0
+## 5 Davis 95616 2006-01-05  2006  26.5         0  15            0
+## 6 Davis 95616 2006-01-06  2006  27.2         0  14.4          0</code></pre>
+<p>Each row is one place on one day. <code>pm10</code> is the total
+amount of coarse particles in the air (PM10, in µg/m³), and
+<code>pm10_fire</code> is the part of it that came from wildfire smoke.
+<code>ozone</code> and <code>ozone_fire</code> are the same for ozone,
+in parts per billion. On a day with no smoke, the <code>_fire</code>
+columns are 0. We’ll call a day with any wildfire PM10
+(<code>pm10_fire &gt; 0</code>) a <strong>smoke day</strong>.</p>
+<p>The places include Paradise, which was mostly destroyed by the Camp
+Fire in November 2018, and Redding and Santa Rosa, which also had major
+fires in those years. The full column descriptions are in the <a
+href="https://github.com/ucd-rdavis/R-DAVIS/blob/main/data/ca_wildfire_air_codebook.md">codebook</a>.</p>
+</div>
+<div id="first-do-you-need-to-iterate" class="section level2">
+<h2>First: do you need to iterate?</h2>
+<p>Before writing a loop, check whether R will already repeat the work
+for you. Many functions are <em>vectorized</em>: give them a vector and
+they work on every element and return a vector of the same length.</p>
+<pre class="r"><code>x &lt;- c(1, 10, 100)
+log10(x)</code></pre>
+<pre><code>## [1] 0 1 2</code></pre>
+<p>Arithmetic is vectorized too, so this computes the non-wildfire PM10
+for all 32,874 rows at once, with no loop:</p>
+<pre class="r"><code>air &lt;- air %&gt;% mutate(pm10_other = pm10 - pm10_fire)</code></pre>
+<p>And when you want one summary per group, <code>group_by()</code> and
+<code>summarise()</code> from week 4 repeat the work for each group:</p>
+<pre class="r"><code>air %&gt;%
+  group_by(city) %&gt;%
+  summarise(smoke_days = sum(pm10_fire &gt; 0))</code></pre>
+<pre><code>## # A tibble: 6 × 2
+##   city        smoke_days
+##   &lt;chr&gt;            &lt;int&gt;
+## 1 Davis              555
+## 2 Fresno             450
+## 3 Los Angeles        207
+## 4 Paradise           637
+## 5 Redding            665
+## 6 Santa Rosa         269</code></pre>
+<p><strong>If a vectorized function or <code>group_by()</code> already
+does what you want, use it.</strong> It’s shorter and faster than
+anything you’ll write yourself.</p>
+<p>You iterate when the thing you want to repeat doesn’t fit into a
+column calculation: a whole analysis for each place, a model for each
+group, a plot for each site, or a file for each year. To start, we’ll
+repeat the smoke-day count above with each new tool. You already know
+the right answer, so you can check that each one works.</p>
+</div>
+<div id="for-loops" class="section level2">
+<h2>For loops</h2>
+<p>A for loop runs the same block of code once for each value in a
+vector:</p>
+<pre class="r"><code>cities &lt;- unique(air$city)
+cities</code></pre>
+<pre><code>## [1] &quot;Davis&quot;       &quot;Fresno&quot;      &quot;Los Angeles&quot; &quot;Paradise&quot;    &quot;Redding&quot;    
+## [6] &quot;Santa Rosa&quot;</code></pre>
+<pre class="r"><code>for (this_city in cities) {
+  print(this_city)
+}</code></pre>
+<pre><code>## [1] &quot;Davis&quot;
+## [1] &quot;Fresno&quot;
+## [1] &quot;Los Angeles&quot;
+## [1] &quot;Paradise&quot;
+## [1] &quot;Redding&quot;
+## [1] &quot;Santa Rosa&quot;</code></pre>
+<p>On each pass, <code>this_city</code> takes the next value from
+<code>cities</code>, and the code between the braces runs with that
+value. You can name it anything. Why not name it <code>city</code>?
+Because that’s also a column name. Inside <code>filter()</code>,
+<code>city == city</code> compares the column with itself, which is
+always <code>TRUE</code>, so you’d get every row back. It’s the same
+clash you saw with function arguments last week.</p>
+<p>Now let’s do some work inside the loop:</p>
+<pre class="r"><code>for (this_city in cities) {
+  city_data &lt;- filter(air, city == this_city)
+  print(sum(city_data$pm10_fire &gt; 0))
+}</code></pre>
+<pre><code>## [1] 555
+## [1] 450
+## [1] 207
+## [1] 637
+## [1] 665
+## [1] 269</code></pre>
+<div id="saving-the-results" class="section level3">
+<h3>Saving the results</h3>
+<p>Printing isn’t saving: once the loop finishes, those numbers are
+gone. To keep them, <strong>make an empty object to hold the results
+before the loop starts</strong>, then fill in one spot on each pass:</p>
+<pre class="r"><code>smoke_days &lt;- numeric(length(cities))   # six zeros, one per city
+names(smoke_days) &lt;- cities
 
-## Videos
-
-- [For loops](https://video.ucdavis.edu/media/Week9_Iteration_and_Apply/1_0e3vybqf/390286133)
-- Apply functions (part of same video above)
-- [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714924)
-
-## In Class Coding
-
-[Submit Week 10 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1714939)
-
-
-
-<br>
-
-## ~~Once~~ ~~Twice~~ Thrice in a Lifetime
-
-And you may find yourself<br>
-Behind the keys of a large computing machine<br>
-And you may find yourself<br>
-Copy-pasting tons of code<br>
-And you may ask yourself, well<br>
-How did I get here?
-
-![](img/david_byrne_once.gif){width=250}
-
-<br>
-
-It's pretty common that you'll want to run the same basic bit of code a bunch of times with different inputs. Maybe you want to read in a bunch of data files with different names or calculate something complex on every row of a dataframe. A general rule of thumb is that any code you want to run 3+ times should be iterated instead of copy-pasted. Copy-pasting code and replacing the parts you want to change is generally a bad practice for several reasons:
-
-- it's easy to forget to change all the parts that need to be different
-- it's easy to mistype 
-- it is ugly to read
-- it scales very poorly (try copy-pasting 100 times...)
-
-Lots of functions (including many `base` functions) are *vectorized*, meaning they already work on vectors of values. Here's an example:
-
-
-``` r
-x <- 1:10
-log(x)
-```
-
-```
-##  [1] 0.0000000 0.6931472 1.0986123 1.3862944 1.6094379 1.7917595 1.9459101
-##  [8] 2.0794415 2.1972246 2.3025851
-```
-
-The `log()` function already knows we want to take the log of each element in x, and it returns a vector that's the same length as x. If a *vectorized* function already exists to do what you want, use it! It's going to be faster and cleaner than trying to iterate everything yourself.
-
-However, we may want to do more complex iterations, which brings us to our first main iterating concept.
-
-## For Loops
-
-A for loop will repeat some bit of code, each time with a new input value. Here's the basic structure:
-
-
-``` r
-for(i in 1:10) {
-  print(i)
+for (i in seq_along(cities)) {
+  city_data &lt;- filter(air, city == cities[i])
+  smoke_days[i] &lt;- sum(city_data$pm10_fire &gt; 0)
 }
-```
 
-```
-## [1] 1
-## [1] 2
-## [1] 3
-## [1] 4
-## [1] 5
-## [1] 6
-## [1] 7
-## [1] 8
-## [1] 9
-## [1] 10
-```
+smoke_days</code></pre>
+<pre><code>##       Davis      Fresno Los Angeles    Paradise     Redding  Santa Rosa 
+##         555         450         207         637         665         269</code></pre>
+<p>This time the loop counts positions: <code>seq_along(cities)</code>
+gives <code>1 2 3 4 5 6</code>, and <code>i</code> is the position.
+<code>cities[i]</code> is the city at that position, and
+<code>smoke_days[i]</code> is where its answer goes. The numbers match
+the <code>group_by()</code> version.</p>
+<p>Why make the empty vector first? You could start with nothing and add
+each answer with <code>c()</code>, but then R copies the whole vector on
+every pass. That gets slow with many passes, and it’s easy to get the
+order wrong.</p>
+</div>
+</div>
+<div id="lapply-a-for-loop-in-one-line" class="section level2">
+<h2><code>lapply()</code>: a for loop in one line</h2>
+<p>Every for loop that saves results has the same three parts: make an
+empty object, loop, and store each answer. <code>lapply()</code> does
+all three for you.</p>
+<p><code>lapply(X, FUN)</code> runs the function <code>FUN</code> on
+each element of <code>X</code> and returns a <strong>list</strong> of
+the results, one per element. A data frame is a list of columns, so
+<code>lapply()</code> on a data frame works on one column at a time:</p>
+<pre class="r"><code>pollutants &lt;- air %&gt;% select(pm10, pm10_fire, ozone, ozone_fire)
 
-You'll often see `i` used in for loops, you can think of it as the iteration value. For each `i` value in the vector 1:10, we'll print that index value. You can use the `i` value more than once in a loop:
-
-
-``` r
-for (i in 1:10) {
-  print(i)
-  print(i^2)
+lapply(pollutants, max)</code></pre>
+<pre><code>## $pm10
+## [1] 282.2
+## 
+## $pm10_fire
+## [1] 235.1
+## 
+## $ozone
+## [1] 97.8
+## 
+## $ozone_fire
+## [1] 48.5</code></pre>
+<p><code>sapply()</code> does the same thing but <em>simplifies</em> the
+result where it can. Here each answer is a single number, so you get a
+named vector:</p>
+<pre class="r"><code>sapply(pollutants, max)</code></pre>
+<pre><code>##       pm10  pm10_fire      ozone ozone_fire 
+##      282.2      235.1       97.8       48.5</code></pre>
+<p>Notice that you write <code>max</code> without parentheses. You’re
+passing the function itself to <code>sapply()</code>, and
+<code>sapply()</code> calls it on each column.</p>
+</div>
+<div id="writing-a-function-inside-lapply" class="section level2">
+<h2>Writing a function inside <code>lapply()</code></h2>
+<p>What if no existing function does exactly what you want? You could
+write one, as in week 9:</p>
+<pre class="r"><code>round_mean &lt;- function(x) {
+  round(mean(x), 1)
 }
-```
 
-```
-## [1] 1
-## [1] 1
-## [1] 2
-## [1] 4
-## [1] 3
-## [1] 9
-## [1] 4
-## [1] 16
-## [1] 5
-## [1] 25
-## [1] 6
-## [1] 36
-## [1] 7
-## [1] 49
-## [1] 8
-## [1] 64
-## [1] 9
-## [1] 81
-## [1] 10
-## [1] 100
-```
-
-What's happening is the value of `i` gets inserted into the code block, the block gets run, the value of `i` changes, and the process repeats. For loops can be a way to explicitly lay out fairly complicated procedures, since you can see exactly where your `i` value is going in the code.
-
-You can also use the `i` value to index a vector or dataframe, which can be very powerful!
-
-
-``` r
-for (i in 1:10) {
-  print(letters[i])
-  print(mtcars$wt[i])
-}
-```
-
-```
-## [1] "a"
-## [1] 2.62
-## [1] "b"
-## [1] 2.875
-## [1] "c"
-## [1] 2.32
-## [1] "d"
-## [1] 3.215
-## [1] "e"
-## [1] 3.44
-## [1] "f"
-## [1] 3.46
-## [1] "g"
-## [1] 3.57
-## [1] "h"
-## [1] 3.19
-## [1] "i"
-## [1] 3.15
-## [1] "j"
-## [1] 3.44
-```
-
-Here we printed out the first 10 letters of the alphabet from the `letters` vector, as well as the first 10 car weights from the `mtcars` dataframe.
-
-If you want to store your results somewhere, it is important that you create an empty object to hold them **before** you run the loop. If you grow your results vector one value at a time, it will be much slower. Here's how to make that empty vector first. We'll also use the function `seq_along` to create a sequence that's the proper length, instead of explicitly writing out something like `1:10`.
-
-
-``` r
-results <- rep(NA, nrow(mtcars))
-
-for (i in seq_along(mtcars$wt)) {
-  results[i] <- mtcars$wt[i] * 1000
-}
-results
-```
-
-```
-##  [1] 2620 2875 2320 3215 3440 3460 3570 3190 3150 3440 3440 4070 3730 3780 5250
-## [16] 5424 5345 2200 1615 1835 2465 3520 3435 3840 3845 1935 2140 1513 3170 2770
-## [31] 3570 2780
-```
-
-## `apply` Functions
-
-For loops are very handy and important to understand, but they can involve writing a lot of code and can generally look fairly messy. Base R includes a family of functions called the `apply` functions that provide a more concise way to iterate operations across data structures.
-
-The `apply` family of functions all do the same basic thing: take a data structure and apply a function to parts of it. The different functions in the family are designed for different data structures and different ways of applying functions.
-
-### `apply()`
-
-The `apply()` function is designed for matrices and data frames. It applies a function over the rows or columns of a matrix or data frame. The basic syntax is:
-
-`apply(X, MARGIN, FUN, ...)`
-
-- `X` is the data (matrix or data frame)
-- `MARGIN` tells it whether to apply the function over rows (1) or columns (2) 
-- `FUN` is the function to apply
-- `...` allows you to pass additional arguments to the function
-
-Let's try some examples with the mtcars dataset:
-
-
-``` r
-# Apply mean function to each column (MARGIN = 2)
-apply(mtcars, 2, mean)
-```
-
-```
-##        mpg        cyl       disp         hp       drat         wt       qsec 
-##  20.090625   6.187500 230.721875 146.687500   3.596563   3.217250  17.848750 
-##         vs         am       gear       carb 
-##   0.437500   0.406250   3.687500   2.812500
-```
-
-``` r
-# Apply mean function to each row (MARGIN = 1) 
-head(apply(mtcars, 1, mean))
-```
-
-```
-##         Mazda RX4     Mazda RX4 Wag        Datsun 710    Hornet 4 Drive 
-##          29.90727          29.98136          23.59818          38.73955 
-## Hornet Sportabout           Valiant 
-##          53.66455          35.04909
-```
-
-``` r
-# Apply a function with additional arguments
-apply(mtcars, 2, mean, na.rm = TRUE)
-```
-
-```
-##        mpg        cyl       disp         hp       drat         wt       qsec 
-##  20.090625   6.187500 230.721875 146.687500   3.596563   3.217250  17.848750 
-##         vs         am       gear       carb 
-##   0.437500   0.406250   3.687500   2.812500
-```
-
-### `lapply()` and `sapply()`
-
-While `apply()` works on matrices and data frames, `lapply()` and `sapply()` work on lists and vectors. 
-
-- `lapply()` always returns a list
-- `sapply()` tries to simplify the result to a vector or matrix when possible
-
-
-``` r
-# lapply returns a list
-lapply(mtcars, mean)
-```
-
-```
-## $mpg
-## [1] 20.09062
-## 
-## $cyl
-## [1] 6.1875
-## 
-## $disp
-## [1] 230.7219
-## 
-## $hp
-## [1] 146.6875
-## 
-## $drat
-## [1] 3.596563
-## 
-## $wt
-## [1] 3.21725
-## 
-## $qsec
-## [1] 17.84875
-## 
-## $vs
-## [1] 0.4375
-## 
-## $am
-## [1] 0.40625
-## 
-## $gear
-## [1] 3.6875
-## 
-## $carb
-## [1] 2.8125
-```
-
-``` r
-# sapply simplifies to a named vector
-sapply(mtcars, mean)
-```
-
-```
-##        mpg        cyl       disp         hp       drat         wt       qsec 
-##  20.090625   6.187500 230.721875 146.687500   3.596563   3.217250  17.848750 
-##         vs         am       gear       carb 
-##   0.437500   0.406250   3.687500   2.812500
-```
-
-### Handling Missing Values
-
-You can pass additional arguments to functions using the `apply` family, just like with for loops:
-
-
-``` r
-# Create some missing data
-mtcars2 <- mtcars
-mtcars2[3, c(1,6,8)] <- NA
-head(mtcars2)
-```
-
-```
-##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
-## Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
-## Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
-## Datsun 710          NA   4  108  93 3.85    NA 18.61 NA  1    4    1
-## Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1
-## Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2
-## Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1
-```
-
-``` r
-# This returns NA for columns with missing values
-sapply(mtcars2, mean)
-```
-
-```
-##        mpg        cyl       disp         hp       drat         wt       qsec 
-##         NA   6.187500 230.721875 146.687500   3.596563         NA  17.848750 
-##         vs         am       gear       carb 
-##         NA   0.406250   3.687500   2.812500
-```
-
-``` r
-# Use na.rm = TRUE to handle missing values
-sapply(mtcars2, mean, na.rm = TRUE)
-```
-
-```
-##         mpg         cyl        disp          hp        drat          wt 
-##  20.0032258   6.1875000 230.7218750 146.6875000   3.5965625   3.2461935 
-##        qsec          vs          am        gear        carb 
-##  17.8487500   0.4193548   0.4062500   3.6875000   2.8125000
-```
-
-### `mapply()`
-
-`mapply()` is the multivariate version of `sapply()`. It can apply a function to multiple lists or vectors in parallel:
-
-
-``` r
-# Create a sentence using car names and mpg values
-car_sentences <- mapply(function(name, mpg) paste(name, "gets", mpg, "miles per gallon"), 
-                       rownames(mtcars), mtcars$mpg)
-head(car_sentences)
-```
-
-```
-##                                      Mazda RX4 
-##           "Mazda RX4 gets 21 miles per gallon" 
-##                                  Mazda RX4 Wag 
-##       "Mazda RX4 Wag gets 21 miles per gallon" 
-##                                     Datsun 710 
-##        "Datsun 710 gets 22.8 miles per gallon" 
-##                                 Hornet 4 Drive 
-##    "Hornet 4 Drive gets 21.4 miles per gallon" 
-##                              Hornet Sportabout 
-## "Hornet Sportabout gets 18.7 miles per gallon" 
-##                                        Valiant 
-##           "Valiant gets 18.1 miles per gallon"
-```
-
-### Writing Custom Functions Inside Apply
-
-One of the powerful features of the apply functions is that you can write custom functions directly inside the apply call. This is useful when you need to do something specific that doesn't have a pre-existing function.
-
-
-``` r
-# Write a custom function inside sapply to calculate coefficient of variation
-sapply(mtcars, function(x) sd(x) / mean(x))
-```
-
-```
-##       mpg       cyl      disp        hp      drat        wt      qsec        vs 
-## 0.2999881 0.2886338 0.5371779 0.4674077 0.1486638 0.3041285 0.1001159 1.1520369 
-##        am      gear      carb 
-## 1.2282853 0.2000825 0.5742933
-```
-
-``` r
-# Write a custom function inside apply to find the range of each column
-apply(mtcars, 2, function(x) max(x) - min(x))
-```
-
-```
-##     mpg     cyl    disp      hp    drat      wt    qsec      vs      am    gear 
-##  23.500   4.000 400.900 283.000   2.170   3.911   8.400   1.000   1.000   2.000 
-##    carb 
-##   7.000
-```
-
-``` r
-# More complex example: standardize each column (subtract mean, divide by sd)
-standardized_data <- apply(mtcars, 2, function(x) (x - mean(x)) / sd(x))
-head(standardized_data)
-```
-
-```
-##                          mpg        cyl        disp         hp       drat
-## Mazda RX4          0.1508848 -0.1049878 -0.57061982 -0.5350928  0.5675137
-## Mazda RX4 Wag      0.1508848 -0.1049878 -0.57061982 -0.5350928  0.5675137
-## Datsun 710         0.4495434 -1.2248578 -0.99018209 -0.7830405  0.4739996
-## Hornet 4 Drive     0.2172534 -0.1049878  0.22009369 -0.5350928 -0.9661175
-## Hornet Sportabout -0.2307345  1.0148821  1.04308123  0.4129422 -0.8351978
-## Valiant           -0.3302874 -0.1049878 -0.04616698 -0.6080186 -1.5646078
-##                             wt       qsec         vs         am       gear
-## Mazda RX4         -0.610399567 -0.7771651 -0.8680278  1.1899014  0.4235542
-## Mazda RX4 Wag     -0.349785269 -0.4637808 -0.8680278  1.1899014  0.4235542
-## Datsun 710        -0.917004624  0.4260068  1.1160357  1.1899014  0.4235542
-## Hornet 4 Drive    -0.002299538  0.8904872  1.1160357 -0.8141431 -0.9318192
-## Hornet Sportabout  0.227654255 -0.4637808 -0.8680278 -0.8141431 -0.9318192
-## Valiant            0.248094592  1.3269868  1.1160357 -0.8141431 -0.9318192
-##                         carb
-## Mazda RX4          0.7352031
-## Mazda RX4 Wag      0.7352031
-## Datsun 710        -1.1221521
-## Hornet 4 Drive    -1.1221521
-## Hornet Sportabout -0.5030337
-## Valiant           -1.1221521
-```
-
-You can also write more complex custom functions with multiple steps:
-
-
-``` r
-# Custom function that returns summary statistics for each column
-summary_stats <- sapply(mtcars, function(x) {
-  c(mean = mean(x),
-    median = median(x),
-    sd = sd(x),
-    min = min(x),
-    max = max(x))
+sapply(pollutants, round_mean)</code></pre>
+<pre><code>##       pm10  pm10_fire      ozone ozone_fire 
+##       23.0        1.7       39.0        0.5</code></pre>
+<p>But if you only need it here, you don’t have to name it. Write the
+function right where the name would go:</p>
+<pre class="r"><code>sapply(pollutants, function(x) round(mean(x), 1))</code></pre>
+<pre><code>##       pm10  pm10_fire      ozone ozone_fire 
+##       23.0        1.7       39.0        0.5</code></pre>
+<p>Read it like this: “for each column, call it <code>x</code>, and
+compute <code>round(mean(x), 1)</code>.” The
+<code>function(x) ...</code> part is a regular function, just without a
+name. People call it an <em>anonymous function</em>.
+<code>sapply()</code> passes it each column in turn as
+<code>x</code>.</p>
+<p>Here’s another. What share of days had any wildfire contribution to
+each pollutant?</p>
+<pre class="r"><code>sapply(air %&gt;% select(pm10_fire, ozone_fire), function(x) mean(x &gt; 0))</code></pre>
+<pre><code>##  pm10_fire ozone_fire 
+## 0.08465657 0.06506662</code></pre>
+<p><code>x &gt; 0</code> gives <code>TRUE</code>/<code>FALSE</code> for
+each day, and the mean of <code>TRUE</code>/<code>FALSE</code> is the
+share that are <code>TRUE</code>. Smoke added to PM10 on about 8.5% of
+days and to ozone on about 6.5%.</p>
+<div id="longer-functions-better-names" class="section level3">
+<h3>Longer functions, better names</h3>
+<p>The function inside can be as long as you need. Put the body in
+braces <code>{ }</code>, and the last line is what it returns. You can
+also loop over any vector, not just columns. Here’s the smoke-day count
+from the for loop, rewritten with <code>sapply()</code>:</p>
+<pre class="r"><code>sapply(cities, function(this_city) {
+  city_data &lt;- filter(air, city == this_city)
+  sum(city_data$pm10_fire &gt; 0)
+})</code></pre>
+<pre><code>##       Davis      Fresno Los Angeles    Paradise     Redding  Santa Rosa 
+##         555         450         207         637         665         269</code></pre>
+<p>It’s the same answer as the loop, but without the empty vector,
+<code>i</code>, or the line that stores each answer. Because
+<code>cities</code> is a character vector, <code>sapply()</code> also
+names the results by city.</p>
+<p>The argument doesn’t have to be called <code>x</code>. Naming it
+<code>this_city</code> makes the function easier to read, and as with
+function arguments last week, it keeps the name from clashing with a
+column.</p>
+<div class="blue">
+<p><strong>Shorthand you’ll see online:</strong> since R 4.1,
+<code>\(x)</code> is short for <code>function(x)</code>.
+<code>sapply(pollutants, \(x) round(mean(x), 1))</code> is exactly the
+same as the version above. Use whichever you find easier to read.</p>
+</div>
+</div>
+<div id="challenge" class="section level3">
+<h3>Challenge</h3>
+<p>For each city, find the year of its worst smoke day: the day with the
+highest <code>pm10_fire</code>. Use <code>sapply()</code> with a
+function inside it.</p>
+<p>Hint: <code>which.max()</code> gives the position of the largest
+value in a vector.</p>
+<details>
+<summary>
+ANSWER
+</summary>
+<pre class="r"><code>sapply(cities, function(this_city) {
+  city_data &lt;- filter(air, city == this_city)
+  city_data$year[which.max(city_data$pm10_fire)]
+})</code></pre>
+<pre><code>##       Davis      Fresno Los Angeles    Paradise     Redding  Santa Rosa 
+##        2018        2020        2007        2018        2020        2018</code></pre>
+</details>
+</div>
+</div>
+<div id="getting-a-data-frame-back-lapply-bind_rows"
+class="section level2">
+<h2>Getting a data frame back: <code>lapply()</code> +
+<code>bind_rows()</code></h2>
+<p>When each answer is more than one number, ask your function to return
+a small data frame. <code>lapply()</code> gives you a list of them, and
+<code>bind_rows()</code> stacks them into one table. Here’s the worst
+smoke day in each city, with its date and both fire columns:</p>
+<pre class="r"><code>worst_days &lt;- lapply(cities, function(this_city) {
+  city_data &lt;- filter(air, city == this_city)
+  worst &lt;- which.max(city_data$pm10_fire)
+  tibble(city       = this_city,
+         date       = city_data$date[worst],
+         pm10_fire  = city_data$pm10_fire[worst],
+         ozone_fire = city_data$ozone_fire[worst])
 })
 
-# This returns a matrix where each column is a variable and each row is a statistic
-summary_stats[, 1:3]  # Show first 3 columns
-```
-
-```
-##              mpg      cyl     disp
-## mean   20.090625 6.187500 230.7219
-## median 19.200000 6.000000 196.3000
-## sd      6.026948 1.785922 123.9387
-## min    10.400000 4.000000  71.1000
-## max    33.900000 8.000000 472.0000
-```
-
-### When to Use Each Apply Function
-
-- `apply()`: For matrices/data frames when you want to apply a function to rows or columns
-- `lapply()`: For lists/vectors when you want the result as a list
-- `sapply()`: For lists/vectors when you want simplified output (vector/matrix)
-- `mapply()`: For applying a function to multiple lists/vectors in parallel
-
-The apply functions are generally faster than for loops and often more concise, making them a popular choice for many iteration tasks in R.
-
-
-## Complete Workflow
-
-Let's try working through a complete example of how you might iterate a more complex operation across a dataset. This will follow 3 basic steps:
-
-1. Write code that does the thing you want **once**
-1. Generalize that code into a function that can take different inputs
-1. Apply that function across your data
-
-### Starting With a Single Case
-
-The first thing we'll do is figure out if we can do the right thing once! We want to rescale a vector of values to a 0-1 scale. We'll try it out on the weights in `mtcars`. Our heaviest vehicle will have a scaled weight of 1, and our lightest will have a scaled weight of 0. We'll do this by taking our weight, subtracting the minimum car weight from it, and dividing this by the range of the car weights (max minus min). We'll have to be careful about our order of operations...
-
-
-``` r
-(mtcars$wt[1] - min(mtcars$wt, na.rm = T)) /
-  (max(mtcars$wt, na.rm = T) - min(mtcars$wt, na.rm = T))
-```
-
-```
-## [1] 0.2830478
-```
-
-Great! We got a scaled value out of the deal. Because we're working with base functions like `max`, `min`, and `/`, we can vectorize. This means we can give it the whole weight vector, and we'll get a whole scaled vector back.
-
-
-``` r
-mtcars$wt_scaled <- (mtcars$wt - min(mtcars$wt, na.rm = T)) /
-  diff(range(mtcars$wt, na.rm = T))
-
-mtcars$wt_scaled
-```
-
-```
-##  [1] 0.28304781 0.34824853 0.20634109 0.43518282 0.49271286 0.49782664
-##  [7] 0.52595244 0.42879059 0.41856303 0.49271286 0.49271286 0.65379698
-## [13] 0.56686269 0.57964715 0.95551010 1.00000000 0.97980056 0.17565840
-## [19] 0.02608029 0.08233188 0.24341601 0.51316799 0.49143442 0.59498849
-## [25] 0.59626694 0.10790079 0.16031705 0.00000000 0.42367681 0.32140118
-## [31] 0.52595244 0.32395807
-```
-
-### Generalizing
-
-Now let's replace our reference to a specific vector of data with something generic: `x`. This code won't run on its own, since `x` doesn't have a value, but it's just showing how we would refer to some generic value.
-
-
-``` r
-x_scaled <- (x - min(x, na.rm = T)) /
-  diff(range(x, na.rm = T))
-```
-
-### Making it a Function
-
-Now that we've got a generalized bit of code, we can turn it into a function. All we need is a name, `function`, and a list of arguments. In this case, we've just got one argument: `x`.
-
-
-``` r
-rescale_0_1 <- function(x) {
-  (x - min(x, na.rm = T)) /
-  diff(range(x, na.rm = T))
+worst_days[[1]]   # the first element of the list: a one-row tibble</code></pre>
+<pre><code>## # A tibble: 1 × 4
+##   city  date       pm10_fire ozone_fire
+##   &lt;chr&gt; &lt;date&gt;         &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Davis 2018-11-15      235.          0</code></pre>
+<pre class="r"><code>bind_rows(worst_days)</code></pre>
+<pre><code>## # A tibble: 6 × 4
+##   city        date       pm10_fire ozone_fire
+##   &lt;chr&gt;       &lt;date&gt;         &lt;dbl&gt;      &lt;dbl&gt;
+## 1 Davis       2018-11-15      235.        0  
+## 2 Fresno      2020-09-08      221.        6.1
+## 3 Los Angeles 2007-10-23      105.        0  
+## 4 Paradise    2018-11-15      232.        6  
+## 5 Redding     2020-09-09      132.        0  
+## 6 Santa Rosa  2018-11-09      145.        0</code></pre>
+<p>Paradise, Davis, and Santa Rosa all had their worst day during the
+Camp Fire in November 2018. Redding and Fresno had theirs in September
+2020, during that year’s record fire season, and Los Angeles in October
+2007, when fires burned across Southern California.</p>
+<p>This <strong>list of data frames → <code>bind_rows()</code></strong>
+pattern is one of the most useful in this lesson. It works for anything
+you can do for one case and return as a table.</p>
+<div id="using-your-own-functions" class="section level3">
+<h3>Using your own functions</h3>
+<p>That includes functions you wrote yourself. Following week 9, write a
+function that works for <strong>one</strong> place and check it on a
+case you can verify:</p>
+<pre class="r"><code>smoke_summary &lt;- function(data, place) {
+  place_data &lt;- filter(data, city == place)
+  tibble(city       = place,
+         smoke_days = sum(place_data$pm10_fire &gt; 0),
+         fire_pct   = round(100 * sum(place_data$pm10_fire) / sum(place_data$pm10), 1))
 }
 
-rescale_0_1(mtcars$mpg) # it works on one of our columns
-```
+smoke_summary(air, &quot;Paradise&quot;)</code></pre>
+<pre><code>## # A tibble: 1 × 3
+##   city     smoke_days fire_pct
+##   &lt;chr&gt;         &lt;int&gt;    &lt;dbl&gt;
+## 1 Paradise        637     12.2</code></pre>
+<p><code>fire_pct</code> is the percent of all the PM10 in that place
+over the 15 years that came from wildfire smoke. Paradise’s 637 smoke
+days match our earlier count, so the function works. Now run it for
+every place:</p>
+<pre class="r"><code>lapply(cities, function(this_city) smoke_summary(air, this_city)) %&gt;%
+  bind_rows()</code></pre>
+<pre><code>## # A tibble: 6 × 3
+##   city        smoke_days fire_pct
+##   &lt;chr&gt;            &lt;int&gt;    &lt;dbl&gt;
+## 1 Davis              555     10  
+## 2 Fresno             450      5.6
+## 3 Los Angeles        207      1.7
+## 4 Paradise           637     12.2
+## 5 Redding            665     16.5
+## 6 Santa Rosa         269      6.2</code></pre>
+<p>Here the anonymous function is a small adapter. <code>lapply()</code>
+gives it one city at a time, and it passes that city on to
+<code>smoke_summary()</code> along with the data. <strong>This is the
+full recipe: get it working once, turn it into a function, then
+iterate.</strong></p>
+</div>
+</div>
+<div id="split-apply-combine" class="section level2">
+<h2>Split, apply, combine</h2>
+<p>So far each function has started by filtering the data down to one
+city. <code>split()</code> does that for every city at once and returns
+a named list with one data frame per city:</p>
+<pre class="r"><code>by_city &lt;- split(air, air$city)
+names(by_city)</code></pre>
+<pre><code>## [1] &quot;Davis&quot;       &quot;Fresno&quot;      &quot;Los Angeles&quot; &quot;Paradise&quot;    &quot;Redding&quot;    
+## [6] &quot;Santa Rosa&quot;</code></pre>
+<pre class="r"><code>sapply(by_city, nrow)</code></pre>
+<pre><code>##       Davis      Fresno Los Angeles    Paradise     Redding  Santa Rosa 
+##        5479        5479        5479        5479        5479        5479</code></pre>
+<p>Now each element is already one city’s data, so the function inside
+only needs a data frame. This is where iteration does something
+<code>group_by()</code> can’t easily do: fit a model to each city. Are
+smoke days becoming more common? For each city, count smoke days per
+year, fit a straight line through them with <code>lm()</code>, and keep
+its slope (the change in smoke days per year):</p>
+<pre class="r"><code>sapply(by_city, function(city_data) {
+  per_year &lt;- city_data %&gt;%
+    group_by(year) %&gt;%
+    summarise(smoke_days = sum(pm10_fire &gt; 0))
+  fit &lt;- lm(smoke_days ~ year, data = per_year)
+  coef(fit)[[&quot;year&quot;]]
+})</code></pre>
+<pre><code>##       Davis      Fresno Los Angeles    Paradise     Redding  Santa Rosa 
+##    2.996429    3.153571    1.028571    3.435714    2.742857    2.557143</code></pre>
+<p>The slope is positive everywhere: the fitted line rises by about 2.5
+to 3.5 smoke days per year in five of the places, and by about 1 per
+year in Los Angeles. That’s a rough fit, because a few big years (2008,
+2017, 2018, 2020) pull it up a lot. Still, the code to answer the
+question is one short function, run six times.</p>
+<p>The same pattern makes one plot per place. <code>lapply()</code>
+returns a list of ggplots, and you pick out the one you want by
+name:</p>
+<pre class="r"><code>smoke_plots &lt;- lapply(by_city, function(city_data) {
+  ggplot(city_data, aes(x = date, y = pm10_fire)) +
+    geom_line() +
+    labs(title = city_data$city[1], x = NULL, y = &quot;Wildfire PM10 (µg/m³)&quot;)
+})
 
-```
-##  [1] 0.4510638 0.4510638 0.5276596 0.4680851 0.3531915 0.3276596 0.1659574
-##  [8] 0.5957447 0.5276596 0.3744681 0.3148936 0.2553191 0.2936170 0.2042553
-## [15] 0.0000000 0.0000000 0.1829787 0.9361702 0.8510638 1.0000000 0.4723404
-## [22] 0.2170213 0.2042553 0.1234043 0.3744681 0.7191489 0.6638298 0.8510638
-## [29] 0.2297872 0.3957447 0.1957447 0.4680851
-```
-
-### Iterating with Apply Functions!
-
-Now that we've got a function that'll rescale a vector of values, we can use one of the `apply` functions to iterate across all the columns in a dataframe, rescaling each one. We'll use `sapply` since we want simplified output, and we're working with a dataframe.
-
-
-``` r
-# Apply our rescale function to each column
-rescaled_data <- sapply(mtcars, rescale_0_1)
-head(rescaled_data)
-```
-
-```
-##            mpg cyl      disp        hp      drat        wt      qsec vs am gear
-## [1,] 0.4510638 0.5 0.2217511 0.2049470 0.5253456 0.2830478 0.2333333  0  1  0.5
-## [2,] 0.4510638 0.5 0.2217511 0.2049470 0.5253456 0.3482485 0.3000000  0  1  0.5
-## [3,] 0.5276596 0.0 0.0920429 0.1448763 0.5023041 0.2063411 0.4892857  1  1  0.5
-## [4,] 0.4680851 0.5 0.4662010 0.2049470 0.1474654 0.4351828 0.5880952  1  0  0.0
-## [5,] 0.3531915 1.0 0.7206286 0.4346290 0.1797235 0.4927129 0.3000000  0  0  0.0
-## [6,] 0.3276596 0.5 0.3838863 0.1872792 0.0000000 0.4978266 0.6809524  1  0  0.0
-##           carb wt_scaled
-## [1,] 0.4285714 0.2830478
-## [2,] 0.4285714 0.3482485
-## [3,] 0.0000000 0.2063411
-## [4,] 0.0000000 0.4351828
-## [5,] 0.1428571 0.4927129
-## [6,] 0.0000000 0.4978266
-```
-
-``` r
-# You can also use lapply if you want the result as a list
-rescaled_list <- lapply(mtcars, rescale_0_1)
-```
-
-There you have it! We went from some code that calculated one value to being able to iterate it across any number of columns in a dataframe using base R's `apply` functions. It can be tempting to jump straight to your final iteration code, but it's often better to start simple and work your way up, verifying that things work at each step, especially if you're trying to do something even moderately complex.
-
-
-## Other Iteration Options: `purrr` from the Tidyverse
-
-While we've focused on base R's `apply` functions, it's worth mentioning that there are other approaches to iteration available in R. The `tidyverse` includes a package called `purrr` that provides the `map` family of functions. These functions are very similar to the `apply` functions, but with a more consistent syntax and some additional features.
-
-The `purrr` functions include `map()`, `map_dbl()`, `map_chr()`, and others that explicitly specify the output type. For example:
-
-
-``` r
-library(purrr)
-mtcars %>% map_dbl(mean)  # Returns a numeric vector
-```
-
-If you want to learn more about `purrr`, check out [Jenny Bryan's tutorial](https://jennybc.github.io/purrr-tutorial/). You might come across `purrr` functions in tidyverse-focused code, but the base R `apply` functions we've learned will handle most iteration needs effectively.
-
-This lesson was contributed by Michael Culshaw-Maurer, with ideas from Mike Koontz and Brandon Hurr's [D-RUG presentation](http://d-rug.github.io/blog/2017/Brandon-Hurr-on-using-map-and-walk).
-
--->
+smoke_plots$Paradise</code></pre>
+<p><img src="lesson_wk10_iteration_files/figure-html/split-plots-1.png" alt="" width="672" /></p>
+<p>To save each one to a file, a plain for loop works fine. You want the
+files, not a list of results, so there’s nothing to collect:</p>
+<pre class="r"><code>for (this_city in names(smoke_plots)) {
+  ggsave(paste0(&quot;figures/smoke_&quot;, this_city, &quot;.png&quot;), smoke_plots[[this_city]])
+}</code></pre>
+</div>
+<div id="reading-many-files-at-once" class="section level2">
+<h2>Reading many files at once</h2>
+<p>The full version of this dataset comes as one file per year. Reading
+a folder of files is one of the most common reasons to iterate, and it’s
+the same <code>lapply()</code> + <code>bind_rows()</code> pattern:</p>
+<pre class="r"><code>files &lt;- list.files(&quot;data/air_by_year&quot;, full.names = TRUE)   # every file in the folder
+all_years &lt;- lapply(files, read_csv) %&gt;% bind_rows()</code></pre>
+</div>
+<div id="which-one-should-i-use" class="section level2">
+<h2>Which one should I use?</h2>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>You want to…</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Calculate a new column from other columns</td>
+<td>a vectorized function in <code>mutate()</code></td>
+</tr>
+<tr class="even">
+<td>One summary per group</td>
+<td><code>group_by()</code> + <code>summarise()</code></td>
+</tr>
+<tr class="odd">
+<td>One value per element (column, city, file)</td>
+<td><code>sapply()</code></td>
+</tr>
+<tr class="even">
+<td>Anything else per element (a table, a model, a plot)</td>
+<td><code>lapply()</code>, then <code>bind_rows()</code> if the pieces
+are tables</td>
+</tr>
+<tr class="odd">
+<td>Do something for its side effect (print, save files), or each step
+needs the previous one</td>
+<td>a <code>for</code> loop</td>
+</tr>
+</tbody>
+</table>
+<p>You may have heard that loops are slow in R. A loop that saves into
+an empty object made beforehand is about as fast as
+<code>lapply()</code>. Choose whichever makes your code clearest.</p>
+<div class="blue">
+<p><strong>If <code>sapply()</code> surprises you:</strong>
+<code>sapply()</code> guesses the shape of the result. If each answer is
+a single number you get a vector. If each answer has the same few
+numbers you get a matrix, and otherwise you get a list. It also drops
+some classes, such as dates. If the output looks odd, switch to
+<code>lapply()</code> and look at the list it returns.</p>
+</div>
+</div>
+<div id="going-further" class="section level2">
+<h2>Going further</h2>
+<ul>
+<li><strong><code>purrr</code></strong>: the tidyverse version of the
+apply family. <code>map()</code> works like <code>lapply()</code>, and
+<code>map_dbl()</code> is like <code>sapply()</code> except that it
+always returns numbers (or gives an error), so it never guesses. If
+you’re comfortable with <code>lapply()</code>, you can already read
+<code>purrr</code> code. <a
+href="https://jennybc.github.io/purrr-tutorial/">Jenny Bryan’s
+tutorial</a> is a good next step.</li>
+<li><strong><code>apply()</code></strong>: runs a function over the rows
+or columns of a <em>matrix</em>. If you give it a data frame, it turns
+it into a matrix first. A matrix can hold only one type, so a single
+text column turns every column into text. For data frames, use
+<code>sapply()</code> over the columns instead.</li>
+<li><strong><code>mapply()</code> / <code>Map()</code></strong>: iterate
+over two vectors in parallel, such as a vector of file names and a
+vector of sites.</li>
+</ul>
+<p><br></p>
+<p>Data: Aguilera, R. &amp; Benmarhnia, T., <a
+href="https://doi.org/10.7910/DVN/FYW1VU">Daily Total and Wildfire
+Concentrations of PM10 and Ozone for California ZIP Codes
+(2006-2020)</a>, Harvard Dataverse (CC0), described in Aguilera et
+al. (2025), Effects of multiple wildfire smoke pollutants (PM2.5, PM10
+and ozone) on respiratory and cardiovascular hospitalizations in
+California (2006-2019), <em>GeoHealth</em> 9(12), e2025GH001510.</p>
+<p>This lesson builds on an earlier version by Michael Culshaw-Maurer,
+with ideas from Mike Koontz and Brandon Hurr’s <a
+href="http://d-rug.github.io/blog/2017/Brandon-Hurr-on-using-map-and-walk">D-RUG
+presentation</a>.</p>
+</div>
 
 
 

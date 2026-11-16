@@ -9,11 +9,11 @@ This is the Lab Week 10 document for R-DAVIS. Complete the tasks below in this f
 
 In this assignment, you'll use for loops, `lapply()`, and `sapply()` on the California wildfire air-quality data from lecture. Each row is one place on one day, 2006–2020. `pm10` and `ozone` are the total daily concentrations, and `pm10_fire` and `ozone_fire` are the parts that came from wildfire smoke.
 
-Let's load the data:
+Load the data:
 
 ```{r wk10a}
-library(tidyverse)
-air <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/ca_wildfire_air.csv")
+# data at https://ucd-rdavis.github.io/R-DAVIS/data/ca_wildfire_air.csv
+
 ```
 
 1) Not everything needs a loop. Add a column called `ozone_other` to `air` that holds the ozone that did *not* come from wildfire smoke (`ozone` minus `ozone_fire`). In a sentence, explain why you don't need a for loop or `lapply()` for this.

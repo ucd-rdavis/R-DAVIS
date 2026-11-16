@@ -56,8 +56,9 @@ Last week you learned to wrap code in a function so you can reuse it. This week 
 This week's data come from a study of wildfire smoke in California. The authors estimated daily air pollution for every ZIP code in the state from 2006 to 2020 and worked out how much of it came from wildfire smoke. We'll use a small piece of it: one ZIP code in each of six places.
 
 ```{r data}
-air <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/ca_wildfire_air.csv")
-air
+# data at https://ucd-rdavis.github.io/R-DAVIS/data/ca_wildfire_air.csv
+air <- read_csv("data/ca_wildfire_air.csv")
+head(air)
 ```
 
 Each row is one place on one day. `pm10` is the total amount of coarse particles in the air (PM10, in µg/m³), and `pm10_fire` is the part of it that came from wildfire smoke. `ozone` and `ozone_fire` are the same for ozone, in parts per billion. On a day with no smoke, the `_fire` columns are 0. We'll call a day with any wildfire PM10 (`pm10_fire > 0`) a **smoke day**.
