@@ -461,22 +461,27 @@ div.tocify {
 <div id="learning-objectives" class="section level3 blue">
 <h3>Learning Objectives</h3>
 <ul>
+<li><strong>Write functions</strong>
+<ul>
 <li>Decide when a piece of code should become a function.</li>
-<li>Write a function with arguments, default values, and a return
-value.</li>
-<li>Turn code that works once into a function you can reuse.</li>
-<li>Use your own functions inside <code>mutate()</code> and in
-pipes.</li>
-<li>Write functions that take a data frame and return a table.</li>
+<li>Write a function with arguments, default values, and a return value,
+and use it inside <code>mutate()</code>.</li>
+<li>Turn code that works once into a function you can reuse in a
+pipe.</li>
+<li>Choose argument names that don’t clash with column names.</li>
+</ul></li>
+<li><strong>Organize functions</strong>
+<ul>
+<li>Explain why objects created inside a function stay inside it.</li>
 <li>Keep functions in their own script and load them with
 <code>source()</code>.</li>
-</ul>
-<p><strong>Bonus (Advanced Function Writing)</strong></p>
+</ul></li>
+<li><strong>Improve functions</strong>
 <ul>
 <li>Test functions on inputs with known answers.</li>
-<li>Split shared steps into their own functions.</li>
 <li>Pass column names into a function with <code>{{ }}</code>.</li>
 <li>Check inputs and stop with a clear error message.</li>
+</ul></li>
 </ul>
 </div>
 <p><br></p>
@@ -492,15 +497,17 @@ Discussion</a></li>
 <div id="in-class-coding" class="section level2">
 <h2>In Class Coding</h2>
 <p><a
-href="https://canvas.ucdavis.edu/courses/1019595/assignments/1510297">Submit
+href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714938">Submit
 Week 9 In Class Coding</a></p>
-<p><br> # Function Writing Basics</p>
+<p><br></p>
+</div>
+<div id="writing-functions" class="section level1">
+<h1>Writing functions</h1>
 <p>You have been using functions since week 1: <code>mean()</code>,
 <code>filter()</code>, <code>ggplot()</code>, <code>read_csv()</code>.
 Each one is code that someone wrote once, gave a name, and shared so
 nobody has to rewrite it.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
-</div>
 <div id="our-data-electricity-generation-by-country"
 class="section level2">
 <h2>Our data: electricity generation by country</h2>
@@ -517,9 +524,13 @@ measured in terawatt-hours (TWh). One TWh is one billion kilowatt-hours
 href="https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity_codebook.md">codebook</a>
 describes every column.</p>
 <pre class="r"><code># owid_url &lt;- &quot;https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity.csv&quot;
-## remember that in a .Rmd/.Qmd chunk, the working directory is where the markdown doc lives. Since our lecture markdown docs are in the primary directory, we can call `data/` directly. If you have stored your markdown files in a `scripts/` or `code/` subdirectory (which you should have) that means you&#39;ll need to zoom up one level in your file tree and then back down into the `data/` subdirectory (e.g., `&quot;../data/owid_electricity.csv&quot;`
+
+# In a .Rmd/.qmd chunk, the working directory is the folder the document lives in.
+# Our lecture documents sit in the top-level folder, so we can point to `data/`
+# directly. If your document is in a `scripts/` subfolder (where it should be),
+# go up one level first: &quot;../data/owid_electricity.csv&quot;
 owid_flnm &lt;- &quot;data/owid_electricity.csv&quot;
-# download.file(url = owid_url,filename = owid_flnm)
+# download.file(url = owid_url, destfile = owid_flnm)
 elec &lt;- read_csv(owid_flnm)</code></pre>
 </div>
 <div id="why-write-functions" class="section level2">
@@ -674,7 +685,7 @@ case.</li>
 </ol>
 <p>Let’s build a function that shows a country’s electricity mix (the
 share from each source) in one year.</p>
-<p><strong>Step 1: write it once.</strong> Here is Germany in 2024. We
+<p><strong>Step 1: write it once.</strong> Here is Norway in 2024. We
 pivot the nine source columns into a long table (week 5), clean up the
 source names, and use <code>pct()</code>:</p>
 <pre class="r"><code>elec %&gt;%
@@ -698,7 +709,7 @@ source names, and use <code>pct()</code>:</p>
 ## 8 nuclear           0      0  
 ## 9 other_renewable   0      0</code></pre>
 <p><strong>Step 2: find what changes.</strong> To run this for a
-different country or year we would edit <code>"Germany"</code> and
+different country or year we would edit <code>"Norway"</code> and
 <code>2024</code>. Those become arguments. We also make the data an
 argument, so the function doesn’t depend on an object called
 <code>elec</code> existing.</p>
@@ -775,15 +786,18 @@ to itself, which is always <code>TRUE</code>. Give arguments names that
 are not column names in your data.</p>
 </div>
 </div>
+</div>
+<div id="organizing-functions" class="section level1">
+<h1>Organizing functions</h1>
 <div id="what-happens-in-a-function-stays-in-the-function"
 class="section level2">
 <h2>What happens in a function stays in the function</h2>
 <p>Objects created inside a function exist only while it runs. Changes
 you make to an argument inside a function do not change the original
-object. For instance, the code below modifies the temporary
-<code>data</code> input object, but not the original <code>data</code>
-object you fed in, and <code>n_rows</code> is not stored as an
-object.</p>
+object. For instance, the code below filters <code>data</code>, the
+function’s own copy of its input, but leaves <code>elec</code>, the
+object we passed in, unchanged. And <code>n_rows</code> disappears when
+the function finishes.</p>
 <pre class="r"><code>count_2024 &lt;- function(data) {
   data &lt;- filter(data, year == 2024)
   n_rows &lt;- nrow(data)
@@ -795,7 +809,8 @@ count_2024(elec)</code></pre>
 <pre class="r"><code>nrow(elec)    # elec still has every year</code></pre>
 <pre><code>## [1] 5459</code></pre>
 <pre class="r"><code>n_rows        # this only existed inside the function</code></pre>
-<pre><code>## [1] 35549</code></pre>
+<pre><code>## Error:
+## ! object &#39;n_rows&#39; not found</code></pre>
 <p>The function worked on a copy of <code>elec</code>. This makes
 functions safe to use: calling one won’t change your data unless you
 save its output with <code>&lt;-</code>.</p>
@@ -805,6 +820,9 @@ its <code>data</code> argument and wrote <code>elec</code> in the body.
 Don’t do this. A function that only uses its arguments gives the same
 answer no matter what else is in your Environment, and it works on any
 data you pass to it.</p>
+</div>
+<div id="habits-for-writing-functions" class="section level2">
+<h2>Habits for writing functions</h2>
 <p>A few habits that make functions easier to use later:</p>
 <ul>
 <li>Name functions with what they do: <code>elec_mix()</code>,
@@ -833,6 +851,9 @@ appear in the Environment, ready to use. Your analysis script stays
 short, and you can reuse the same <code>functions.R</code> in other
 projects.</p>
 </div>
+</div>
+<div id="improving-functions" class="section level1">
+<h1>Improving functions</h1>
 <div id="test-with-values-you-know" class="section level2">
 <h2>Test with values you know</h2>
 <p>Before you trust a function, try it on inputs where you already know
@@ -849,13 +870,13 @@ the answer:</p>
 just a math curiosity: a few rows in our data report 0 total generation.
 You don’t have to handle every odd case, but you should know what your
 function does with them.</p>
-<div id="challenge-1" class="section level3">
+<div id="challenge-1" class="section level3 blue">
 <h3>Challenge</h3>
 <p>Write a function
 <code>compare_years(data, country_name, year1, year2)</code> that
 returns a table with one row per source, the share in each year, and the
 change between them. Use <code>elec_mix()</code> and a join from week 5.
-Which source changed most in the Norway between 2012 and 2024?</p>
+Which source changed most in Norway between 2012 and 2024?</p>
 <details>
 <summary>
 ANSWER
@@ -883,7 +904,6 @@ compare_years(elec, &quot;Norway&quot;, 2012, 2024)</code></pre>
 </details>
 </div>
 <p><br></p>
-</div>
 </div>
 <div id="passing-column-names" class="section level2">
 <h2>Passing column names: <code>{{ }}</code></h2>
@@ -970,13 +990,13 @@ ANSWER
     group_by(country) %&gt;%
     summarize(mean = mean({{ col }}, na.rm = TRUE))
 }
-avg_by_country(elec, c(&quot;Poland&quot;, &quot;Germany&quot;, &quot;France&quot;), carbon_intensity_elec)</code></pre>
+avg_by_country(elec, c(&quot;Norway&quot;, &quot;Sweden&quot;, &quot;Finland&quot;), carbon_intensity_elec)</code></pre>
 <pre><code>## # A tibble: 3 × 2
 ##   country  mean
 ##   &lt;chr&gt;   &lt;dbl&gt;
-## 1 France   70.1
-## 2 Germany 494. 
-## 3 Poland  849.</code></pre>
+## 1 Finland 228. 
+## 2 Norway   31.2
+## 3 Sweden   46.2</code></pre>
 </details>
 </div>
 <p><br></p>
@@ -984,7 +1004,7 @@ avg_by_country(elec, c(&quot;Poland&quot;, &quot;Germany&quot;, &quot;France&quo
 <div id="checking-inputs" class="section level2">
 <h2>Checking inputs</h2>
 <p>What happens if we misspell a country?</p>
-<pre class="r"><code>elec_mix(elec, &quot;Germnay&quot;, 2024)</code></pre>
+<pre class="r"><code>elec_mix(elec, &quot;Nrway&quot;, 2024)</code></pre>
 <pre><code>## # A tibble: 0 × 3
 ## # ℹ 3 variables: source &lt;chr&gt;, twh &lt;dbl&gt;, share &lt;dbl&gt;</code></pre>
 <p>We get an empty table and no warning. In a long script, that can go
@@ -996,15 +1016,17 @@ message. To do that we use <code>if</code> and <code>stop()</code>:</p>
   }
   data %&gt;%
     filter(country == country_name, year == yr) %&gt;%
-    pivot_sources() %&gt;%
-    mutate(share = pct(twh, electricity_generation)) %&gt;%
+    pivot_longer(coal_electricity:other_renewable_electricity,
+                 names_to = &quot;source&quot;, values_to = &quot;twh&quot;) %&gt;%
+    mutate(source = str_remove(source, &quot;_electricity&quot;),
+           share = pct(twh, electricity_generation)) %&gt;%
     select(source, twh, share) %&gt;%
     arrange(desc(share))
 }
 
-elec_mix(elec, &quot;Germnay&quot;, 2024)</code></pre>
+elec_mix(elec, &quot;Nrway&quot;, 2024)</code></pre>
 <pre><code>## Error in `elec_mix()`:
-## ! Can&#39;t find &#39;Germnay&#39; in the data. Check the spelling.</code></pre>
+## ! Can&#39;t find &#39;Nrway&#39; in the data. Check the spelling.</code></pre>
 <p><code>if</code> is different from the <code>ifelse()</code> you saw
 in week 5. <code>ifelse()</code> works on a whole vector and returns a
 vector. <code>if</code> takes a single <code>TRUE</code> or
@@ -1028,6 +1050,7 @@ adapted from the Software Carpentry: R for Reproducible Scientific
 Analysis <a
 href="http://data-lessons.github.io/gapminder-R/07-functions.html">Creating
 Functions materials</a>.</p>
+</div>
 </div>
 
 

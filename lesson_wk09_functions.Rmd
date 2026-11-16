@@ -7,19 +7,18 @@ subtitle: Writing your own functions
 
 ### Learning Objectives
 
-* Decide when a piece of code should become a function.
-* Write a function with arguments, default values, and a return value.
-* Turn code that works once into a function you can reuse.
-* Use your own functions inside `mutate()` and in pipes.
-* Write functions that take a data frame and return a table.
-* Keep functions in their own script and load them with `source()`.
-
-**Bonus (Advanced Function Writing)**
-
-* Test functions on inputs with known answers.
-* Split shared steps into their own functions.
-* Pass column names into a function with `{{ }}`.
-* Check inputs and stop with a clear error message.
+* **Write functions**
+    * Decide when a piece of code should become a function.
+    * Write a function with arguments, default values, and a return value, and use it inside `mutate()`.
+    * Turn code that works once into a function you can reuse in a pipe.
+    * Choose argument names that don't clash with column names.
+* **Organize functions**
+    * Explain why objects created inside a function stay inside it.
+    * Keep functions in their own script and load them with `source()`.
+* **Improve functions**
+    * Test functions on inputs with known answers.
+    * Pass column names into a function with `{{ }}`.
+    * Check inputs and stop with a clear error message.
 </div>
 <br>
 
@@ -30,7 +29,7 @@ subtitle: Writing your own functions
 
 ## In Class Coding
 
-[Submit Week 9 In Class Coding](https://canvas.ucdavis.edu/courses/1019595/assignments/1510297)
+[Submit Week 9 In Class Coding](https://canvas.ucdavis.edu/courses/1098028/assignments/1714938)
 
 ```{r setup, include=FALSE, echo=FALSE, results='hide'}
 # Packages used in this lesson
@@ -45,7 +44,8 @@ invisible(lapply(required_packages, library, character.only = TRUE))
 ```
 
 <br>
-# Function Writing Basics
+
+# Writing functions
 
 You have been using functions since week 1: `mean()`, `filter()`, `ggplot()`, `read_csv()`. Each one is code that someone wrote once, gave a name, and shared so nobody has to rewrite it.
 
@@ -61,9 +61,13 @@ The [codebook](https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity_codebo
 
 ```{r load-data, message=FALSE}
 # owid_url <- "https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity.csv"
-## remember that in a .Rmd/.Qmd chunk, the working directory is where the markdown doc lives. Since our lecture markdown docs are in the primary directory, we can call `data/` directly. If you have stored your markdown files in a `scripts/` or `code/` subdirectory (which you should have) that means you'll need to zoom up one level in your file tree and then back down into the `data/` subdirectory (e.g., `"../data/owid_electricity.csv"`
+
+# In a .Rmd/.qmd chunk, the working directory is the folder the document lives in.
+# Our lecture documents sit in the top-level folder, so we can point to `data/`
+# directly. If your document is in a `scripts/` subfolder (where it should be),
+# go up one level first: "../data/owid_electricity.csv"
 owid_flnm <- "data/owid_electricity.csv"
-# download.file(url = owid_url,filename = owid_flnm)
+# download.file(url = owid_url, destfile = owid_flnm)
 elec <- read_csv(owid_flnm)
 ```
 
@@ -198,7 +202,7 @@ Most functions start as code that works for one case. The steps are:
 
 Let's build a function that shows a country's electricity mix (the share from each source) in one year.
 
-**Step 1: write it once.** Here is Germany in 2024. We pivot the nine source columns into a long table (week 5), clean up the source names, and use `pct()`:
+**Step 1: write it once.** Here is Norway in 2024. We pivot the nine source columns into a long table (week 5), clean up the source names, and use `pct()`:
 
 ```{r}
 elec %>%
@@ -211,7 +215,7 @@ elec %>%
   arrange(desc(share))
 ```
 
-**Step 2: find what changes.** To run this for a different country or year we would edit `"Germany"` and `2024`. Those become arguments. We also make the data an argument, so the function doesn't depend on an object called `elec` existing.
+**Step 2: find what changes.** To run this for a different country or year we would edit `"Norway"` and `2024`. Those become arguments. We also make the data an argument, so the function doesn't depend on an object called `elec` existing.
 
 **Step 3: replace and wrap.**
 
@@ -256,9 +260,11 @@ elec_mix_bad(elec, "Norway", 2024) %>% nrow()
 
 We asked for one country and got every country. Inside `filter()`, dplyr looks for column names first. `country == country` compares the `country` column to itself, which is always `TRUE`. Give arguments names that are not column names in your data.
 
+# Organizing functions
+
 ## What happens in a function stays in the function
 
-Objects created inside a function exist only while it runs. Changes you make to an argument inside a function do not change the original object. For instance, the code below modifies the temporary `data` input object, but not the original `data` object you fed in, and `n_rows` is not stored as an object.
+Objects created inside a function exist only while it runs. Changes you make to an argument inside a function do not change the original object. For instance, the code below filters `data`, the function's own copy of its input, but leaves `elec`, the object we passed in, unchanged. And `n_rows` disappears when the function finishes.
 
 ```{r, error=TRUE}
 count_2024 <- function(data) {
@@ -275,6 +281,8 @@ n_rows        # this only existed inside the function
 The function worked on a copy of `elec`. This makes functions safe to use: calling one won't change your data unless you save its output with `<-`.
 
 It works the other way too. A function can see objects in your Environment, so `elec_mix()` would still run if we deleted its `data` argument and wrote `elec` in the body. Don't do this. A function that only uses its arguments gives the same answer no matter what else is in your Environment, and it works on any data you pass to it.
+
+## Habits for writing functions
 
 A few habits that make functions easier to use later:
 
@@ -300,6 +308,8 @@ source("scripts/functions.R")
 
 `source()` runs every line of the file, so your functions appear in the Environment, ready to use. Your analysis script stays short, and you can reuse the same `functions.R` in other projects.
 
+# Improving functions
+
 ## Test with values you know
 
 Before you trust a function, try it on inputs where you already know the answer:
@@ -313,9 +323,11 @@ pct(0, 0)        # 0 divided by 0
 
 The last one returns `NaN` ("not a number"). That is not just a math curiosity: a few rows in our data report 0 total generation. You don't have to handle every odd case, but you should know what your function does with them.
 
+<div class = "blue">
+
 ### Challenge
 
-Write a function `compare_years(data, country_name, year1, year2)` that returns a table with one row per source, the share in each year, and the change between them. Use `elec_mix()` and a join from week 5. Which source changed most in the Norway between 2012 and 2024?
+Write a function `compare_years(data, country_name, year1, year2)` that returns a table with one row per source, the share in each year, and the change between them. Use `elec_mix()` and a join from week 5. Which source changed most in Norway between 2012 and 2024?
 
 <details>
 <summary>ANSWER</summary>
@@ -393,7 +405,7 @@ avg_by_country <- function(data, countries, col) {
     group_by(country) %>%
     summarize(mean = mean({{ col }}, na.rm = TRUE))
 }
-avg_by_country(elec, c("Poland", "Germany", "France"), carbon_intensity_elec)
+avg_by_country(elec, c("Norway", "Sweden", "Finland"), carbon_intensity_elec)
 ```
 </details>
 </div>
@@ -404,7 +416,7 @@ avg_by_country(elec, c("Poland", "Germany", "France"), carbon_intensity_elec)
 What happens if we misspell a country?
 
 ```{r}
-elec_mix(elec, "Germnay", 2024)
+elec_mix(elec, "Nrway", 2024)
 ```
 
 We get an empty table and no warning. In a long script, that can go unnoticed. A function can check its inputs and stop with a clear message. To do that we use `if` and `stop()`:
@@ -416,13 +428,15 @@ elec_mix <- function(data, country_name, yr) {
   }
   data %>%
     filter(country == country_name, year == yr) %>%
-    pivot_sources() %>%
-    mutate(share = pct(twh, electricity_generation)) %>%
+    pivot_longer(coal_electricity:other_renewable_electricity,
+                 names_to = "source", values_to = "twh") %>%
+    mutate(source = str_remove(source, "_electricity"),
+           share = pct(twh, electricity_generation)) %>%
     select(source, twh, share) %>%
     arrange(desc(share))
 }
 
-elec_mix(elec, "Germnay", 2024)
+elec_mix(elec, "Nrway", 2024)
 ```
 
 `if` is different from the `ifelse()` you saw in week 5. `ifelse()` works on a whole vector and returns a vector. `if` takes a single `TRUE` or `FALSE` and decides whether to run the code in its braces. Here, if the country is not in the data, `stop()` ends the function and prints our message.
