@@ -60,7 +60,11 @@ This week we use electricity data from [Our World in Data](https://github.com/ow
 The [codebook](https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity_codebook.md) describes every column.
 
 ```{r load-data, message=FALSE}
-elec <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity.csv")
+# owid_url <- "https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity.csv"
+## remember that in a .Rmd/.Qmd chunk, the working directory is where the markdown doc lives. Since our lecture markdown docs are in the primary directory, we can call `data/` directly. If you have stored your markdown files in a `scripts/` or `code/` subdirectory (which you should have) that means you'll need to zoom up one level in your file tree and then back down into the `data/` subdirectory (e.g., `"../data/owid_electricity.csv"`
+# owid_flnm <- "data/owid_electricity.csv"
+# download.file(url = owid_url,filename = owid_flnm)
+elec <- read_csv(owid_flnm)
 ```
 
 ## Why write functions?
@@ -110,11 +114,10 @@ elec_pct <- elec %>%
          solar_pct = pct(solar_electricity, electricity_generation))
 
 elec_pct %>%
-  filter(country == "United Kingdom", year %in% c(2000, 2012, 2024)) %>%
+  filter(country == "Norway", year %in% c(2000, 2012, 2024)) %>%
   select(country, year, coal_pct, wind_pct, solar_pct)
 ```
 
-The UK got about 39% of its electricity from coal in 2012 and less than 1% in 2024.
 
 <div class = "blue">
 
