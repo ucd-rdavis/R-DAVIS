@@ -49,10 +49,6 @@ invisible(lapply(required_packages, library, character.only = TRUE))
 
 You have been using functions since week 1: `mean()`, `filter()`, `ggplot()`, `read_csv()`. Each one is code that someone wrote once, gave a name, and shared so nobody has to rewrite it.
 
-```{r load-package, message=FALSE}
-library(tidyverse)
-```
-
 ## Our data: electricity generation by country
 
 This week we use electricity data from [Our World in Data](https://github.com/owid/energy-data), which compiles it from Ember and the Energy Institute. Each row is one country in one year, 2000–2024. For each country-year we have total electricity generated, the amount from each of nine sources (coal, gas, oil, nuclear, hydro, wind, solar, bioenergy, and other renewables), population, and the carbon intensity of the electricity. Electricity is measured in terawatt-hours (TWh). One TWh is one billion kilowatt-hours (kWh).

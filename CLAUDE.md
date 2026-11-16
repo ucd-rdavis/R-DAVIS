@@ -42,7 +42,7 @@ keep those when editing and add one when borrowing more.
 
 `data/portal_data_joined.csv` (Portal Project rodent surveys, ~35.5k rows, 13
 columns: `record_id, month, day, year, plot_id, species_id, sex, hindfoot_length,
-weight, genus, species, taxa, plot_type`). Weeks 3, 7, and 10 and most labs use it,
+weight, genus, species, taxa, plot_type`). Weeks 3 and 7 and most labs use it,
 always via the GitHub Pages URL. `surveys.csv`, `species.csv`, `plots.csv`, and
 `combined.csv` are its unjoined components; `tail_length.csv` is a companion table
 used to teach joins; `data_output/surveys_complete.csv` is the NA-free version.
@@ -57,8 +57,13 @@ Week 9 (Functions) uses `owid_electricity.csv` (country x year electricity gener
 by source, 2000-2024), a frozen subset of Our World in Data's energy dataset built by
 `scripts/build_owid_electricity_data.R` and documented in `data/owid_electricity_codebook.md`;
 pages using it must cite OWID, Ember, and the Energy Institute.
+Week 10 (Iteration) lesson and lab use `ca_wildfire_air.csv` (6 California places x day,
+2006-2020, total and wildfire PM10 and ozone), a frozen subset of Aguilera & Benmarhnia's
+Harvard Dataverse dataset (doi:10.7910/DVN/FYW1VU, CC0) built by
+`scripts/build_ca_wildfire_air_data.R` and documented in `data/ca_wildfire_air_codebook.md`;
+pages using it must cite the dataset and Aguilera et al. (2025, *GeoHealth*).
 Other datasets: `gapminder.csv` (labs), `mauna_loa_met_2001_minute.csv`
-(iteration lab; 43 MB, read from the URL), `mysteryData.csv` (faceting
+(formerly the iteration lab; 43 MB, now unused), `mysteryData.csv` (faceting
 challenge), and the `nyc_13_*` and `tyler_activity_laps_*`/`finals_data.csv` files,
 which are exam material.
 
