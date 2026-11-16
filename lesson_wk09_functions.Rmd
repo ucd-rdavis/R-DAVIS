@@ -65,13 +65,9 @@ elec <- read_csv("https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity.csv
 
 ## Why write functions?
 
-Functions help in four ways:
+There are many reasons, but they tend to come down to accuracy, convenience, and speed. When you write a custom function instead of script out a process multiple times, there is only one place for mistakes and one place to fix them. Your scripts get shorter, you can reuse the function for other applications, and you can build on the function with other functions to scale up your code.
 
-- You write the logic once, so there is one place for mistakes and one place to fix them.
-- Your scripts get shorter.
-- You can reuse the function in other projects.
-
-A common rule of thumb: once you have copied a block of code twice, write a function.
+*A common rule of thumb: once you have copied a block of code twice, write a function.*
 
 ## The parts of a function
 
@@ -105,7 +101,7 @@ Because the body only uses arithmetic, which works on whole vectors, `pct()` als
 pct(c(10, 20, 30), 200)
 ```
 
-That means it works on columns inside `mutate()`. Here is the earlier code rewritten with `pct()`:
+You can also call your function--just like other functions you already know of--inside `mutate()`:
 
 ```{r}
 elec_pct <- elec %>%
@@ -124,7 +120,17 @@ The UK got about 39% of its electricity from coal in 2012 and less than 1% in 20
 
 ### Tip
 
-You can also end a function with `return(x)`. It does the same thing as putting `x` on the last line, and it stops the function right there. Most R code leaves `return()` out unless it needs to leave a function early.
+You can also end a function with `return(x)`. `R` automatically returns the last evaluated expression in a function, so `return(x)` is not necessary. But sometimes, you might want to use `return(x)` to have the function return *not the last thing* under certain conditions.
+
+```{r}
+divide_numbers <- function(a, b) {
+  if (b == 0) {
+    return(NA) # Stops immediately so it doesn't divide by zero
+  }
+  a / b        # Implicitly returned if b is not 0
+}
+```
+
 </div>
 <br>
 
@@ -154,9 +160,8 @@ Naming every argument after the first one or two makes your code easier to read,
 
 ### Challenge
 
-1. Write a function called `kwh_per_person()` that takes electricity in TWh and a population and returns kWh per person. One TWh is `1e9` kWh. Test it: the United States generated 4,391 TWh in 2024 with a population of about 345 million, which should give roughly 12,700 kWh per person.
+1. Write a function called `kwh_per_person()` that takes electricity in TWh and a population and returns kWh per person. One TWh is `1e9` kWh. Test it: the United States generated 4,391 TWh in 2024 with a population of about 345 million (`345e6`), which should give roughly 12,700 kWh per person.
 2. Use `kwh_per_person()` inside `mutate()` to find the five countries with the highest electricity generation per person in 2024.
-3. Write a function called `emissions_mt()` that takes generation in TWh and carbon intensity in grams CO₂e per kWh, and returns emissions in million tonnes (Mt) CO₂e. Hint: TWh × g/kWh gives billions of grams; one Mt is 1e12 grams, so the conversion works out to dividing by 1,000. Check it on the United States in 2024.
 
 <details>
 <summary>ANSWER</summary>
@@ -174,15 +179,6 @@ elec %>%
   arrange(desc(kwh_pp)) %>%
   select(country, kwh_pp) %>%
   head(5)
-
-# 3.
-emissions_mt <- function(twh, intensity) {
-  twh * intensity / 1000
-}
-elec %>%
-  filter(country == "United States", year == 2024) %>%
-  mutate(emissions = emissions_mt(electricity_generation, carbon_intensity_elec)) %>%
-  select(country, year, emissions)
 ```
 </details>
 </div>
@@ -203,7 +199,7 @@ Let's build a function that shows a country's electricity mix (the share from ea
 
 ```{r}
 elec %>%
-  filter(country == "Germany", year == 2024) %>%
+  filter(country == "Norway", year == 2024) %>%
   pivot_longer(coal_electricity:other_renewable_electricity,
                names_to = "source", values_to = "twh") %>%
   mutate(source = str_remove(source, "_electricity"),
@@ -232,16 +228,14 @@ elec_mix <- function(data, country_name, yr) {
 **Step 4: test.** First the case we already know, then new ones:
 
 ```{r}
-elec_mix(elec, "Germany", 2024)
-elec_mix(elec, "Kenya", 2024)
+elec_mix(elec, "Norway", 2024)
+elec_mix(elec, "Sweden", 2024)
 ```
-
-Kenya gets a large share of its electricity from "other renewables". That is mostly geothermal.
 
 Because `data` is the first argument, the function also works in a pipe:
 
 ```{r}
-elec %>% elec_mix("Denmark", 2024)
+elec %>% elec_mix("Finland", 2024)
 ```
 
 ### Don't name arguments after columns
@@ -254,14 +248,14 @@ elec_mix_bad <- function(data, country, yr) {
     filter(country == country, year == yr)
 }
 
-elec_mix_bad(elec, "Germany", 2024) %>% nrow()
+elec_mix_bad(elec, "Norway", 2024) %>% nrow()
 ```
 
 We asked for one country and got every country. Inside `filter()`, dplyr looks for column names first. `country == country` compares the `country` column to itself, which is always `TRUE`. Give arguments names that are not column names in your data.
 
 ## What happens in a function stays in the function
 
-Objects created inside a function exist only while it runs. Changes you make to an argument inside a function do not change the original object:
+Objects created inside a function exist only while it runs. Changes you make to an argument inside a function do not change the original object. For instance, the code below modifies the temporary `data` input object, but not the original `data` object you fed in, and `n_rows` is not stored as an object.
 
 ```{r, error=TRUE}
 count_2024 <- function(data) {
@@ -279,16 +273,6 @@ The function worked on a copy of `elec`. This makes functions safe to use: calli
 
 It works the other way too. A function can see objects in your Environment, so `elec_mix()` would still run if we deleted its `data` argument and wrote `elec` in the body. Don't do this. A function that only uses its arguments gives the same answer no matter what else is in your Environment, and it works on any data you pass to it.
 
-## Keeping functions in their own script
-
-As you write more functions, keep them in a separate script, such as `scripts/functions.R`, rather than at the top of your analysis. Then load them all with `source()`:
-
-```{r, eval=FALSE}
-source("scripts/functions.R")
-```
-
-`source()` runs every line of the file, so your functions appear in the Environment, ready to use. Your analysis script stays short, and you can reuse the same `functions.R` in other projects.
-
 A few habits that make functions easier to use later:
 
 - Name functions with what they do: `elec_mix()`, `kwh_per_person()`. Avoid names like `f1()` or `my_function()`.
@@ -303,9 +287,15 @@ pct <- function(part, total, digits = 1) {
 }
 ```
 
-# Advanced Function Writing
+## Keeping functions in their own script
 
-This section is bonus material. These topics make your functions more reliable and more flexible.
+As you write more functions, keep them in a separate script, such as `scripts/functions.R`, rather than at the top of your analysis. Then load them all with `source()`:
+
+```{r, eval=FALSE}
+source("scripts/functions.R")
+```
+
+`source()` runs every line of the file, so your functions appear in the Environment, ready to use. Your analysis script stays short, and you can reuse the same `functions.R` in other projects.
 
 ## Test with values you know
 
@@ -320,43 +310,9 @@ pct(0, 0)        # 0 divided by 0
 
 The last one returns `NaN` ("not a number"). That is not just a math curiosity: a few rows in our data report 0 total generation. You don't have to handle every odd case, but you should know what your function does with them.
 
-## Functions that call functions
-
-`elec_mix()` already calls our own `pct()`. Functions can call any other function, including ones you wrote.
-
-The pivot step in `elec_mix()` is useful on its own: any time we want the sources in one column. Rather than copying it into every function that needs it, we move it into its own function:
-
-```{r}
-pivot_sources <- function(data) {
-  data %>%
-    pivot_longer(coal_electricity:other_renewable_electricity,
-                 names_to = "source", values_to = "twh") %>%
-    mutate(source = str_remove(source, "_electricity"))
-}
-```
-
-Then `elec_mix()` gets shorter:
-
-```{r}
-elec_mix <- function(data, country_name, yr) {
-  data %>%
-    filter(country == country_name, year == yr) %>%
-    pivot_sources() %>%
-    mutate(share = pct(twh, electricity_generation)) %>%
-    select(source, twh, share) %>%
-    arrange(desc(share))
-}
-
-elec_mix(elec, "Germany", 2024)
-```
-
-Same result. Any other function that needs the long format can call `pivot_sources()`, and if we later change how sources are named, we change it in one place.
-
-<div class = "blue">
-
 ### Challenge
 
-Write a function `compare_years(data, country_name, year1, year2)` that returns a table with one row per source, the share in each year, and the change between them. Use `elec_mix()` and a join from week 5. Which source changed most in the United Kingdom between 2012 and 2024?
+Write a function `compare_years(data, country_name, year1, year2)` that returns a table with one row per source, the share in each year, and the change between them. Use `elec_mix()` and a join from week 5. Which source changed most in the Norway between 2012 and 2024?
 
 <details>
 <summary>ANSWER</summary>
@@ -368,7 +324,7 @@ compare_years <- function(data, country_name, year1, year2) {
     mutate(change = share_2 - share_1) %>%
     arrange(change)
 }
-compare_years(elec, "United Kingdom", 2012, 2024)
+compare_years(elec, "Norway", 2012, 2024)
 ```
 </details>
 </div>
@@ -421,7 +377,7 @@ elec %>%
 
 ### Challenge
 
-Write a function `avg_by_country(data, countries, col)` that returns the mean of `col` across all years for each country in `countries`. Use it to compare carbon intensity in Poland, Germany, and France.
+Write a function `avg_by_country(data, countries, col)` that returns the mean of `col` (generic column name) across all years for each country in `countries`. Use it to compare carbon intensity in Norway, Sweden, and Finland.
 
 Hint: `countries` can hold more than one name, so use `%in%` instead of `==` in `filter()`.
 
@@ -469,10 +425,6 @@ elec_mix(elec, "Germnay", 2024)
 `if` is different from the `ifelse()` you saw in week 5. `ifelse()` works on a whole vector and returns a vector. `if` takes a single `TRUE` or `FALSE` and decides whether to run the code in its braces. Here, if the country is not in the data, `stop()` ends the function and prints our message.
 
 You don't need to check every possible input. Check the mistakes that are likely and that would otherwise fail quietly.
-
-## Next week
-
-We called `elec_mix()` one country at a time. Next week you will learn to run a function over many inputs (every country, every year, every file in a folder) without copying code.
 
 <br>
 
