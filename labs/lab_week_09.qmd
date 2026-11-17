@@ -5,7 +5,17 @@ format:
     embed-resources: true
 ---
 
-This is the Lab Week 9 document for R-DAVIS. Complete the tasks below in this file (or in your own `.Rmd` or `.R` file, if you prefer), save it, and upload that file to Canvas. No need to render it to HTML.
+This is the Lab Week 9 document for R-DAVIS. Complete the tasks below in this file (or in your own `.qmd` or `.Rmd` file, if you prefer) and save it.
+
+**This week you'll submit a PDF, not the code file.** When you're done, render your document so the PDF shows both your code and your figures, then upload that PDF to Gradescope. The most reliable way to get there:
+
+1. Click **Render** in RStudio (or press `Ctrl/Cmd+Shift+K`). This makes an `.html` file in the same folder as your lab.
+2. Open the `.html` file in your web browser.
+3. Print the page (`Ctrl/Cmd+P`) and choose **Save as PDF** as the printer.
+4. Upload that PDF to Gradescope.
+
+You can also change `html` to `pdf` in the `format:` line at the top of this file and render straight to PDF, but that needs some extra software (run `quarto install tinytex` in the Terminal first) and doesn't always cooperate. If it gives you trouble, use the HTML route above.
+
 
 This week we'll practice writing our own functions with the electricity data from lecture. Each row is one country in one year, 2000–2024, with total electricity generated and the amount from each of nine sources, in terawatt-hours (TWh). The codebook at https://ucd-rdavis.github.io/R-DAVIS/data/owid_electricity_codebook.md describes every column. The data are a simplified subset of Our World in Data's energy dataset (https://github.com/owid/energy-data), based on Ember (2026) and the Energy Institute Statistical Review of World Energy (2025), prepared for this course.
 
@@ -17,8 +27,10 @@ Load the data:
 ```
 
 1. Write a function called `fossil_pct()` that takes the electricity from coal, gas, and oil and the total electricity generated, and returns the percent of the total that came from fossil fuels. Give it a `digits` argument with a default of 1 so it rounds its answer.
-    a. Test it on values where you know the answer. `fossil_pct(10, 20, 10, 80)` should give 50. What does it return when every input is 0? What about when one input is `NA`?
+    a. Test it on values where you know the answer. `fossil_pct(10, 20, 10, 80)` should give 50. What does it return when every input is 0? What about when one input is `NA`? 
     b. Use `fossil_pct()` inside `mutate()` to find the five countries with the lowest fossil share in 2024, among countries that generated at least 50 TWh that year.
+
+BONUS: Can you use if(){} statements to solve for the "edge cases" in 1a? It's up to you to decide what should be done in each case, but one option is for one edge case to return a value and the other edge case to stop the function (and for an extra challenge, send a warning message!).
 
 2. The code below works for one country. It adds up the sources into three groups (fossil, nuclear, and renewable) and puts them in a long table, one row per year per group.
 
