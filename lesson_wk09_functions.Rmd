@@ -24,7 +24,7 @@ subtitle: Writing your own functions
 
 ## Videos
 
-- [Function-writing]()
+- [Function-writing](https://video.ucdavis.edu/media/Wk9_Functions/1_1kujq911)
 - [Video Discussion](https://canvas.ucdavis.edu/courses/1098028/assignments/1714925)
 
 ## In Class Coding

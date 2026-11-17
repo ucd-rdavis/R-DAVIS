@@ -488,7 +488,8 @@ pipe.</li>
 <div id="videos" class="section level2">
 <h2>Videos</h2>
 <ul>
-<li><a href="">Function-writing</a></li>
+<li><a
+href="https://video.ucdavis.edu/media/Wk9_Functions/1_1kujq911">Function-writing</a></li>
 <li><a
 href="https://canvas.ucdavis.edu/courses/1098028/assignments/1714925">Video
 Discussion</a></li>
@@ -808,7 +809,8 @@ count_2024(elec)</code></pre>
 <pre class="r"><code>nrow(elec)    # elec still has every year</code></pre>
 <pre><code>## [1] 5459</code></pre>
 <pre class="r"><code>n_rows        # this only existed inside the function</code></pre>
-<pre><code>## [1] 35549</code></pre>
+<pre><code>## Error:
+## ! object &#39;n_rows&#39; not found</code></pre>
 <p>The function worked on a copy of <code>elec</code>. This makes
 functions safe to use: calling one won’t change your data unless you
 save its output with <code>&lt;-</code>.</p>
